@@ -1,7 +1,4 @@
-# Google Maps JavaScript Sample
-
-This sample is generated from @googlemaps/js-samples located at
-https://github.com/googlemaps/js-samples.
+# Chesapeake Community Connect
 
 ## Setup
 
@@ -13,5 +10,5 @@ npm run build  # production
 
 ## Feedback
 
-For feedback related to this sample, please open a new issue on
-[GitHub](https://github.com/googlemaps/js-samples/issues).
+For feedback related to this project, please open a new issue on
+[GitHub](https://github.com/SamAlby/chesapeakecommunityconnect/issues).
