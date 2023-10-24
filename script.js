@@ -74,9 +74,14 @@ const geocoder = new google.maps.Geocoder();
 const markers = [];
 
 // Initialize the map function
-function initMap() {
-    map = new google.maps.Map(mapContainer, {
+async function initMap() {
+    const { Map } = await google.maps.importLibrary("maps");
+    map = new Map(mapContainer, {
         center: { lat: 38.9, lng: -77.0 },
+        restriction: {
+            latLngBounds: {north: 40.0, south: 37.0, west: -77.0, east: -75.0},
+            strictBounds: false,
+          },
         zoom: 8,
     });
 
