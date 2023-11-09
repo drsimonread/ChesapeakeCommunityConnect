@@ -7,8 +7,8 @@ body, h1, h2, p, ul, li {
 /* Overall styling */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #00205c; /* Dark blue background */
-    color: #fff;
+    background-color: #f3f3f3; /* Grey background */
+    color: #000; /* Black text color for body */
     line-height: 1.6;
 }
 
@@ -44,12 +44,15 @@ nav a:hover {
     background-color: #f3c10d; /* Yellow background on hover */
     color: #00205c; /* Dark blue text on hover */
 }
+/* Footer styling */
 footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 150px; /* Adjust this value based on your preference */
-    background-color: #00205c; /* Dark blue background for the footer */
+    height: auto; /* Changed to auto to accommodate image size */
+    padding: 10px 0; /* Add padding for spacing */
+    background-color: #f3f3f3; /* Grey background for the footer */
+    color: #000; /* Black text for footer content */
 }
 
 .footer-content {
@@ -60,17 +63,15 @@ footer {
     text-align: center;
 }
 
-#smcm-logo {
-    max-width: 80px; /* Adjust this value based on the actual logo size */
-    margin-top: 10px; /* Space between the copyright and the logo */
+footer img {
+    max-width: 150px; /* Adjust based on the actual logo size */
+    margin-bottom: 10px; /* Space between the logo and the copyright message */
 }
 
 
-footer img {
-    max-width: 150px;
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+#smcm-logo {
+    max-width: 150px; /* Adjust this value based on the actual logo size */
+    margin-top: 10px; /* Space between the copyright and the logo */
 }
 
 .nav-link {
@@ -93,7 +94,7 @@ footer img {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s; /* Smooth background color transition on hover */
-    width: 50%; /* Take up half the screen width */
+    width: 40%; /* Take up half the screen width */
     margin: 0 auto; /* Centered on the screen */
     text-align: center; /* Center the text */
 }
@@ -112,20 +113,16 @@ footer img {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s; /* Smooth background color transition on hover */
-    width: 50%; /* Take up half the screen width */
-    margin: 0 auto; /* Centered on the screen */
+    width: 40%; /* Take up half the screen width */
+    margin: 20px auto; /* Centered on the screen */
     text-align: center; /* Center the text */
+    margin-top: 40px; /* Increase top margin to add space above the button */
 }
 
 #add-marker-button:hover, #show-contact-form-button:hover {
     background-color: #e67e22; /* Darker yellow on hover */
 }
 
-/* Header background fix on hover */
-header a:hover {
-    background-color: #00205c; /* Restore the header's background color on hover */
-    transition: background-color 0.3s; /* Smooth background color transition on hover */
-}
 
 /* Individual header titles */
 #content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1 {
@@ -142,11 +139,6 @@ header a:hover {
 #content h1:hover, #about-tab h1:hover, #contact-tab h1:hover, #map-tab h1:hover, #add-marker-form h1:hover, #signin-tab h1:hover {
     background-color: #f3c10d; /* Yellow background on hover (no color change) */
     color: #00205c; /* Dark blue text (no color change) */
-}
-
-/* Create a Post button adjustment for the Map tab */
-#map-tab #add-marker-button {
-    margin: 20px auto 60px; /* Add more space between the button and the map */
 }
 
 #add-marker-button:hover {
@@ -175,15 +167,6 @@ nav ul li a:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#add-marker-form h1 {
-    background-color: #f3c10d;
-    color: #00205c;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px 5px 0 0;
-    margin: -20px -20px 20px -20px;
-}
-
 #post-form {
     text-align: left;
     padding: 20px;
@@ -204,143 +187,28 @@ nav ul li a:hover {
     border-radius: 5px;
 }
 
-#post-form button {
-    background-color: #f3c10d;
-    color: #00205c;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
-    margin: 20px 0;
-    text-align: center;
-}
 
 #post-form button:hover {
     background-color: #e67e22;
 }
 
-/* Add this CSS to your stylesheet */
-/* Style the form */
-#add-marker-form {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: #000; /* Set text color to black */
-}
-
-#add-marker-form h1 {
-    background-color: #f3c10d;
-    color: #00205c;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px 5px 0 0;
-    margin: -20px -20px 20px -20px;
-}
-
-#post-form {
-    text-align: left;
-    padding: 20px;
-}
-
-#post-form label {
-    display: block;
-    margin: 10px 0;
-    font-weight: bold;
-    color: #000; /* Set label text color to black */
-}
-
-#post-form input[type="text"],
-#post-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    color: #000; /* Set input text color to black */
-}
-
-#post-form button {
-    background-color: #f3c10d;
-    color: #00205c;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
-    margin: 20px 0;
-    text-align: center;
-    color: #000; /* Set button text color to black */
-}
-
-#post-form button:hover {
-    background-color: #e67e22;
-}
-
-/* Correcting the position of the navigation links */
-nav {
-    text-align: center;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin-right: 20px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #f3c10d; /* Yellow text */
-    transition: color 0.3s; /* Smooth color transition on hover */
-}
-
-/* Showing the contact form submit button only when needed */
-#submit-contact-button {
-    background-color: #f3c10d;
-    color: #00205c;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
-    margin: 20px 0;
-    text-align: center;
-    color: #000; /* Set button text color to black */
-}
-
-#submit-contact-button:hover {
-    background-color: #e67e22;
-}
-
-#contact-tab {
-    text-align: center;
-}
-
-#show-contact-form-button {
+/* Individual header titles */
+#content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1 {
     background-color: #f3c10d; /* Yellow background */
-    color: #00205c; /* Dark blue text */
-    border: none;
-    padding: 10px 20px;
-    display: inline-block;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    color: #000; /* Set button text color to black */
+    color: #2d3e50; /* Dark blue text */
+    padding: 10px;
+    text-align: center; /* Center the text */
+    border-radius: 5px 5px 0 0;
+    margin: 20px auto; /* Center the header and add separation from content */
+    transition: background-color 0.3s; /* Smooth background color transition */
+    width: 60%; /* Set width to 60% */
 }
 
-#show-contact-form-button:hover {
-    background-color: #e67e22;
+
+/* Specific styling for map tab header title */
+#map-tab h1 {
+    width: 60%; /* Set the width to 60% */
+    margin-left: auto; /* Center the header horizontally */
+    margin-right: auto;
 }
+
