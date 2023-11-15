@@ -18,7 +18,7 @@ header {
     color: #f3c10d; /* Yellow text */
     padding: 15px 0;
     text-align: center;
-    position: sticky;
+    position: static;
     top: 0;
     z-index: 1000;
 }
