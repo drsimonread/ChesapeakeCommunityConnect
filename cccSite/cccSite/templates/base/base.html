@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/basestyle.css' %}">
+    {% block head%}{%endblock head%}
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <nav>
+            <ul> 
+                <li><img src= "{%static 'base/assets/smcm-seal.png' %}" alt="SMCM Logo" id="smcm-logo"></li>
+                <li><a class="nav-link" href="{% url 'mapViewer:default'%}">Map</a></li>
+                <li><a class="nav-link" href="about.html">About Us</a></li>
+                <li><a class="nav-link" href="contact.html">Contact</a></li>
+                <li><a class="nav-link" href="{%url 'account:default'%}">Account</a></li>
+            </ul>
+        </nav> 
+    </header>
+
+   {% block content %} {%endblock content%}
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <img src="{%static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" id="smcm-logo">
+            &copy; 2023 SMCM Capstone Website
+            
+        </div>
+    </footer>
+</body>
+</html>
