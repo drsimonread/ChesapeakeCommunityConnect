@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 # Create your views here.
-def default(request):
+def viewMap(request):
     return render(request, "mapViewer/mapPage.html")

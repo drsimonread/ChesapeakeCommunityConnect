@@ -3,5 +3,5 @@ from . import views
 
 app_name = "mapViewer"
 urlpatterns = [
-    path("", views.default, name="default"),
+    path("", views.viewMap, name="default"),
 ]

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account.apps.AccountConfig',
     'mapViewer.apps.MapviewerConfig',
+    'boiler.apps.BoilerConfig',
 ]
 
 MIDDLEWARE = [

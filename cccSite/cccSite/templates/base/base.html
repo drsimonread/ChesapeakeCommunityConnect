@@ -13,8 +13,8 @@
             <ul> 
                 <li><img src= "{%static 'base/assets/smcm-seal.png' %}" alt="SMCM Logo" id="smcm-logo"></li>
                 <li><a class="nav-link" href="{% url 'mapViewer:default'%}">Map</a></li>
-                <li><a class="nav-link" href="about.html">About Us</a></li>
-                <li><a class="nav-link" href="contact.html">Contact</a></li>
+                <li><a class="nav-link" href="{% url 'boiler:about'%}">About Us</a></li>
+                <li><a class="nav-link" href="{% url 'boiler:contact'%}">Contact</a></li>
                 <li><a class="nav-link" href="{%url 'account:default'%}">Account</a></li>
             </ul>
         </nav> 
