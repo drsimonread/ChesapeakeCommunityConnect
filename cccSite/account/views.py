@@ -9,14 +9,20 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 
 # Create your views here.
-#@csrf_exempt
 def signin(request):
     if request.session.get('rank', 'anon')=='anon':
         return render(request, 'account/signin.html')
     else:
         return redirect("/account/")
 
-#@csrf_exempt
+def signout(request):
+    if request.method == "GET":
+        return redirect("/account/")
+    else:
+        request.session.flush()
+        return render(request, "account/signout.html")
+
+
 def default(request):
     if request.session.get('rank','anon')=='anon':
         return redirect('/account/signin/')
@@ -29,7 +35,7 @@ def default(request):
             'rank' : userInz.ranking,
         })
 
-@csrf_exempt
+@csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
 def auth(request):
     if request.method == "GET":
        return redirect("/account/")
