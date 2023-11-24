@@ -1,72 +1,26 @@
 {%extends "base/base.html"%}
 {%load static%}
 {%block head%} 
-<script src="https://accounts.google.com/gsi/client" async></script>
 <title>Chesapeake Community Connect - Contact</title>
 {%endblock head%}
 {% block content %}
 <div id="content">
-    <div id="show-contact-form-button" onclick="showContactForm()">Contact Us</div>
-    <form id="contact-form" style="display: none;">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
-        <br>
-        <button type="button" id="submit-contact-button" onclick="submitContactForm()">Submit</button>
+    <div id="show-contact-form-button" onclick="showContactForm()" style="display: block;">Contact Us</div>
+    <form action="{% url 'boiler:contact'%}" id="contact-form" method="post" style="display: none;">{%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="Submit">
     </form>
-    <p id="form-submitted" style="display: none;">Form submitted successfully!</p>
 </div>
 </form>
-<p id="form-submitted" style="display: none;">Form submitted successfully!</p>
-</div>
-    <p id="form-submitted" style="display: none;">Form submitted successfully!</p>
-</div>
+
 
 <script>
     function showContactForm() {
         const contactForm = document.getElementById("contact-form");
         contactForm.style.display = "block";
-    }
-
-    function submitContactForm() {
-        const contactForm = document.getElementById("contact-form");
-        const formSubmitted = document.getElementById("form-submitted");
-
-        // Get the form data
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const message = document.getElementById("message").value;
-
-        // Create an object to represent the contact data
-        const contactData = {
-            name: name,
-            email: email,
-            message: message,
-        };
-
-        // Save the contact data to a JSON file (locally for now)
-        // replace this with server-side logic to save to a JSON file
-        // For local testing, you can use localStorage
-        const contactList = JSON.parse(localStorage.getItem("contacts")) || [];
-        contactList.push(contactData);
-        localStorage.setItem("contacts", JSON.stringify(contactList));
-
-        contactForm.style.display = "none";
-        formSubmitted.style.display = "block";
-
-        // Reset the form for the next user
-        resetContactForm();
-    }
-
-    function resetContactForm() {
-        document.getElementById("contact-form").reset();
+        const contactButton=document.getElementById("show-contact-form-button");
+        contactButton.style.display = "none";
     }
 </script>
 </div>
-<script src="{% static 'boiler/contact-script.js'%}"></script>
 {% endblock content %}

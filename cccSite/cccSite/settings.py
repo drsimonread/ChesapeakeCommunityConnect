@@ -76,6 +76,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'cccSite.wsgi.application'
 
 
@@ -107,6 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 
 # Internationalization
