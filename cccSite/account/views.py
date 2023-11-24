@@ -9,25 +9,42 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 
 # Create your views here.
-@csrf_exempt
+#@csrf_exempt
 def signin(request):
     if request.session.get('rank', 'anon')=='anon':
         return render(request, 'account/signin.html')
     else:
         return redirect("/account/")
 
-@csrf_exempt
+#@csrf_exempt
 def default(request):
     if request.session.get('rank','anon')=='anon':
         return redirect('/account/signin/')
     else:
-        return HttpResponse("you are logged in")
+        userInz=member.objects.get(userID=request.session['user'])
+        return render(request, 'account/myaccount.html', {
+            "first_name": userInz.first,
+            'last_name' : userInz.last,
+            'email' : userInz.email,
+            'rank' : userInz.ranking,
+        })
 
 @csrf_exempt
 def auth(request):
     if request.method == "GET":
        return redirect("/account/")
     elif request.method == "POST":
+
+        csrf_tok_cookie = request.COOKIES.get('g_csrf_token')
+        
+        if not csrf_tok_cookie:
+            return HttpResponse("Something went wrong, no csrf cookie")
+        csrf_tok_body = request.POST.get('g_csrf_token')
+        if not csrf_tok_body:
+            return HttpResponse("Something went wrong, no csrf cookie from google")
+        if csrf_tok_cookie != csrf_tok_body:
+            return HttpResponse("Could not verify csrf")
+
         tok = request.POST.get("credential")  
         try:
             idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
