@@ -43,9 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'address',
     'account.apps.AccountConfig',
     'mapViewer.apps.MapviewerConfig',
-    'boiler.apps.BoilerConfig',
+    'boiler.apps.BoilerConfig', 
 ]
 
 MIDDLEWARE = [
@@ -76,6 +77,7 @@ TEMPLATES = [
     },
 ]
 
+GOOGLE_API_KEY = 'AIzaSyDObg89VOn66Pt_0l03pHwKWBdGmPdTX9A'
 
 
 WSGI_APPLICATION = 'cccSite.wsgi.application'
@@ -130,6 +132,11 @@ USE_TZ = True
 STATICFILES_DIRS = [BASE_DIR/'cccSite'/'static']
 
 STATIC_URL = 'static/'
+
+# media files (user uploaded images and files)
+
+MEDIA_ROOT = [BASE_DIR/'cccSite'/'media']
+MEDIA_URL = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
