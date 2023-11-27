@@ -45,11 +45,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 map.setCenter(position);
                 addMarkerForm.style.display = "none";
+
+                // AJAX call to send data to Django backend
+                $.ajax({
+                    type: "POST",
+                    url: "/save_widget/", // URL of the Django view
+                    data: {
+                        title: title,
+                        description: description,
+                        latitude: position.lat(),
+                        longitude: position.lng(),
+                        csrfmiddlewaretoken: getCsrfToken() // Function to get CSRF token
+                    },
+                    success: function(response) {
+                        // Handle success
+                        console.log("Widget saved successfully.");
+                    },
+                    error: function(error) {
+                        // Handle error
+                        console.error("Error saving widget:", error);
+                    }
+                });
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
         });
     });
+
+    function getCsrfToken() {
+        // Function to get CSRF token from cookie
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
     google.maps.event.addDomListener(window, 'load', initMap);
 });
