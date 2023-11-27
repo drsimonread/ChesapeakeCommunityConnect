@@ -129,7 +129,7 @@ footer img {
 /* Individual header titles */
 #content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1 {
     background-color: #f3c10d; /* Yellow background */
-    color: #2d3e50; /* Dark blue text */
+    color: #00205c; /* Dark blue text */
     padding: 10px;
     text-align: center; /* Center the text */
     border-radius: 5px 5px 0 0;
@@ -138,7 +138,7 @@ footer img {
 }
 
 /* Prevent hover color change on directory tabs */
-#content h1:hover, #about-tab h1:hover, #contact-tab h1:hover, #map-tab h1:hover, #add-marker-form h1:hover, #signin-tab h1:hover {
+#about-tab h1:hover, #contact-tab h1:hover, #map-tab h1:hover, #add-marker-form h1:hover, #signin-tab h1:hover {
     background-color: #f3c10d; /* Yellow background on hover (no color change) */
     color: #00205c; /* Dark blue text (no color change) */
 }
