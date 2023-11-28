@@ -44,5 +44,9 @@
     </div>
 </div>
 
-<script src="{%static  'mapViewer/map-script.js' %}"></script>
+<script type="text/javascript">
+    var widgets = JSON.parse('{{ widgets|escapejs }}');
+</script>
+<script src="{% static 'mapViewer/map-script.js' %}"></script>
+
 {% endblock content %}
