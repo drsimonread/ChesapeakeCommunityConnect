@@ -108,7 +108,7 @@ footer img {
 /* Create a Post and Contact Us buttons */
 #add-marker-button, #show-contact-form-button {
     background-color: #f3c10d; /* Yellow background */
-    color: #2d3e50; /* Dark blue text */
+    color: #00205c; /* Dark blue text */
     border: none;
     padding: 10px 20px;
     display: block;
@@ -129,7 +129,7 @@ footer img {
 /* Individual header titles */
 #content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1 {
     background-color: #f3c10d; /* Yellow background */
-    color: #2d3e50; /* Dark blue text */
+    color: #00205c; /* Dark blue text */
     padding: 10px;
     text-align: center; /* Center the text */
     border-radius: 5px 5px 0 0;
@@ -197,7 +197,7 @@ nav ul li a:hover {
 /* Individual header titles */
 #content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1 {
     background-color: #f3c10d; /* Yellow background */
-    color: #2d3e50; /* Dark blue text */
+    color: #00205c; /* Dark blue text */
     padding: 10px;
     text-align: center; /* Center the text */
     border-radius: 5px 5px 0 0;
