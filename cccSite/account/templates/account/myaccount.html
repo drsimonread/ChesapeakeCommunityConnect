@@ -4,7 +4,7 @@
 {%endblock head%}
 {% block content %}
 <div id="content">
-    You are logged in as {{first_name}} {{last_name}}, your email is {{email}}, and you are a {{rank}}.
+    You are logged in as {{name}}, your email is {{email}}, and you are a {{rank}}.
 </div>
 <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
     <input type="submit" value="Sign Out">

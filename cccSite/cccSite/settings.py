@@ -135,7 +135,7 @@ STATIC_URL = 'static/'
 
 # media files (user uploaded images and files)
 
-MEDIA_ROOT = [BASE_DIR/'cccSite'/'media']
+MEDIA_ROOT = BASE_DIR/'cccSite'/'media'
 MEDIA_URL = 'media/'
 
 # Default primary key field type
