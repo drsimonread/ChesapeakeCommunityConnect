@@ -2,38 +2,110 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Chesapeake Community Connect - Contact Us</title>
+    <title>Chesapeake Community Connect - Help</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul> 
-                <li><img src=assets/smcm-seal.png alt="SMCM Logo" id="smcm-logo"></li>
-                <li><a class="nav-link" href="index.html">Map</a></li>
-                <li><a class="nav-link" href="about.html">About Us</a></li>
-                <li><a class="nav-link" href="contact.html" style="background-color: #f3c10d; color: #00205c;">Contact</a></li>
-                <li><a class="nav-link" href="signin.html">Sign In</a></li>
-            </ul>
-        </nav>
-        
-    </header>
+<header>
+    <nav>
+        <ul> 
+            <li><img src=assets/smcm-seal.png alt="SMCM Logo" id="smcm-logo"></li>
+            <li><a class="nav-link" href="index.html">Map</a></li>
+            <li><a class="nav-link" href="about.html">About Us</a></li>
+            <li><a class="nav-link" href="contact.html" style="background-color: #f3c10d; color: #00205c;">Contact</a></li>
+            <li><a class="nav-link" href="signin.html">Sign In</a></li>
+        </ul>
+    </nav>
+    
+</header>
 
-    <div id="content">
-        <div id="show-contact-form-button" onclick="showContactForm()">Contact Us</div>
-        <form id="contact-form" style="display: none;">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <br>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-            <br>
-            <button type="button" id="submit-contact-button" onclick="submitContactForm()">Submit</button>
-        </form>
-        <p id="form-submitted" style="display: none;">Form submitted successfully!</p>
+<div id="content">
+    <div id="FAQ">
+        <h2 style="text-align: center">Frequently Asked Questions (FAQ)</h2>
+    
+        <button class="accordion">What is this website?</button>
+        <div class="panel">
+            <p style="text-align:left">bruh</p>
+        </div>
+    
+        <button class="accordion">How do I contribute?</button>
+        <div class="panel">
+            <p style="text-align:left">bruh</p>
+        </div>
+    
+        <button class="accordion">Why does this exist?</button>
+        <div class="panel">
+            <p style="text-align:left">bruh</p>
+        </div>
+    </div>
+&nbsp;
+    <div id="map-tutorial">
+    <div style="float: left; width: 50%">
+        <video width="640" height="360" controls>
+        <source src="assets\tutorial-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+        </video>
+    </div>
+    <div style="float: right; width: 50%">
+        <h2 style="text-align: center">Map Tutorial: Video Explanation</h2>
+        <p>Demonstrates use of filters and opening pin descriptions.</p>
+    </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div id="web-tutorial">
+        <div style="float: left; width: 50%">
+            <h2 style="text-align: center">Website Tutorial</h2>
+            <ol>
+                <li style="text-align:left">&nbsp;[Insert Feature Here]</li>
+                <ul>
+                    <li style="text-align:left;margin-left:15px;">[Insert Explanation Here]</li>
+                </ul>
+                <li style="text-align:left">&nbsp;[Insert Feature Here]</li>
+                <ul>
+                    <li style="text-align:left;margin-left:15px;">[Insert Explanation Here]</li>
+                </ul>
+                <li style="text-align:left">&nbsp;[Insert Feature Here]</li>
+                <ul>
+                    <li style="text-align:left;margin-left:15px;">[Insert Explanation Here]</li>
+                </ul>
+            </ol>
+        </div>
+        <div style="float: right; width: 50%">
+            <img width="640" height="220" src="assets\asasqx_52.jpg">
+        </div>
+    </div>
+    <script>
+    // Script for smooth accordions in FAQ section
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+        } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+        } 
+        });
+    }
+    </script>
+<br><br><br><br><br><br><br><br><br>
+
+<div id="show-contact-form-button" onclick="showContactForm()">Contact Us</div>
+    <form id="contact-form" style="display: none;">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+        <br>
+        <button type="button" id="submit-contact-button" onclick="submitContactForm()">Submit</button>
+    </form>
+    <p id="form-submitted" style="display: none;">Form submitted successfully!</p>
     </div>
     </form>
     <p id="form-submitted" style="display: none;">Form submitted successfully!</p>
