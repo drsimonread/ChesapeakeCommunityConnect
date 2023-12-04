@@ -18,7 +18,7 @@ class member(models.Model):
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     email = models.EmailField()
     origin = models.CharField(max_length=10, default="userpass")
-    pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), null=True, blank=True)
+    pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
    #location = AddressField(blank=True, default={"raw" : ""}, null=True)
     def __str__(self):

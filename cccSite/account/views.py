@@ -33,6 +33,8 @@ def default(request):
             'name': userInz.name,
             'email' : userInz.email,
             'rank' : userInz.ranking,
+            'image' : userInz.pic,
+            'about' : userInz.about,
         })
 
 def manage(request):

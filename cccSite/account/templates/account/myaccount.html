@@ -3,11 +3,13 @@
 <title>Chesapeake Community Connect - Account</title>
 {%endblock head%}
 {% block content %}
+<li><img src="{{ image.url }}" alt="Uploaded Image"></li>
 <div id="content">
-    You are logged in as {{name}}, your email is {{email}}, and you are a {{rank}}.
+    You are logged in as {{name}}, your email is {{email}}. Here's your about section: {{about}}
 </div>
 <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
     <input type="submit" value="Sign Out">
 </form>
+<li><a class="nav-link" href="{%url 'account:manage'%}">Edit Account Details</a></li>
 
 {% endblock content %}
