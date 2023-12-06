@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const addMarkerButton = document.getElementById("add-marker-button");
     const addMarkerForm = document.getElementById("add-marker-form");
     const userMarkerForm = document.getElementById("marker-form");
-
+    const searchForm = document.getElementById("search-form");
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
             center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
@@ -72,6 +72,26 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    //respond to a request to search -- currently broken
+    searchForm.addEventListener("submit", function (event){
+        event.preventDefault();
+        const searchText = document.getElementById("search-text");
+        $.ajax({
+            type:"GET",
+            url:"/mapSearch/", 
+            data: {
+                searchText: searchText,
+                csrfmiddlewaretoken: getCsrfToken()
+            },
+            success: function(response) {
+                console.log("Searched successfully.");
+
+            },
+            error: function(error) {
+                console.error("error searching: ", error);
+            }
+        });
+    });
     function getCsrfToken() {
         // Function to get CSRF token from cookie
         const name = 'csrftoken';

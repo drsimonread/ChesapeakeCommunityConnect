@@ -121,6 +121,35 @@ footer img {
     margin-top: 40px; /* Increase top margin to add space above the button */
 }
 
+/*style for the search features*/
+#search-form{
+    display: block;
+    padding-left: 20px;
+}
+#search-button {
+    background-color: #f3c10d; /* Yellow background */
+    color: #00205c; /* Dark blue text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth background color transition on hover */
+    width: 20%; /* Take up half the screen width */
+    margin: 20px auto; /* Centered on the screen */
+    text-align: center; /* Center the text */
+    margin-top: 10px; /* Increase top margin to add space above the button */
+}
+
+#search-text {
+    background-color: #f3c10d;
+    color: #00205c;
+    border: #00205c; 
+    border-radius: 5px;
+    padding: 10px 20px;
+    width: 20%;
+    margin: 20px auto;
+}
+
 #add-marker-button:hover, #show-contact-form-button:hover {
     background-color: #e67e22; /* Darker yellow on hover */
 }
