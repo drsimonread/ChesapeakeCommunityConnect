@@ -73,7 +73,7 @@ def authG(request):
         try:
             idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
             if not(models.member.objects.filter(userID=idinfo['sub']).exists()):
-                userInz = models.member.objects.create(userID=idinfo['sub'], name=idinfo['given_name'], email = idinfo['email'], origin=['google'])
+                userInz = models.member.objects.create(userID=idinfo['sub'], name=idinfo['given_name'], email = idinfo['email'], origin='google')
             else:
                 userInz=models.member.objects.get(userID=idinfo['sub'])
             request.session['rank']=userInz.ranking
