@@ -248,3 +248,25 @@ nav ul li a:hover {
   .div{
     display: flex;
   }
+
+  /* About Page Content */
+  #aboutcontent{
+    margin: 0 5%;
+  }
+  #aboutblock-left{
+    /*border: 1px solid #f3c10d;*/ 
+    text-align:center;
+    margin: 15px 50% 40px 15px;
+  }
+  #aboutblock-right{
+    /*border: 1px solid blue;*/ 
+    text-align:center;
+    margin: 15px 15px 40px 50%;
+  }
+  #aboutblock-left h1, #aboutblock-right h1 {
+    padding: 15px 0;
+  }
+  #aboutblock-left p, #aboutblock-right p {
+    padding: 15px 100px;
+  }
+  
