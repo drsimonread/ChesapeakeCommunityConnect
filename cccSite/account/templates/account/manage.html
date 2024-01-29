@@ -1,0 +1,12 @@
+{%extends "base/base.html"%}
+{%block head%} 
+<title>Chesapeake Community Connect - Manage Account</title>
+{%endblock head%}
+{% block content %}
+<div id="content">
+    <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">{%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,24 @@
+{%extends "base/base.html"%}
+{%load static%}
+{%block head%} 
+<title>Chesapeake Community Connect - Contact</title>
+{%endblock head%}
+{% block content %}
+<div id="content">
+    <div id="show-contact-form-button" onclick="showContactForm()" style="display: block;">Contact Us</div>
+    <form action="{% url 'boiler:contact'%}" id="contact-form" method="post" style="display: none;">{%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+
+<script>
+    function showContactForm() {
+        const contactForm = document.getElementById("contact-form");
+        contactForm.style.display = "block";
+        const contactButton=document.getElementById("show-contact-form-button");
+        contactButton.style.display = "none";
+    }
+</script>
+{% endblock content %}
