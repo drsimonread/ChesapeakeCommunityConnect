@@ -5,6 +5,9 @@ from . import models
 def about(request):
     return render(request, "boiler/about.html")
 
+def help_page(request):
+    return render(request, 'your_app/help.html')
+
 def contact(request):
     if request.method == "POST":
         form = models.messageForm(request.POST)
