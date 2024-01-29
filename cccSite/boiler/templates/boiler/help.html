@@ -1,0 +1,93 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %} 
+<title>Chesapeake Community Connect - Help/FAQs</title>
+<style>
+    /* Style the accordion */
+    .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        text-align: center; /* Center the text */
+        border: none;
+        outline: none;
+        transition: 0.4s;
+        font-family: Arial, sans-serif; /* Improve the font */
+    }
+
+    /* Style the active class (and arrow icon) */
+    .accordion.active, .accordion:hover {
+        background-color: #ccc;
+    }
+
+    /* Style the panel class */
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div id="content">
+    <div id="FAQ">
+        <h2 style="text-align: center">Frequently Asked Questions (FAQ)</h2>
+    
+        <button class="accordion">What is this website?</button>
+        <div class="panel">
+            <p>Chesapeake Community Connect is an interactive map webapp that aims to showcase the resilience of the Chesapeake region through a user-friendly platform, where community members can share information on a spectrum of initiatives, each contributing to our collective ability to thrive amidst change. From ecological restoration to placemaking and racial healing, our platform serves as a dynamic hub for collaborative learning. We aim to inspire innovation and cultivate a deeper understanding of the diverse resilience work contributed within our communities.</p>
+        </div>
+    
+        <button class="accordion">How do I contribute?</button>
+        <div class="panel">
+            <p>Under the map tab, select the "Create a Post" button. A couple fields will pop up asking for a title, description, address, city, state, and ZIP for the Pin you want to put on the map.</p>
+        </div>
+    
+        <button class="accordion">Why does this exist?</button>
+        <div class="panel">
+            <p>On August 2023, St. Mary's College of Maryland was approached by Parisa Rinaldi to complete a website used for positive environmental justice and information. In her vision, Chesapeake Community Connect came to be with the assistance of SMCM's computer science students, split into the Research & Development Team and the Quality Assurance Team.</p>
+        </div>
+    </div>
+    <div id="map-tutorial">
+        <div style="float: left; width: 50%">
+            <video id="tutorial-video" width="640" height="360" controls>
+                <source src="{% static 'base/assets/tutorial-video.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div style="float: right; width: 50%">
+            <h2 style="text-align: center">Map Tutorial: Video Explanation</h2>
+            <p>Demonstrates use of filters and opening pin descriptions.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script for smooth accordions in FAQ section
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+        });
+    }
+
+    // Script to fix video playback issue
+    document.getElementById('tutorial-video').addEventListener('click', function () {
+        this.play();
+    });
+</script>
+
+{% endblock content %}

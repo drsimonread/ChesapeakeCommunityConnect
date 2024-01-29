@@ -1,0 +1,22 @@
+{%extends "base/base.html"%}
+{%block head%} 
+<title>Chesapeake Community Connect - Account</title>
+{%endblock head%}
+{% block content %}
+
+<div id="content">
+    <li><img src="{{ image.url }}" alt="Uploaded Image" height="150" width="150"></li>
+    You are logged in as {{name}}, your email is {{email}}. 
+    {%if about != ""%}
+    <p>Here's your about section: {{about}}
+    {%endif%}
+    {%if rank == "verified"%}
+    <p>You are a trusted user.
+    {%endif%}
+
+    <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
+        <input type="submit" value="Sign Out">
+    </form>
+    <button id="edit-account" onclick="window.location.href='{%url 'account:manage'%}';">Edit Account Details</button>
+</div>
+{% endblock content %}

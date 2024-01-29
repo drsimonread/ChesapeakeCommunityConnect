@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/basestyle.css' %}">
+    {% block head%}{%endblock head%}
+</head>
+<body>
+    <!-- Navigation Bar  -->
+    <header>
+        <nav>
+            <ul> 
+                <li><img src= "{%static 'base/assets/smcm-seal.png' %}" alt="SMCM Logo" id="smcm-logo"></li>
+                <li><a class="nav-link" href="{% url 'mapViewer:default'%}" {%if '/map/' in request.path or request.path == '/'%}style="background-color: #f3c10d; color: #00205c;"{%endif%}>Map</a></li>
+                <li><a class="nav-link" href="{% url 'boiler:about'%}" {%if request.path == '/about/'%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>About Us</a></li>
+                <li><a class="nav-link" href="{% url 'boiler:contact'%}" {%if '/contact/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contact</a></li>
+                <li><a class="nav-link" href="{% url 'boiler:help'%}" {%if '/help/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Help/FAQs</a></li>
+                <li><a class="nav-link" href="{%url 'account:default'%}" {%if '/account/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Account</a></li>
+            </ul>
+        </nav> 
+    </header>
+
+   {% block content %} {%endblock content%}
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <img src="{%static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" id="smcm-logo">
+            &copy; 2023 SMCM Capstone Website
+        </div>
+    </footer>
+</body>
+</html>
