@@ -11,9 +11,17 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 from django.conf.global_settings import SECURE_CROSS_ORIGIN_OPENER_POLICY, SECURE_REFERRER_POLICY
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Add or modify the STATIC_URL setting to specify the URL for static files
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups" 
 SECURE_REFERRER_POLICY = "same-origin-no-downgrade" # this
