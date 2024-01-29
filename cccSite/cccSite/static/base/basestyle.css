@@ -167,7 +167,7 @@ footer img {
 }
 
 /* Prevent hover color change on directory tabs */
-#about-tab h1:hover, #contact-tab h1:hover, #map-tab h1:hover, #add-marker-form h1:hover, #signin-tab h1:hover {
+#content h1:hover, #about-tab h1:hover, #contact-tab h1:hover, #map-tab h1:hover, #add-marker-form h1:hover, #signin-tab h1:hover {
     background-color: #f3c10d; /* Yellow background on hover (no color change) */
     color: #00205c; /* Dark blue text (no color change) */
 }
@@ -248,54 +248,3 @@ nav ul li a:hover {
 .column { float: left; }
 .left { width: 50%; float:left;}
 .right { float: right; width: auto; }
-
-/*Styling for Contact us page (now Help and Tutorial page)*/
-.accordion {
-    background-color: #eee;
-    color: #444;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: 0.4s;
-  }
-  
-  .active, .accordion:hover {
-    background-color: #ccc;
-  }
-  
-  .panel {
-    padding: 0 18px;
-    background-color: white;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-  }
-  .div{
-    display: flex;
-  }
-
-  /* About Page Content */
-  #aboutcontent{
-    margin: 0 5%;
-  }
-  #aboutblock-left{
-    /*border: 1px solid #f3c10d;*/ 
-    text-align:center;
-    margin: 15px 50% 40px 15px;
-  }
-  #aboutblock-right{
-    /*border: 1px solid blue;*/ 
-    text-align:center;
-    margin: 15px 15px 40px 50%;
-  }
-  #aboutblock-left h1, #aboutblock-right h1 {
-    padding: 15px 0;
-  }
-  #aboutblock-left p, #aboutblock-right p {
-    padding: 15px 100px;
-  }
-  
