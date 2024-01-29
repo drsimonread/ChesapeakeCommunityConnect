@@ -1,8 +1,9 @@
-{%extends "base/base.html"%}
-{%load static%}
-{%block head%} 
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %} 
 <title>Chesapeake Community Connect - Help/FAQs</title>
-{%endblock head%}
+{% endblock head %}
 
 {% block content %}
 <div id="content">
@@ -24,59 +25,35 @@
             <p style="text-align:left">On August 2023, St. Mary's College of Maryland was approached by Parisa Rinaldi to complete a website used for positive environmental justice and information. In her vision, Chesapeake Community Connect came to be with the assistance of SMCM's computer science students, split into the Research & Development Team and the Quality Assurance Team.</p>
         </div>
     </div>
-&nbsp;
     <div id="map-tutorial">
-    <div style="float: left; width: 50%">
-        <video width="640" height="360" controls>
-        <source src="assets\tutorial-video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-        </video>
-    </div>
-    <div style="float: right; width: 50%">
-        <h2 style="text-align: center">Map Tutorial: Video Explanation</h2>
-        <p>Demonstrates use of filters and opening pin descriptions.</p>
-    </div>
-    </div>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <!--
-    <div id="web-tutorial">
         <div style="float: left; width: 50%">
-            <h2 style="text-align: center">Website Tutorial</h2>
-            <ol>
-                <li style="text-align:left">&nbsp;[Insert Feature Here]</li>
-                <ul>
-                    <li style="text-align:left;margin-left:15px;">[Insert Explanation Here]</li>
-                </ul>
-                <li style="text-align:left">&nbsp;[Insert Feature Here]</li>
-                <ul>
-                    <li style="text-align:left;margin-left:15px;">[Insert Explanation Here]</li>
-                </ul>
-                <li style="text-align:left">&nbsp;[Insert Feature Here]</li>
-                <ul>
-                    <li style="text-align:left;margin-left:15px;">[Insert Explanation Here]</li>
-                </ul>
-            </ol>
+            <video width="640" height="360" controls>
+                <source src="{% static 'base/assets/tutorial-video.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
         <div style="float: right; width: 50%">
-            <img width="640" height="220" src="assets\asasqx_52.jpg">
+            <h2 style="text-align: center">Map Tutorial: Video Explanation</h2>
+            <p>Demonstrates use of filters and opening pin descriptions.</p>
         </div>
     </div>
-    -->
-    <script>
+</div>
+
+<script>
     // Script for smooth accordions in FAQ section
     var acc = document.getElementsByClassName("accordion");
     var i;
     for (i = 0; i < acc.length; i++) {
         acc[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        if (panel.style.maxHeight) {
-            panel.style.maxHeight = null;
-        } else {
-            panel.style.maxHeight = panel.scrollHeight + "px";
-        } 
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
         });
     }
-    </script>
-<br><br><br><br><br><br><br><br><br>
+</script>
+
 {% endblock content %}
