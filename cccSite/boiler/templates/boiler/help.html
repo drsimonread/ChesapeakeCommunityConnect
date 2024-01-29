@@ -3,6 +3,34 @@
 
 {% block head %} 
 <title>Chesapeake Community Connect - Help/FAQs</title>
+<style>
+    /* Style the accordion */
+    .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+    }
+
+    /* Style the active class (and arrow icon) */
+    .accordion.active, .accordion:hover {
+        background-color: #ccc;
+    }
+
+    /* Style the panel class */
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+</style>
 {% endblock head %}
 
 {% block content %}
@@ -28,7 +56,7 @@
     <div id="map-tutorial">
         <div style="float: left; width: 50%">
             <video id="tutorial-video" width="640" height="360" controls>
-                <source src="{% static 'base/assets/tutorial-video.mp4' %}" type="video/mp4">
+                <source src="{% static 'assets/tutorial-video.mp4' %}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
