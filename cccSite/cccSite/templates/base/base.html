@@ -15,6 +15,7 @@
                 <li><a class="nav-link" href="{% url 'mapViewer:default'%}" {%if '/map/' in request.path or request.path == '/'%}style="background-color: #f3c10d; color: #00205c;"{%endif%}>Map</a></li>
                 <li><a class="nav-link" href="{% url 'boiler:about'%}" {%if request.path == '/about/'%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>About Us</a></li>
                 <li><a class="nav-link" href="{% url 'boiler:contact'%}" {%if '/contact/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contact</a></li>
+                <li><a class="nav-link" href="{% url 'boiler:contact'%}" {%if '/contact/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Help/FAQs</a></li>
                 <li><a class="nav-link" href="{%url 'account:default'%}" {%if '/account/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Account</a></li>
             </ul>
         </nav> 
