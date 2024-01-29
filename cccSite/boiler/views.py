@@ -5,7 +5,7 @@ from . import models
 def about(request):
     return render(request, "boiler/about.html")
 
-def help_page(request):
+def help(request):
     return render(request, 'boiler/help.html')
 
 def contact(request):
