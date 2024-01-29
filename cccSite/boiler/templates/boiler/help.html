@@ -27,7 +27,7 @@
     </div>
     <div id="map-tutorial">
         <div style="float: left; width: 50%">
-            <video width="640" height="360" controls>
+            <video id="tutorial-video" width="640" height="360" controls>
                 <source src="{% static 'base/assets/tutorial-video.mp4' %}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -54,6 +54,11 @@
             } 
         });
     }
+
+    // Script to fix video playback issue
+    document.getElementById('tutorial-video').addEventListener('click', function () {
+        this.play();
+    });
 </script>
 
 {% endblock content %}
