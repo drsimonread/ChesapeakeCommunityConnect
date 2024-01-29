@@ -6,7 +6,7 @@ def about(request):
     return render(request, "boiler/about.html")
 
 def help_page(request):
-    return render(request, 'your_app/help.html')
+    return render(request, 'boiler/help.html')
 
 def contact(request):
     if request.method == "POST":
