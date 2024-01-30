@@ -30,7 +30,7 @@ def default(request):
     if request.session.get('rank','anon')=='anon':
         return redirect('/account/signin/')
     else:
-        userInz=models.member.objects.get(userID=request.session['user']) #get user from session
+        userInz=models.member.objects.get(pk=request.session['user']) #get user from session
         return render(request, 'account/myaccount.html', {
             'name': userInz.name,
             'email' : userInz.email,
@@ -44,14 +44,14 @@ def manage(request):
     if request.session.get('rank','anon')=='anon':
         return redirect('/account/signin/')
     if request.method == "POST":
-        userInz=models.member.objects.get(userID=request.session['user']) 
+        userInz=models.member.objects.get(pk=request.session['user']) 
         form = models.manageForm(request.POST, request.FILES, instance=userInz)
         if form.is_valid():
             form.save()
             request.session['name']=userInz.name
             return redirect("/account/")
     else:
-        userInz=models.member.objects.get(userID=request.session['user'])
+        userInz=models.member.objects.get(pk=request.session['user'])
         form = models.manageForm(instance=userInz)
     return render(request, "account/manage.html", {'form' : form})
 
@@ -76,12 +76,16 @@ def authG(request):
         try:
             # logs user in via their google ID, or makes an entry in member if they do not have an account yet.
             idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
-            if not(models.member.objects.filter(userID=idinfo['sub']).exists()):
-                userInz = models.member.objects.create(userID=idinfo['sub'], name=idinfo['given_name'], email = idinfo['email'])
+            if not(models.gLogIn.objects.filter(googleID=idinfo['sub']).exists()):
+                #when we implement other sign in methods, we will need to ask the user if they already have an account
+                #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
+                userInz = models.member.objects.create(name=idinfo['given_name'], email = idinfo['email'])
+                gLogInz = models.gLogIn.objects.create(googleID=idinfo['sub'], pointTo=userInz)
             else:
-                userInz=models.member.objects.get(userID=idinfo['sub'])
+                gLogInz=models.gLogIn.objects.get(googleID=idinfo['sub'])
+                userInz=gLogInz.pointTo
             request.session['rank']=userInz.ranking
-            request.session['user']=userInz.userID # will need to change this just to the pk of username
+            request.session['user']=userInz.pk # will need to change this just to the pk of username
             request.session['name']=userInz.name
         except ValueError:
             return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")

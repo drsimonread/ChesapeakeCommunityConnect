@@ -12,16 +12,24 @@ def user_directory_profile(instance, filename):
 
 # user model. self explanitory
 class member(models.Model):
-    userID = models.CharField(max_length=255, unique=True) #this will be deleted eventually, but right now this stores the google ID
+    #userID = models.CharField(max_length=255, unique=True) #this will be deleted eventually, but right now this stores the google ID
     name = models.CharField(max_length=35)
     ranking = models.CharField(max_length=20, default="member")
+    #this commented stuff can eventually be implemented for easier managing of user ranks
+    #ranking_options = { this will be implemented to 
+    #    "ME": "member",
+    #    "TR": "trusted member",
+    #    "MO": "moderator",
+    #    "AD": "admin",
+    #}
+    #ranking = models.CharField(max_length=2, default="ME", choices=ranking_options)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     email = models.EmailField()
     pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
-   #location = AddressField(blank=True, default={"raw" : ""}, null=True)
+   #location
     def __str__(self):
-        return self.name + "|" + self.userID
+        return self.name
     #https://stackoverflow.com/questions/3715103/password-field-in-django-model/3715382#3715382 for making own password
 
 
