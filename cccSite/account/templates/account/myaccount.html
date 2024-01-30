@@ -4,6 +4,7 @@
 {%endblock head%}
 {% block content %}
 
+<!--loads user's info from provided dictionary-->
 <div id="content">
     <li><img src="{{ image.url }}" alt="Uploaded Image" height="150" width="150"></li>
     You are logged in as {{name}}, your email is {{email}}. 
@@ -13,7 +14,7 @@
     {%if rank == "verified"%}
     <p>You are a trusted user.
     {%endif%}
-
+    <!--posts to the URL titled signout in the account app's URL config-->
     <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
         <input type="submit" value="Sign Out">
     </form>
