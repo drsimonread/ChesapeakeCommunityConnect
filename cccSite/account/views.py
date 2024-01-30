@@ -76,16 +76,18 @@ def authG(request):
         try:
             # logs user in via their google ID, or makes an entry in member if they do not have an account yet.
             idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
-            if not(models.gLogIn.objects.filter(googleID=idinfo['sub']).exists()):
+            if not(models.gLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
                 #when we implement other sign in methods, we will need to ask the user if they already have an account
                 #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
-                userInz = models.member.objects.create(name=idinfo['given_name'], email = idinfo['email'])
-                gLogInz = models.gLogIn.objects.create(googleID=idinfo['sub'], pointTo=userInz)
-            else:
-                gLogInz=models.gLogIn.objects.get(googleID=idinfo['sub'])
-                userInz=gLogInz.pointTo
+                userInz = models.member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
+                gLogInz = models.gLogIn.objects.create(googleID=idinfo['sub'], pointTo=userInz) # stores the google ID and the member it is associated with
+            else: #if the user has logged in with google before
+                gLogInz=models.gLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
+                userInz=gLogInz.pointTo #get the object that the google ID is associated with
+
+            #store information about the user in the session
             request.session['rank']=userInz.ranking
-            request.session['user']=userInz.pk # will need to change this just to the pk of username
+            request.session['user']=userInz.pk 
             request.session['name']=userInz.name
         except ValueError:
             return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
