@@ -4,17 +4,35 @@
 {% block head %} 
 <title>Chesapeake Community Connect - Help/FAQs</title>
 <style>
-    /* Existing styles */
+
+    /* Style the accordion */
     .accordion {
-        /* Your existing styles */
-    }
-    .accordion.active, .accordion:hover {
-        /* Your existing styles */
-    }
-    .panel {
-        /* Your existing styles */
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        text-align: center; /* Center the text */
+        border: none;
+        outline: none;
+        transition: 0.4s;
+        font-family: Arial, sans-serif; /* Improve the font */
     }
 
+    /* Style the active class (and arrow icon) */
+    .accordion.active, .accordion:hover {
+        background-color: #ccc;
+    }
+
+    /* Style the panel class */
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+    
     /* Centering the video container */
     .video-container {
         text-align: center;
@@ -29,7 +47,7 @@
 
     /* Additional styles for spacing and alignment */
     #content {
-        margin-bottom: 60px; /* Adjust as needed to ensure space for the footer */
+        margin-bottom: 60px; 
     }
 
 </style>
@@ -64,6 +82,7 @@
         <h2>Map Tutorial: Video Explanation</h2>
         <p>Demonstrates use of filters and opening pin descriptions.</p>
     </div>
+</div>
 </div>
 
 <script>
