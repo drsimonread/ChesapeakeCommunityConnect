@@ -156,7 +156,7 @@ footer img {
 
 
 /* Individual header titles */
-#content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1 {
+#content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1, #help-tab {
     background-color: #f3c10d; /* Yellow background */
     color: #00205c; /* Dark blue text */
     padding: 10px;
@@ -167,7 +167,7 @@ footer img {
 }
 
 /* Prevent hover color change on directory tabs */
-#content h1:hover, #about-tab h1:hover, #contact-tab h1:hover, #map-tab h1:hover, #add-marker-form h1:hover, #signin-tab h1:hover {
+#content h1:hover, #about-tab h1:hover, #contact-tab h1:hover, #map-tab h1:hover, #add-marker-form h1:hover, #signin-tab h1:hover, #help-tab {
     background-color: #f3c10d; /* Yellow background on hover (no color change) */
     color: #00205c; /* Dark blue text (no color change) */
 }
@@ -182,7 +182,7 @@ nav ul li a:hover {
 }
 
 /* Center the content in the middle of the screen */
-#content, #about-tab, #contact-tab, #map-tab, #add-marker-form, #signin-tab {
+#content, #about-tab, #contact-tab, #map-tab, #add-marker-form, #signin-tab, #help-tab {
     text-align: center;
 }
 
@@ -224,7 +224,7 @@ nav ul li a:hover {
 }
 
 /* Individual header titles */
-#content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1 {
+#content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1, #help-tab h1{
     background-color: #f3c10d; /* Yellow background */
     color: #00205c; /* Dark blue text */
     padding: 10px;
