@@ -36,19 +36,24 @@
     /* Centering the video container */
     .video-container {
         text-align: center;
-        margin: 0 auto 40px; /* Added bottom margin for footer space */
-        max-width: 640px; /* Adjust based on your video size or preference */
+        margin: 0 auto 40px; /* Ensures space for the footer */
+        max-width: 640px; /* Adjust based on video size or preference */
     }
 
     video {
-        width: 100%; /* Makes the video responsive */
+        width: 100%; /* Responsive video */
         height: auto; /* Maintain aspect ratio */
     }
 
-    /* Additional styles for spacing and alignment */
     #content {
-        margin-bottom: 60px; 
+        margin-bottom: 60px; /* Space at the bottom for the footer */
     }
+
+    /* Add margin below the FAQ section */
+    #FAQ {
+        margin-bottom: 30px; /* Adjust the value as needed for visual spacing */
+    }
+
 
 </style>
 {% endblock head %}
@@ -83,7 +88,7 @@
             <source src="{% static 'base/assets/tutorial-video.mp4' %}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-             
+
     </div>
 </div>
 </div>
