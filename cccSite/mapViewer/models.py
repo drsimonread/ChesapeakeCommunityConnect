@@ -1,7 +1,7 @@
 from django.db import models
 from account.models import member
 
-class Widget(models.Model):
+class MapWidget(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     latitude = models.FloatField()
