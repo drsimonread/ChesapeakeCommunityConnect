@@ -21,9 +21,13 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: npm install, build, and test
+      - name: activate python, start server
         run: |
-          npm run build --if-present
+          .venv\Scripts\activate.bat
+          cd cccSite
+          python manage.py makemigrations python manage.py migrate
+          python manage.py runserver 8080
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
