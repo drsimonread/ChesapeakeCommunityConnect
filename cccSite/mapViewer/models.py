@@ -6,7 +6,7 @@ class MapWidget(models.Model):
     description = models.TextField()
     latitude = models.FloatField()
     longitude = models.FloatField()
-    
+    # Add other fields as needed
 
 # this will be the ideal post model. we would serialize this to widgets using djangos JSON serialize functionality on the specific fields
 #class mapPost(models.Model):
