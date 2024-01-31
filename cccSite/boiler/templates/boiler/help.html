@@ -5,15 +5,17 @@
 <title>Chesapeake Community Connect - Help/FAQs</title>
 <style>
 
-    /* Style the accordion */
+    /* Style the accordion as a button */
     .accordion {
         background-color: #f3c10d;
         color: #444;
         cursor: pointer;
         padding: 18px;
-        width: 100%;
+        max-width: 60%; /* Set a maximum width */
+        margin: 10px auto; /* Center the button */
         text-align: center; /* Center the text */
-        border: none;
+        border: 1px solid #444; /* Add a border to resemble a button */
+        border-radius: 4px; /* Round corners */
         outline: none;
         transition: 0.4s;
         font-family: Arial, sans-serif; /* Improve the font */
@@ -31,8 +33,10 @@
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.2s ease-out;
+        margin: 0 auto; /* Center the panel */
+        max-width: 60%; /* Set a maximum width */
     }
-    
+
     /* Centering the video container */
     .video-container {
         text-align: center;
