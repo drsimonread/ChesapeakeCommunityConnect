@@ -7,23 +7,23 @@
 
     /* Style the accordion as a button */
     .accordion {
-        background-color: #f3c10d;
-        color: #444;
+        background-color: #f3c10d; /* Yellow background */
+        color: #00205c; /* Dark blue text */
+        border: none;
+        padding: 10px 20px;
+        display: block;
+        border-radius: 5px;
         cursor: pointer;
-        padding: 18px;
-        max-width: 60%; /* Set a maximum width */
-        margin: 10px auto; /* Center the button */
+        transition: background-color 0.3s; /* Smooth background color transition on hover */
+        width: 40%; /* Take up half the screen width */
+        margin: 0 auto; /* Centered on the screen */
         text-align: center; /* Center the text */
-        border: 1px solid #444; /* Add a border to resemble a button */
-        border-radius: 4px; /* Round corners */
-        outline: none;
-        transition: 0.4s;
-        font-family: Arial, sans-serif; /* Improve the font */
+        outline: none; /* Remove outline */
     }
 
     /* Style the active class (and arrow icon) */
     .accordion.active, .accordion:hover {
-        background-color: #ccc;
+        background-color: #ccc; /* Change background color on hover */
     }
 
     /* Style the panel class */
@@ -34,7 +34,7 @@
         overflow: hidden;
         transition: max-height 0.2s ease-out;
         margin: 0 auto; /* Center the panel */
-        max-width: 60%; /* Set a maximum width */
+        width: 40%; /* Take up half the screen width */
     }
 
     /* Centering the video container */
