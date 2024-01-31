@@ -92,6 +92,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    searchForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const searchText = document.getElementById("search-text").value;
+        $.ajax({
+            type: "GET",
+            url: "/search_widgets/",
+            data: { searchText: searchText },
+            success: function (response) {
+                // Clear existing markers
+                // Loop through response.widgets to add new markers
+                console.log("Search results:", response.widgets);
+            },
+            error: function (error) {
+                console.error("Error searching: ", error);
+            }
+        });
+    });
+
     function getCsrfToken() {
         // Function to get CSRF token from cookie
         const name = 'csrftoken';
