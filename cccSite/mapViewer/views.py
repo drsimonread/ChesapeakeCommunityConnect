@@ -20,7 +20,7 @@ def viewMap(request):
     print(widgets)  # Temporary print statement to check the output
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets})
 
-def mapSearch(request):
+def search_widgets(request):
     if (request.GET.get('searchBtn')):
         searchText = request.GET.get('search-text')
         return JsonResponse({"status":"success"})

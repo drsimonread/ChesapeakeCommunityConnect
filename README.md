@@ -3,9 +3,10 @@
 ## Setup
 
 ```sh
-npm i
-npm start  # development
-npm run build  # production
+.venv\Scripts\activate.bat
+cd cccSite
+python manage.py makemigrations python manage.py migrate
+python manage.py runserver 8080
 ```
 
 ## Feedback
