@@ -11,7 +11,7 @@
     {%if about != ""%}
     <p>Here's your about section: {{about}}
     {%endif%}
-    {%if rank == "verified"%}
+    {%if rank > 1%}
     <p>You are a trusted user.
     {%endif%}
     <!--posts to the URL titled signout in the account app's URL config-->

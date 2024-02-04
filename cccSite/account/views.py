@@ -11,7 +11,7 @@ from PIL import Image
 
 # if user not signed in, sends them to log in 
 def signin(request):
-    if request.session.get('rank', 'anon')=='anon':
+    if request.session.get('rank', 0)==0:
         return render(request, 'account/signin.html')
     else:
         return redirect("/account/")
@@ -27,7 +27,7 @@ def signout(request):
  
  # default account page. send to sign in if not signed in, otherwise displays user info
 def default(request):
-    if request.session.get('rank','anon')=='anon':
+    if request.session.get('rank',0)==0:
         return redirect('/account/signin/')
     else:
         userInz=models.member.objects.get(pk=request.session['user']) #get user from session
@@ -41,7 +41,7 @@ def default(request):
 
 # lets members edit their info
 def manage(request):
-    if request.session.get('rank','anon')=='anon':
+    if request.session.get('rank',0)==0:
         return redirect('/account/signin/')
     if request.method == "POST":
         userInz=models.member.objects.get(pk=request.session['user']) 
