@@ -4,23 +4,26 @@
 {% block head %} 
 <title>Chesapeake Community Connect - Help/FAQs</title>
 <style>
-    /* Style the accordion */
+
+    /* Style the accordion as a button */
     .accordion {
-        background-color: #eee;
-        color: #444;
-        cursor: pointer;
-        padding: 18px;
-        width: 100%;
-        text-align: center; /* Center the text */
+        background-color: #f3c10d; /* Yellow background */
+        color: #00205c; /* Dark blue text */
         border: none;
-        outline: none;
-        transition: 0.4s;
-        font-family: Arial, sans-serif; /* Improve the font */
+        padding: 10px 20px;
+        display: block;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s; /* Smooth background color transition on hover */
+        width: 70%; /* Take up half the screen width */
+        margin: 0 auto; /* Centered on the screen */
+        text-align: center; /* Center the text */
+        outline: none; /* Remove outline */
     }
 
     /* Style the active class (and arrow icon) */
     .accordion.active, .accordion:hover {
-        background-color: #ccc;
+        background-color: #ccc; /* Change background color on hover */
     }
 
     /* Style the panel class */
@@ -30,14 +33,39 @@
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.2s ease-out;
+        margin: 0 auto; /* Center the panel */
+        width: 40%; /* Take up half the screen width */
+    }
+
+    /* Centering the video container */
+    .video-container {
+        text-align: center;
+        margin: 0 auto 40px; /* Ensures space for the footer */
+        max-width: 640px; /* Adjust based on video size or preference */
+    }
+
+    video {
+        width: 100%; /* Responsive video */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    #content {
+        margin-bottom: 60px; /* Space at the bottom for the footer */
+    }
+
+    /* Add margin below the FAQ section */
+    #FAQ {
+        margin-bottom: 30px; /* Adjust the value as needed for visual spacing */
     }
 
     /* Style for creating space below the video */
     #map-tutorial {
         margin-bottom: 20px; /* Adjust this value as needed */
     }
+  
 </style>
 {% endblock head %}
+
 
 {% block content %}
 <div id="content">
@@ -59,18 +87,18 @@
             <p>On August 2023, St. Mary's College of Maryland was approached by Parisa Rinaldi to complete a website used for positive environmental justice and information. In her vision, Chesapeake Community Connect came to be with the assistance of SMCM's computer science students, split into the Research & Development Team and the Quality Assurance Team.</p>
         </div>
     </div>
-    <div id="map-tutorial">
-        <div style="float: left; width: 50%">
-            <video id="tutorial-video" width="640" height="360" controls>
-                <source src="{% static 'base/assets/tutorial-video.mp4' %}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div style="float: right; width: 50%">
-            <h2 style="text-align: center">Map Tutorial: Video Explanation</h2>
-            <p>Demonstrates use of filters and opening pin descriptions.</p>
-        </div>
+    <div class="video-container" id="map-tutorial">
+
+        <h2>Map Tutorial: Video Explanation</h2>
+        <p>Demonstrates use of filters and opening pin descriptions.</p>
+
+        <video id="tutorial-video" controls>
+            <source src="{% static 'base/assets/tutorial-video.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
     </div>
+</div>
 </div>
 
 <script>
@@ -88,11 +116,6 @@
             } 
         });
     }
-
-    // Script to fix video playback issue
-    document.getElementById('tutorial-video').addEventListener('click', function () {
-        this.play();
-    });
 </script>
 
 {% endblock content %}

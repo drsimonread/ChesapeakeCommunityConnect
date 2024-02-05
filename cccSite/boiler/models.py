@@ -3,7 +3,7 @@ from django.forms import ModelForm, Textarea
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
-class message(models.Model):
+class Message(models.Model):
     sender = models.CharField(max_length=75)
     email = models.EmailField()
     subject = models.CharField(max_length=75)
@@ -13,9 +13,9 @@ class message(models.Model):
     def __str__(self):
         return self.sender + " | " + self.email + " | " + self.subject
     
-class messageForm(ModelForm):
+class MessageForm(ModelForm):
     class Meta:
-        model = message
+        model = Message
         fields = ['sender', 'email', 'subject', 'message']
         labels = {
             "sender" : _("Name"),

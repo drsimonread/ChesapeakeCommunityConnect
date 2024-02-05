@@ -3,6 +3,7 @@
 <title>Chesapeake Community Connect - Manage Account</title>
 {%endblock head%}
 {% block content %}
+<!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
 <div id="content">
     <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">{%csrf_token%}
         {{form.as_p}}
