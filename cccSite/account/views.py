@@ -30,7 +30,7 @@ def default(request):
     if request.session.get('rank',0)==0:
         return redirect('/account/signin/')
     else:
-        userInz=models.member.objects.get(pk=request.session['user']) #get user from session
+        userInz=models.Member.objects.get(pk=request.session['user']) #get user from session
         return render(request, 'account/myaccount.html', {
             'name': userInz.name,
             'email' : userInz.email,
@@ -44,15 +44,15 @@ def manage(request):
     if request.session.get('rank',0)==0:
         return redirect('/account/signin/')
     if request.method == "POST":
-        userInz=models.member.objects.get(pk=request.session['user']) 
-        form = models.manageForm(request.POST, request.FILES, instance=userInz)
+        userInz=models.Member.objects.get(pk=request.session['user']) 
+        form = models.ManageForm(request.POST, request.FILES, instance=userInz)
         if form.is_valid():
             form.save()
             request.session['name']=userInz.name
             return redirect("/account/")
     else:
-        userInz=models.member.objects.get(pk=request.session['user'])
-        form = models.manageForm(instance=userInz)
+        userInz=models.Member.objects.get(pk=request.session['user'])
+        form = models.ManageForm(instance=userInz)
     return render(request, "account/manage.html", {'form' : form})
 
 # a lot of this code is from google btw
@@ -76,14 +76,14 @@ def authG(request):
         try:
             # logs user in via their google ID, or makes an entry in member if they do not have an account yet.
             idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
-            if not(models.gLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
+            if not(models.GLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
                 #when we implement other sign in methods, we will need to ask the user if they already have an account
                 #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
-                userInz = models.member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
-                gLogInz = models.gLogIn.objects.create(googleID=idinfo['sub'], pointTo=userInz) # stores the google ID and the member it is associated with
+                userInz = models.Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
+                gLogInz = models.GLogIn.objects.create(googleID=idinfo['sub'], pointTo=userInz) # stores the google ID and the member it is associated with
             else: #if the user has logged in with google before
-                gLogInz=models.gLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
-                userInz=gLogInz.pointTo #get the object that the google ID is associated with
+                gLogInz=models.GLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
+                userInz=gLogInz.referTo #get the object that the google ID is associated with
 
             #store information about the user in the session
             request.session['rank']=userInz.ranking

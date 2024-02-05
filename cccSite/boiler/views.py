@@ -10,10 +10,10 @@ def help(request):
 
 def contact(request):
     if request.method == "POST":
-        form = models.messageForm(request.POST)
+        form = models.MessageForm(request.POST)
         if form.is_valid():
             form.save()
             return render(request, "boiler/thxcontact.html")
     else:
-        form=models.messageForm()
+        form=models.MessageForm()
     return render(request, "boiler/contact.html", {'form' : form})

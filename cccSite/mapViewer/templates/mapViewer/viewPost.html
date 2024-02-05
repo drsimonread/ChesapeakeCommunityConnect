@@ -1,0 +1,27 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Chesapeake Community Connect - Map</title>
+{% endblock head %}
+
+{% block content %}
+
+<br>
+<div id="content" class="body">
+    <h1>{{post.title}}</h1>
+    <br>
+    By {{post.author}}
+    <br>
+    {{post.content}}
+    <br>
+    Tags:
+    <br>
+    {%for item in post.tags.all %}
+    {{item.name}}
+    <br>
+    {%endfor%}
+    
+</div>
+
+{% endblock content %}

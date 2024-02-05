@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("map/", include("mapViewer.urls")),
+    #path("map/", include("mapViewer.urls")),
     path("account/", include("account.urls")),
     path('DJadmin/', admin.site.urls),
     path("", include("mapViewer.urls")),
