@@ -30,7 +30,7 @@ class MapPost(models.Model):
     def __str__(self):
         return self.title + " by " + str(self.author)
     def get_absolute_url(self):
-        return reverse("post_detail", args=[str(self.pk)])
+        return reverse("mapViewer:post_detail", args=[str(self.pk)])
     
     #https://forum.djangoproject.com/t/url-template-tag-get-absolute-url-and-views/21249
     #https://levelup.gitconnected.com/django-quick-tips-get-absolute-url-1c22321f806b
