@@ -15,6 +15,7 @@
 
 }
 
+
 .containerL {
     background-color: #00205c;
     /* Dark blue background */
@@ -22,7 +23,7 @@
 
     border-radius: 15px;
     width: 40%;
-    margin: 10% 10px 10% 10%;
+    margin: 10% 10px 10% 5%;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
 }
 .containerR {
@@ -43,7 +44,7 @@
 #pic1 {
     width: 100%;
     /* Adjust this value based on the actual logo size */
-    height: 300px;
+    height: 10%;
     /* Space between the copyright and the logo */
 
 }
