@@ -1,27 +1,56 @@
 .aboutBody {
-    color: #f3c10d; /* Yellow text */
+    color: #f3c10d;
+    /* Yellow text */
     background-color: #f3f3f3;
 }
 
 .container {
-    background-color: #00205c; /* Dark blue background */
-    margin: 0px 10% 10px 10%;
+    background-color: #00205c;
+    /* Dark blue background */
+    margin: 10px 50% 10px 25%;
     width: 40%;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 3%;
 
 }
 
-.containerL {
-    background-color: #00205c; /* Dark blue background */
 
-    border-radius: 10px;
+.containerL {
+    background-color: #00205c;
+    /* Dark blue background */
+    padding: 3%;
+
+    border-radius: 15px;
+    width: 40%;
+    margin: 10% 10px 10% 5%;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+}
+.containerR {
+    background-color: #00205c;
+    /* Dark blue background */
+    padding: 3%;
+
+    border-radius: 15px;
     width: 40%;
     margin: 10% 10px 10% 50%;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
 }
 
 .wrapper {
     margin: 0px 20px 20px 20px;
 }
+
+#pic1 {
+    width: 100%;
+    /* Adjust this value based on the actual logo size */
+    height: 10%;
+    /* Space between the copyright and the logo */
+
+}
+
+#pic4 {
+   height: auto;
+    width: auto;
+}
+
