@@ -1,5 +1,5 @@
 from django.db import models
-from django.forms import ModelForm, Textarea
+from django.forms import ModelForm, TextInput, EmailInput, Textarea
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
@@ -18,10 +18,13 @@ class MessageForm(ModelForm):
         model = Message
         fields = ['sender', 'email', 'subject', 'message']
         labels = {
-            "sender" : _("Name"),
-            "email" : _("Email"),
-            "message" : _("Message"),
+            "sender": _("Name"),
+            "email": _("Email"),
+            "message": _("Message"),
         }
         widgets = {
-            "message": Textarea(attrs={"cols": 40, "rows": 10}),
+            'sender': TextInput(attrs={'placeholder': 'Name', 'class': 'input-text'}),
+            'email': EmailInput(attrs={'placeholder': 'Email address', 'class': 'input-text'}),
+            'subject': TextInput(attrs={'placeholder': 'Subject', 'class': 'input-text'}),
+            'message': Textarea(attrs={'placeholder': 'Message', 'class': 'input-textarea'}),
         }
