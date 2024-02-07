@@ -50,9 +50,10 @@ def post_list(request):
 def makePost(request):
     return HttpResponse("hi")
 
+#this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
     if MapPost.objects.filter(pk=want).exists():
         lookAt= MapPost.objects.get(pk=want)
         if lookAt.isVisible:
             return render(request, "mapViewer/viewPost.html", {"post" : lookAt,})
-    return redirect("/search/")
+    return redirect(reverse("mapViewer:post_list"))
