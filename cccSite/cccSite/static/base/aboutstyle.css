@@ -7,23 +7,33 @@
 .container {
     background-color: #00205c;
     /* Dark blue background */
-    margin: 0px 10% 10px 10%;
-
+    margin: 10px 50% 10px 25%;
     width: 40%;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 3%;
 
 }
 
 .containerL {
     background-color: #00205c;
     /* Dark blue background */
+    padding: 3%;
 
-    border-radius: 10px;
+    border-radius: 15px;
+    width: 40%;
+    margin: 10% 10px 10% 10%;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+}
+.containerR {
+    background-color: #00205c;
+    /* Dark blue background */
+    padding: 3%;
+
+    border-radius: 15px;
     width: 40%;
     margin: 10% 10px 10% 50%;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
 }
 
 .wrapper {
@@ -31,9 +41,15 @@
 }
 
 #pic1 {
-    max-width: 100%;
+    width: 100%;
     /* Adjust this value based on the actual logo size */
     height: 300px;
     /* Space between the copyright and the logo */
 
 }
+
+#pic4 {
+   height: auto;
+    width: auto;
+}
+
