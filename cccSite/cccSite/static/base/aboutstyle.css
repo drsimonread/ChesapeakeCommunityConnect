@@ -1,11 +1,14 @@
 .aboutBody {
-    color: #f3c10d; /* Yellow text */
+    color: #f3c10d;
+    /* Yellow text */
     background-color: #f3f3f3;
 }
 
 .container {
-    background-color: #00205c; /* Dark blue background */
+    background-color: #00205c;
+    /* Dark blue background */
     margin: 0px 10% 10px 10%;
+
     width: 40%;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
@@ -14,7 +17,8 @@
 }
 
 .containerL {
-    background-color: #00205c; /* Dark blue background */
+    background-color: #00205c;
+    /* Dark blue background */
 
     border-radius: 10px;
     width: 40%;
@@ -24,4 +28,12 @@
 
 .wrapper {
     margin: 0px 20px 20px 20px;
+}
+
+#pic1 {
+    max-width: 100%;
+    /* Adjust this value based on the actual logo size */
+    height: 300px;
+    /* Space between the copyright and the logo */
+
 }

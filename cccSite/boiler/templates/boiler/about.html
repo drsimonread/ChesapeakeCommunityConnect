@@ -1,15 +1,19 @@
 {%extends "base/base.html"%}
-{%block head%}
-<script src="https://accounts.google.com/gsi/client" async></script>
-<title>Chesapeake Community Connect - About</title>
+{%block head%} 
+{% load static %}
 
+<script src="https://accounts.google.com/gsi/client" async></script>
+<link rel="stylesheet" type="text/css" href="{% static 'base/aboutstyle.css' %}">
+<title>Chesapeake Community Connect - About</title>
 {%endblock head%}
 {% block content %}
+<div id="content">
+</div>
 
 <body class="aboutBody">
     <div id="content">
         <div class="header">
-            <img src= "base/assets/smcm-seal.png" alt="SMCM Logo" id="">            <h2>About Us</h2>
+            <img src="{%static 'base/assets/about_smcm.png' %}" alt="SMCM Logo" id="pic1">
         </div>
         <div class="container">
             <h4>
