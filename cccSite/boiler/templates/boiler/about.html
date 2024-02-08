@@ -1,5 +1,5 @@
 {%extends "base/base.html"%}
-{%block head%} 
+{%block head%}
 {% load static %}
 
 <script src="https://accounts.google.com/gsi/client" async></script>
@@ -9,20 +9,28 @@
 {% block content %}
 <div id="content">
 </div>
+<div>
+    <img src="{%static 'base/assets/about_smcm.png' %}" alt="smcmPic" id="pic1">
+
+</div>
 
 <body class="aboutBody">
-      <div class="header">
-            <img src="{%static 'base/assets/about_smcm.png' %}" alt="SMCM Logo" id="pic1">
-        </div>
+    <div class="header">
+    </div>
     <div id="content">
-      
+
         <div class="container">
             <h4>
+                <div class="wrapper">
+                    <img src="{%static 'base/assets/capstonestockpic.png' %}" alt="capstoneLogo" id="pic2">
+
+                </div>
                 Software Startup Simulator Captsone
             </h4>
             <div class="wrapper">
                 <p>
-                    The Software Startup Simulator Captsone is a unique opportunity for students in the Computer Science
+                    The Software Startup Simulator Captsone is a unique opportunity for students in the St. Mary's
+                    College Computer Science
                     Department to participate in a real-world development project that gives participants a
                     corporate-like
                     experience, by working within specialized teams to create a software application in hopes of
@@ -31,37 +39,43 @@
 
                 </p>
             </div>
+
+
         </div>
         <div class="containerR">
             <h4>
+                <div class="wrapper">
+                    <img src="{%static 'base/assets/qapic.webp' %}" alt="capstoneLogo" id="pic2">
+
+                </div>
                 About the QA Team
             </h4>
             <div class="wrapper">
                 <p>
-                    The Software Startup Simulator Captsone is a unique opportunity for students in the Computer Science
-                    Department to participate in a real-world development project that gives participants a
-                    corporate-like
-                    experience, by working within specialized teams to create a software application in hopes of
-                    assisting
-                    local businesses in their application development needs.
+                    The Quality Assurance Team is in charge of all documentation regarding the product, running and
+                    testing all of the developed applications created by the Research and Development Team, and
+                    identifying and reporting errors, ensuring a fully functional product for the client.
+
 
                 </p>
             </div>
         </div>
-        
+
         <div class="containerL">
-           
+
             <h4>
+                <div class="wrapper">
+                    <img src="{%static 'base/assets/rndpic.jpeg' %}" alt="capstoneLogo" id="pic2">
+
+                </div>
                 About the R & D Team
             </h4>
             <div class="wrapper">
                 <p>
-                    The Software Startup Simulator Captsone is a unique opportunity for students in the Computer Science
-                    Department to participate in a real-world development project that gives participants a
-                    corporate-like
-                    experience, by working within specialized teams to create a software application in hopes of
-                    assisting
-                    local businesses in their application development needs.
+                    The Research and Development team’s role is to conduct the research necessary to provide a worthy
+                    product and use all available tools to develop this product. They are also responsible for
+                    developing new and wanted features for the client, and improving and renewing existing products.
+
 
                 </p>
             </div>
