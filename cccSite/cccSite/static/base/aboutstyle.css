@@ -1,53 +1,76 @@
 .aboutBody {
+    /* yellow color for text and white background*/
     color: #f3c10d;
-    /* Yellow text */
     background-color: #f3f3f3;
 }
 
 .container {
-    background-color: #00205c;
     /* Dark blue background */
+    background-color: #00205c;
+
+    /*Center div in middle of page*/
     margin: 10px 50% 10px 25%;
     width: 40%;
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+
+    /*shadow around div*/
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5);
+
+    /*rounded edges on div*/
     border-radius: 15px;
+
+    /*makes div border spacious*/
     padding: 1%;
 
 }
 
 
 .containerL {
-    background-color: #00205c;
     /* Dark blue background */
+    background-color: #00205c;
+
+    margin: 10% 10px 10% 5%;
+    width: 40%;    
+
+    /*shadow around div*/
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+
+    /*rounded edges on div*/
+    border-radius: 15px;
+
+    /*makes div border spacious*/
     padding: 1%;
 
-    border-radius: 15px;
-    width: 40%;
-    margin: 10% 10px 10% 5%;
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
 }
 
 .containerR {
-    background-color: #00205c;
+
     /* Dark blue background */
+    background-color: #00205c;
+
+    /*Shifts div to left of page*/
+    margin: 10% 10px 10% 50%;
+    width: 40%;
+
+    /*shadow around div*/
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+   
+    /*rounded edges on div*/ 
+    border-radius: 15px;
+
+    /*makes div border spacious*/
     padding: 1%;
 
-    border-radius: 15px;
-    width: 40%;
-    margin: 10% 10px 10% 50%;
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
 }
 
 .wrapper {
+    /*centers div*/
     margin: 0px 20px 20px 20px;
-
 }
 
 #pic1 {
+    /*makes the banner stretch to the whole width of the page*/
     width: 100%;
-    /* Adjust this value based on the actual logo size */
     height: 10%;
-    /* Space between the copyright and the logo */
 
 }
 
@@ -55,7 +78,6 @@
     width: 100%;
     border-radius: 10px;
 }
-
 
 h4 {
     font-size: 35px;
