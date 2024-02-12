@@ -1,0 +1,34 @@
+.heading {
+    text-align: center;
+    align-items: center;
+    background-color: #f3c10d;
+    color: #00205c;
+    border-radius: 10px;
+}
+
+.g_id_signin {
+    width: 70%;
+    margin: auto;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.containerS1 {
+    margin: 0px 0% 0px 4.5%;
+    padding-bottom: 20px;
+    width: 100%;
+    align-items: center;
+}
+
+.containerS2 {
+    margin: 0px 0% 0px 4.5%;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.wrapperS1 {
+    padding: 10px;
+    width: 90%;
+    border-radius: 5px;
+}
