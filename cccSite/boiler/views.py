@@ -6,7 +6,14 @@ def about(request):
     return render(request, "boiler/about.html")
 
 def help(request):
-    return render(request, 'boiler/help.html')
+    if request.method == "POST":
+        form = models.MessageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, "boiler/thxcontact.html")
+    else:
+        form=models.MessageForm()
+    return render(request, "boiler/help.html", {'form' : form})
 
 def contact(request):
     if request.method == "POST":
@@ -16,4 +23,4 @@ def contact(request):
             return render(request, "boiler/thxcontact.html")
     else:
         form=models.MessageForm()
-    return render(request, "boiler/contact.html", {'form' : form})
+    return render(request, "boiler/help.html", {'form' : form})

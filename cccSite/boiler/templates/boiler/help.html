@@ -67,7 +67,7 @@
 {% endblock head %}
 
 
-{% block content %}
+{% block content%}
 <div id="content">
     <div id="FAQ">
         <h2 style="text-align: center">Frequently Asked Questions (FAQ)</h2>
@@ -98,10 +98,19 @@
         </video>
 
     </div>
+    
 </div>
+<div id="show-contact-form-button" onclick="showContactForm()" style="display: block;">Contact Us</div>
+        {% include 'boiler/contact_form.html' %}
 </div>
 
 <script>
+    function showContactForm() {
+        const contactForm = document.getElementById("contact-form");
+        contactForm.style.display = "block";
+        const contactButton = document.getElementById("show-contact-form-button");
+        contactButton.style.display = "none";
+    }
     // Script for smooth accordions in FAQ section
     var acc = document.getElementsByClassName("accordion");
     var i;
@@ -116,6 +125,10 @@
             } 
         });
     }
+    
 </script>
 
+
+
 {% endblock content %}
+
