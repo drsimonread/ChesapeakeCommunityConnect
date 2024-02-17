@@ -2,28 +2,40 @@
 {% load static %}
 
 {% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'base/mappagestyle.css' %}">
 <title>Chesapeake Community Connect - Map</title>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBic0-t_tjjX9CnTFIZY2PdJPOF5hFhuQY&libraries=places"></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBic0-t_tjjX9CnTFIZY2PdJPOF5hFhuQY&libraries=places"></script>
 {% endblock head %}
 
 {% block content %}
-<div id="content" class="body">
-    <h1>Chesapeake Community Connect</h1>
-    <!-- Search Post Form -->
-    <div style="width:50%; display: block; margin-bottom: 20px;">
-        <form id="search-form">
-            <input type="text" placeholder="Type to search..." id="search-text">
-            <button type="submit" name="searchBtn" id="search-button">Search Post</button>
-        </form>
+<div class="body">
+    <div class="containerM1">
+        <div class="wrapperM1">
+            <h1 class="headerM1">Chesapeake Community Connect</h1>
+        </div>
     </div>
 
     <!-- Map Section -->
-    <div style="text-align: center;">
-        <div id="map" style="height: 400px; width: 70%; margin: 0 auto;"></div>
+    <div class="mapholder">
+        <div class="containterML">
+            <div>
+                <div id="map"></div>
+            </div>
+        </div>
+        <!-- Search Post Form -->
+        <div class="containerMR">
+            <form id="search-form">
+                <input type="text" placeholder="Type to search..." id="search-text">
+                <button type="submit" name="searchBtn" id="search-button">Search Post</button>
+            </form>
+        </div>
     </div>
 
+
+
     <!-- Add Marker Form -->
-    <div style="text-align: center; margin-top: 20px;">
+    <div class="containerM4">
         <button id="add-marker-button">Create a Post</button>
         <div id="add-marker-form" style="display: none;">
             <form id="marker-form">

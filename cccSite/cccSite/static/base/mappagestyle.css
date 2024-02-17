@@ -1,0 +1,75 @@
+.containerM1 {
+    /*Div styling for head banner*/
+    margin: 0px 0% 0px 4%;
+    padding-bottom: 20px;
+    width: 100%;
+    align-items: center;
+
+}
+
+.wrapperM1 {
+    padding: 10px;
+    width: 90%;
+    border-radius: 5px;
+}
+
+.headerM1 {
+    /*Styling for header*/
+    text-align: center;
+    align-items: center;
+    background-color: #f3c10d;
+    color: #00205c;
+    border-radius: 10px;
+}
+
+
+.mapholder {
+    /*Outer div for map and searh map divs*/
+    margin-left: auto;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    height: 350px;
+}
+
+.containerML {
+    /*Div for map*/
+    width: 50%;
+    margin-right: auto;
+    margin-left: 15%;
+}
+
+.containerMR {
+    /*Div for Search Post section*/
+    border-radius: 10px;
+    height: 400px;
+    width: 45%;
+    float: right;
+    margin-right: 5%;
+
+}
+
+#map {
+    /*Map icon styling*/
+    border-radius: 10px;
+    height: 400px;
+    width: 45%;
+    margin-bottom: 10px;
+    float: left;
+    margin-left: 15px;
+
+}
+
+.containerM4 {
+    /*Div for create post*/
+    margin-top: 5%;
+    width: 100%;
+}
+
+#search-text {
+    width: 50%;
+}
+
+#search-button {
+    width: 40%;
+}
