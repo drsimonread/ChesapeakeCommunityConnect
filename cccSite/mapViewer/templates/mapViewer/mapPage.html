@@ -9,7 +9,7 @@
 {% endblock head %}
 
 {% block content %}
-<div class="body">
+<body>
     <div class="containerM1">
         <div class="wrapperM1">
             <h1 class="headerM1">Chesapeake Community Connect</h1>
@@ -27,7 +27,7 @@
         <div class="containerMR">
             <form id="search-form">
                 <input type="text" placeholder="Type to search..." id="search-text">
-                <button type="submit" name="searchBtn" id="search-button">Search Post</button>
+                <button type="submit" class="searchBtn" id="search-button">Search Post</button>
             </form>
         </div>
     </div>
@@ -37,35 +37,41 @@
     <!-- Add Marker Form -->
     <div class="containerM4">
         <button id="add-marker-button">Create a Post</button>
-        <div id="add-marker-form" style="display: none;">
+        <div id="add-marker-form">
             <form id="marker-form">
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" required><br>
+                <div class="lefthalf">
+                    <input type="text" id="title" name="title" required placeholder="Title:"><br>
 
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" rows="3" required></textarea><br>
+                    <input type="text" id="address" name="address" required placeholder="Address:"><br>
 
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address" required><br>
+                    <input type="text" id="city" name="city" required placeholder="City:"><br>
 
-                <label for="city">City:</label>
-                <input type="text" id="city" name="city" required><br>
+                    <input type="text" id="state" name="state" required placeholder="State:"><br>
 
-                <label for="state">State:</label>
-                <input type="text" id="state" name="state" required><br>
+                    <input type="text" id="zip" name="zip" required placeholder="Zip Code:"><br>
 
-                <label for="zip">Zip:</label>
-                <input type="text" id="zip" name="zip" required><br>
+                </div>
 
-                <button type="submit" id="post-button">Post</button>
+                <!-- Description box for Create a Post section-->
+                <div class="righthalf">
+                    <textarea id="description" name="description" rows="14" required
+                        placeholder="Description:"></textarea><br>
+                </div>
+                
+                <!-- Post button for Create a Post section-->
+                <div class="postDiv">
+                    <button class="postDivB" type="submit" id="post-button">Post</button>
+                </div>
+
             </form>
         </div>
     </div>
-</div>
+</body>
 
 <script type="text/javascript">
     var widgets = JSON.parse('{{ widgets|escapejs }}');
 </script>
+
 <script src="{% static 'mapViewer/map-script.js' %}"></script>
 
 {% endblock content %}

@@ -1,3 +1,10 @@
+body {
+    font-family: 'Baskerville';
+    background-color: #f3f3f3; /* Grey background */
+
+
+}
+
 .containerM1 {
     /*Div styling for head banner*/
     margin: 0px 0% 0px 4%;
@@ -46,6 +53,7 @@
     width: 45%;
     float: right;
     margin-right: 5%;
+    font-weight: bold;
 
 }
 
@@ -66,10 +74,107 @@
     width: 100%;
 }
 
+#add-marker-form {
+    background-color: #f3f3f3;
+    /* Grey background */
+    display: none;
+    box-shadow: none;
+    border: none;
+}
+
+
+
 #search-text {
     width: 50%;
 }
 
 #search-button {
     width: 40%;
+}
+
+.searchBtn {
+    font-weight: bold;
+}
+
+/*Div for create a post address boxes styling*/
+.lefthalf {
+    float: left;
+    width: auto;
+}
+
+/*Div for description box styling*/
+.righthalf {
+    width: auto;
+    float: right;
+}
+
+
+#description {
+    height: auto;
+}
+
+/*styling for input boxes*/
+input {
+    box-shadow: 10px;
+    border-style: none;
+    border-radius: 8px;
+    font-family: 'Baskerville';
+    padding: 1em;
+    margin: 2px;
+    margin-bottom: 5px;
+
+}
+
+/*styling for description box*/
+textarea {
+    resize: none;
+    border-style: none;
+    border-radius: 8px;
+    font-family: 'Baskerville';
+    padding: 1em;
+    width: 300px;
+    height: 40px;
+    box-shadow: 10px;
+
+
+}
+
+/*styling post button div*/
+.postDiv {
+    margin: auto;
+    width: 70%;
+    border-radius: 8px;
+
+}
+
+/*styling for hovering on all buttons*/
+button:hover {
+    padding: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*styling for post div button*/
+.postDivB {
+    width: 100%;
+    border-radius: 4px;
+    margin: auto;
+    margin-top: 10px;
+    border-style: none;
+    background-color: #f3c10d;
+    padding: 10x;
+    font-size: medium;
+    padding: 5px;
+    font-family: 'Baskerville';
+
+
+
+}
+
+/*styling for hovering on post button*/
+.postDivB:hover {
+    font-family: 'Baskerville';
+    padding: 5px;
+    cursor: pointer;
+    background-color: orange;
+
 }
