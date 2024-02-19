@@ -141,6 +141,7 @@ textarea {
 
 /*styling post button div*/
 .postDiv {
+    margin-top: 100px;
     margin: auto;
     width: 70%;
     border-radius: 8px;
@@ -158,15 +159,13 @@ button:hover {
     width: 100%;
     border-radius: 4px;
     margin: auto;
-    margin-top: 10px;
+    margin-top: 20px;
     border-style: none;
     background-color: #f3c10d;
     padding: 10x;
     font-size: medium;
     padding: 5px;
     font-family: 'Baskerville';
-
-
 
 }
 
