@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'mapViewer.apps.MapviewerConfig',
     'boiler.apps.BoilerConfig', 
     'Filterer.apps.FiltererConfig',
+    'Janitor.apps.JanitorConfig',
 ]
 
 MIDDLEWARE = [

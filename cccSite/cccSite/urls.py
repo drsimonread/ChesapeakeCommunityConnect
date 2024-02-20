@@ -25,6 +25,7 @@ urlpatterns = [
     path('DJadmin/', admin.site.urls),
     path("", include("mapViewer.urls")),
     path("", include("boiler.urls")),
+    path("admin/", include("Janitor.urls")),
 ] 
 urlpatterns += static(settings.MEDIA_URL,
                       document_root=settings.MEDIA_ROOT)

@@ -5,8 +5,6 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from . import models
-from google.oauth2 import id_token
-from google.auth.transport import requests
 from PIL import Image
 
 # if user not signed in, sends them to log in 

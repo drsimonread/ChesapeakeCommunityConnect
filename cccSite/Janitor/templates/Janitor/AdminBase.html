@@ -1,0 +1,26 @@
+{%extends "base/base.html"%}
+{%block head%}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'base/basestyle.css' %}">
+
+<title>Chesapeake Community Connect - Admin</title>
+{%endblock head%}
+{% block content %}
+<div class="body">  
+
+    <ul style="position:fixed;width: 15%;">
+        <li><a class="button" href="#home">Approve Posts</a></li>
+        <li><a class="button" href="#news">Reported Posts</a></li>
+        <li><a class="button" href=""{% url 'Janitor:messageList'%}"">Contact Requests</a></li>
+        <li><a class="button" href="#about">Manage User Rankings</a></li>
+        <li><a class="button" href="#about">Export Data</a></li>
+    </ul>
+
+  
+  <div style="margin-left:15%;padding:1px 16px;">
+    {%block adminFunc%} {% endblock adminFunc %}
+  </div>
+  
+</div>
+{% endblock content %}
