@@ -1,0 +1,93 @@
+/* Style the accordion as a button */
+.accordion {
+    background-color: #f3c10d;
+    /* Yellow background */
+    color: #00205c;
+    /* Dark blue text */
+    border: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    /* Smooth background color transition on hover */
+    width: 70%;
+    /* Take up half the screen width */
+    margin: 0 auto;
+    /* Centered on the screen */
+    text-align: center;
+    /* Center the text */
+    outline: none;
+    /* Remove outline */
+}
+
+/* Style the active class (and arrow icon) */
+.accordion.active,
+.accordion:hover {
+    background-color: orange;
+    /* Change background color on hover */
+}
+
+/* Style the panel class */
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    margin: 0 auto;
+    /* Center the panel */
+    width: 40%;
+    /* Take up half the screen width */
+}
+
+/* Centering the video container */
+.video-container {
+    text-align: center;
+    margin: 0 auto 40px  20px;
+    /* Ensures space for the footer */
+    max-width: 100%;
+    /* Adjust based on video size or preference */
+}
+
+.subcontainerL {
+    width: 40%;
+    margin-left: 3%;
+}
+
+.subcontainerR{
+    margin-left: auto;
+    margin-top: 2%;
+    float: right;
+    width: 50%;
+    margin-right: 3%;
+    transform: (-50%,-50%);
+}
+
+
+
+video {
+    width: 100%;
+    /* Responsive video */
+    height: auto;
+    /* Maintain aspect ratio */
+
+    border-radius: 8px;
+}
+
+#content {
+    margin-bottom: 60px;
+    /* Space at the bottom for the footer */
+}
+
+/* Add margin below the FAQ section */
+#FAQ {
+    margin-bottom: 30px;
+    /* Adjust the value as needed for visual spacing */
+}
+
+/* Style for creating space below the video */
+#map-tutorial {
+    margin-bottom: 20px;
+    /* Adjust this value as needed */
+}
