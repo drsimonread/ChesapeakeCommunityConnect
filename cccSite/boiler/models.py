@@ -9,6 +9,7 @@ class Message(models.Model):
     subject = models.CharField(max_length=75)
     message = models.CharField(max_length=300)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    acknowledged = models.BooleanField(default=False)
     
     def __str__(self):
         return self.sender + " | " + self.email + " | " + self.subject

@@ -1,7 +1,7 @@
 {%extends "base/base.html"%}
 {%block head%}
 {% load static %}
-
+<link rel="stylesheet" type="text/css" href="{% static 'Janitor/accordian.css' %}">
 <title>Chesapeake Community Connect - Admin</title>
 {%endblock head%}
 {% block content %}
@@ -9,9 +9,10 @@
 
     <ul style="position:fixed;width: 15%;">
         <li><a class="button" href="#home">Approve Posts</a></li>
-        <li><a class="button" href="#news">Reported Posts</a></li>
+        <li><a class="button" href="#about">Manage Tags</a></li>
+        <li><a class="button" href="#news">Reports</a></li>
         <li><a class="button" href="{% url 'Janitor:messageList'%}">Contact Requests</a></li>
-        <li><a class="button" href="#about">Manage User Rankings</a></li>
+        <li><a class="button" href="{% url 'Janitor:memberList'%}">Manage Users</a></li>
         <li><a class="button" href="#about">Export Data</a></li>
     </ul>
 
@@ -21,4 +22,21 @@
   </div>
   
 </div>
+<script>
+  // Script for smooth accordions
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+  for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var panel = this.nextElementSibling;
+          if (panel.style.maxHeight) {
+              panel.style.maxHeight = null;
+          } else {
+              panel.style.maxHeight = panel.scrollHeight + "px";
+          }
+      });
+  }
+
+</script>
 {% endblock content %}

@@ -2,9 +2,9 @@
 
 {% block adminFunc %}
 {%for item in messages %}
-    <ul>                         
-        <li><a href="">{{ item.subject }} from {{item.sender}}|{{item.email}}</a>
-         </li>                      
-     </ul> 
-    {%endfor%}
+<button class="accordion">{{item.created}} - {{item.subject}} from {{item.sender}} | {{item.email}}</button>
+<div class="panel">
+    <p>{{item.message}}</p>
+</div>
+{%endfor%}
 {% endblock adminFunc %}
