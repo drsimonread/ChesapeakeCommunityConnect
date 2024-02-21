@@ -12,7 +12,7 @@
         <li><a class="button" href="#about">Manage Tags</a></li>
         <li><a class="button" href="#news">Reports</a></li>
         <li><a class="button" href="{% url 'Janitor:messageList'%}">Contact Requests</a></li>
-        <li><a class="button" href="{% url 'Janitor:memberList'%}">Manage Users</a></li>
+        {%if rank == 99%}<li><a class="button" href="{% url 'Janitor:memberList'%}">Manage Users</a></li>{%endif%}
         <li><a class="button" href="#about">Export Data</a></li>
     </ul>
 
