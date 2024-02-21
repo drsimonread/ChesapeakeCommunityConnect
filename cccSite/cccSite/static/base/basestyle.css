@@ -1,3 +1,8 @@
+html * {
+    font-family: 'Baskerville' !important;
+}
+
+
 /* Reset some default browser styles */
 body, h1, h2, p, ul, li {
     margin: 0;
@@ -6,7 +11,7 @@ body, h1, h2, p, ul, li {
 
 /* Overall styling */
 body {
-    font-family: 'Baskerville';
+    /* font-family: 'Baskerville'; */
     background-color: #f3f3f3; /* Grey background */
     color: #000; /* Black text color for body */
     line-height: 1.6;
@@ -107,6 +112,7 @@ footer img {
 
 /* Create a Post and Contact Us buttons */
 #add-marker-button, #show-contact-form-button {
+    /* font-family: 'Baskerville'; */
     background-color: #f3c10d; /* Yellow background */
     color: #00205c; /* Dark blue text */
     border: none;

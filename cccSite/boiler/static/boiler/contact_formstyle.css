@@ -31,8 +31,8 @@ form textarea {
   display: block;
   width: 100%;
   margin-top: 1em;
-  font-family: 'Baskerville';
-  /* font-weight: bold; */
+  /*! font-family: 'Baskerville'; */
+  /*! font-weight: bold; */
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
