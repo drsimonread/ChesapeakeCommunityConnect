@@ -76,8 +76,9 @@ def authG(request):
             if not(models.GLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
                 #when we implement other sign in methods, we will need to ask the user if they already have an account
                 #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
+                
                 userInz = models.Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
-                gLogInz = models.GLogIn.objects.create(googleID=idinfo['sub'], pointTo=userInz) # stores the google ID and the member it is associated with
+                gLogInz = models.GLogIn.objects.create(googleID=idinfo['sub'], referTo=userInz) # stores the google ID and the member it is associated with
             else: #if the user has logged in with google before
                 gLogInz=models.GLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
                 userInz=gLogInz.referTo #get the object that the google ID is associated with
