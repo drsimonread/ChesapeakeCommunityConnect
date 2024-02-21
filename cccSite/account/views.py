@@ -32,7 +32,6 @@ def default(request):
         return render(request, 'account/myaccount.html', {
             'name': userInz.name,
             'email' : userInz.email,
-            'rank' : userInz.ranking,
             'image' : userInz.pic,
             'about' : userInz.about,
         })

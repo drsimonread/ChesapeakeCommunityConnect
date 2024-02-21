@@ -1,0 +1,10 @@
+{%extends "Janitor/AdminBase.html"%}
+
+{% block adminFunc %}
+{%for item in messages %}
+    <ul>                         
+        <li><a href="">{{ item.subject }} from {{item.sender}}|{{item.email}}</a>
+         </li>                      
+     </ul> 
+    {%endfor%}
+{% endblock adminFunc %}
