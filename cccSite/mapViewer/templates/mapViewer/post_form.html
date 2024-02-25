@@ -1,0 +1,22 @@
+<!--TODO: Comment-->
+
+{% load static %}
+
+    <div class="body">
+        <form action="{% url 'mapViewer:default'%}"  method="post">
+            {% csrf_token %}
+            {{postForm.as_p}}
+            <input type="submit" value="Submit" id="input-submit">
+        </form>
+    </div>
+    <script>
+        let autocomplete;
+        function initAutocomplete() {
+            autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('id_location'),
+                {fields : ["address_components"],
+                }
+            );
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc&libraries=places&callback=initAutocomplete" async defer></script>

@@ -9,7 +9,6 @@
 {% endblock head %}
 
 {% block content %}
-<body>
     <div class="containerM1">
         <div class="wrapperM1">
             <h1 class="headerM1">Chesapeake Community Connect</h1>
@@ -75,12 +74,40 @@
 
         </div>
     </div>
-</body>
-
+    <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
+        {{searchForm.as_p}}
+        <input type="submit" value="Submit">
+    </form>
+    {%if hasPosted %}
+        Congrats it posted.
+    {%elif rank > 0%}
+    <div class="body">
+        <form action="{% url 'mapViewer:default'%}"  method="post">
+            {% csrf_token %}
+            {{postForm.as_p}}
+            <input type="submit" value="Submit" id="input-submit">
+        </form>
+    </div>
+    <script>
+        let autocomplete;
+        function initAutocomplete() {
+            autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('id_location'),
+                {fields : ["address_components"],
+                }
+            );
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc&libraries=places&callback=initAutocomplete" async defer></script>
+    {%else%}
+    You don't have permission.
+    {%endif%}
+<!--
 <script type="text/javascript">
     var widgets = JSON.parse('{{ widgets|escapejs }}');
-</script>
+</script> -->
 
-<script src="{% static 'mapViewer/map-script.js' %}"></script>
+<script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
+{{widgets|json_script}}
 
 {% endblock content %}

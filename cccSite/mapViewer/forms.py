@@ -12,3 +12,9 @@ class SearchPostsForm(forms.Form):
                 'q': _('Search'),
                 't': _('Tags')
             }
+        
+class MakePostForm(forms.Form):
+    title = forms.CharField(max_length=100, label="Title")
+    location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput)
+    content = forms.CharField(label="Content", widget=forms.Textarea)
+    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
