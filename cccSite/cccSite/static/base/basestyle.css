@@ -146,6 +146,10 @@ footer img {
     margin: 20px auto;
 }
 
+#add-marker-button:hover, #show-contact-form-button:hover {
+    background-color: #e67e22; /* Darker yellow on hover */
+}
+
 
 /* Individual header titles */
 #content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1, #help-tab {
