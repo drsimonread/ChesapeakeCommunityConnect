@@ -4,8 +4,12 @@
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
 <title>Chesapeake Community Connect - Map</title>
+
+<script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
+{{widgets|json_script}}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc&libraries=places"></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc&libraries=places&callback=initMap" defer></script>
+
 {% endblock head %}
 
 {% block content %}
@@ -88,17 +92,6 @@
             <input type="submit" value="Submit" id="input-submit">
         </form>
     </div>
-    <script>
-        let autocomplete;
-        function initAutocomplete() {
-            autocomplete = new google.maps.places.Autocomplete(
-                document.getElementById('id_location'),
-                {fields : ["address_components"],
-                }
-            );
-        }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc&libraries=places&callback=initAutocomplete" async defer></script>
     {%else%}
     You don't have permission.
     {%endif%}
@@ -107,7 +100,6 @@
     var widgets = JSON.parse('{{ widgets|escapejs }}');
 </script> -->
 
-<script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
-{{widgets|json_script}}
+
 
 {% endblock content %}
