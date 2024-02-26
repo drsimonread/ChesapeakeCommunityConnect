@@ -1,8 +1,6 @@
-{%extends "base/base.html"%}
-{%block head%} 
-<title>Chesapeake Community Connect - Account</title>
-{%endblock head%}
-{% block content %}
+{%extends "account/accountBase.html"%}
+
+{% block accountFunc %}
 
 <!--loads user's info from provided dictionary-->
 <div id="content">
@@ -15,9 +13,7 @@
     <p>You are a trusted user.
     {%endif%}
     <!--posts to the URL titled signout in the account app's URL config-->
-    <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
-        <input type="submit" value="Sign Out">
-    </form>
+    
     <button id="edit-account" onclick="window.location.href='{%url 'account:manage'%}';">Edit Account Details</button>
 </div>
-{% endblock content %}
+{% endblock accountFunc %}
