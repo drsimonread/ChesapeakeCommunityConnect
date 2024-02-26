@@ -24,20 +24,19 @@ def save_widget(request):
 
 
 def viewMap(request):
-    posts = MapPost.objects.filter(isVisible=True)
-    madePostSuccess = False
-    if(request.method=="POST"):
-        gmaps = googlemaps.Client(key='AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc')
-        postingForm= MakePostForm(request.POST)
-        madePostSuccess = postingForm.is_valid()
-        if madePostSuccess:
-            userInz=Member.objects.get(pk=request.session['user'])
-            latLong=postingForm.cleaned_data['geoResult'][0]['geometry']['location']
-            if len(postingForm.cleaned_data['content']) > 25:
-                disc = postingForm.cleaned_data['content'][slice(0,25)] + "..."
+    posts = MapPost.objects.filter(isVisible=True) #begin by fetching visible posts from database
+    madePostSuccess = False #assume the user did not just post
+    if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
+        postingForm= MakePostForm(request.POST) #create the posting form instance and populate it with the data in the POST request
+        madePostSuccess = postingForm.is_valid() #if the data is valid (more info on this in mapViewer/forms.py)
+        if madePostSuccess: #if the post is good to go
+            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
+            latLong=postingForm.cleaned_data['geoResult'][0]['geometry']['location'] #get the latitude/longitude from the form
+            if len(postingForm.cleaned_data['content']) > 25: #if content overflows the preview length
+                disc = postingForm.cleaned_data['content'][slice(0,25)] + "..." #create description to act as a preview
             else:
-                disc = postingForm.cleaned_data['content']
-            postInz=MapPost.objects.create(title=postingForm.cleaned_data['title'],
+                disc = postingForm.cleaned_data['content'] #otherwise just use content to describe
+            postInz=MapPost.objects.create(title=postingForm.cleaned_data['title'], #actually create the post instance in the database
                                    content=postingForm.cleaned_data['content'],
                                    author=userInz,
                                    description=disc,
@@ -46,23 +45,23 @@ def viewMap(request):
                                    isVisible=request.session['rank']>1
                                    )
             if postingForm.cleaned_data['tags']:
-                postInz.tags.set(postingForm.cleaned_data['tags'])
-    else:
+                postInz.tags.set(postingForm.cleaned_data['tags']) #set the post's tags according to selected tags
+    else: #if not POST, create a post form with no initial data
         postingForm = MakePostForm()
-    contQuery = request.GET.get("q")
+    contQuery = request.GET.get("q") #get content and tag query from url
     tagQuery = request.GET.getlist("t")
-    searchForm = SearchPostsForm(request.GET)
-    if contQuery:
+    searchForm = SearchPostsForm(request.GET) #create a search form from url
+    if contQuery: #filter the posts according to search queries if the search queries are nonempty
         posts = posts.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
     if tagQuery:
         for tag in tagQuery:
             posts=posts.filter(tags__pk=tag)
-    widgets = serializers.serialize('json', posts)
-    print(widgets)  # Temporary print statement to check the output
+    widgets = serializers.serialize('json', posts) #serialize posts as JSON for google maps
+    #print(widgets)  # Temporary print statement to check the output
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
                                                       'postForm' : postingForm,
                                                       'searchForm' : searchForm,
-                                                      'hasPosted': madePostSuccess})
+                                                      'hasPosted': madePostSuccess}) #render template
 
 def search_widgets(request):
     if (request.GET.get('searchBtn')):
@@ -86,23 +85,10 @@ def post_list(request):
                                                         "form" : form})
 
 
-def makePost(request):
-    if request.method == "POST":
-        gmaps = googlemaps.Client(key='AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc')
-        postingForm= MakePostForm(request.POST)
-        if postingForm.is_valid():
-            loc = gmaps.geocode(address=request.POST.get('location'), components={'administrative_area': 'MD','country': 'US'})
-            print(loc)
-    else:
-        if request.session.get('rank',0)!=0:
-            postingForm = MakePostForm()
-        
-    return render(request, 'mapViewer/makePost.html', {'form':postingForm})
-
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
     if MapPost.objects.filter(pk=want).exists():
         lookAt= MapPost.objects.get(pk=want)
         if lookAt.isVisible or request.session.get('rank',0)>1:
             return render(request, "mapViewer/viewPost.html", {"post" : lookAt,})
-    return redirect(reverse("mapViewer:post_list"))
+    return redirect(reverse("mapViewer:default"))

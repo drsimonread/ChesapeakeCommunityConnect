@@ -1,42 +1,42 @@
-let map;
-let autocomplete;
+let map; //map object
+let autocomplete;//autocomplete object
 const posts = JSON.parse(JSON.parse(
     document.currentScript.nextElementSibling.textContent
-    ));//*/
-const markerList = [];
-const infoWindowList = [];
-function initMap() {
-    console.log(posts)
-    autocomplete = new google.maps.places.Autocomplete(
+    ));//don't know why it needs to JSON.parse twice, but with only one posts is a String
+const markerList = []; //use this to iteratively create post markers on the map
+const infoWindowList = []; //same but for the post windows for when you click on the markers
+function initMap() { //this function is called by the API script initalization in the HTML due to the callback= argument in the src url
+    //console.log(posts)
+    autocomplete = new google.maps.places.Autocomplete( //adds an autocompleter to the address field of the create post form
         document.getElementById('id_location'),
         {fields : ["address_components"],
         }
     );
-    map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), { //adds the map to the map element
         center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
         zoom: 8,
     });
-    for(let item of posts){
-        console.log(item)
+    for(let item of posts){ //for each post that has been provided to the template
+        //console.log(item)
         const title = item.fields.title;
         const description = item.fields.description;
-        const position = {lat : item.fields.latitude, lng : item.fields.longitude};
-        const marker = new google.maps.Marker({
+        const position = {lat : item.fields.latitude, lng : item.fields.longitude}; //get info
+        const marker = new google.maps.Marker({//create a marker on the map
             position,
             map,
             title: title,
         });
-        const infowindow = new google.maps.InfoWindow({
+        const infowindow = new google.maps.InfoWindow({//create an info window for the current marker
             content: `<h3>${title}</h3><p>${description}</p>`
         });
 
         marker.addListener('click', function () {
-            infowindow.open(map, marker);
+            infowindow.open(map, marker);//associate the marker and info window with the onclick
         });
 
-        markerList.push(marker);
-        infoWindowList.push(infowindow);
+        markerList.push(marker);//add marker to the markerList
+        infoWindowList.push(infowindow);//add infowindo to the infoWindowList
 
-        }//*/
+        }
     }
 

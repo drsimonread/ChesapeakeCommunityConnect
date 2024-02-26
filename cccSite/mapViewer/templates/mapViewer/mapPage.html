@@ -5,6 +5,11 @@
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
 <title>Chesapeake Community Connect - Map</title>
 
+<!--the defer guarantees that 
+    a) the HTML loads pre JS execution so elements referenced in the script exist
+    b) the API script is executed AFTER our script file is loaded and so the callback function works
+    c) the widgets are rendered such that our script file can access them
+-->
 <script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
 {{widgets|json_script}}
 <script
