@@ -31,7 +31,7 @@ class MakePostForm(forms.Form):
     def clean(self): 
         gmaps = googlemaps.Client(key='AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc') #initialize maps
         cleaned_data = super().clean() #verify that all the other forms are ok
-        if not geoResult: #if we don't have a geocode (first try or last try was invalid)
+        if not self.cleaned_data['geoResult']: #if we don't have a geocode (first try or last try was invalid)
             geoResult=gmaps.geocode(address=self.cleaned_data['location']) #fetch geocode for provided address (API call)
             if not geoResult: #if still none, then the address is invalid
                 raise ValidationError(_("Invalid Address"), code="adderr")
