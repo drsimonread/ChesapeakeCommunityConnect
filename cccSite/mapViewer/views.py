@@ -32,7 +32,7 @@ def viewMap(request):
         madePostSuccess = postingForm.is_valid()
         if madePostSuccess:
             userInz=Member.objects.get(pk=request.session['user'])
-            latLong=gmaps.geocode(address=postingForm.cleaned_data['location'])[0]['geometry']['location']
+            latLong=postingForm.cleaned_data['geoResult'][0]['geometry']['location']
             if len(postingForm.cleaned_data['content']) > 25:
                 disc = postingForm.cleaned_data['content'][slice(0,25)] + "..."
             else:
@@ -47,7 +47,7 @@ def viewMap(request):
                                    )
             if postingForm.cleaned_data['tags']:
                 postInz.tags.set(postingForm.cleaned_data['tags'])
-    if request.session.get('rank',0)!=0:
+    else:
         postingForm = MakePostForm()
     contQuery = request.GET.get("q")
     tagQuery = request.GET.getlist("t")
@@ -57,7 +57,7 @@ def viewMap(request):
     if tagQuery:
         for tag in tagQuery:
             posts=posts.filter(tags__pk=tag)
-    widgets = serializers.serialize('json', posts, fields=['title','description','latitude','longitude'])
+    widgets = serializers.serialize('json', posts)
     print(widgets)  # Temporary print statement to check the output
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
                                                       'postForm' : postingForm,
