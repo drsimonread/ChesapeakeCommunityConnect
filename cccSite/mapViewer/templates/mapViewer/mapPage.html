@@ -44,32 +44,24 @@
 
     <!-- Add Marker Form -->
     <div class="containerM4">
-        <button id="add-marker-button">Create a Post</button>
+        <!-- <button id="add-marker-button">Create a Post</button> -->
+        <div class="button" id="add-marker-button" onclick="showPostForm()" style="display: block;">Create a Post</div>
         <div id="add-marker-form">
             <form id="marker-form">
-                <div class="lefthalf">
-                    <input type="text" id="title" name="title" required placeholder="Title:"><br>
-
-                    <input type="text" id="address" name="address" required placeholder="Address:"><br>
-
-                    <input type="text" id="city" name="city" required placeholder="City:"><br>
-
-                    <input type="text" id="state" name="state" required placeholder="State:"><br>
-
-                    <input type="text" id="zip" name="zip" required placeholder="Zip Code:"><br>
-
+                <input class="obj" type="text" id="title" name="title" required placeholder="Title:">
+                <div id="left-half">
+                    <input class="obj" type="text" id="address" name="address" required placeholder="Address:">
+                    <input class="obj" type="text" id="city" name="city" required placeholder="City:">
                 </div>
-
-                <!-- Description box for Create a Post section-->
-                <div class="righthalf">
-                    <textarea id="description" name="description" rows="14" required
-                        placeholder="Description:"></textarea><br>
+                <div id="right-half">
+                    <input class="obj" type="text" id="state" name="state" required placeholder="State:">
+                    <input class="obj" type="text" id="zip" name="zip" required placeholder="Zip Code:">
                 </div>
-                
+                <textarea class="obj" id="description" name="description" rows="14" required
+                    placeholder="Description:"></textarea>
                 <!-- Post button for Create a Post section-->
-                <div class="postDiv">
-                    <button class="postDivB" type="submit" id="post-button">Post</button>
-                </div>
+                <button class="button" type="submit" id="post-button">Post</button>
+
 
             </form>
             <!-- Distance Calculation Section -->
@@ -100,10 +92,16 @@
     {%else%}
     You don't have permission.
     {%endif%}
-<!--
+
 <script type="text/javascript">
+    function showPostForm() {
+        const contactForm = document.getElementById("marker-form");
+        contactForm.style.display = "block";
+        const contactButton = document.getElementById("add-marker-button");
+        contactButton.style.display = "none";
+    }
     var widgets = JSON.parse('{{ widgets|escapejs }}');
-</script> -->
+</script>
 
 
 

@@ -33,30 +33,33 @@ form textarea {
   margin-top: 1em;
   /*! font-family: 'Baskerville'; */
   /*! font-weight: bold; */
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  /* -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
+  /* -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   resize: none;
 }
 
 form input:focus,
 form textarea:focus {
-  -moz-box-shadow: 0 0px 2px #f3c10d !important;
-  -webkit-box-shadow: 0 0px 2px #f3c10d !important;
+  /* -moz-box-shadow: 0 0px 2px #f3c10d !important; */
+  /* -webkit-box-shadow: 0 0px 2px #f3c10d !important; */
   box-shadow: 0 0px 2px #f3c10d !important;
 }
 
-form #input-submit {
+/* form #input-submit {
   color: #00205c;
   background: #f3c10d;
   cursor: pointer;
+  border: none;
+  display: block;
+  transition: background-color 0.3s;
+  margin: 0 auto;
+  text-align: center;
 }
 
 form #input-submit:hover {
-  -moz-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
-  -webkit-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
-  box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
-}
+  background-color: #e67e22; /* Darker yellow on hover 
+} */
 
 form textarea {
   height: 154px;

@@ -24,8 +24,8 @@ class MessageForm(ModelForm):
             "message": _("Message"),
         }
         widgets = {
-            'sender': TextInput(attrs={'placeholder': 'Name', 'class': 'input-text'}),
-            'email': EmailInput(attrs={'placeholder': 'Email address', 'class': 'input-text'}),
-            'subject': TextInput(attrs={'placeholder': 'Subject', 'class': 'input-text'}),
-            'message': Textarea(attrs={'placeholder': 'Message', 'class': 'input-textarea'}),
+            'sender': TextInput(attrs={'placeholder': 'Name'}),
+            'email': EmailInput(attrs={'placeholder': 'Email address'}),
+            'subject': TextInput(attrs={'placeholder': 'Subject'}),
+            'message': Textarea(attrs={'placeholder': 'Message'}),
         }

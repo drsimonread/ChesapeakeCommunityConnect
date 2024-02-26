@@ -91,3 +91,10 @@ video {
     margin-bottom: 20px;
     /* Adjust this value as needed */
 }
+
+#show-contact-form-button {
+    padding: 10px 20px;
+    width: 40%; /* Take up half the screen width */
+    margin: 20px auto; /* Centered on the screen */
+    margin-top: 40px; /* Increase top margin to add space above the button */
+}
