@@ -1,26 +1,35 @@
-let directionsMap;
-let directionsService;
-let directionsRenderer;
+
 
 document.addEventListener("DOMContentLoaded", function () {
     let map;
-    const addMarkerButton = document.getElementById("add-marker-button");
-    const addMarkerForm = document.getElementById("add-marker-form");
-    const userMarkerForm = document.getElementById("marker-form");
-    const searchForm = document.getElementById("search-form");
-    function initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
-            zoom: 8,
-        });
-    }
+    let directionsMap;
+    let directionsService;
+    let directionsRenderer;
 
     function initMap() {
-        direction_map = new google.maps.Map(document.getElementById("directionsMap"), {
-            center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
+        // Initialize the main map
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 38.9, lng: -77.0 },
             zoom: 8,
         });
+
+        // Initialize the secondary map for directions
+        directionsMap = new google.maps.Map(document.getElementById("directionsMap"), {
+            center: { lat: 38.9, lng: -77.0 },
+            zoom: 8,
+        });
+
+        // Initialize the directions service and renderer
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(directionsMap);
     }
+
+    initMap(); // Call the initMap function when the DOM is loaded
+    
+    // Add event listeners and other functionalities here
+});
+
 
     addMarkerButton.addEventListener("click", () => {
         addMarkerForm.style.display = "block";
@@ -251,4 +260,3 @@ for (let i = 0; i < markerList.length; i++) {
     });
 }
     
-});
