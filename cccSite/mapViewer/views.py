@@ -89,6 +89,6 @@ def post_list(request):
 def post_detail(request, want):
     if MapPost.objects.filter(pk=want).exists():
         lookAt= MapPost.objects.get(pk=want)
-        if lookAt.isVisible or request.session.get('rank',0)>1:
+        if lookAt.isVisible or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
             return render(request, "mapViewer/viewPost.html", {"post" : lookAt,})
     return redirect(reverse("mapViewer:default"))
