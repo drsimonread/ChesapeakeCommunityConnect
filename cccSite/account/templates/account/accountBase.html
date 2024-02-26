@@ -1,7 +1,7 @@
 {%extends "base/base.html"%}
 {%block head%}
 {% load static %}
-<title>Chesapeake Community Connect - Account</title>
+<title>Chesapeake Community Connect - Contributors</title>
 {%endblock head%}
 {% block content %}
 <div class="body">  
@@ -10,7 +10,7 @@
         {%if rank > 0%}
         <li><a class="button" href="{%url 'account:default' %}">My Account</a></li>
         <li><a class="button" href="{%url 'account:manage' %}">Edit Account</a></li>
-        <li><a class="button" href="">My Posts</a></li>
+        <li><a class="button" href="">Pending Posts</a></li>
         <li><form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
             <input type="submit" value="Sign Out">
         </form></li>

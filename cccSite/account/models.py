@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import ModelForm
+from django.urls import reverse
 from .storage import OverwriteStorage
 
 
@@ -12,7 +13,6 @@ def user_directory_profile(instance, filename):
 
 # user model. self explanitory
 class Member(models.Model):
-    #userID = models.CharField(max_length=255, unique=True) #this will be deleted eventually, but right now this stores the google ID
     name = models.CharField(max_length=35)
     ranking_options = { 
         (1 , "member"),
@@ -28,6 +28,8 @@ class Member(models.Model):
    #location
     def __str__(self):
         return self.name
+    def get_absolute_url(self):
+        return reverse("account:account_view", args=[str(self.pk)])
     #https://stackoverflow.com/questions/3715103/password-field-in-django-model/3715382#3715382 for making own password
 
 
