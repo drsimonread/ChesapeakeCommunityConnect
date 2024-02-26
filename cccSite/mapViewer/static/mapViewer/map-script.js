@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
             center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
             zoom: 8,
         });
+    }
+
+    function initMap() {
         direction_map = new google.maps.Map(document.getElementById("directionsMap"), {
             center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
             zoom: 8,
