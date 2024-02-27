@@ -30,8 +30,7 @@ def viewMap(request):
         postingForm= MakePostForm(request.POST) #create the posting form instance and populate it with the data in the POST request
         madePostSuccess = postingForm.is_valid() #if the data is valid (more info on this in mapViewer/forms.py)
         if madePostSuccess: #if the post is good to go
-            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
-            latLong=postingForm.cleaned_data['geoResult'][0]['geometry']['location'] #get the latitude/longitude from the form
+            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\
             if len(postingForm.cleaned_data['content']) > 25: #if content overflows the preview length
                 disc = postingForm.cleaned_data['content'][slice(0,25)] + "..." #create description to act as a preview
             else:
@@ -40,8 +39,7 @@ def viewMap(request):
                                    content=postingForm.cleaned_data['content'],
                                    author=userInz,
                                    description=disc,
-                                   latitude=latLong['lat'],
-                                   longitude=latLong['lng'],
+                                   geoCode=postingForm.cleaned_data['geoResult'][0],
                                    isVisible=request.session['rank']>1
                                    )
             if postingForm.cleaned_data['tags']:

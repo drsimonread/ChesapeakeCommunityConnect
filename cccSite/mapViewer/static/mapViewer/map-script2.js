@@ -6,7 +6,7 @@ const posts = JSON.parse(JSON.parse(
 const markerList = []; //use this to iteratively create post markers on the map
 const infoWindowList = []; //same but for the post windows for when you click on the markers
 function initMap() { //this function is called by the API script initalization in the HTML due to the callback= argument in the src url
-    //console.log(posts)
+    //console.log("hi")
     autocomplete = new google.maps.places.Autocomplete( //adds an autocompleter to the address field of the create post form
         document.getElementById('id_location'),
         {fields : ["address_components"],
@@ -17,10 +17,10 @@ function initMap() { //this function is called by the API script initalization i
         zoom: 8,
     });
     for(let item of posts){ //for each post that has been provided to the template
-        //console.log(item)
+        //console.log("test")
         const title = item.fields.title;
         const description = item.fields.description;
-        const position = {lat : item.fields.latitude, lng : item.fields.longitude}; //get info
+        const position = { lat : item.fields.geoCode.geometry.location.lat, lng : item.fields.geoCode.geometry.location.lng }; //get info
         const marker = new google.maps.Marker({//create a marker on the map
             position,
             map,
