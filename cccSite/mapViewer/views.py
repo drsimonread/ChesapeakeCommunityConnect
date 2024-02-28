@@ -47,7 +47,7 @@ def viewMap(request):
                                    )
             if postingForm.cleaned_data['tags']:
                 postInz.tags.set(postingForm.cleaned_data['tags'])
-    if request.session.get('rank',0)!=0:
+    else:
         postingForm = MakePostForm()
     contQuery = request.GET.get("q")
     tagQuery = request.GET.getlist("t")
