@@ -1,15 +1,17 @@
 let map; //map object
-let autocomplete;//autocomplete object
+let autocomplete; //autocomplete object
 const posts = JSON.parse(JSON.parse(
     document.currentScript.nextElementSibling.textContent
-    ));//don't know why it needs to JSON.parse twice, but with only one posts is a String
+)); //don't know why it needs to JSON.parse twice, but with only one posts is a String
 const markerList = []; //use this to iteratively create post markers on the map
 const infoWindowList = []; //same but for the post windows for when you click on the markers
-async function initMap() { //this function is called by the API script initalization in the HTML due to the callback= argument in the src url
-    //console.log("hi")
+let directionsService;
+let directionsRenderer;
+
+async function initMap() {
     autocomplete = new google.maps.places.Autocomplete( //adds an autocompleter to the address field of the create post form
-        document.getElementById('id_location'),
-        {fields : ["address_components"],
+        document.getElementById('id_location'), {
+            fields: ["address_components"],
         }
     );
     map = new google.maps.Map(document.getElementById("map"), { //adds the map to the map element
@@ -17,29 +19,72 @@ async function initMap() { //this function is called by the API script initaliza
         zoom: 8,
         mapId: 'DEMO_MAP_ID'
     });
-    for(let item of posts){ //for each post that has been provided to the template
-        //console.log("test")
+
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
+
+    for (let item of posts) { //for each post that has been provided to the template
         const title = item.fields.title;
         const description = item.fields.description;
-        const position = { lat : item.fields.geoCode.geometry.location.lat, lng : item.fields.geoCode.geometry.location.lng }; //get info
+        const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng }; //get info
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-        const marker = new AdvancedMarkerElement({//create a marker on the map
+        const marker = new AdvancedMarkerElement({ //create a marker on the map
             position,
             map,
             title: title,
         });
-        const infowindow = new google.maps.InfoWindow({//create an info window for the current marker
+        const infowindow = new google.maps.InfoWindow({ //create an info window for the current marker
             content: `<h3>${title}</h3><p>${description}</p>`
         });
 
-        marker.addListener('click', function () {
-            infowindow.open(map, marker);//associate the marker and info window with the onclick
+        marker.addListener('click', function() {
+            infowindow.open(map, marker); //associate the marker and info window with the onclick
         });
 
-        markerList.push(marker);//add marker to the markerList
-        infoWindowList.push(infowindow);//add infowindo to the infoWindowList
+        markerList.push(marker); //add marker to the markerList
+        infoWindowList.push(infowindow); //add infowindo to the infoWindowList
 
-        }
     }
+}
 
+function calculateRoute(origin, destination) {
+    directionsService.route({
+        origin: origin,
+        destination: destination,
+        travelMode: 'DRIVING',
+    }, function(response, status) {
+        if (status === 'OK') {
+            directionsRenderer.setDirections(response);
+        } else {
+            alert('Directions request failed due to ' + status);
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    initMap();
+
+    const calculateDistanceButton = document.getElementById("calculate-distance");
+    const userAddressInput = document.getElementById("user-address");
+
+    calculateDistanceButton.addEventListener("click", function() {
+        const userAddress = userAddressInput.value;
+        if (userAddress) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+                    calculateRoute(userLocation, userAddress);
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        } else {
+            alert("Please enter your address.");
+        }
+    });
+});
