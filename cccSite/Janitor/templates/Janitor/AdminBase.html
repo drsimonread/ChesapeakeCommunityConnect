@@ -10,7 +10,7 @@
     <ul style="position:fixed;width: 15%;">
         <li><a class="button" href="#home">Approve Posts</a></li>
         <li><a class="button" href="#about">Manage Tags</a></li>
-        <li><a class="button" href="#news">Reports</a></li>
+        <li><a class="button" href="{% url 'Janitor:reportList' %}">Reports</a></li>
         <li><a class="button" href="{% url 'Janitor:messageList'%}">Contact Requests</a></li>
         {%if rank == 99%}<li><a class="button" href="{% url 'Janitor:memberList'%}">Manage Users</a></li>{%endif%}
         <li><a class="button" href="#about">Export Data</a></li>

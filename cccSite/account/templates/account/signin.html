@@ -22,6 +22,8 @@
                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
                     data-text="signin" data-size="large" data-logo_alignment="left">
                </div>
+               <div class = "button" id = "create-an-account"  onclick="showAccountCreation()" style="display: block;">Create an Account</div>
+               
           </div>
      </div>
 
@@ -44,4 +46,13 @@
          
      </div>
 </div>
+
+<script>
+     function showAccountCreation() {
+         const contactForm = document.getElementById("contact-form");
+         contactForm.style.display = "block";
+         const contactButton = document.getElementById("show-create-an-account-button");
+         contactButton.style.display = "none";
+     }
+</script>
 {% endblock content %}

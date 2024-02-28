@@ -11,7 +11,6 @@ body, h1, h2, p, ul, li {
 
 /* Overall styling */
 body {
-    /* font-family: 'Baskerville'; */
     background-color: #f3f3f3; /* Grey background */
     color: #000; /* Black text color for body */
     line-height: 1.6;
@@ -95,13 +94,13 @@ footer img {
 .button {
     background-color: #f3c10d; /* Yellow background */
     color: #00205c; /* Dark blue text */
-    border: none;
-    padding: 10px 20px;
-    display: block;
-    border-radius: 5px;
     cursor: pointer;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    border: none;
+    display: block;
     transition: background-color 0.3s; /* Smooth background color transition on hover */
-    width: 40%; /* Take up half the screen width */
     margin: 0 auto; /* Centered on the screen */
     text-align: center; /* Center the text */
 }
@@ -111,19 +110,10 @@ footer img {
 }
 
 /* Create a Post and Contact Us buttons */
-#add-marker-button, #show-contact-form-button {
-    /* font-family: 'Baskerville'; */
-    background-color: #f3c10d; /* Yellow background */
-    color: #00205c; /* Dark blue text */
-    border: none;
+#add-marker-button {
     padding: 10px 20px;
-    display: block;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s; /* Smooth background color transition on hover */
     width: 40%; /* Take up half the screen width */
     margin: 20px auto; /* Centered on the screen */
-    text-align: center; /* Center the text */
     margin-top: 40px; /* Increase top margin to add space above the button */
 }
 
@@ -178,9 +168,6 @@ footer img {
     color: #00205c; /* Dark blue text (no color change) */
 }
 
-#add-marker-button:hover {
-    background-color: #e67e22; /* Darker yellow on hover */
-}
 
 /* Directory buttons hover effect */
 nav ul li a:hover {

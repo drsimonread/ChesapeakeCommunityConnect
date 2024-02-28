@@ -1,7 +1,3 @@
-/* Copyright (c) 2024 Mark Murray (https://codepen.io/markmurray/pen/oNvpxw)
-   The MIT License */
-
-/* TODO: Comment */
 *,
 *:before,
 *:after {
@@ -10,18 +6,13 @@
   box-sizing: border-box;
 }
 
-
-
 form {
   max-width: 600px;
   text-align: center;
   margin: 20px auto;
-  margin-left: 18%;
-  float: right;
 }
 
-form input,
-form textarea {
+form input, form textarea {
   border: 0;
   outline: 0;
   padding: 1em;
@@ -31,36 +22,28 @@ form textarea {
   display: block;
   width: 100%;
   margin-top: 1em;
-  /*! font-family: 'Baskerville'; */
-  /*! font-weight: bold; */
-  /* -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
-  /* -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
+  font-family: 'Baskerville';
+  /* font-weight: bold; */
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   resize: none;
 }
-
-form input:focus,
-form textarea:focus {
-  /* -moz-box-shadow: 0 0px 2px #f3c10d !important; */
-  /* -webkit-box-shadow: 0 0px 2px #f3c10d !important; */
+form input:focus, form textarea:focus {
+  -moz-box-shadow: 0 0px 2px #f3c10d !important;
+  -webkit-box-shadow: 0 0px 2px #f3c10d !important;
   box-shadow: 0 0px 2px #f3c10d !important;
 }
-
-/* form #input-submit {
+form #input-submit {
   color: #00205c;
   background: #f3c10d;
   cursor: pointer;
-  border: none;
-  display: block;
-  transition: background-color 0.3s;
-  margin: 0 auto;
-  text-align: center;
 }
-
 form #input-submit:hover {
-  background-color: #e67e22; /* Darker yellow on hover 
-} */
-
+  -moz-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  -webkit-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+  box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+}
 form textarea {
   height: 154px;
 }
@@ -82,11 +65,10 @@ form textarea {
 @media (max-width: 480px) {
   .half {
     width: 100%;
-    float: right;
+    float: none;
     margin-bottom: 0;
   }
 }
-
 /* Clearfix */
 .cf:before,
 .cf:after {
@@ -99,4 +81,3 @@ form textarea {
 .cf:after {
   clear: both;
 }
-

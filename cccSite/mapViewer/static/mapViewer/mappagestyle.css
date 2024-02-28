@@ -104,59 +104,61 @@ body {
     /*! font-family: 'Baskerville'; */
 }
 
+#post-button {
+    /* margin-top: 1em; */
+    /* padding: 10px; */
+    /* padding: 5px; */
+    width: 70%;
+    height: 2em;
 
+}
 
 .searchBtn {
     font-weight: bold;
 }
 
-/*Div for create a post address boxes styling*/
-.lefthalf {
+/* .third {
+    margin-top: 1em;
+    margin-bottom: 1em;
+} */
+
+/* .obj {
+    width: 100%;
+} */
+
+#left-half {
     float: left;
-    width: 450px;
+    width: 47%;
 }
-
-/*Div for description box styling*/
-.righthalf {
-    margin-top: 20px;
-    width: 95%;
+#right-half {
     float: right;
-}
+    width: 47%;
 
+}
 
 #description {
     width: 100%;
-    float: right;
     height: auto;
 }
 
 /*styling for input boxes*/
-input {
-    box-shadow: 10px;
-    border-style: none;
-    border-radius: 8px;
-    /*! font-family: 'Baskerville'; */
-    padding: 1em;
-    margin: 2px;
-    margin-bottom: 5px;
-    width: 50%;
-    float: left;
-
-}
-
-/*styling for description box*/
-textarea {
-    resize: none;
-    border-style: none;
-    border-radius: 8px;
-    /*! font-family: 'Baskerville'; */
-    padding: 1em;
-    width: 100%;
-    height: 40px;
-    box-shadow: 10px;
-    float: right;
-
-
+form input, /** This needs to be moved to basestyle.css */
+form textarea {
+  border: 0;
+  outline: 0;
+  padding: 1em;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  display: block;
+  width: 100%;
+  margin-bottom: 1em;
+  /*! font-family: 'Baskerville'; */
+  /*! font-weight: bold; */
+  /* -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
+  /* -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  resize: none;
 }
 
 /*styling post button div*/
@@ -169,22 +171,15 @@ textarea {
 }
 
 /*styling for hovering on all buttons*/
-button:hover {
-    padding: 5px;
-    /*! font-family: Arial, Helvetica, sans-serif; */
-}
+
 
 /*styling for post div button*/
-.postDivB {
-    width: 100%;
+.postDivB { /*! DELETE?*/
     border-radius: 4px;
     margin: auto;
-    margin-top: 20px;
     border-style: none;
     background-color: #f3c10d;
-    padding: 10x;
     font-size: medium;
-    padding: 5px;
     /*! font-family: 'Baskerville'; */
 
 }

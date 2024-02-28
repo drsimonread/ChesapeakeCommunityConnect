@@ -1,0 +1,42 @@
+{%extends "base/base.html"%}
+{%block head%}
+{% load static %}
+<title>Chesapeake Community Connect - Contributors</title>
+{%endblock head%}
+{% block content %}
+<div class="body">  
+    <ul style="position:fixed;width: 15%;">
+        <li><a class="button" href="">Search Contributors</a></li>
+        {%if rank > 0%}
+        <li><a class="button" href="{%url 'account:default' %}">My Account</a></li>
+        <li><a class="button" href="{%url 'account:manage' %}">Edit Account</a></li>
+        <li><a class="button" href="">Pending Posts</a></li>
+        <li><form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
+            <input type="submit" value="Sign Out">
+        </form></li>
+        {%else%}
+        <li><a class="button" href="#about">Sign In</a></li>
+        {%endif%}
+    </ul>
+
+    {%block accountFunc%} Welcome to the account interface. {% endblock accountFunc %}
+
+</div>
+<script>
+  // Script for smooth accordions
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+  for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var panel = this.nextElementSibling;
+          if (panel.style.maxHeight) {
+              panel.style.maxHeight = null;
+          } else {
+              panel.style.maxHeight = panel.scrollHeight + "px";
+          }
+      });
+  }
+
+</script>
+{% endblock content %}
