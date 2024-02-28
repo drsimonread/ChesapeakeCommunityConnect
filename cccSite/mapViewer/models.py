@@ -22,7 +22,6 @@ class MapPost(models.Model):
     content = models.TextField()
     author = models.ForeignKey(Member, on_delete=models.CASCADE)
     description = models.TextField() #will be derived from content. whenever this stuff gets working.
-#    will need to figure out a good way to store displayable location ie address
     geoCode = models.JSONField()
     tags = models.ManyToManyField(MapTag, related_name="posts", blank=True)
     isVisible = models.BooleanField(default=False)

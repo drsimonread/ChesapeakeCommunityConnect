@@ -23,6 +23,10 @@ def memberList(request):
     
     return render(request, "Janitor/memberList.html", {'members' : memberStats,})
 
+def pendingPostList(request):
+    pending_posts= MapPost.objects.filter(isVisible=False)
+    return HttpResponse("hey")
+
 def reportList(request):
     pReports = PostReport.objects.all().order_by("post")
     uReports = UserReport.objects.all().order_by("account")

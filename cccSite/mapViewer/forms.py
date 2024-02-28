@@ -25,9 +25,9 @@ class MakePostForm(forms.Form):
     tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
     #to minimize API calls, we don't want to geocode a provided address more than once. 
-    #so if an address is correct, we want to use one geocode call to get the lat/long, but if the provided address doesn't result in a valid geocode
-    #we cannot attempt to store a nonexistent lat/long, meaning that we need to perform the geocode during form validation and pass the result
-    #(if valid) along inside the cleaned_data. this is the purpose of the hidden geoResult field
+    #so if an address is correct, we want to use one geocode call to get the lat/long, but we can't just pass this to the model,
+    #because if the provided address doesn't result in a valid geocode, we can't try to access said geocode. this stores a valid geocode
+    #in the geoResult field of the form, and  also builds in an error message to the address code if there is no geocode
     def clean(self): 
         gmaps = googlemaps.Client(key='AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc') #initialize maps
         cleaned_data = super().clean() #verify that all the other forms are ok
