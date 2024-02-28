@@ -1,118 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
     let map;
+    let directionsService;
+    let directionsRenderer;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 38.9, lng: -77.0 },
+            zoom: 8,
+        });
+
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+    }
+
+    initMap();
+
     const addMarkerButton = document.getElementById("add-marker-button");
     const addMarkerForm = document.getElementById("add-marker-form");
     const userMarkerForm = document.getElementById("marker-form");
-    const searchForm = document.getElementById("search-form");
-    function initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
-            zoom: 8,
-        });
-    }
+    const calculateDistanceButton = document.getElementById("calculate-distance");
+    const userAddressInput = document.getElementById("user-address");
 
-    addMarkerButton.addEventListener("click", () => {
-        addMarkerForm.style.display = "block";
-    });
-
-    userMarkerForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const title = document.getElementById("title").value;
-        const description = document.getElementById("description").value;
-        const address = document.getElementById("address").value;
-        const city = document.getElementById("city").value;
-        const state = document.getElementById("state").value;
-        const zip = document.getElementById("zip").value;
-        const fullAddress = `${address}, ${city}, ${state} ${zip}`;
-
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ address: fullAddress }, function (results, status) {
-            if (status === 'OK') {
-                const position = results[0].geometry.location;
-                const marker = new google.maps.Marker({
-                    position,
-                    map,
-                    title: title,
-                });
-
-                const infowindow = new google.maps.InfoWindow({
-                    content: `<h3>${title}</h3><p>${description}</p>`
-                });
-
-                marker.addListener('click', function () {
-                    infowindow.open(map, marker);
-                });
-
-                map.setCenter(position);
-                addMarkerForm.style.display = "none";
-
-                // AJAX call to send data to Django backend
-                $.ajax({
-                    type: "POST",
-                    url: "/save_widget/", // URL of the Django view
-                    data: {
-                        title: title,
-                        description: description,
-                        latitude: position.lat(),
-                        longitude: position.lng(),
-                        csrfmiddlewaretoken: getCsrfToken() // Function to get CSRF token
-                    },
-                    success: function(response) {
-                        // Handle success
-                        console.log("Widget saved successfully.");
-                    },
-                    error: function(error) {
-                        // Handle error
-                        console.error("Error saving widget:", error);
-                    }
-                });
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    });
-
-    //respond to a request to search -- currently broken
-    searchForm.addEventListener("submit", function (event){
-        event.preventDefault();
-        const searchText = document.getElementById("search-text");
-        $.ajax({
-            type:"GET",
-            url:"/mapSearch/", 
-            data: {
-                searchText: searchText,
-                csrfmiddlewaretoken: getCsrfToken()
-            },
-            success: function(response) {
-                console.log("Searched successfully.");
-
-            },
-            error: function(error) {
-                console.error("error searching: ", error);
-            }
-        });
-    });
-
-    searchForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const searchText = document.getElementById("search-text").value;
-        $.ajax({
-            type: "GET",
-            url: "/search_widgets/",
-            data: { searchText: searchText },
-            success: function (response) {
-                // Clear existing markers
-                // Loop through response.widgets to add new markers
-                console.log("Search results:", response.widgets);
-            },
-            error: function (error) {
-                console.error("Error searching: ", error);
-            }
-        });
-    });
-
+    // Function to get CSRF token from cookie
     function getCsrfToken() {
-        // Function to get CSRF token from cookie
         const name = 'csrftoken';
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -128,5 +39,82 @@ document.addEventListener("DOMContentLoaded", function () {
         return cookieValue;
     }
 
-    google.maps.event.addDomListener(window, 'load', initMap);
+    addMarkerButton.addEventListener("click", () => {
+        addMarkerForm.style.display = "block";
+    });
+
+    userMarkerForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(userMarkerForm);
+        const fullAddress = `${formData.get("address")}, ${formData.get("city")}, ${formData.get("state")} ${formData.get("zip")}`;
+
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: fullAddress }, function (results, status) {
+            if (status === 'OK') {
+                const position = results[0].geometry.location;
+                new google.maps.Marker({
+                    position,
+                    map,
+                    title: formData.get("title"),
+                });
+
+                map.setCenter(position);
+                addMarkerForm.style.display = "none";
+
+                // AJAX call to send data to Django backend
+                $.ajax({
+                    type: "POST",
+                    url: "/save_widget/",
+                    data: {
+                        title: formData.get("title"),
+                        description: formData.get("description"),
+                        latitude: position.lat(),
+                        longitude: position.lng(),
+                        csrfmiddlewaretoken: getCsrfToken()
+                    },
+                    success: function(response) {
+                        console.log("Widget saved successfully.");
+                    },
+                    error: function(error) {
+                        console.error("Error saving widget:", error);
+                    }
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    });
+
+    calculateDistanceButton.addEventListener("click", function () {
+        const userAddress = userAddressInput.value.trim();
+        if (userAddress) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    const userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+                    calculateAndDisplayRoute(userLocation, userAddress);
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        } else {
+            alert("Please enter your address.");
+        }
+    });
+
+    function calculateAndDisplayRoute(userLocation, destinationAddress) {
+        directionsService.route({
+            origin: userLocation,
+            destination: destinationAddress,
+            travelMode: 'DRIVING',
+        }, function (response, status) {
+            if (status === 'OK') {
+                directionsRenderer.setDirections(response);
+            } else {
+                alert('Error calculating route: ' + status);
+            }
+        });
+    }
 });
