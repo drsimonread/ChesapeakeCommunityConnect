@@ -3,13 +3,24 @@
 {% block accountFunc %}
 
 <style>
-    
+
+.submitB{
+
+    background-color: #f3c10d; /* Yellow text */
+    padding: 10px;
+    border-radius: 3px;
+    border:none;
+    font-size: 15px;
+}
+
 </style>
 <!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
 <div id="content">
-    <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">{%csrf_token%}
-        {{form.as_p}}
-        <input type="submit" value="Submit">
+    <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+         {{form.as_p}}
+         
+        <input class="submitB" type="submit" value="Submit">
     </form>
 </div>
 {% endblock accountFunc %}
