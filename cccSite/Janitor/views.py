@@ -38,6 +38,7 @@ def tagList(request):
             if addForm.is_valid():
                 addForm.save()
                 msg = addForm.cleaned_data['name'] + " has been successfully added."
+                addForm = TagAdder()
         elif 'delTag' in request.POST:
             addForm = TagAdder()
             delForm = TagRemover(request.POST)
@@ -59,6 +60,16 @@ def exportData(request):
     return HttpResponse("Not implemented yet")
 
 def reportList(request):
+    msg=""
+    if request.method == "POST":
+        if request.POST.get('type') == 'user':
+            userInz = Member.objects.get(pk=request.POST.get('pk'))
+            msg=userInz.name + "'s reports have been cleared."
+            UserReport.objects.filter(account=userInz).delete()
+        else:
+            postInz = MapPost.objects.get(pk=request.POST.get('pk'))
+            msg=postInz.title + "'s reports have been cleared."
+            PostReport.objects.filter(post=postInz).delete()
     pwReports = MapPost.objects.filter(postreport__id__gt=0).distinct().annotate(num_reports=Count("postreport")).order_by('-num_reports')
     uwReports = Member.objects.filter(userreport__id__gt=0).distinct().annotate(num_reports=Count("userreport")).order_by('-num_reports')
     pList = []
@@ -73,6 +84,7 @@ def reportList(request):
         uList.append(tempList)
     print(uList)
     return render(request, 'Janitor/reportList.html', {
+        'msg' : msg,
         'pList' : pList,
         'uList' : uList,
     })
