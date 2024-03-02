@@ -72,5 +72,5 @@ class MessageForm(ModelForm):
             'username': TextInput(attrs={'placeholder': 'Username', 'class': 'input-text'}),
             'displayname': TextInput(attrs={'placeholder': 'Displayname', 'class': 'input-text'}),
             'password': PasswordInput(attrs={'placeholder': 'Password', 'class': 'input-text'}),
-             'confirmpassword': PasswordInput(attrs={'placeholder': 'Password', 'class': 'input-text'}),
+            'confirmpassword': PasswordInput(attrs={'placeholder': 'Password', 'class': 'input-text'}),
         }

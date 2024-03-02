@@ -5,6 +5,7 @@ from account.models import Member
 from .models import PostReport, UserReport
 from mapViewer.models import MapPost, MapTag
 from .forms import *
+from django.db.models import Count
 
 # Create your views here.
 def default(request):
@@ -15,7 +16,7 @@ def contactList(request):
     return render(request, "Janitor/contactList.html", {'messages' : messages,})
 
 def memberList(request):
-    members = Member.objects.all()
+    members = Member.objects.exclude(pk=request.session.get('user',-1))
     memberStats = []
     for user in members:
         visibleposts = MapPost.objects.filter(author=user, isVisible=True).count()
@@ -53,33 +54,26 @@ def tagList(request):
         'delForm' : delForm,
     })
 
-
+def exportData(request):
+    #https://docs.djangoproject.com/en/5.0/howto/outputting-csv/
+    return HttpResponse("Not implemented yet")
 
 def reportList(request):
-    pReports = PostReport.objects.all().order_by("post")
-    uReports = UserReport.objects.all().order_by("account")
-    currentPK = -1
-    pReportSorted = []
-    tempList = []
-    for report in pReports:
-        if report.post.pk != currentPK:
-            currentPK = report.post.pk
-            if len(tempList) != 0:
-                pReportSorted.append(tempList)
-            tempList = [report.post]
-        tempList.append(report)
-    currentPK = -1
-    uReportSorted = []
-    tempList = []
-    for report in uReports:
-        if report.account.pk != currentPK:
-            currentPK = report.account.pk
-            if len(tempList) != 0:
-                uReportSorted.append(tempList)
-            tempList = [report.account]
-        tempList.append(report)
-    pReportSorted.sort(key = len, reverse=True)
-    uReportSorted.sort(key = len, reverse=True)
-    print(pReportSorted)
-    print(uReportSorted)
-    return HttpResponse("hi")
+    pwReports = MapPost.objects.filter(postreport__id__gt=0).distinct().annotate(num_reports=Count("postreport")).order_by('-num_reports')
+    uwReports = Member.objects.filter(userreport__id__gt=0).distinct().annotate(num_reports=Count("userreport")).order_by('-num_reports')
+    pList = []
+    uList = []
+    for item in pwReports:
+        reports = PostReport.objects.filter(post=item)
+        tempList = [item,reports]
+        pList.append(tempList)
+    for item in uwReports:
+        reports = UserReport.objects.filter(account=item)
+        tempList = [item,reports]
+        uList.append(tempList)
+    print(uList)
+    return render(request, 'Janitor/reportList.html', {
+        'pList' : pList,
+        'uList' : uList,
+    })
+

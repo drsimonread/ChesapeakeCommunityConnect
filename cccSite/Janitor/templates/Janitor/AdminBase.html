@@ -6,7 +6,7 @@
 {%endblock head%}
 {% block content %}
 <div class="body">  
-    {%if rank > 1%}
+  {%if rank > 1%}
     <ul style="position:fixed;width: 15%;">
         <li><a class="button" href="#home">Approve Posts</a></li>
         <li><a class="button" href="{%url 'Janitor:tagList' %}">Manage Tags</a></li>
@@ -15,7 +15,7 @@
         {%if rank == 99%}<li><a class="button" href="{% url 'Janitor:memberList'%}">Manage Users</a></li>{%endif%}
         <li><a class="button" href="#about">Export Data</a></li>
     </ul>
-    {%endif%}
+  {%endif%}
   {%if rank > 1%}
   <div style="margin-left:15%;padding:1px 16px;">
     {%block adminFunc%} Welcome to the admin interface. {% endblock adminFunc %}

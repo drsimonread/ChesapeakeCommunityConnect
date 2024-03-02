@@ -1,0 +1,34 @@
+{%extends "Janitor/AdminBase.html"%}
+
+{% block adminFunc %}
+Post Reports <br>
+{%if pList%}
+{%for entry in pList %}
+<button class="accordion">{{entry.0.title}} - {{entry.0.num_reports}} Reports </button>
+<div class="panel">
+    {%for item in entry.1%}
+    <p>{{item.reason}}</p>
+    {%endfor%}
+    <button>Manage Post</button>
+</div>
+{%endfor%}
+{%else%}
+No reports!
+{%endif%}
+<br>User Reports <br>
+{%if uList%}
+{%for entry in uList %}
+<button class="accordion">{{entry.0.name}} - {{entry.0.num_reports}} Reports</button>
+<div class="panel">
+    {%for item in entry.1%}
+        <p>{{item.reason}}</p>
+    {%endfor%}
+    <button>Manage User</button>
+    </div>
+</div>
+{%endfor%}
+{%else%}
+No reports!
+{%endif%}
+
+{% endblock adminFunc %}

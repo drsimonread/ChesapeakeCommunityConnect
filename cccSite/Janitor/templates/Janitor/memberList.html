@@ -4,7 +4,7 @@
 {%for item in members %}
 <button class="accordion">{{item.user.name}} ({{item.user.email}}) - Rank: {{item.user.get_ranking_display}} - Visible Posts: {{item.goodposts}} - Reports: {{item.reports}}</button>
 <div class="panel">
-    <p>Adjust Ranking/delete account/view account page</p>
+    <p>View Account Page/Manage User</p>
 </div>
 {%endfor%}
 {% endblock adminFunc %}
