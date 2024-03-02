@@ -1,7 +1,9 @@
 {%extends "base/base.html"%}
 {%block head%}
 {% load static %}
+{%block accHead%}
 <title>Chesapeake Community Connect - Contributors</title>
+{%endblock accHead%}
 {%endblock head%}
 {% block content %}
 <div class="body">  
@@ -15,7 +17,7 @@
             <input type="submit" value="Sign Out">
         </form></li>
         {%else%}
-        <li><a class="button" href="#about">Sign In</a></li>
+        <li><a class="button" href="{% url 'account:signin' %}">Sign In</a></li>
         {%endif%}
     </ul>
 

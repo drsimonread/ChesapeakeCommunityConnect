@@ -4,6 +4,7 @@ from boiler.models import Message
 from account.models import Member
 from .models import PostReport, UserReport
 from mapViewer.models import MapPost, MapTag
+from .forms import *
 
 # Create your views here.
 def default(request):
@@ -26,6 +27,33 @@ def memberList(request):
 def pendingPostList(request):
     pending_posts= MapPost.objects.filter(isVisible=False)
     return HttpResponse("hey")
+
+def tagList(request):
+    msg = ""
+    if request.method == "POST":
+        if 'addTag' in request.POST:
+            addForm = TagAdder(request.POST)
+            delForm = TagRemover()
+            if addForm.is_valid():
+                addForm.save()
+                msg = addForm.cleaned_data['name'] + " has been successfully added."
+        elif 'delTag' in request.POST:
+            addForm = TagAdder()
+            delForm = TagRemover(request.POST)
+            if delForm.is_valid():
+                for tag in delForm.cleaned_data['tags']:
+                    tag.delete()
+                msg = "Tag(s) successfully deleted."
+    else:
+        addForm = TagAdder()
+        delForm = TagRemover()
+    return render(request, "Janitor/tagList.html", {
+        'msg' : msg,
+        'addForm' : addForm,
+        'delForm' : delForm,
+    })
+
+
 
 def reportList(request):
     pReports = PostReport.objects.all().order_by("post")

@@ -19,13 +19,13 @@ def signin(request):
 def signout(request):
     if request.method == "POST":
         request.session.flush()
-    return render(request, "account/signout.html")
+    return redirect(reverse("account:default"))
 
  
  # default account page. send to sign in if not signed in, otherwise displays user info
 def default(request):
     if request.session.get('rank',0)==0:
-        return redirect('/account/signin/')
+        return redirect(reverse("account:signin"))
     else:
         userInz=Member.objects.get(pk=request.session['user']) #get user from session
         return render(request, 'account/myaccount.html', {

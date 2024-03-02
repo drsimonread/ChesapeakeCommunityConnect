@@ -1,12 +1,12 @@
-{%extends "base/base.html"%}
-{%block head%}
+{%extends "account/accountBase.html"%}
+{%block accHead%}
 {% load static %}
 
 <script src="https://accounts.google.com/gsi/client" async></script>
 <link rel="stylesheet" type="text/css" href="{% static 'base/signinStyling.css' %}">
 <title>Chesapeake Community Connect - Sign In</title>
-{%endblock head%}
-{% block content %}
+{%endblock accHead%}
+{% block accountFunc %}
 <!--initializes (?) the google API. will need to change the data-login_uri for live site-->
 <div class="body">
      <div id="g_id_onload" data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
@@ -55,4 +55,4 @@
          contactButton.style.display = "none";
      }
 </script>
-{% endblock content %}
+{% endblock accountFunc %}

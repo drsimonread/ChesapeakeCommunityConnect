@@ -1,0 +1,17 @@
+{%extends "Janitor/AdminBase.html"%}
+
+{% block adminFunc %}
+{{msg}}
+<form action="{% url 'Janitor:tagList'%}"  method="post">
+    {% csrf_token %}
+    {{addForm.as_p}}
+    <input type="hidden" id="hidden1" name= "addTag" value="addTag">
+    <input type="submit" value="Add Tag" id="addTag">
+</form>
+<form action="{% url 'Janitor:tagList'%}"  method="post">
+    {% csrf_token %}
+    {{delForm.as_p}}
+    <input type="hidden" id="hidden2" name= "delTag" value="delTag">
+    <input type="submit" value="Delete Selected" id="delTag">
+</form>
+{% endblock adminFunc %}
