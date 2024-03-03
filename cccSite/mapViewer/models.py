@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import Member
 from django.urls import reverse
+from django.core import serializers
 
 class MapWidget(models.Model):
     title = models.CharField(max_length=100)
@@ -27,6 +28,7 @@ class MapPost(models.Model):
     isVisible = models.BooleanField(default=False)
     def __str__(self):
         return self.title + " by " + str(self.author)
+    @property
     def get_absolute_url(self):
         return reverse("mapViewer:post_detail", args=[str(self.pk)])
     

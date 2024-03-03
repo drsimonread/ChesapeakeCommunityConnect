@@ -5,13 +5,13 @@
 <form action="{% url 'Janitor:tagList'%}"  method="post">
     {% csrf_token %}
     {{addForm.as_p}}
-    <input type="hidden" id="hidden1" name= "addTag" value="">
+    <input type="hidden" name= "addTag" value="">
     <input type="submit" value="Add Tag">
 </form>
 <form action="{% url 'Janitor:tagList'%}"  method="post">
     {% csrf_token %}
     {{delForm.as_p}}
-    <input type="hidden" id="hidden2" name= "delTag" value="">
+    <input type="hidden" name= "delTag" value="">
     <input type="submit" value="Delete Selected">
 </form>
 {% endblock adminFunc %}

@@ -23,6 +23,7 @@ async function initMap() {
     for (let item of posts) {
         const title = item.fields.title;
         const description = item.fields.description;
+        const postURL = window.location.href + "post/" + item.pk;
         const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng };
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
@@ -32,7 +33,7 @@ async function initMap() {
             title: title,
         });
         const infowindow = new google.maps.InfoWindow({
-            content: `<h3>${title}</h3><p>${description}</p>`
+            content: `<h3>${title}</h3><p>${description}</p><a href="${postURL}">See More</a>`
         });
 
         marker.addListener('click', function() {
