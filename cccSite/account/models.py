@@ -16,6 +16,7 @@ def user_directory_profile(instance, filename):
 class Member(models.Model):
     name = models.CharField(max_length=35)
     ranking_options = { 
+        (-1,"banned"),
         (1 , "member"),
         (2 , "trusted member"),
         (98 , "moderator"),
@@ -29,8 +30,12 @@ class Member(models.Model):
    #location
     def __str__(self):
         return self.name
+    @property
     def get_absolute_url(self):
         return reverse("account:account_view", args=[str(self.pk)])
+    @property
+    def get_admin_url(self):
+        return reverse("Janitor:manage_user", args=[str(self.pk)])
     #https://stackoverflow.com/questions/3715103/password-field-in-django-model/3715382#3715382 for making own password
 
 

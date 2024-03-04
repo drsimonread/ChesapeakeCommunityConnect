@@ -25,6 +25,20 @@ def memberList(request):
     
     return render(request, "Janitor/memberList.html", {'members' : memberStats,})
 
+def member_manage(request, want):
+    if Member.objects.filter(pk=want).exists():
+        userInz=Member.objects.get(pk=want)
+    else:
+        return redirect(memberList)
+    if request.method == 'POST':
+        form = MemberManager(request.POST)
+        if form.is_valid:
+            form.save()
+    else:
+        form = MemberManager(instance=userInz)
+    return render(request, 'Janitor/memberManager.html', {'form' : form,
+                                                          })
+
 def pendingPostList(request):
     pending_posts= MapPost.objects.filter(isVisible=False)
     return HttpResponse("hey")

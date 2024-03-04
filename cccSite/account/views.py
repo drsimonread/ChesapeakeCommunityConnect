@@ -35,6 +35,9 @@ def default(request):
             'about' : userInz.about,
         })
     
+def account_all(request):
+    return HttpResponse("insert account view list here")
+    
 def account_view(request, want):
     if not want:
         return HttpResponse("Insert list view here")

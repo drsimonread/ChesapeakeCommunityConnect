@@ -8,5 +8,6 @@ urlpatterns = [
     path("authG/", views.authG, name="authG"),
     path("signout/", views.signout, name="signout"),
     path("manage/", views.manage, name='manage'),
+    path("view/", views.account_all, name='all_account'),
     path("view/<want>", views.account_view, name='account_view'),
 ]
