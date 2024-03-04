@@ -4,23 +4,45 @@
 
 <style>
 
-.submitB{
+    .container{
+        min-width: 100%;
+        margin-bottom: 20%;
+    }
 
-    background-color: #f3c10d; /* Yellow text */
-    padding: 10px;
-    border-radius: 3px;
-    border:none;
-    font-size: 15px;
-}
+    .nameField,.emailField,.aboutField{
+        border: none;
+        width: 300px;
+        padding:10px;
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    .submitB {
+        background-color: #f3c10d;
+        padding: 10px;
+        border-radius: 3px;
+        border: none;
+        font-size: 15px;
+        width: 150px;
+
+    }
+
+    .submitB:hover{
+        cursor: pointer;
+        background-color: orange;
+    }
 
 </style>
 <!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
 <div id="content">
-    <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">
-        {%csrf_token%}
-         {{form.as_p}}
-         
-        <input class="submitB" type="submit" value="Submit">
-    </form>
+    <div class="container">
+        <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            {{form.as_p}}
+    
+            <input class="submitB" type="submit" value="Submit">
+        </form>
+    </div>
+  
 </div>
 {% endblock accountFunc %}
