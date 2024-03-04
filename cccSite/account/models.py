@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Textarea
 from django.urls import reverse
@@ -14,7 +15,7 @@ def user_directory_profile(instance, filename):
 
 # user model. self explanitory
 class Member(models.Model):
-    name = models.CharField(max_length=35)
+    name = models.CharField(max_length=35, )
     ranking_options = { 
         (1 , "member"),
         (2 , "trusted member"),
@@ -26,6 +27,7 @@ class Member(models.Model):
     email = models.EmailField()
     pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
+
    #location
     def __str__(self):
         return self.name
@@ -46,6 +48,13 @@ class ManageForm(ModelForm):
     class Meta:
         model = Member
         fields = ["pic", "name", "email", "about"]
+
+        widgets = {
+            
+            'name': forms.TextInput(attrs={'class':'nameField'}),
+            'email':forms.EmailInput(attrs={'class':'emailField'}),
+            'about': forms.TextInput(attrs={'class':'aboutField'})
+        }
         
 class AccountCreation(models.Model):    
     email = models.EmailField()
