@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'mapViewer.apps.MapviewerConfig',
     'boiler.apps.BoilerConfig', 
-    'Filterer.apps.FiltererConfig',
     'Janitor.apps.JanitorConfig',
 ]
 

@@ -4,7 +4,6 @@ from django.urls import reverse
 from .models import *
 from django.http import HttpResponse
 from django.http import JsonResponse
-from Filterer.views import TextSearch, FilterSearch
 from account.models import Member
 from .forms import *
 from django.db.models import Q
@@ -12,36 +11,29 @@ import googlemaps
 from datetime import datetime
 from Janitor.forms import PostRepForm
 
-def save_widget(request):
-    if request.method == "POST":
-        MapWidget.objects.create(
-            title=request.POST.get('title'),
-            description=request.POST.get('description'),
-            latitude=request.POST.get('latitude'),
-            longitude=request.POST.get('longitude')
-        )
-        return JsonResponse({"status": "success"})
-    return JsonResponse({"status": "error"}, status=400)
 
 
 def viewMap(request):
-    posts = MapPost.objects.filter(isVisible=True) #begin by fetching visible posts from database
+    posts = MapPost.objects.filter(visibility=1) #begin by fetching visible posts from database
     madePostSuccess = False #assume the user did not just post
     if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
         postingForm= MakePostForm(request.POST) #create the posting form instance and populate it with the data in the POST request
         madePostSuccess = postingForm.is_valid() #if the data is valid (more info on this in mapViewer/forms.py)
         if madePostSuccess: #if the post is good to go
             userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\
-            if len(postingForm.cleaned_data['content']) > 25: #if content overflows the preview length
-                disc = postingForm.cleaned_data['content'][slice(0,25)] + "..." #create description to act as a preview
+            if len(postingForm.cleaned_data['content']) > 35: #if content overflows the preview length
+                disc = postingForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
             else:
                 disc = postingForm.cleaned_data['content'] #otherwise just use content to describe
+            vis=0
+            if request.session['rank'] > 1:
+                vis=1
             postInz=MapPost.objects.create(title=postingForm.cleaned_data['title'], #actually create the post instance in the database
                                    content=postingForm.cleaned_data['content'],
                                    author=userInz,
                                    description=disc,
                                    geoCode=postingForm.cleaned_data['geoResult'][0],
-                                   isVisible=request.session['rank']>1
+                                   visibility=vis
                                    )
             if postingForm.cleaned_data['tags']:
                 postInz.tags.set(postingForm.cleaned_data['tags']) #set the post's tags according to selected tags
@@ -62,18 +54,13 @@ def viewMap(request):
                                                       'searchForm' : searchForm,
                                                       'hasPosted': madePostSuccess}) #render template
 
-def search_widgets(request):
-    if (request.GET.get('searchBtn')):
-        searchText = request.GET.get('search-text')
-        return JsonResponse({"status":"success"})
-    return JsonResponse({"status": "error"}, status = 400)
 
 
 def post_list(request):
     contQuery = request.GET.get("q")
     tagQuery = request.GET.getlist("t")
     form = SearchPostsForm(request.GET)
-    posts = MapPost.objects.filter(isVisible=True)
+    posts = MapPost.objects.filter(visibility=1)
     if contQuery:
         posts = posts.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
     if tagQuery:
@@ -96,7 +83,7 @@ def post_detail(request, want):
                 reporter.save()
         else:
             reporter = PostRepForm(initial={'post':lookAt})
-        if lookAt.isVisible or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
+        if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
             return render(request, "mapViewer/viewPost.html", {"post" : lookAt,
                                                                "form" : reporter,
                                                                "hasReported" : hasReported})

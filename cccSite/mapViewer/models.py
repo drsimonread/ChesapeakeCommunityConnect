@@ -1,14 +1,6 @@
 from django.db import models
 from account.models import Member
 from django.urls import reverse
-from django.core import serializers
-
-class MapWidget(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    # Add other fields as needed
 
 
 
@@ -25,7 +17,12 @@ class MapPost(models.Model):
     description = models.TextField() #will be derived from content. whenever this stuff gets working.
     geoCode = models.JSONField()
     tags = models.ManyToManyField(MapTag, related_name="posts", blank=True)
-    isVisible = models.BooleanField(default=False)
+    visible_options = { 
+        (-1,"denied"),
+        (0, "pending"),
+        (1 , "visible"),
+    }
+    visibility = models.SmallIntegerField(default=0, choices=visible_options)
     def __str__(self):
         return self.title + " by " + str(self.author)
     @property
