@@ -18,94 +18,48 @@
 {% endblock head %}
 
 {% block content %}
-    <div class="containerM1">
-        <div class="wrapperM1">
-            <h1 class="headerM1">Chesapeake Community Connect</h1>
-        </div>
-    </div>
-
     <!-- Map Section -->
-    <div class="mapholder">
-        <div class="containterML">
-            <div>
-                <div id="map"></div>
-            </div>
-        </div>
-        <!-- Search Post Form -->
-        <div class="containerMR">
-            <form id="search-form">
-                <input type="text" placeholder="Type to search..." id="search-text">
-                <button type="submit" class="searchBtn" id="search-button">Search Post</button>
-            </form>
+    <div id="left">
+        <div id="map"></div>
+        <div class="containerDistance">
+            <br>
+            <h2 style="clear: both;">Calculate Distance</h2>
+            <label for="user-address"> Location to Visit:</label>
+            <input type="text" id="user-address" placeholder="Enter your address">
+            <button id="calculate-distance">Calculate Distance</button>
+            <!-- Display Distance and Time -->
+            <div id="distance-time"></div>
         </div>
     </div>
 
 
-
-    <!-- Add Marker Form -->
-    <div class="containerM4">
-        <button id="add-marker-button">Create a Post</button>
-        <div id="add-marker-form">
-            <form id="marker-form">
-                <div class="lefthalf">
-                    <input type="text" id="title" name="title" required placeholder="Title:"><br>
-
-                    <input type="text" id="address" name="address" required placeholder="Address:"><br>
-
-                    <input type="text" id="city" name="city" required placeholder="City:"><br>
-
-                    <input type="text" id="state" name="state" required placeholder="State:"><br>
-
-                    <input type="text" id="zip" name="zip" required placeholder="Zip Code:"><br>
-
-                </div>
-
-                <!-- Description box for Create a Post section-->
-                <div class="righthalf">
-                    <textarea id="description" name="description" rows="14" required
-                        placeholder="Description:"></textarea><br>
-                </div>
-                
-                <!-- Post button for Create a Post section-->
-                <div class="postDiv">
-                    <button class="postDivB" type="submit" id="post-button">Post</button>
-                </div>
-
-            </form>
-        </div>
-        </div>
-         <!-- Distance Calculation Form -->
-         <div class="containerDistance">
-              <h2>Calculate Distance</h2>
-                <label for="user-address"> Location to Visit:</label>
-                <input type="text" id="user-address" placeholder="Enter your address">
-                <button id="calculate-distance">Calculate Distance</button>
-        <!-- Display Distance and Time -->
-        <div id="distance-time"></div>
-    </div>
-    </div>
-    <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
-        {{searchForm.as_p}}
-        <input type="submit" value="Submit">
-    </form>
-    {%if hasPosted %}
+    <!--TODO This is out of date, needs to be moved. -->
+    <!-- <div id="create" class="tabcontent">
+        {%if hasPosted %}
         Congrats it posted.
-    {%elif rank > 0%}
-    <div class="body">
-        <form action="{% url 'mapViewer:default'%}"  method="post">
-            {% csrf_token %}
-            {{postForm.as_p}}
-            <input type="submit" value="Submit" id="input-submit">
+        {%elif rank > 0%}
+        <div class="body">
+            <form action="{% url 'mapViewer:default'%}"  method="post">
+                {% csrf_token %}
+                {{postForm.as_p}}
+                <input type="submit" value="Submit" id="input-submit">
+            </form>
+        </div>
+        {%else%}
+        You don't have permission.
+        {%endif%}
+    </div> -->
+
+
+    <div id="search">
+        <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
+            {{searchForm.q}}
+            <div id="scroll-box">
+                {{searchForm.t}}
+            </div>
+            <input type="submit" id="search-btn" class="button" value="Submit">
         </form>
+        <!-- Distance Calculation Form -->
     </div>
-    {%else%}
-    You don't have permission.
-    {%endif%}
-<!--
-<script type="text/javascript">
-    var widgets = JSON.parse('{{ widgets|escapejs }}');
-</script> -->
-
-
-
+    
 {% endblock content %}

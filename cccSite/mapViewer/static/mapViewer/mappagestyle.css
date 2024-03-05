@@ -1,62 +1,16 @@
-body {
-    /*! font-family: 'Baskerville'; Delete*/
-    background-color: #f3f3f3; /* Grey background */
-    width: 100%;
-
-
-}
-
-.containerM1 {
-    /*Div styling for head banner*/
-    margin: 0px 17px 0px auto;
-    padding-bottom: 20px;
-    width: 90%;
-    align-items: center;
-
-}
-
-.wrapperM1 {
-    padding: 10px;
-    width: 90%;
-    border-radius: 5px;
-}
-
-.headerM1 {
-    /*Styling for header*/
-    text-align: center;
-    align-items: center;
-    background-color: #f3c10d;
-    color: #00205c;
-    border-radius: 10px;
-}
-
-
-.mapholder {
-    /*Outer div for map and searh map divs*/
-    margin-left: 3%;
-    width:90%;
-    padding: 10px;
-    margin-bottom: 20px;
-    height: 350px;
-}
-
-.containerML {
-    /*Div for map*/
-    width: 50%;
-    margin-right: 0%;
-    margin-left: 9%;
-}
-
-.containerMR {
-    /*Div for Search Post section*/
-    border-radius: 10px;
-    height: 400px;
-    width:40%;
+#search {
+    width: 45%;
     float: right;
-    margin-right: 0%;
-    font-weight: bold;
-    margin-left: 5%;
+    margin: 2em;
     
+}
+
+#left {
+    width: 45%;
+    float: left;
+    margin: 2em;
+
+
 
 }
 
@@ -64,131 +18,47 @@ body {
     /*Map icon styling*/
     border-radius: 10px;
     height: 400px;
-    width: 50%;
-    margin-bottom: 10px;
-    float: left;
-    margin-left: 50 px;
 
 }
 
-.containerM4 {
-    /*Div for create post*/
-    margin-top: 5%;
-    width: 100%;
-}
-
-#add-marker-form {
-    background-color: #f3f3f3;
-    /* Grey background */
-    display: none;
-    box-shadow: none;
-    border: none;
-    width: 70%;
-}
-
-
-
-#search-text {
-    margin-top: auto;
-    margin-right: 20px;
-    width: 45%;
-}
-
-#search-button {
-    margin-top: auto;
-    width: 40%;
-}
-
-#search-button:hover {
-    background-color: orange;
-    /*! font-family: 'Baskerville'; */
-}
-
-#post-button {
-    /* margin-top: 1em; */
-    /* padding: 10px; */
-    /* padding: 5px; */
-    width: 70%;
-    height: 2em;
-
-}
-
-.searchBtn {
-    font-weight: bold;
-}
-
-/* .third {
+#scroll-box {
+    height: 200px;
+    width: 60%;
+    border:1px solid #ccc;
+    overflow: auto;
     margin-top: 1em;
     margin-bottom: 1em;
+}
+
+/* #id_t label {
+    color: red;
+    width: 100%;
+    background-color: blue;
+    text-align: center;
+}
+
+#id_t input {
+    display: none;
+    margin-right: 100px;
 } */
 
-/* .obj {
-    width: 100%;
-} */
 
-#left-half {
-    float: left;
-    width: 47%;
-}
-#right-half {
-    float: right;
-    width: 47%;
+input[type=text]{
+    /* text-align: center; */
 
-}
-
-#description {
-    width: 100%;
-    height: auto;
-}
-
-/*styling for input boxes*/
-form input, /** This needs to be moved to basestyle.css */
-form textarea {
-  border: 0;
+    border: 0;
   outline: 0;
   padding: 1em;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   border-radius: 8px;
   display: block;
-  width: 100%;
-  margin-bottom: 1em;
-  /*! font-family: 'Baskerville'; */
-  /*! font-weight: bold; */
-  /* -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
-  /* -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
+  width: 60%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   resize: none;
 }
-
-/*styling post button div*/
-.postDiv {
-    margin-top: 100px;
-    margin: auto;
-    width: 70%;
-    border-radius: 8px;
-
-}
-
-/*styling for hovering on all buttons*/
-
-
-/*styling for post div button*/
-.postDivB { /*! DELETE?*/
-    border-radius: 4px;
-    margin: auto;
-    border-style: none;
-    background-color: #f3c10d;
-    font-size: medium;
-    /*! font-family: 'Baskerville'; */
-
-}
-
-/*styling for hovering on post button*/
-.postDivB:hover {
-    /*! font-family: 'Baskerville'; */
-    padding: 5px;
-    cursor: pointer;
-    background-color: orange;
-
+#search-btn {
+    padding: 1em;
+    width: 60%; /* Take up half the screen width */
+    float: left;
 }
