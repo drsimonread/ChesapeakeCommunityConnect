@@ -8,8 +8,8 @@ from datetime import datetime
 
 
 class SearchPostsForm(forms.Form):
-    q = forms.CharField(max_length=100, required=False, label="Search")
-    t = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False, label="Tags")
+    q = forms.CharField(max_length=100, required=False, widget=forms.TextInput({"Placeholder": "Search..."}))
+    t = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
     class Meta:
         labels = {
                 'q': _('Search'),
