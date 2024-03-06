@@ -10,4 +10,4 @@ urlpatterns = [
     path("search/", views.post_list, name="post_list"),
     path("post/<int:want>", views.post_detail, name="post_detail"),
     # Add other URL patterns here
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

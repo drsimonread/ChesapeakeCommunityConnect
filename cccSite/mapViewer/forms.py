@@ -17,15 +17,22 @@ class SearchPostsForm(forms.Form):
                 't': _('Tags')
             }
 
-
+#function used for saving images
+def user_directory_profile(instance, filename): 
+    # file will be uploaded to MEDIA_ROOT / users / <pk> / profile.<ext>
+    ext = filename.split('.')[-1]
+    filename="UsrMedia."+ext
+    return 'users/{0}/{1}'.format(instance.pk, filename) 
 
 class MakePostForm(forms.Form):
-    title = forms.CharField(max_length=100, label="Title")
-    location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput)
-    content = forms.CharField(label="Content", widget=forms.Textarea)
-    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
-    geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
-    media_file = models.ImageField(upload_to='cccSite/media', blank=True, null=True)
+    class Meta:
+        fields = ['title', 'location', 'content', 'tags', 'geoResult', 'media_file']
+        title = forms.CharField(max_length=100, label="Title")
+        location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput)
+        content = forms.CharField(label="Content", widget=forms.Textarea)
+        tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
+        geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
+        media_file = models.ImageField(upload_to = user_directory_profile, blank=True, null=True)
 
 
     #to minimize API calls, we don't want to geocode a provided address more than once. 

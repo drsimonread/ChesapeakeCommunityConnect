@@ -12,6 +12,16 @@ from datetime import datetime
 from Janitor.forms import PostRepForm
 
 
+def make_post(request):
+    if request.method == 'POST':
+        form = MakePostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('mapViewer:default')  # Redirect
+    else:
+        form = MakePostForm()
+    
+    return render(request, 'your_template.html', {'form': form})
 
 def viewMap(request):
     posts = MapPost.objects.filter(visibility=1) #begin by fetching visible posts from database
@@ -69,7 +79,6 @@ def post_list(request):
     posts = posts.order_by("id")
     return render(request, "mapViewer/listPosts.html", {"postList" : posts,
                                                         "form" : form})
-
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
