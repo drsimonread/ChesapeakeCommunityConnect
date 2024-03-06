@@ -24,6 +24,8 @@ class MakePostForm(forms.Form):
     content = forms.CharField(label="Content", widget=forms.Textarea)
     tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
+    media_file = models.ImageField(upload_to='cccSite'/'media', required = False)  # Save files under media/uploads/
+
     #to minimize API calls, we don't want to geocode a provided address more than once. 
     #so if an address is correct, we want to use one geocode call to get the lat/long, but we can't just pass this to the model,
     #because if the provided address doesn't result in a valid geocode, we can't try to access said geocode. this stores a valid geocode
@@ -40,7 +42,9 @@ class MakePostForm(forms.Form):
                 'location': self.cleaned_data['location'],
                 'content': self.cleaned_data['content'],
                 'tags': self.cleaned_data['tags'],
-                'geoResult': geoResult} #return a dictionary of cleaned_data
+                'geoResult': geoResult,
+                'media_file': self.cleaned_data['media_file']}  # Include media file in cleaned data#return a dictionary of cleaned_data
+        
     def _clean_form(self): #when we check is_valid, this occurs
         try:
             cleaned_data = self.clean() #try to clean the data
