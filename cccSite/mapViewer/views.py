@@ -17,7 +17,7 @@ def make_post(request):
         form = MakePostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('mapViewer:default')  # Redirect to map page or any other page
+            return redirect('mapViewer:default')  # Redirect
     else:
         form = MakePostForm()
     
@@ -79,7 +79,6 @@ def post_list(request):
     posts = posts.order_by("id")
     return render(request, "mapViewer/listPosts.html", {"postList" : posts,
                                                         "form" : form})
-
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
