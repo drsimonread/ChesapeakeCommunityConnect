@@ -4,6 +4,7 @@ from .models import MapTag
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 import googlemaps
+from django.db import models
 from datetime import datetime
 
 
