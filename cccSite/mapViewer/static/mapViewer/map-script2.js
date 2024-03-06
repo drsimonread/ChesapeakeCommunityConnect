@@ -8,7 +8,7 @@ async function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
         zoom: 8,
-        mapId: 'DEMO_MAP_ID'
+        mapId: '946a9c10600de2ba'
     });
 
     directionsService = new google.maps.DirectionsService();
