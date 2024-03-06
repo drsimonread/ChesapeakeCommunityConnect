@@ -12,6 +12,16 @@ from datetime import datetime
 from Janitor.forms import PostRepForm
 
 
+def make_post(request):
+    if request.method == 'POST':
+        form = MakePostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('mapViewer:default')  # Redirect to map page or any other page
+    else:
+        form = MakePostForm()
+    
+    return render(request, 'your_template.html', {'form': form})
 
 def viewMap(request):
     posts = MapPost.objects.filter(visibility=1) #begin by fetching visible posts from database
