@@ -26,7 +26,6 @@ def user_directory_profile(instance, filename):
 
 class MakePostForm(forms.Form):
     class Meta:
-        model = Post
         fields = ['title', 'location', 'content', 'tags', 'geoResult', 'media_file']
         title = forms.CharField(max_length=100, label="Title")
         location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput)
