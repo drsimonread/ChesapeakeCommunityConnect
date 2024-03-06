@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('mapViewer', '0004_alter_maptag_name'),
+        ('mapViewer', '0001_0007_squash_migration'),
     ]
 
     operations = [
