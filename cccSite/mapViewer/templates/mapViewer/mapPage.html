@@ -21,34 +21,9 @@
     <!-- Map Section -->
     <div id="left">
         <div id="map"></div>
-        <div class="containerDistance">
-            <br>
-            <h2 style="clear: both;">Calculate Distance</h2>
-            <label for="user-address"> Location to Visit:</label>
-            <input type="text" id="user-address" placeholder="Enter your address">
-            <button id="calculate-distance">Calculate Distance</button>
-            <!-- Display Distance and Time -->
-            <div id="distance-time"></div>
-        </div>
     </div>
 
 
-    <!--TODO This is out of date, needs to be moved. -->
-    <!-- <div id="create" class="tabcontent">
-        {%if hasPosted %}
-        Congrats it posted.
-        {%elif rank > 0%}
-        <div class="body">
-            <form action="{% url 'mapViewer:default'%}"  method="post">
-                {% csrf_token %}
-                {{postForm.as_p}}
-                <input type="submit" value="Submit" id="input-submit">
-            </form>
-        </div>
-        {%else%}
-        You don't have permission.
-        {%endif%}
-    </div> -->
 
 
     <div id="search">
@@ -59,7 +34,6 @@
             </div>
             <input type="submit" id="search-btn" class="button" value="Submit">
         </form>
-        <!-- Distance Calculation Form -->
     </div>
     
 {% endblock content %}
