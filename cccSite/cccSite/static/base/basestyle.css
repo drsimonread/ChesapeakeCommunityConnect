@@ -103,7 +103,7 @@ footer img {
     display: block;
     transition: background-color 0.3s; /* Smooth background color transition on hover */
     /* margin: 0 auto; Centered on the screen */
-    /* text-align: center; Center the text */
+    text-align: center; /* Center the text */
 }
 
 .button:hover {
