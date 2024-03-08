@@ -18,8 +18,8 @@ body {
 
 /* Header styling */
 header {
-    background-color: #00205c; /* Dark blue background */
-    color: #f3c10d; /* Yellow text */
+    background-color: var(--blue); /* Dark blue background */
+    color: var(--gold); /* Yellow text */
     padding: 15px 0;
     text-align: center;
     position: static;
@@ -38,17 +38,23 @@ nav ul {
 
 }
 
+:root {
+    --gold: #f3c10d;
+    --hover-gold: #e67e22;
+    --blue: #00205c;
+}
+
 nav a {
     text-decoration: none;
-    color: #f3c10d; /* Yellow text */
+    color: var(--gold); /* Yellow text */
     padding: 10px 15px;
     border-radius: 5px;
     transition: color 0.3s, background-color 0.3s; /* Smooth color transition on hover */
 }
 
 nav a:hover {
-    background-color: #f3c10d; /* Yellow background on hover */
-    color: #00205c; /* Dark blue text on hover */
+    background-color: var(--gold); /* Yellow background on hover */
+    color: var(--blue); /* Dark blue text on hover */
 }
 /* Footer styling */
 footer {
@@ -88,13 +94,13 @@ footer img {
 }
 
 .nav-link:hover {
-    background-color: #f3c10d; /* Gold background on hover */
-    color: #00205c; /* Dark blue text on hover */
+    background-color: var(--gold); /* Gold background on hover */
+    color: var(--blue); /* Dark blue text on hover */
 }
 /* Centered and styled buttons */
 .button {
-    background-color: #f3c10d; /* Yellow background */
-    color: #00205c; /* Dark blue text */
+    background-color: var(--gold); /* Yellow background */
+    color: var(--blue); /* Dark blue text */
     cursor: pointer;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
@@ -107,7 +113,7 @@ footer img {
 }
 
 .button:hover {
-    background-color: #e67e22; /* Darker yellow on hover */
+    background-color: var(--hover-gold); /* Darker yellow on hover */
 }
 
 /* Create a Post and Contact Us buttons */
@@ -124,8 +130,8 @@ footer img {
     padding-left: 20px;
 }
 #search-button {
-    background-color: #f3c10d; /* Yellow background */
-    color: #00205c; /* Dark blue text */
+    background-color: var(--gold); /* Yellow background */
+    color: var(--blue); /* Dark blue text */
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -138,9 +144,9 @@ footer img {
 }
 
 #search-text {
-    background-color: #f3c10d;
-    color: #00205c;
-    border: #00205c; 
+    background-color: var(--gold);
+    color: var(--blue);
+    border: var(--blue); 
     border-radius: 5px;
     padding: 10px 20px;
     width: 20%;
@@ -148,14 +154,14 @@ footer img {
 }
 
 #add-marker-button:hover, #show-contact-form-button:hover {
-    background-color: #e67e22; /* Darker yellow on hover */
+    background-color: var(--hover-gold); /* Darker yellow on hover */
 }
 
 
 /* Individual header titles */
 #content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1, #help-tab {
-    background-color: #f3c10d; /* Yellow background */
-    color: #00205c; /* Dark blue text */
+    background-color: var(--gold); /* Yellow background */
+    color: var(--blue); /* Dark blue text */
     padding: 10px;
     text-align: center; /* Center the text */
     border-radius: 5px 5px 0 0;
@@ -165,14 +171,14 @@ footer img {
 
 /* Prevent hover color change on directory tabs */
 #content h1:hover, #about-tab h1:hover, #contact-tab h1:hover, #map-tab h1:hover, #add-marker-form h1:hover, #signin-tab h1:hover, #help-tab {
-    background-color: #f3c10d; /* Yellow background on hover (no color change) */
-    color: #00205c; /* Dark blue text (no color change) */
+    background-color: var(--gold); /* Yellow background on hover (no color change) */
+    color: var(--blue); /* Dark blue text (no color change) */
 }
 
 
 /* Directory buttons hover effect */
 nav ul li a:hover {
-    color: #e67e22; /* Darker yellow on hover for directory buttons */
+    color: var(--hover-gold); /* Darker yellow on hover for directory buttons */
 }
 
 /* Center the content in the middle of the screen */
@@ -214,13 +220,13 @@ nav ul li a:hover {
 
 
 #post-form button:hover {
-    background-color: #e67e22;
+    background-color: var(--hover-gold);
 } */
 
 /* Individual header titles */
 #content h1, #about-tab h1, #contact-tab h1, #map-tab h1, #add-marker-form h1, #signin-tab h1, #help-tab h1{
-    background-color: #f3c10d; /* Yellow background */
-    color: #00205c; /* Dark blue text */
+    background-color: var(--gold); /* Yellow background */
+    color: var(--blue); /* Dark blue text */
     padding: 10px;
     text-align: center; /* Center the text */
     border-radius: 5px 5px 0 0;
