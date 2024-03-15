@@ -27,7 +27,17 @@
         <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
             {{searchForm.q}}
             <div id="scroll-box">
-                {{searchForm.t}}
+                <div id="id_t">
+                    {% for mTag in searchForm.t %}
+                        <div>
+                            <label for="{{ mTag.id_for_label }}">
+                                {% comment %} <input type="checkbox" name="" value="{{ mTag.tag }}" id="{{ mTag.id_for_label }}"> {% endcomment %}
+                                {{ mTag.tag }}
+                                <span>{{ mTag.choice_label }}</span>
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
             <input type="submit" id="search-btn" class="button" value="Submit">
         </form>
