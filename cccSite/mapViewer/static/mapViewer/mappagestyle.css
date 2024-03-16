@@ -1,17 +1,14 @@
 #search {
     width: 45%;
     float: right;
-    margin: 2em;
-    
+    /* margin: 2em; */
+    /* height: 400px; */
 }
 
 #left {
     width: 45%;
     float: left;
-    margin: 2em;
-
-
-
+    /* margin: 2em; */
 }
 
 #map {
@@ -22,7 +19,7 @@
 }
 
 #scroll-box {
-    height: 200px;
+    height: 280px;
     width: 100%;
     overflow: auto;
     margin-top: 1em;
@@ -76,27 +73,23 @@
 #search form {
     float: left;
     width: 60%;
-    height: 350px;
 }
-
-
-input[type=text]{
-    /* text-align: center; */
-
+input[type=text] {
     border: 0;
-  outline: 0;
-  padding: 1em;
-
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
-  display: block;
-  width: 100%;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  resize: none;
+    outline: 0;
+    padding: 1em;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    display: block;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    resize: none;
+    box-sizing: border-box; /* Add this line */
 }
+
 #search-btn {
     padding: 1em;
-    width: 100%; /* Take up half the screen width */
+    width: 100%;
     float: left;
 }

@@ -25,13 +25,12 @@
 
     <div id="search">
         <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
-            {{searchForm.q}}
+            {{ searchForm.q }}
             <div id="scroll-box">
                 <div id="id_t">
                     {% for mTag in searchForm.t %}
                         <div>
                             <label for="{{ mTag.id_for_label }}">
-                                {% comment %} <input type="checkbox" name="" value="{{ mTag.tag }}" id="{{ mTag.id_for_label }}"> {% endcomment %}
                                 {{ mTag.tag }}
                                 <span>{{ mTag.choice_label }}</span>
                             </label>
