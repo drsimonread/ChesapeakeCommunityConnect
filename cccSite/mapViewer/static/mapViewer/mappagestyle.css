@@ -1,14 +1,16 @@
 #search {
     width: 45%;
     float: right;
-    /* margin: 2em; */
+    margin-top: 2em;
+    /* margin-right: 2em; */
     /* height: 400px; */
 }
 
 #left {
     width: 45%;
     float: left;
-    /* margin: 2em; */
+    margin-top: 2em;
+    margin-left: 2em;
 }
 
 #map {
@@ -28,8 +30,8 @@
 
 #id_t {
     width: 100%;
-  overflow: hidden;
-  float: left;
+    overflow: hidden;
+    float: left;
 }
 
 #id_t label {
@@ -40,8 +42,8 @@
 
 #id_t label span {
     text-align: center;
-  padding: 3px 0;
-  display: block;
+    padding: 3px 0;
+    display: block;
 }
 
 #id_t label input {
@@ -73,6 +75,7 @@
 #search form {
     float: left;
     width: 60%;
+    min-width: auto;
 }
 input[type=text] {
     border: 0;

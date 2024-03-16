@@ -38,6 +38,7 @@ nav ul {
 
 }
 
+/* Assigns the three main colors as variables that can be accessed anywhere on the website via var(--name).*/
 :root {
     --gold: #f3c10d;
     --hover-gold: #e67e22;
