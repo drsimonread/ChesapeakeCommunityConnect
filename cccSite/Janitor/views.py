@@ -19,7 +19,7 @@ def memberList(request):
     members = Member.objects.exclude(pk=request.session.get('user',-1))
     memberStats = []
     for user in members:
-        visibleposts = MapPost.objects.filter(author=user, isVisible=True).count()
+        visibleposts = MapPost.objects.filter(author=user, visibility__gt=0).count()
         reports = PostReport.objects.filter(post__author=user).count()+UserReport.objects.filter(account=user).count()
         memberStats.append({'user' : user, 'goodposts': visibleposts, 'reports':reports})
     

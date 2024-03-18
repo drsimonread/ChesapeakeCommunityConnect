@@ -10,4 +10,5 @@ urlpatterns = [
     path("manage/", views.manage, name='manage'),
     path("view/", views.account_all, name='all_account'),
     path("view/<want>", views.account_view, name='account_view'),
+    path("create/", views.make_post, name="create_post"),
 ]

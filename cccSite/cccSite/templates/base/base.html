@@ -13,11 +13,11 @@
         <nav>
             <ul> 
                 <li><img src= "{%static 'base/assets/smcm-seal.png' %}" alt="SMCM Logo" id="smcm-logo"></li>
-                <li><a class="nav-link" href="{% url 'mapViewer:default'%}" {%if '/about/' not in request.path and '/contact/' not in request.path and '/help/' not in request.path and '/account/' not in request.path and '/admin/' not in request.path%}style="background-color: #f3c10d; color: #00205c;"{%endif%}>Map</a></li>
+                <li><a class="nav-link" href="{% url 'mapViewer:default'%}" {%if '/about/' not in request.path and '/contact/' not in request.path and '/help/' not in request.path and '/contribute/' not in request.path and '/admin/' not in request.path%}style="background-color: #f3c10d; color: #00205c;"{%endif%}>Map</a></li>
                 <li><a class="nav-link" href="{% url 'boiler:about'%}" {%if '/about/' in request.path%} style="background-color: #f3c10d; color: #00205c;"{%endif%}>About Us</a><!--<link rel="stylesheet" type="text/css" href="{% static 'base/aboutstyle.css' %}"></li> -->
                 {% comment %} <li><a class="nav-link" href="{% url 'boiler:contact'%}" {%if '/contact/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contact</a></li> {% endcomment %}
                 <li><a class="nav-link" href="{% url 'boiler:help'%}" {%if '/help/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Help/FAQs</a></li>
-                <li><a class="nav-link" href="{%url 'account:default'%}" {%if '/account/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contributors</a></li>
+                <li><a class="nav-link" href="{%url 'account:default'%}" {%if '/contribute/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contributors</a></li>
                 {%if rank > 1 %}<li><a class="nav-link" href="{%url 'Janitor:default'%}" {%if '/admin/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Admin</a></li> {%endif%}
             </ul>
         </nav> 

@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse
+from mapViewer.forms import MakePostForm
+from mapViewer.models import MapPost, PostFile, MapTag
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from PIL import Image
@@ -13,7 +15,7 @@ def signin(request):
     if request.session.get('rank', 0)==0:
         return render(request, 'account/signin.html')
     else:
-        return redirect("/account/")
+        return redirect(reverse("account:default"))
 
 # if a user tries to sign out by URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to confirmation
 def signout(request):
@@ -60,7 +62,7 @@ def manage(request):
         if form.is_valid():
             form.save()
             request.session['name']=userInz.name
-            return redirect("/account/")
+            return redirect(reverse("account:default"))
     else:
         userInz=Member.objects.get(pk=request.session['user'])
         form = ManageForm(instance=userInz)
@@ -70,7 +72,7 @@ def manage(request):
 @csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
 def authG(request):
     if request.method == "GET":
-       return redirect("/account/")
+       return redirect(reverse("account:default"))
     elif request.method == "POST":
 
         csrf_tok_cookie = request.COOKIES.get('g_csrf_token')
@@ -104,4 +106,37 @@ def authG(request):
         except ValueError:
             return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
             pass
-        return redirect("/account/")
+        return redirect(reverse("account:default"))
+    
+
+
+def make_post(request):
+    if(request.session.get('rank',0) == 0):
+        return redirect(reverse("account:signin"))
+    if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
+        form= MakePostForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
+        if form.is_valid(): #if the post is good to go
+            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\
+            if len(form.cleaned_data['content']) > 35: #if content overflows the preview length
+                disc = form.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
+            else:
+                disc = form.cleaned_data['content'] #otherwise just use content to describe
+            vis=0
+            if request.session['rank'] > 1:
+                vis=1
+            postInz=MapPost.objects.create(title=form.cleaned_data['title'], #actually create the post instance in the database
+                                   content=form.cleaned_data['content'],
+                                   author=userInz,
+                                   description=disc,
+                                   geoCode=form.cleaned_data['geoResult'][0],
+                                   visibility=vis
+                                   )
+            if form.cleaned_data['tags']:
+                postInz.tags.set(form.cleaned_data['tags']) #set the post's tags according to selected tags
+            if form.cleaned_data['files']:
+                for f in form.cleaned_data['files']:
+                    fileInz = PostFile.objects.create(post=postInz, file=f)
+    else:
+        form = MakePostForm()
+    
+    return render(request, 'account/create_post.html', {'form': form})

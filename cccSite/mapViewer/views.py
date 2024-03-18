@@ -13,37 +13,6 @@ from datetime import datetime
 from Janitor.forms import PostRepForm
 
 
-def make_post(request):
-    if(request.session.get('rank',0) == 0):
-        return redirect(reverse("account:signin"))
-    if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
-        form= MakePostForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
-        if form.is_valid(): #if the post is good to go
-            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\
-            if len(form.cleaned_data['content']) > 35: #if content overflows the preview length
-                disc = form.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
-            else:
-                disc = form.cleaned_data['content'] #otherwise just use content to describe
-            vis=0
-            if request.session['rank'] > 1:
-                vis=1
-            postInz=MapPost.objects.create(title=form.cleaned_data['title'], #actually create the post instance in the database
-                                   content=form.cleaned_data['content'],
-                                   author=userInz,
-                                   description=disc,
-                                   geoCode=form.cleaned_data['geoResult'][0],
-                                   visibility=vis
-                                   )
-            if form.cleaned_data['tags']:
-                postInz.tags.set(form.cleaned_data['tags']) #set the post's tags according to selected tags
-            if form.cleaned_data['files']:
-                for f in form.cleaned_data['files']:
-                    fileInz = PostFile.objects.create(post=postInz, file=f)
-    else:
-        form = MakePostForm()
-    
-    return render(request, 'mapViewer/create_post.html', {'form': form})
-
 def viewMap(request):
     posts = MapPost.objects.filter(visibility=1) #begin by fetching visible posts from database
     contQuery = request.GET.get("q") #get content and tag query from url
