@@ -7,17 +7,17 @@
 {%endblock head%}
 {% block content %}
 <div class="body">  
-    <ul style="position:fixed;width: 15%;">
-        <li><a class="button" href="">Search Contributors</a></li>
+    <ul style="position:fixed;width: 15%; text-align: center;">
+        <li><a class="button" href="" style="text-decoration: none;">Search Contributors</a></li>
         {%if rank > 0%}
-        <li><a class="button" href="{%url 'account:default' %}">My Account</a></li>
-        <li><a class="button" href="{%url 'account:manage' %}">Edit Account</a></li>
-        <li><a class="button" href="">Pending Posts</a></li>
+        <li><a class="button" href="{%url 'account:default' %}" {%if '/account/' in request.path and '/manage/' not in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;" >My Account</a></li>
+        <li><a class="button" href="{%url 'account:manage' %}" {%if '/manage/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Edit Account</a></li>
+        <li><a class="button" href="" style="text-decoration: none;">Pending Posts</a></li>
         <li><form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
             <input type="submit" value="Sign Out">
         </form></li>
         {%else%}
-        <li><a class="button" href="{% url 'account:signin' %}">Sign In</a></li>
+        <li><a class="button" href="{% url 'account:signin' %}" style="text-decoration: none;">Sign In</a></li>
         {%endif%}
     </ul>
 
