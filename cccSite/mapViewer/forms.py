@@ -4,6 +4,7 @@ from .models import MapTag
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 import googlemaps
+from multiupload.fields import MultiMediaField
 from django.db import models
 from datetime import datetime
 
@@ -17,23 +18,20 @@ class SearchPostsForm(forms.Form):
                 't': _('Tags')
             }
 
-#function used for saving images
-def user_directory_profile(instance, filename): 
-    # file will be uploaded to MEDIA_ROOT / users / <pk> / profile.<ext>
-    ext = filename.split('.')[-1]
-    filename="UsrMedia."+ext
-    return 'users/{0}/{1}'.format(instance.pk, filename) 
+
+
+
 
 class MakePostForm(forms.Form):
-    class Meta:
-        fields = ['title', 'location', 'content', 'tags', 'geoResult', 'media_file']
-        title = forms.CharField(max_length=100, label="Title")
-        location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput)
-        content = forms.CharField(label="Content", widget=forms.Textarea)
-        tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
-        geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
-        media_file = models.ImageField(upload_to = user_directory_profile, blank=True, null=True)
-
+    title = forms.CharField(max_length=100, label="Title")
+    location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput)
+    content = forms.CharField(label="Content", widget=forms.Textarea)
+    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
+    geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
+    files = MultiMediaField(
+        min_num=0,
+        max_num=4,
+        max_file_size=1024*1024*5)
 
     #to minimize API calls, we don't want to geocode a provided address more than once. 
     #so if an address is correct, we want to use one geocode call to get the lat/long, but we can't just pass this to the model,
@@ -52,7 +50,7 @@ class MakePostForm(forms.Form):
                 'content': self.cleaned_data['content'],
                 'tags': self.cleaned_data['tags'],
                 'geoResult': geoResult,
-                'media_file': self.cleaned_data['media_file']}  # Include media file in cleaned data#return a dictionary of cleaned_data
+                'files': self.cleaned_data['files']}  # Include media file in cleaned data#return a dictionary of cleaned_data
         
     def _clean_form(self): #when we check is_valid, this occurs
         try:

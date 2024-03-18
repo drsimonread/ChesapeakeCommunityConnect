@@ -1,0 +1,17 @@
+{%extends "account/accountBase.html"%}
+
+{% block accountFunc %}
+
+<!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
+<div id="content">
+    <div class="container">
+        <form action="{% url 'mapViewer:post_create'%}" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            {{form.as_p}}
+    
+            <input class="submitB" type="submit" value="Submit">
+        </form>
+    </div>
+  
+</div>
+{% endblock accountFunc %}

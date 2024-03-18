@@ -40,7 +40,7 @@ def member_manage(request, want):
                                                           })
 
 def pendingPostList(request):
-    pending_posts= MapPost.objects.filter(isVisible=False)
+    pending_posts= MapPost.objects.filter(visibility=0)
     return HttpResponse("hey")
 
 def tagList(request):

@@ -31,7 +31,6 @@ async function initMap() {
             content: `
                 <h3>${title}</h3>
                 <p>${description}</p>
-                <img src="${item.fields.media_file.url}" alt="Media" /> <!-- Assuming the media file is an image -->
                 <a href="${postURL}">See More</a>
             `
         });

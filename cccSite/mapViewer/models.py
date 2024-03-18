@@ -1,7 +1,7 @@
 from django.db import models
 from account.models import Member
 from django.urls import reverse
-
+from uuid import uuid4
 
 
 class MapTag(models.Model):
@@ -31,3 +31,13 @@ class MapPost(models.Model):
     
     #https://forum.djangoproject.com/t/url-template-tag-get-absolute-url-and-views/21249
     #https://levelup.gitconnected.com/django-quick-tips-get-absolute-url-1c22321f806b
+
+def post_file_directory(instance, filename): 
+    # file will be uploaded to MEDIA_ROOT / posts / <post.pk> / <pk>.<ext>
+    ext = filename.split('.')[-1]
+    filename="{0}.".format(uuid4().hex)+ext
+    return 'posts/{0}/{1}'.format(instance.post.pk, filename) 
+
+class PostFile(models.Model):
+    post = models.ForeignKey(MapPost, on_delete=models.CASCADE)
+    file = models.FileField(upload_to=post_file_directory)
