@@ -19,6 +19,8 @@ class SearchPostsForm(forms.Form):
             }
 
 
+class MediaForm(forms.Form):
+    file = MultiMediaField(min_num=0, max_num=1, max_file_size=1024*1024*5)
 
 
 
@@ -50,7 +52,8 @@ class MakePostForm(forms.Form):
                 'content': self.cleaned_data['content'],
                 'tags': self.cleaned_data['tags'],
                 'geoResult': geoResult,
-                'files': self.cleaned_data['files']}  # Include media file in cleaned data#return a dictionary of cleaned_data
+                'files': self.cleaned_data['files'],
+                }  # Include media file in cleaned data#return a dictionary of cleaned_data
         
     def _clean_form(self): #when we check is_valid, this occurs
         try:

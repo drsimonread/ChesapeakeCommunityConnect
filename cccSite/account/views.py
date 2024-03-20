@@ -1,10 +1,11 @@
 from google.oauth2 import id_token
 from google.auth.transport import requests
+from django.forms import formset_factory
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from mapViewer.forms import MakePostForm
+from mapViewer.forms import MakePostForm, MediaForm
 from mapViewer.models import MapPost, PostFile, MapTag
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
@@ -121,29 +122,30 @@ def make_post(request):
     if(request.session.get('rank',0) == 0):
         return redirect(reverse("account:signin"))
     if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
-        form= MakePostForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
-        if form.is_valid(): #if the post is good to go
+        contentForm= MakePostForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
+        if contentForm.is_valid(): #if the post is good to go
             userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\
-            if len(form.cleaned_data['content']) > 35: #if content overflows the preview length
-                disc = form.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
+            if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
+                disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
             else:
-                disc = form.cleaned_data['content'] #otherwise just use content to describe
+                disc = contentForm.cleaned_data['content'] #otherwise just use content to describe
             vis=0
             if request.session['rank'] > 1:
                 vis=1
-            postInz=MapPost.objects.create(title=form.cleaned_data['title'], #actually create the post instance in the database
-                                   content=form.cleaned_data['content'],
+            postInz=MapPost.objects.create(title=contentForm.cleaned_data['title'], #actually create the post instance in the database
+                                   content=contentForm.cleaned_data['content'],
                                    author=userInz,
                                    description=disc,
-                                   geoCode=form.cleaned_data['geoResult'][0],
+                                   geoCode=contentForm.cleaned_data['geoResult'][0],
                                    visibility=vis
                                    )
-            if form.cleaned_data['tags']:
-                postInz.tags.set(form.cleaned_data['tags']) #set the post's tags according to selected tags
-            if form.cleaned_data['files']:
-                for f in form.cleaned_data['files']:
+            if contentForm.cleaned_data['tags']:
+                postInz.tags.set(contentForm.cleaned_data['tags']) #set the post's tags according to selected tags
+            
+            if contentForm.cleaned_data['files']:
+                for f in contentForm.cleaned_data['files']:
                     fileInz = PostFile.objects.create(post=postInz, file=f)
+            
     else:
-        form = MakePostForm()
-    
-    return render(request, 'account/create_post.html', {'form': form})
+        contentForm = MakePostForm()
+    return render(request, 'account/create_post.html', {'form': contentForm,})
