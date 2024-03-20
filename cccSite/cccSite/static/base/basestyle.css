@@ -11,9 +11,10 @@ body, h1, h2, p, ul, li {
 
 /* Overall styling */
 body {
-    background-color: #f3f3f3; /* Grey background */
+    background-color: var(--background); /* Grey background */
     color: #000; /* Black text color for body */
     line-height: 1.6;
+    overflow: auto;
 }
 
 /* Header styling */
@@ -43,7 +44,38 @@ nav ul {
     --gold: #f3c10d;
     --hover-gold: #e67e22;
     --blue: #00205c;
+    --background: #f3f3f3;
 }
+
+/* ::-webkit-scrollbar-track
+{
+	border-radius: 10px;
+	background: rgba(0,0,0,0);
+
+}
+
+::-webkit-scrollbar-corner
+{
+    background: transparent;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: var(--gold);
+    transition: background-color 0.3s;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-gold);
+} */
 
 nav a {
     text-decoration: none;
@@ -65,7 +97,7 @@ footer {
     align-items: center;
     height: auto; /* Changed to auto to accommodate image size */
     padding: 10px 0; /* Add padding for spacing */
-    background-color: #f3f3f3; /* Grey background for the footer */
+    background-color: var(--background); /* Grey background for the footer */
     color: #000; /* Black text for footer content */
 }
 

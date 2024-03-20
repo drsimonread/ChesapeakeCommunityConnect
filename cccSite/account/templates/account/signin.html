@@ -3,7 +3,7 @@
 {% load static %}
 
 <script src="https://accounts.google.com/gsi/client" async></script>
-<link rel="stylesheet" type="text/css" href="{% static 'base/signinStyling.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'account/signinstyle.css' %}">
 <title>Chesapeake Community Connect - Sign In</title>
 {%endblock accHead%}
 {% block accountFunc %}
@@ -22,8 +22,17 @@
                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
                     data-text="signin" data-size="large" data-logo_alignment="left">
                </div>
-               <div class = "button" id = "create-an-account"  onclick="showAccountCreation()" style="display: block;">Create an Account</div>
-               
+               <div class = "button" id="account-button"  onclick="showAccountCreation()" style="display: block;">Create an Account</div>
+
+               <form action="{% url 'account:signin' %}" id = "account-form" method="post" style="display:none">
+                    {% csrf_token %}
+                    {% comment %} {{ createForm.as_p }} {% endcomment %}
+                    {{ createForm.email }}
+                    {{ createForm.username }}
+                    {{ createForm.password }}
+                    {{ createForm.confirm_password }}
+                    <input type="submit" value="Submit" class="button">
+               </form>
           </div>
      </div>
 
@@ -49,10 +58,10 @@
 
 <script>
      function showAccountCreation() {
-         const contactForm = document.getElementById("contact-form");
+         const contactForm = document.getElementById("account-form");
          contactForm.style.display = "block";
-         const contactButton = document.getElementById("show-create-an-account-button");
-         contactButton.style.display = "none";
+         {% comment %} const contactButton = document.getElementById("account-button");
+         contactButton.style.display = "none"; {% endcomment %}
      }
 </script>
 {% endblock accountFunc %}

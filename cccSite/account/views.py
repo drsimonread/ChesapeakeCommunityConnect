@@ -8,12 +8,19 @@ from mapViewer.forms import MakePostForm
 from mapViewer.models import MapPost, PostFile, MapTag
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from .forms import CreateAccountForm
+# from .forms import NameForm
 from PIL import Image
 
 # if user not signed in, sends them to log in 
 def signin(request):
     if request.session.get('rank', 0)==0:
-        return render(request, 'account/signin.html')
+        
+        if request.method == "POST":
+            createForm = CreateAccountForm(request.POST)
+        else:
+            createForm = CreateAccountForm()
+        return render(request, 'account/signin.html', {'createForm' : createForm})
     else:
         return redirect(reverse("account:default"))
 
