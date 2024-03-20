@@ -1,5 +1,7 @@
 from django.db import models
+from django.forms import ModelForm
 from account.models import Member
+from multiupload.fields import MultiMediaField
 from django.urls import reverse
 from uuid import uuid4
 
@@ -38,6 +40,25 @@ def post_file_directory(instance, filename):
     filename="{0}.".format(uuid4().hex)+ext
     return 'posts/{0}/{1}'.format(instance.post.pk, filename) 
 
+
+
+
 class PostFile(models.Model):
     post = models.ForeignKey(MapPost, on_delete=models.CASCADE)
+    format_options = { 
+        (0, "image"),
+        (1, "video"),
+        (2 , "audio"),
+    }
+    format = models.SmallIntegerField(default=0, choices=format_options)
     file = models.FileField(upload_to=post_file_directory)
+    def get_format(self):
+        extension = self.file.url.split('.')[-1]
+        match extension:
+            case "jpg":
+                return 0
+            case "mp4":
+                return 1
+            case "mp3":
+                return 2
+            

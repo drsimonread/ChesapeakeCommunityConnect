@@ -49,6 +49,7 @@ def post_detail(request, want):
     hasReported=False
     if MapPost.objects.filter(pk=want).exists():
         lookAt= MapPost.objects.get(pk=want)
+        files = PostFile.objects.filter(post=lookAt)
         if request.method == 'POST':
             reporter = PostRepForm(request.POST)
             hasReported = reporter.is_valid()
@@ -59,5 +60,6 @@ def post_detail(request, want):
         if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
             return render(request, "mapViewer/viewPost.html", {"post" : lookAt,
                                                                "form" : reporter,
-                                                               "hasReported" : hasReported})
+                                                               "hasReported" : hasReported,
+                                                               "files" : files})
     return redirect(reverse("mapViewer:default"))

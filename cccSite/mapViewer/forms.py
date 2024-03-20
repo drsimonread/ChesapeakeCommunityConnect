@@ -19,10 +19,6 @@ class SearchPostsForm(forms.Form):
             }
 
 
-class MediaForm(forms.Form):
-    file = MultiMediaField(min_num=0, max_num=1, max_file_size=1024*1024*5)
-
-
 
 class MakePostForm(forms.Form):
     title = forms.CharField(max_length=100, label="Title")
@@ -30,10 +26,7 @@ class MakePostForm(forms.Form):
     content = forms.CharField(label="Content", widget=forms.Textarea)
     tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
-    files = MultiMediaField(
-        min_num=0,
-        max_num=4,
-        max_file_size=1024*1024*5)
+    files = MultiMediaField(min_num=0, max_num=4, max_file_size=1024*1024*5)
 
     #to minimize API calls, we don't want to geocode a provided address more than once. 
     #so if an address is correct, we want to use one geocode call to get the lat/long, but we can't just pass this to the model,

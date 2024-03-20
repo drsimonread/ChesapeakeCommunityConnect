@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from mapViewer.forms import MakePostForm, MediaForm
+from mapViewer.forms import MakePostForm
 from mapViewer.models import MapPost, PostFile, MapTag
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
@@ -145,6 +145,8 @@ def make_post(request):
             if contentForm.cleaned_data['files']:
                 for f in contentForm.cleaned_data['files']:
                     fileInz = PostFile.objects.create(post=postInz, file=f)
+                    fileInz.format = fileInz.get_format()
+                    fileInz.save()
             
     else:
         contentForm = MakePostForm()

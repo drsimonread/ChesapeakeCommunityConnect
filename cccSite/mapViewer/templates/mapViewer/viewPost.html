@@ -23,6 +23,16 @@
     <br>
     By {{post.author}}
     <br>
+    {%for item in files%}
+    {%if item.format == 0 %}
+    <img src="{{item.file.url}}">
+    <br>
+    {%elif item.format == 1%}
+    <video src="{{item.file.url}}">
+    {%elif item.format == 2%}
+    <audio src="{{item.file.url}}">
+    {%endif%}
+    {%endfor%}
     {{post.content}}
     <br>
     Tags:
