@@ -21,23 +21,24 @@ class SearchPostsForm(forms.Form):
 
 
 
-
+#post creation form
 class MakePostForm(forms.Form):
-    def get_upload_attrs():
-        val = ''
-        for item in settings.VALID_UPLOAD_TYPES:
-            val = '{0},{1}'.format(val, item)
+    def get_upload_attrs():#function that converts the list of accepted file types to a string for use in restricting what is selectable in the upload interface
+        val = '' #start blank
+        for item in settings.VALID_UPLOAD_TYPES: #for valid file type
+            val = '{0},{1}'.format(val, item) #add to string
         return val
-    def validate_file(value):
+    def validate_file(value): #validator that verifies that uploaded file is of an accepted type. if not, raise validation error
         if magic.from_buffer(value.read(), mime=True) not in settings.VALID_UPLOAD_TYPES:
                 raise ValidationError(_("Bad file"), code="filerr")
 
 
-    title = forms.CharField(max_length=100, label="Title")
-    location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput)
-    content = forms.CharField(label="Content", widget=forms.Textarea)
-    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
-    geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
+    title = forms.CharField(max_length=100, label="Title") #title of post
+    location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput) #location of post as an address
+    content = forms.CharField(label="Content", widget=forms.Textarea) #content of the post
+    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of post
+    geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
+    #the file upload fields. validated using the custom validator above, if left empty or if a bad file is submitted, these fields have nothing in them
     file1 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
     file2 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
     file3 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
@@ -65,7 +66,9 @@ class MakePostForm(forms.Form):
                 'tags': cleaned_data['tags'],
                 'geoResult': geoResult,
                 'files': [cleaned_data.get('file1'),cleaned_data.get('file2'),cleaned_data.get('file3'),cleaned_data.get('file4')],
-                }  # Include media file in cleaned data#return a dictionary of cleaned_data
+                }  # if a file is legit, the .get returns the file. if not (or if it doesn't exist), 
+                # the .get returns None, and so we can iterate through cleaned_data['files'] in a view, and check if an entry isn't None to 
+                # see if we have a file to save or not
         
     def _clean_form(self): #when we check is_valid, this occurs
         try:
@@ -75,7 +78,7 @@ class MakePostForm(forms.Form):
                 case "adderr":
                     self.add_error('location', e) #if we get the error of invalid address, attach it to the location field
                 case "filerr":
-                    self.add_error('file1', e)
+                    self.add_error('file1', e) #if we get a file error, attach it to the first file field.
             
         else:
             if cleaned_data is not None:
