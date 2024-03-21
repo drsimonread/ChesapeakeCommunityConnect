@@ -4,6 +4,7 @@ from account.models import Member
 from multiupload.fields import MultiMediaField
 from django.urls import reverse
 from uuid import uuid4
+import magic
 
 
 class MapTag(models.Model):
@@ -53,12 +54,12 @@ class PostFile(models.Model):
     format = models.SmallIntegerField(default=0, choices=format_options)
     file = models.FileField(upload_to=post_file_directory)
     def get_format(self):
-        extension = self.file.url.split('.')[-1]
-        match extension:
-            case "jpg":
+        filetype = magic.from_buffer(self.file.read(), mime=True).split('/')[0]
+        match filetype:
+            case "image":
                 return 0
-            case "mp4":
+            case "video":
                 return 1
-            case "mp3":
+            case "audio":
                 return 2
             
