@@ -4,7 +4,6 @@ certifi==2023.7.22
 charset-normalizer==3.3.0
 Django==4.2.6
 django-address==0.2.8
-django-multiupload==0.6.1
 google-auth==2.23.3
 googlemaps==4.10.0
 idna==3.4 

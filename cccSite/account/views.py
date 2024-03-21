@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from mapViewer.forms import MakePostForm, MakePostForm2
+from mapViewer.forms import MakePostForm
 from mapViewer.models import MapPost, PostFile, MapTag
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
@@ -122,7 +122,7 @@ def make_post(request):
     if(request.session.get('rank',0) == 0):
         return redirect(reverse("account:signin"))
     if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
-        contentForm= MakePostForm2(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
+        contentForm= MakePostForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
         if contentForm.is_valid(): #if the post is good to go
             userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\
             if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
@@ -144,11 +144,12 @@ def make_post(request):
             
             if contentForm.cleaned_data['files']:
                 for item in contentForm.cleaned_data['files']:
-                    fileInz = PostFile.objects.create(post=postInz, file=item)
-                    fileInz.format = fileInz.get_format()
-                    fileInz.save()
+                    if item != None:
+                        fileInz = PostFile.objects.create(post=postInz, file=item)
+                        fileInz.format = fileInz.get_format()
+                        fileInz.save()
             return redirect(reverse('mapViewer:post_detail', args=[postInz.pk]))
             
     else:
-        contentForm = MakePostForm2()
+        contentForm = MakePostForm()
     return render(request, 'account/create_post.html', {'form': contentForm,})

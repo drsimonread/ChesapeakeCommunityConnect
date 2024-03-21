@@ -1,7 +1,5 @@
 from django.db import models
-from django.forms import ModelForm
 from account.models import Member
-from multiupload.fields import MultiMediaField
 from django.urls import reverse
 from uuid import uuid4
 import magic
