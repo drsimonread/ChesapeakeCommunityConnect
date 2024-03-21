@@ -38,7 +38,10 @@ class MakePostForm(forms.Form):
     content = forms.CharField(label="Content", widget=forms.Textarea)
     tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
-    file1 = forms.FileField(widget=forms.ClearableFileInput(), required=False, validators=[validate_file])
+    file1 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
+    file2 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
+    file3 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
+    file4 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
     
 
     
@@ -61,7 +64,7 @@ class MakePostForm(forms.Form):
                 'content': cleaned_data['content'],
                 'tags': cleaned_data['tags'],
                 'geoResult': geoResult,
-                'files': [cleaned_data.get('file1')],
+                'files': [cleaned_data.get('file1'),cleaned_data.get('file2'),cleaned_data.get('file3'),cleaned_data.get('file4')],
                 }  # Include media file in cleaned data#return a dictionary of cleaned_data
         
     def _clean_form(self): #when we check is_valid, this occurs

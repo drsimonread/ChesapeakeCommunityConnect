@@ -49,8 +49,6 @@ def account_all(request):
     return HttpResponse("insert account view list here")
     
 def account_view(request, want):
-    if not want:
-        return HttpResponse("Insert list view here")
     if not Member.objects.get(pk=want):
         return redirect(reverse("account:default"))
     viewInz=Member.objects.get(pk=want)
@@ -119,18 +117,18 @@ def authG(request):
 
 
 def make_post(request):
-    if(request.session.get('rank',0) == 0):
+    if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
         return redirect(reverse("account:signin"))
     if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
         contentForm= MakePostForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
-        if contentForm.is_valid(): #if the post is good to go
-            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\
+        if contentForm.is_valid(): #if the post is good to go, calls the clean method and validators from MakePostForm in mapViewer/fornms.py
+            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
             if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
                 disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
             else:
                 disc = contentForm.cleaned_data['content'] #otherwise just use content to describe
-            vis=0
-            if request.session['rank'] > 1:
+            vis=0 #default visibility set to pending
+            if request.session['rank'] > 1: #if user is trusted, set visibility to visible
                 vis=1
             postInz=MapPost.objects.create(title=contentForm.cleaned_data['title'], #actually create the post instance in the database
                                    content=contentForm.cleaned_data['content'],
@@ -139,16 +137,16 @@ def make_post(request):
                                    geoCode=contentForm.cleaned_data['geoResult'][0],
                                    visibility=vis
                                    )
-            if contentForm.cleaned_data['tags']:
+            if contentForm.cleaned_data['tags']: #if there are any tags
                 postInz.tags.set(contentForm.cleaned_data['tags']) #set the post's tags according to selected tags
             
-            if contentForm.cleaned_data['files']:
-                for item in contentForm.cleaned_data['files']:
-                    if item != None:
-                        fileInz = PostFile.objects.create(post=postInz, file=item)
-                        fileInz.format = fileInz.get_format()
-                        fileInz.save()
-            return redirect(reverse('mapViewer:post_detail', args=[postInz.pk]))
+            if contentForm.cleaned_data['files']: #if there are files uploaded
+                for item in contentForm.cleaned_data['files']: #iterates through file upload fields
+                    if item != None: #if item is none, then nothing was uploaded
+                        fileInz = PostFile.objects.create(post=postInz, file=item) #create a postfile instance
+                        fileInz.format = fileInz.get_format() #get the format and set the format
+                        fileInz.save() #save the updated format
+            return redirect(reverse('mapViewer:post_detail', args=[postInz.pk])) #redirect to the post view of the just posted post
             
     else:
         contentForm = MakePostForm()
