@@ -6,42 +6,50 @@
 {% endblock head %}
 
 {% block content %}
-
-
 <br>
 <div id="content" class="body">
-    {%if not hasReported %}
-    <form action="{{request.build_absolute_uri}}"  method="post">{% csrf_token %}
-        {{form.as_p}}
+    {% if not hasReported %}
+    <form action="{{ request.build_absolute_uri }}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
         <input type="submit" value="Send Report" id="input-submit">
     </form>
-    {%else%}
+    {% else %}
     Your report has been received.
-    {%endif%}
+    {% endif %}
 
-    <h1>{{post.title}}</h1>
+    <h1>{{ post.title }}</h1>
     <br>
-    By {{post.author}}
+    <p>By {{ post.author }}</p>
     <br>
-    {%for item in files%}
-    {%if item.format == 0 %}
-    <img src="{{item.file.url}}">
+    <div id="media-container">
+        {% for item in files %}
+        <div class="media-item">
+            {% if item.format == 0 %}
+            <img src="{{ item.file.url }}">
+            {% elif item.format == 1 %}
+            <video controls>
+                <source src="{{ item.file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            {% elif item.format == 2 %}
+            <audio controls>
+                <source src="{{ item.file.url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <p>{{ post.content }}</p>
     <br>
-    {%elif item.format == 1%}
-    <video src="{{item.file.url}}">
-    {%elif item.format == 2%}
-    <audio src="{{item.file.url}}">
-    {%endif%}
-    {%endfor%}
-    {{post.content}}
-    <br>
-    Tags:
-    <br>
-    {%for item in post.tags.all %}
-    {{item.name}}
-    <br>
-    {%endfor%}
-    
+    <p>Tags:</p>
+    <ul>
+        {% for tag in post.tags.all %}
+        <li>{{ tag.name }}</li>
+        {% endfor %}
+    </ul>
 </div>
 
 {% endblock content %}
