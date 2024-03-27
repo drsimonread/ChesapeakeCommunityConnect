@@ -3,6 +3,8 @@
 
 {% block head %}
 <title>Chesapeake Community Connect - Map</title>
+<link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
+<script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
 {% endblock head %}
 
 {% block content %}
@@ -22,13 +24,13 @@
     <br>
     <p>By {{ post.author }}</p>
     <br>
-    <div id="media-container">
+    <div class="slideshow-container">
         {% for item in files %}
-        <div class="media-item">
+        <div class="mySlides fade">
             {% if item.format == 0 %}
-            <img src="{{ item.file.url }}">
+            <img src="{{ item.file.url }}" style="width:100%">
             {% elif item.format == 1 %}
-            <video controls>
+            <video width="100%" controls>
                 <source src="{{ item.file.url }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -40,6 +42,10 @@
             {% endif %}
         </div>
         {% endfor %}
+    </div>
+    <br>
+    <div id="caption">
+        <!-- Add caption text here if needed -->
     </div>
 
     <p>{{ post.content }}</p>
