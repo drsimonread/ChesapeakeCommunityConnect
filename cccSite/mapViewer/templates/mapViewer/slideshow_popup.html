@@ -3,8 +3,8 @@
 <head>
     <title>Slideshow</title>
     <!-- Add your CSS and JS links here -->
+    <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
     <script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
-
 </head>
 <body>
     <div class="slideshow-container">
@@ -27,5 +27,7 @@
         {% endfor %}
     </div>
     <br>
+    <!-- Add the anchor element with onclick attribute here -->
+    <a href="#" onclick="openSlideshow({{ post.pk }})">See ...</a>
 </body>
 </html>
