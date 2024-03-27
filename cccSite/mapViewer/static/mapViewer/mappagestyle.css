@@ -111,3 +111,23 @@ input[type=text] { /*? Maybe move to basestyles.css. */
     width: 100%;
     float: left;
 }
+
+/* CSS for the slideshow */
+.slideshow-container {
+    max-width: 100%; /* Ensure the slideshow container doesn't exceed the width of its parent */
+    position: relative;
+    overflow: hidden; /* Hide any overflow content */
+  }
+  
+  .mySlides {
+    display: none; /* Hide all slides by default */
+  }
+  
+  /* Ensure images, videos, and audio are displayed properly within the slideshow */
+  .mySlides img,
+  .mySlides video,
+  .mySlides audio {
+    width: 100%; /* Ensure media content fills the width of the slideshow */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
