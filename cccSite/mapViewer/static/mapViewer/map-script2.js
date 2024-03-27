@@ -1,8 +1,3 @@
-let map; //map object
-const posts = JSON.parse(JSON.parse(document.currentScript.nextElementSibling.textContent));
-const markerList = []; //use this to iteratively create post markers on the map
-const infoWindowList = []; //same but for the post windows for when you click on the markers
-
 async function initMap() {
 
     map = new google.maps.Map(document.getElementById("map"), {
@@ -18,7 +13,7 @@ async function initMap() {
     for (let item of posts) {
         const title = item.fields.title;
         const description = item.fields.description;
-        const postURL = window.location.href + "post/" + item.pk;
+        const postID = item.pk; // Get the post ID
         const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng };
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
@@ -31,18 +26,20 @@ async function initMap() {
             content: `
                 <h3>${title}</h3>
                 <p>${description}</p>
-                <a href="${postURL}">See More</a>
+                <a href="#" onclick="openSlideshow(${postID})">See More</a> <!-- Call openSlideshow function -->
             `
         });
-    
-        // Inside your existing JavaScript code for markers
+        
         marker.addListener('click', function() {
-            const postID = item.pk;
-            window.location.href = `/slideshow/${postID}/`;  // Redirect to the slideshow popup URL
+            infowindow.open(map, marker);
         });
-
 
         markerList.push(marker);
         infoWindowList.push(infowindow);
     }
+}
+
+// Function to open the slideshow popup
+function openSlideshow(postID) {
+    window.location.href = `/slideshow/${postID}/`;
 }
