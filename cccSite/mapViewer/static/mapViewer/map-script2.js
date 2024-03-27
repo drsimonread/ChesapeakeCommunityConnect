@@ -2,21 +2,26 @@
 let slideIndex = 0;
 showSlides();
 
-function showSlides() {
+function showSlides(n) {
     let i;
     const slides = document.getElementsByClassName("mySlides");
+    if (n != undefined) {
+        slideIndex = n; // Set slideIndex to the specified value if provided
+    }
     for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
+    if (slideIndex >= slides.length) {slideIndex = 0} // Reset index if it exceeds the number of slides
+    if (slideIndex < 0) {slideIndex = slides.length - 1} // Wrap around to the last slide if index is negative
+    slides[slideIndex].style.display = "block";
     slideIndex++;
-    if (slideIndex > slides.length) {slideIndex = 1}
-    slides[slideIndex-1].style.display = "block";
     setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
 
 function plusSlides(n) {
     showSlides(slideIndex += n);
 }
+
 
 async function initMap() {
 
