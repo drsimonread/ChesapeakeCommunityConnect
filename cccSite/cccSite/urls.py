@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views
+
+app_name = 'mapViewer'
 
 urlpatterns = [
     path("contribute/", include("account.urls")),
@@ -25,6 +28,8 @@ urlpatterns = [
     path("", include("mapViewer.urls")),
     path("", include("boiler.urls")),
     path("admin/", include("Janitor.urls")),
+    path('post/<int:want>/', views.post_detail, name='post_detail'),
+    path('slideshow/<int:post_id>/', views.slideshow_popup, name='slideshow_popup'),  # New URL pattern for the slideshow popup
 ] 
 urlpatterns += static(settings.MEDIA_URL,
                       document_root=settings.MEDIA_ROOT)

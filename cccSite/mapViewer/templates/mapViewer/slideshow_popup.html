@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Slideshow</title>
+    <!-- Add your CSS and JS links here -->
+    <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
+    <script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
+
+</head>
+<body>
+    <div class="slideshow-container">
+        {% for file in files %}
+            <div class="mySlides fade">
+                {% if file.format == 0 %}
+                    <img src="{{ file.file.url }}" style="width:100%">
+                {% elif file.format == 1 %}
+                    <video width="100%" controls>
+                        <source src="{{ file.file.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% elif file.format == 2 %}
+                    <audio controls>
+                        <source src="{{ file.file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <br>
+</body>
+</html>

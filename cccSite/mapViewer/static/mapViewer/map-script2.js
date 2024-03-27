@@ -37,7 +37,14 @@ async function initMap() {
         
         marker.addListener('click', function() {
             infowindow.open(map, marker);
+            
         });
+        // Inside your existing JavaScript code for markers
+        marker.addListener('click', function() {
+            const postID = item.pk;
+            window.location.href = `/slideshow/${postID}/`;  // Redirect to the slideshow popup URL
+        });
+
 
         markerList.push(marker);
         infoWindowList.push(infowindow);
