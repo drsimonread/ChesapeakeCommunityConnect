@@ -34,11 +34,7 @@ async function initMap() {
                 <a href="${postURL}">See More</a>
             `
         });
-        
-        marker.addListener('click', function() {
-            infowindow.open(map, marker);
-            
-        });
+    
         // Inside your existing JavaScript code for markers
         marker.addListener('click', function() {
             const postID = item.pk;
