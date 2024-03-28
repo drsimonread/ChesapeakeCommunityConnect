@@ -13,16 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
             zoom: 8,
         });
 
-        // Initialize the secondary map for directions
-        directionsMap = new google.maps.Map(document.getElementById("directionsMap"), {
-            center: { lat: 38.9, lng: -77.0 },
-            zoom: 8,
-        });
-
-        // Initialize the directions service and renderer
-        directionsService = new google.maps.DirectionsService();
-        directionsRenderer = new google.maps.DirectionsRenderer();
-        directionsRenderer.setMap(directionsMap);
     }
 
     initMap(); // Call the initMap function when the DOM is loaded
