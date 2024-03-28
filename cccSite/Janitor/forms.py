@@ -40,10 +40,10 @@ class PostManager(ModelForm):
         }
     def clean(self): 
         cleaned_data = super().clean() #verify that all the other fields are ok
-        if cleaned_data.get('visibility')==-1:
-            if not cleaned_data.get('reason'):
+        if cleaned_data.get('visibility')==-1: #if visibility has been set to blocked
+            if not cleaned_data.get('reason'): #make sure a reason was provided
                 raise ValidationError(_("You must include a reason."), code="reaserr")
-            else: 
+            else: #if it was provided, set the description to the reason so the user knows.
                 cleaned_data = {'reason' : cleaned_data.get('reason'),
                                 'visibility' : cleaned_data.get('visibility'),
                                 'description' : cleaned_data.get('reason')}
