@@ -46,8 +46,12 @@ def member_manage(request, want): #view for adjusting user ranks and information
                                                           })
 
 def pendingPostList(request): #show a list of posts pending approval
+    msg = None
     posts= MapPost.objects.filter(visibility=0) #fetch all posts with pending visibility
-    return render(request, 'Janitor/postList.html', {'posts' : posts})
+    if not posts:
+        msg = "No pending posts!"
+    return render(request, 'Janitor/postList.html', {'posts' : posts,
+                                                     'msg' : msg})
 
 #view that allows the viewing of a post with a form that allows admin/moderator to change visibility. 
 def rev_post(request, want): 
