@@ -1,27 +1,18 @@
-{% extends "base/base.html" %}
+{% extends "Janitor/AdminBase.html" %}
 {% load static %}
 
-{% block head %}
-<title>Chesapeake Community Connect - Map</title>
-{% endblock head %}
+{% block adminFunc %}
 
-{% block content %}
-
-
+{%if msg%}
+<br>{{msg}}<br>
+{%endif%}
 <br>
 <div id="content" class="body">
-    {%if not hasReported %}
     <form action="{{request.build_absolute_uri}}"  method="post">{% csrf_token %}
         {{form.as_p}}
-        <input type="submit" value="Send Report" id="input-submit">
+        <input type="submit" value="Save" id="input-submit">
     </form>
-    {%else%}
-    Your report has been received.
-    {%endif%}
-    {%if msg%}
-    <br>{{msg}}<br>
-    {%endif%}
-
+    
     <h1>{{post.title}}</h1>
     <br>
     By {{post.author}}
@@ -47,4 +38,4 @@
     
 </div>
 
-{% endblock content %}
+{% endblock adminFunc %}

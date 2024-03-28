@@ -1,6 +1,15 @@
 {%extends "account/accountBase.html"%}
 
 {% block accountFunc %}
+<script defer> 
+    let autocomplete;
+    async function initAutocomplete(){
+        autocomplete = new google.maps.places.Autocomplete(document.getElementById('id_location'), {
+            fields: ["address_components"],
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initAutocomplete" defer></script>
 
 <!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
 <div id="content">

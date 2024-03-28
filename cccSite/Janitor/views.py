@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from boiler.models import Message
 from account.models import Member
 from .models import PostReport, UserReport
-from mapViewer.models import MapPost, MapTag
+from mapViewer.models import MapPost, MapTag, PostFile
 from .forms import *
 from django.db.models import Count
 
@@ -40,8 +40,31 @@ def member_manage(request, want):
                                                           })
 
 def pendingPostList(request):
-    pending_posts= MapPost.objects.filter(visibility=0)
-    return HttpResponse("hey")
+    posts= MapPost.objects.filter(visibility=0)
+    return render(request, 'Janitor/postList.html', {'posts' : posts})
+
+def rev_post(request, want):
+    msg=None
+    if MapPost.objects.filter(pk=want).exists():
+        postInz = MapPost.objects.get(pk=want)
+        files = PostFile.objects.filter(post=postInz)
+        if request.method == "POST":
+            form = PostManager(request.POST, instance=postInz)
+            if form.is_valid():
+                form.save()
+                if form.cleaned_data['visibility'] == 1:
+                    msg="Post Approved!"
+                elif form.cleaned_data['visibility'] == 0:
+                    msg="No changes made."
+                else:
+                    msg="Post Denied!"
+        else:
+            form = PostManager(instance=postInz)
+        return render(request, 'Janitor/postManager.html', {'form' : form,
+                                                            'post' : postInz,
+                                                            'files' : files,
+                                                            'msg' : msg})
+    return redirect(pendingPostList)
 
 def tagList(request):
     msg = ""

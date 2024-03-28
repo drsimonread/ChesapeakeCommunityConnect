@@ -1,0 +1,10 @@
+{%extends "Janitor/AdminBase.html"%}
+
+{% block adminFunc %}
+{%for item in posts %}
+<button class="accordion">{{item.title}} | {{item.description}} by {{item.author.name}}</button>
+<div class="panel">
+    <p>View Post/<a class="button" href="{{item.get_admin_url}}">Manage Post</a></p>
+</div>
+{%endfor%}
+{% endblock adminFunc %}

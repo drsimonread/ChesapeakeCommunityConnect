@@ -46,6 +46,7 @@ def post_list(request):
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
+    msg=None
     hasReported=False
     if MapPost.objects.filter(pk=want).exists():
         lookAt= MapPost.objects.get(pk=want)
@@ -58,8 +59,14 @@ def post_detail(request, want):
         else:
             reporter = PostRepForm(initial={'post':lookAt})
         if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
+            
+            if lookAt.visibility==0:
+                msg="Your post is currently pending approval and only visible to you."
+            elif lookAt.visibility == -1:
+                msg="Your post has been denied for the following reason: .\nTo resubmit, please create a new post."
             return render(request, "mapViewer/viewPost.html", {"post" : lookAt,
                                                                "form" : reporter,
                                                                "hasReported" : hasReported,
-                                                               "files" : files})
+                                                               "files" : files,
+                                                               "msg" : msg,})
     return redirect(reverse("mapViewer:default"))
