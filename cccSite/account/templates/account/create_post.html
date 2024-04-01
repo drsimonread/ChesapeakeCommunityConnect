@@ -1,5 +1,6 @@
 {%extends "account/accountBase.html"%}
 
+
 {% block accountFunc %}
 <script defer> 
     let autocomplete;
@@ -11,16 +12,51 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initAutocomplete" defer></script>
 
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'account/create_poststyle.css' %}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://unpkg.com/file-upload-with-preview/dist/style.css"
+    />
+</head>
+
 <!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
-<div id="content">
-    <div class="container">
-        <form action="{% url 'account:create_post'%}" method="post" enctype="multipart/form-data">
-            {%csrf_token%}
-            {{form.as_p}}
-    
-            <input class="submitB" type="submit" value="Submit">
-        </form>
-    </div>
-  
+<div id="create">
+
+    <form action="{% url 'account:create_post'%}" method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+        {{ form.title }}
+        {{ form.location }}
+        {{ form.content }}
+
+
+        <div id="scroll-box">
+            <div id="id_tags">
+                {% for tag in form.tags %}
+                    <div>
+                        <label for="{{ tag.id_for_label }}">
+                            {{ tag.tag }}
+                            <span>{{ tag.choice_label }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <input class="button" id="id_submit" type="submit" value="Submit">
+
+        {{ form.file1 }}
+        {{ form.file2 }}
+        {{ form.file3 }}
+        {{ form.file4 }}
+        {% comment %} <div class="custom-file-container" data-upload-id="my-unique-id"></div> {% endcomment %}
+        {% comment %} <script src="https://unpkg.com/file-upload-with-preview/dist/file-upload-with-preview.iife.js"></script> {% endcomment %}
+
+        {% comment %} <script>
+            const upload = new FileUploadWithPreview.FileUploadWithPreview('my-unique-id');
+        </script> {% endcomment %}
+    </form>
 </div>
+
 {% endblock accountFunc %}
