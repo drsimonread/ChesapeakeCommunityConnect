@@ -20,8 +20,10 @@
     /*Map icon styling*/
     border-radius: 10px;
     height: 400px;
-
 }
+
+/* Removes blue outline when selecting the map. */
+.gm-style iframe + div { border:none!important; }
 
 /* This is the ID for the tag scroll box. */
 #scroll-box {
