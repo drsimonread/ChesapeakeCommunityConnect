@@ -44,6 +44,19 @@ def default(request):
     
 def account_all(request):
     return HttpResponse("insert account view list here")
+
+def my_posts(request):
+    if request.session.get('rank',0)==0:
+        return redirect(reverse(default))
+    else:
+        userInz = Member.objects.get(pk=request.session.get('user'))
+        userPosts=MapPost.objects.filter(author=userInz)
+        vis = userPosts.filter(visibility=1)
+        pend = userPosts.filter(visibility=0)
+        den = userPosts.filter(visibility=-1)
+        return render(request, 'account/myPosts.html', {'vis' : vis,
+                                    'pend' : pend,
+                                    'den' : den})
     
 def account_view(request, want):
     if not Member.objects.get(pk=want):

@@ -1,0 +1,66 @@
+{%extends "account/accountBase.html"%}
+
+{% block accountFunc %}
+
+<style>
+
+    .container{
+        min-width: 100%;
+        margin-bottom: 20%;
+    }
+
+    .nameField,.emailField,.aboutField{
+        border: none;
+        width: 300px;
+        padding:10px;
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    .submitB {
+        background-color: #f3c10d;
+        padding: 10px;
+        border-radius: 3px;
+        border: none;
+        font-size: 15px;
+        width: 150px;
+
+    }
+
+    .submitB:hover{
+        cursor: pointer;
+        background-color: orange;
+    }
+
+</style>
+<!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
+<div id="content">
+    <div class="container">
+        Visible Posts:
+        {%if not vis%}
+        <br>You do not have any visible posts
+        {%endif%}
+        <!--need to make these accordions for each category-->
+        {%for item in vis%}
+        <br>{{item.title}} | {{item.description}} | <a class="button" href="{{item.get_absolute_url}}">View Post</a>
+        {%endfor%}
+        <br>
+        Pending Posts:
+        {%if not pend%}
+        You do not have any visible posts
+        {%endif%}
+        {%for item in pend%}
+        <br>{{item.title}} | {{item.description}} | <a class="button" href="{{item.get_absolute_url}}">View Post</a>
+        {%endfor%}
+        <br>
+        Denied Posts:
+        {%if not den%}
+        You do not have any denied posts.
+        {%endif%}
+        {%for item in den%}
+        <br>{{item.title}} | {{item.description}} | <a class="button" href="{{item.get_absolute_url}}">View Post</a>
+        {%endfor%}
+    </div>
+  
+</div>
+{% endblock accountFunc %}

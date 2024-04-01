@@ -15,7 +15,7 @@ def user_directory_profile(instance, filename):
 
 # user model. self explanitory
 class Member(models.Model):
-    name = models.CharField(max_length=35, )
+    name = models.CharField(max_length=35)
     ranking_options = { 
         (-1,"banned"),
         (1 , "member"),
@@ -61,6 +61,18 @@ class ManageForm(ModelForm):
             'about': forms.TextInput(attrs={'class':'aboutField'})
         }
         
+
+
+class UPLogIn(models.Model):
+    referTo = models.ForeignKey(Member, on_delete = models.CASCADE)
+    username = models.CharField(max_length=35, unique=True)
+    salt = models.CharField(max_length=22)
+    password = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.username + " | " + self.referTo.name
+
+
 class AccountCreation(models.Model):    
     email = models.EmailField()
     username = models.CharField(max_length=75)
