@@ -114,7 +114,6 @@ input[type=text] { /*? Maybe move to basestyles.css. */
     float: left;
 }
 
-
 /* Hide all slides by default */
 .mySlides {
     display: none;
