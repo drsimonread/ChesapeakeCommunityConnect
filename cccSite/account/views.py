@@ -61,11 +61,10 @@ def my_posts(request):
 def account_view(request, want):
     if not Member.objects.get(pk=want):
         return redirect(reverse("account:default"))
-    viewInz=Member.objects.get(pk=want)
-    if request.session.get('rank',0) != 0:
-        userInz=Member.objects.get(request.session['user'])
-    else:
-        userInz= Member.objects.none()
+    accountInz=Member.objects.get(pk=want)
+    userPosts=MapPost.objects.filter(author=accountInz).filter(visibility=1)
+    return render(request, 'account/single_account.html', {'user' : accountInz,
+                                                           'posts' : userPosts})
     
 
 # lets members edit their info
