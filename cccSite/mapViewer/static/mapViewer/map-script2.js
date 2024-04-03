@@ -16,7 +16,7 @@ async function initMap() {
     for (let item of posts) {
         const title = item.fields.title;
         const description = item.fields.description;
-        const postID = item.pk; // Get the post ID
+        const postURL = window.location.href + "post/" + item.pk;
         const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng };
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
@@ -29,7 +29,7 @@ async function initMap() {
             content: `
                 <h3>${title}</h3>
                 <p>${description}</p>
-                <a href="#" onclick="openSlideshow(${postID})">See More</a> <!-- Call openSlideshow function -->
+                <a href="${postURL}">See More</a>
             `
         });
         
