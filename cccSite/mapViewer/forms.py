@@ -33,9 +33,9 @@ class MakePostForm(forms.Form):
                 raise ValidationError(_("Bad file"), code="filerr")
 
 
-    title = forms.CharField(max_length=100, label="Title", widget=forms.TextInput({"Placeholder": "Title"})) #title of post
-    location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of post as an address
-    content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the post
+    title = forms.CharField(max_length=100, label="Title") #title of post
+    location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput) #location of post as an address
+    content = forms.CharField(label="Content", widget=forms.Textarea) #content of the post
     tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of post
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
     #the file upload fields. validated using the custom validator above, if left empty or if a bad file is submitted, these fields have nothing in them

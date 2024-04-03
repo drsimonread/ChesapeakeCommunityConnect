@@ -44,7 +44,6 @@ nav ul {
     --gold: #f3c10d;
     --hover-gold: #e67e22;
     --blue: #00205c;
-    --hover-blue: #000308;
     --background: #f3f3f3;
 }
 
@@ -150,24 +149,6 @@ footer img {
     background-color: var(--hover-gold); /* Darker yellow on hover */
 }
 
-.button-alt {
-    background-color: var(--blue); /* Yellow background */
-    color: var(--gold); /* Dark blue text */
-    cursor: pointer;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    border-radius: 8px;
-    border: none;
-    display: block;
-    transition: background-color 0.3s; /* Smooth background color transition on hover */
-    /* margin: 0 auto; Centered on the screen */
-    text-align: center; /* Center the text */
-}
-
-.button-alt:hover {
-    background-color: var(--hover-blue); /* Darker yellow on hover */
-}
-
 /* Create a Post and Contact Us buttons */
 #add-marker-button {
     padding: 10px 20px;
@@ -250,19 +231,29 @@ nav ul li a:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Causes some issues
-input[type=text] {
-    border: 0;
-    outline: 0;
-    padding: 1em;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    border-radius: 8px;
+/* #post-form {
+    text-align: left;
+    padding: 20px;
+}
+
+#post-form label {
     display: block;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+#post-form input[type="text"],
+#post-form textarea {
     width: 100%;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    resize: none;
-    box-sizing: border-box;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+#post-form button:hover {
+    background-color: var(--hover-gold);
 } */
 
 /* Individual header titles */

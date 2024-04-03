@@ -14,7 +14,7 @@ Post Reports <br>
     {%for item in entry.1%}
     <p>{{item.reason}}</p>
     {%endfor%}
-    <a class="button" href="{{entry.0.get_admin_url}}">Manage Post</a>
+    <button>Manage Post</button>
 </div>
 {%endfor%}
 {%else%}
@@ -33,7 +33,7 @@ No reports!
     {%for item in entry.1%}
         <p>{{item.reason}}</p>
     {%endfor%}
-    <a class="button" href="{{entry.0.get_admin_url}}">Manage User</a>
+    <button>Manage User</button>
     </div>
 </div>
 {%endfor%}

@@ -62,12 +62,12 @@
 <div id="content">
     <div class="wrapper">
         <div class="imgWrapper">
-            <li><img class="proPic" src="{{ self.pic.url }}" alt="Uploaded Image" height="150" width="150"></li>
+            <li><img class="proPic" src="{{ image.url }}" alt="Uploaded Image" height="150" width="150"></li>
         </div>
         <div class="inWrapper">
-            {{self.name}}
+            {{name}}
             <br>
-            {{self.email}}
+            {{email}}
             <br>
 
 
@@ -79,11 +79,11 @@
         </div>
 
         <div class="description">
-            {%if self.about != ""%}
+            {%if about != ""%}
             <p>
-                {{self.about}}
+                {{about}}
                 {%endif%}
-                {%if self.ranking > 1%}
+                {%if rank > 1%}
             <p>You are a trusted user.
                 {%endif%}
         </div>

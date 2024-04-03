@@ -25,7 +25,7 @@ def signin(request):
     else:
         return redirect(reverse("account:default"))
 
-# if a user tries to sign out by GET URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to default account page
+# if a user tries to sign out by URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to confirmation
 def signout(request):
     if request.method == "POST":
         request.session.flush()
@@ -39,24 +39,14 @@ def default(request):
     else:
         userInz=Member.objects.get(pk=request.session['user']) #get user from session
         return render(request, 'account/myaccount.html', {
-            'self': userInz,
+            'name': userInz.name,
+            'email' : userInz.email,
+            'image' : userInz.pic,
+            'about' : userInz.about,
         })
     
 def account_all(request):
     return HttpResponse("insert account view list here")
-
-def my_posts(request):
-    if request.session.get('rank',0)==0:
-        return redirect(reverse(default))
-    else:
-        userInz = Member.objects.get(pk=request.session.get('user'))
-        userPosts=MapPost.objects.filter(author=userInz)
-        vis = userPosts.filter(visibility=1)
-        pend = userPosts.filter(visibility=0)
-        den = userPosts.filter(visibility=-1)
-        return render(request, 'account/myPosts.html', {'vis' : vis,
-                                    'pend' : pend,
-                                    'den' : den})
     
 def account_view(request, want):
     if not Member.objects.get(pk=want):
@@ -70,8 +60,8 @@ def account_view(request, want):
 
 # lets members edit their info
 def manage(request):
-    if request.session.get('rank',0)==0: #if rank is anonymous, redirect to sign in
-        return redirect(reverse("account:signin"))
+    if request.session.get('rank',0)==0:
+        return redirect('/account/signin/')
     if request.method == "POST":
         userInz=Member.objects.get(pk=request.session['user']) 
         form = ManageForm(request.POST, request.FILES, instance=userInz)
@@ -84,7 +74,7 @@ def manage(request):
         form = ManageForm(instance=userInz)
     return render(request, "account/manage.html", {'form' : form})
 
-# a lot of this code is from google btw. this view verifies google one touch log in credentials
+# a lot of this code is from google btw
 @csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
 def authG(request):
     if request.method == "GET":
@@ -125,7 +115,7 @@ def authG(request):
         return redirect(reverse("account:default"))
     
 
-#view for creating posts
+
 def make_post(request):
     if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
         return redirect(reverse("account:signin"))

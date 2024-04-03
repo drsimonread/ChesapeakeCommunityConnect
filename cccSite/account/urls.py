@@ -11,5 +11,4 @@ urlpatterns = [
     path("view/", views.account_all, name='all_account'),
     path("view/<want>", views.account_view, name='account_view'),
     path("create/", views.make_post, name="create_post"),
-    path("myposts/", views.my_posts, name='my_posts'),
 ]
