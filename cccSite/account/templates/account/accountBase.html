@@ -1,19 +1,22 @@
 {%extends "base/base.html"%}
 {%block head%}
 {% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'account/accountBasestyle.css' %}">
+</head>
 {%block accHead%}
 <title>Chesapeake Community Connect - Contributors</title>
 {%endblock accHead%}
 {%endblock head%}
 {% block content %}
-<div class="body">  
-    <ul style="position:fixed;width: 15%; text-align: center;">
+<div id="body">  
+    <ul class="menu" style="width: 15%; text-align: center; float: left;">
         <li><a class="button" href="" style="text-decoration: none;">Search Contributors</a></li>
-        {%if rank > 0%}
+        {% if rank > 0 %}
         <li><a class="button" href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/manage/' not in request.path and '/create/' not in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;" >My Account</a></li>
         <li><a class="button" href="{%url 'account:manage' %}" {%if '/manage/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Edit Account</a></li>
         <li><a class="button" href="{%url 'account:create_post' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Create Post</a></li>
-        <li><a class="button" href="" style="text-decoration: none;">My Posts</a></li>
+        <li><a class="button" href="{%url 'account:my_posts' %}" style="text-decoration: none;">My Posts</a></li>
         <li><form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
             <input type="submit" value="Sign Out">
         </form></li>
@@ -22,7 +25,9 @@
         {%endif%}
     </ul>
 
-    {%block accountFunc%} Welcome to the account interface. {% endblock accountFunc %}
+    <div id="right">
+        {%block accountFunc%} Welcome to the account interface. {% endblock accountFunc %}
+    </div>
 
 </div>
 <script>

@@ -29,6 +29,9 @@ class MapPost(models.Model):
     @property
     def get_absolute_url(self):
         return reverse("mapViewer:post_detail", args=[str(self.pk)])
+    @property
+    def get_admin_url(self):
+        return reverse("Janitor:postReview", args=[str(self.pk)])
     
     #https://forum.djangoproject.com/t/url-template-tag-get-absolute-url-and-views/21249
     #https://levelup.gitconnected.com/django-quick-tips-get-absolute-url-1c22321f806b
