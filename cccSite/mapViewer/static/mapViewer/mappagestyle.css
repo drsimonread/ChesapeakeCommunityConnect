@@ -23,6 +23,8 @@
 
 }
 
+.gm-style iframe + div { border:none!important; }
+
 /* This is the ID for the tag scroll box. */
 #scroll-box {
     height: 280px;
