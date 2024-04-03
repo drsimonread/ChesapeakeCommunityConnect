@@ -47,7 +47,7 @@
         <br>
         Pending Posts:
         {%if not pend%}
-        You do not have any visible posts
+        You do not have any pending posts
         {%endif%}
         {%for item in pend%}
         <br>{{item.title}} | {{item.description}} | <a class="button" href="{{item.get_absolute_url}}">View Post</a>

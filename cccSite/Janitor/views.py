@@ -46,7 +46,7 @@ def member_manage(request, want): #view for adjusting user ranks and information
                                                           })
 
 def pendingPostList(request): #show a list of posts pending approval
-    msg = None
+    msg = ""
     posts= MapPost.objects.filter(visibility=0) #fetch all posts with pending visibility
     if not posts:
         msg = "No pending posts!"
@@ -55,7 +55,7 @@ def pendingPostList(request): #show a list of posts pending approval
 
 #view that allows the viewing of a post with a form that allows admin/moderator to change visibility. 
 def rev_post(request, want): 
-    msg=None #default value for msg is None, allows us to check if msg in template to decide whether to render msg or not
+    msg="" #default value for msg is None, allows us to check if msg in template to decide whether to render msg or not
     if MapPost.objects.filter(pk=want).exists(): #confirm post object exists
         postInz = MapPost.objects.get(pk=want) #get post and associated files form the database
         files = PostFile.objects.filter(post=postInz)
@@ -108,7 +108,7 @@ def exportData(request): #low priority
     return HttpResponse("Not implemented yet")
 
 def reportList(request): #view for seeing reported posts/users and the reports associated with them
-    msg=None
+    msg=""
     if request.method == "POST": #if POST, there was an attempt to clear reports
         if request.POST.get('type') == 'user': #if the clear was from a user reports section
             userInz = Member.objects.get(pk=request.POST.get('pk')) #get user object

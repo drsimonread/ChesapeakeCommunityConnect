@@ -1,0 +1,35 @@
+{%extends "account/accountBase.html"%}
+
+{% block accountFunc %}
+<!--loads user's info from provided dictionary-->
+<div id="content">
+    <div class="wrapper">
+        <div class="imgWrapper">
+            <li><img class="proPic" src="{{ user.pic.url }}" alt="Uploaded Image" height="150" width="150"></li>
+        </div>
+        <div class="inWrapper">
+            {{user.name}}
+            <br>
+            {{user.email}}
+            <br>
+
+
+        </div>
+
+        <div class="description">
+            {%if user.about != ""%}
+            <br>
+                {{user.about}}
+            {%endif%}
+        </div>
+
+    </div>{{user.name}}'s Posts:
+    {%for item in posts%}
+    <br>
+    {{item.title}}: {{item.description}} | <button class="editPro" id="edit-account" onclick="window.location.href='{{item.get_absolute_url}}';">
+        View Post</button>
+    {%endfor%}
+
+    <!--posts to the URL titled signout in the account app's URL config-->
+</div>
+{% endblock accountFunc %}
