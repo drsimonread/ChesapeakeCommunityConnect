@@ -1,28 +1,10 @@
 // JavaScript for slideshow functionality
+let map;
+const posts = JSON.parse(JSON.parse(document.currentScript.nextElementSibling.textContent)); //don't know why it needs to JSON.parse twice, but with only one posts is a String
+const markerList = []; //use this to iteratively create post markers on the map
+const infoWindowList = []; //same but for the post windows for when you click on the markers
 let slideIndex = 0;
 showSlides();
-
-function showSlides(n) {
-    let i;
-    const slides = document.getElementsByClassName("mySlides");
-    if (n != undefined) {
-        slideIndex = n; // Set slideIndex to the specified value if provided
-    }
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    if (slideIndex >= slides.length) {slideIndex = 0} // Reset index if it exceeds the number of slides
-    if (slideIndex < 0) {slideIndex = slides.length - 1} // Wrap around to the last slide if index is negative
-    slides[slideIndex].style.display = "block";
-    slideIndex++;
-    setTimeout(showSlides, 2000); // Change image every 2 seconds
-}
-
-function plusSlides(n) {
-    showSlides(slideIndex += n);
-}
-
-
 async function initMap() {
 
     map = new google.maps.Map(document.getElementById("map"), {
@@ -30,10 +12,6 @@ async function initMap() {
         zoom: 8,
         mapId: '946a9c10600de2ba'
     });
-
-    directionsService = new google.maps.DirectionsService();
-    directionsRenderer = new google.maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
 
     for (let item of posts) {
         const title = item.fields.title;
@@ -63,6 +41,30 @@ async function initMap() {
         infoWindowList.push(infowindow);
     }
 }
+
+
+
+function showSlides() {
+    let i;
+    const slides = document.getElementsByClassName("mySlides");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) { slideIndex = 1 }
+    slides[slideIndex - 1].style.display = "block";
+    setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+// Function to open the slideshow popup
+function openSlideshow(postID) {
+    window.location.href = `/slideshow/${postID}/`;
+}
+
 
 // Function to open the slideshow popup
 function openSlideshow(postID) {
