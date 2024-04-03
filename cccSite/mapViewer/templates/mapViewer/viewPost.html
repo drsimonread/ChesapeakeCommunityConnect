@@ -4,7 +4,7 @@
 {% block head %}
 <title>Chesapeake Community Connect - Map</title>
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
-<script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
+<script src="{% static '/map-script2.js' %}" defer></script>
 {% endblock head %}
 
 {% block content %}
@@ -18,16 +18,15 @@
     </form>
     {% else %}
     Your report has been received.
-    {%endif%}
-    {%if msg%}
-    <br>{{msg}}<br>
-    {%endif%}
+    {% endif %}
 
-    <h1>{{post.title}}</h1>
+    <h1>{{ post.title }}</h1>
     <br>
-    By {{post.author}}
+    <p>By {{ post.author }}</p>
     <br>
-    
+
+
+    <!-- Slideshow HTML -->
     <div class="slideshow-container">
         {% for item in files %}
         <div class="mySlides fade">
@@ -45,24 +44,48 @@
             </audio>
             {% endif %}
         </div>
-  
+        {% endfor %}
+        
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
     <br>
     <div id="caption">
-
+    
     </div>
 
     <p>{{ post.content }}</p>
     <br>
-    Tags:
-    <br>
-    {%for item in post.tags.all %}
-    {{item.name}}
-    <br>
-    {%endfor%}
-    
+    <p>Tags:</p>
+    <ul>
+        {% for tag in post.tags.all %}
+        <li>{{ tag.name }}</li>
+        {% endfor %}
+    </ul>
 </div>
+
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex-1].style.display = "block";
+    }
+</script>
 
 {% endblock content %}
