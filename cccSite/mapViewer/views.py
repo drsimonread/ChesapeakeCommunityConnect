@@ -14,11 +14,6 @@ from Janitor.forms import PostRepForm
 from django.shortcuts import get_object_or_404, render
 from .models import MapPost
 
-def slideshow_popup(request, post_id):
-    post = get_object_or_404(MapPost, pk=post_id)
-    files = post.postfile_set.all()
-    return render(request, 'mapViewer/slideshow_popup.html', {'post': post, 'files': files})
-
 def viewMap(request):
     posts = MapPost.objects.filter(visibility=1) #begin by fetching visible posts from database
     contQuery = request.GET.get("q") #get content and tag query from url

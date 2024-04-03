@@ -29,7 +29,6 @@ urlpatterns = [
     path("", include("boiler.urls")),
     path("admin/", include("Janitor.urls")),
     path('post/<int:want>/', views.post_detail, name='post_detail'),
-    path('slideshow/<int:post_id>/', views.slideshow_popup, name='slideshow_popup'),  # New URL pattern for the slideshow popup
 ] 
 urlpatterns += static(settings.MEDIA_URL,
                       document_root=settings.MEDIA_ROOT)

@@ -27,17 +27,34 @@
     <br>
     By {{post.author}}
     <br>
-    {%for item in files%}
-    {%if item.format == 0 %}
-    <img src="{{item.file.url}}">
+    
+    <div class="slideshow-container">
+        {% for item in files %}
+        <div class="mySlides fade">
+            {% if item.format == 0 %}
+            <img src="{{ item.file.url }}" style="width:100%">
+            {% elif item.format == 1 %}
+            <video width="100%" controls>
+                <source src="{{ item.file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            {% elif item.format == 2 %}
+            <audio controls>
+                <source src="{{ item.file.url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            {% endif %}
+        </div>
+  
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
     <br>
-    {%elif item.format == 1%}
-    <video src="{{item.file.url}}">
-    {%elif item.format == 2%}
-    <audio src="{{item.file.url}}">
-    {%endif%}
-    {%endfor%}
-    {{post.content}}
+    <div id="caption">
+
+    </div>
+
+    <p>{{ post.content }}</p>
     <br>
     Tags:
     <br>
