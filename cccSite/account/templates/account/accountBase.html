@@ -11,7 +11,7 @@
 {% block content %}
 <div id="body">  
     <ul class="menu" style="width: 15%; text-align: center; float: left;">
-        <li><a class="button" href="" style="text-decoration: none;">Search Contributors</a></li>
+        <li><a class="button" href="{%url 'account:account_list'%}" style="text-decoration: none;">Search Contributors</a></li>
         {% if rank > 0 %}
         <li><a class="button" href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/manage/' not in request.path and '/create/' not in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;" >My Account</a></li>
         <li><a class="button" href="{%url 'account:manage' %}" {%if '/manage/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Edit Account</a></li>

@@ -1,0 +1,18 @@
+{% extends "account/accountBase.html" %}
+{% load static %}
+
+
+
+{% block accountFunc %}
+<div id="content" class="body">
+    <h1>Chesapeake Community Connect</h1>
+    {%for item in users %}
+    <ul>                         
+        <li><a href="{{item.get_absolute_url}}">{{ item.name }}</a> {{item.num_posts}} Posts
+         </li>                      
+     </ul> 
+    {%endfor%}
+    
+</div>
+
+{% endblock accountFunc %}

@@ -10,6 +10,8 @@ from mapViewer.models import MapPost, PostFile, MapTag
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .forms import CreateAccountForm
+from django.db.models import Count
+from django.db.models import Q
 # from .forms import NameForm
 from PIL import Image
 
@@ -42,8 +44,11 @@ def default(request):
             'self': userInz,
         })
     
-def account_all(request):
-    return HttpResponse("insert account view list here")
+def account_list(request):
+    users = Member.objects.filter(mappost__visibility__gt=0).distinct().annotate(num_posts=Count("mappost"), filter=Q(mappost__visibility=1))
+    print(users)
+    return render(request, 'account/account_list.html', {'users' : users,
+                                                         })
 
 def my_posts(request):
     if request.session.get('rank',0)==0:
