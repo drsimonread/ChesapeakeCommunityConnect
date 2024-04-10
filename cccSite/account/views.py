@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 from mapViewer.forms import MakePostForm
 from mapViewer.models import MapPost, PostFile, MapTag
+from Janitor.forms import UserRepForm
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .forms import CreateAccountForm
@@ -46,7 +47,6 @@ def default(request):
     
 def account_list(request):
     users = Member.objects.filter(mappost__visibility__gt=0).distinct().annotate(num_posts=Count("mappost"), filter=Q(mappost__visibility=1))
-    print(users)
     return render(request, 'account/account_list.html', {'users' : users,
                                                          })
 
@@ -64,12 +64,23 @@ def my_posts(request):
                                     'den' : den})
     
 def account_view(request, want):
+    msg = ""
     if not Member.objects.get(pk=want):
         return redirect(reverse("account:default"))
-    accountInz=Member.objects.get(pk=want)
-    userPosts=MapPost.objects.filter(author=accountInz).filter(visibility=1)
+    
+    if request.method == "POST":
+        form = UserRepForm(request.POST)
+        if form.is_valid():
+            form.save()
+            msg="Your report has been sent."
+    else:
+        accountInz=Member.objects.get(pk=want)
+        userPosts=MapPost.objects.filter(author=accountInz).filter(visibility=1)
+        form = UserRepForm(initial={'account':accountInz})
     return render(request, 'account/single_account.html', {'user' : accountInz,
-                                                           'posts' : userPosts})
+                                                           'posts' : userPosts,
+                                                           'form' : form,
+                                                           'msg':msg})
     
 
 # lets members edit their info

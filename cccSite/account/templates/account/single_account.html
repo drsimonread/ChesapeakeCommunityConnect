@@ -3,6 +3,12 @@
 {% block accountFunc %}
 <!--loads user's info from provided dictionary-->
 <div id="content">
+    {{msg}}<br>
+    <form action="{{ request.build_absolute_uri }}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Send Report" id="input-submit">
+    </form>
     <div class="wrapper">
         <div class="imgWrapper">
             <li><img class="proPic" src="{{ user.pic.url }}" alt="Uploaded Image" height="150" width="150"></li>

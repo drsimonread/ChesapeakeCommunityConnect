@@ -47,7 +47,7 @@ def post_list(request):
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
-    msg=None
+    msg=""
     hasReported=False
     if MapPost.objects.filter(pk=want).exists():
         lookAt= MapPost.objects.get(pk=want)
