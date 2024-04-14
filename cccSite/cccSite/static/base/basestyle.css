@@ -15,37 +15,6 @@ html * {
     --background: #f3f3f3;
 }
 
-/** This is part of the code to change the scroll-bar. */
-/* ::-webkit-scrollbar-track
-{
-	border-radius: 10px;
-	background: rgba(0,0,0,0);
-
-}
-
-::-webkit-scrollbar-corner
-{
-    background: transparent;
-}
-
-::-webkit-scrollbar
-{
-	width: 12px;
-	background: transparent;
-}
-
-::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	background-color: var(--gold);
-    transition: background-color 0.3s;
-
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--hover-gold);
-} */
-
 /* Reset some default browser styles */
 body, h1, h2, p, ul, li {
     margin: 0; /* Sets the margin to 0. */
@@ -192,6 +161,37 @@ input[type=text] {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     resize: none;
     box-sizing: border-box;
+} */
+
+/** This is part of the code to change the scroll-bar. */
+/* ::-webkit-scrollbar-track
+{
+	border-radius: 10px;
+	background: rgba(0,0,0,0);
+
+}
+
+::-webkit-scrollbar-corner
+{
+    background: transparent;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: var(--gold);
+    transition: background-color 0.3s;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-gold);
 } */
 
 
