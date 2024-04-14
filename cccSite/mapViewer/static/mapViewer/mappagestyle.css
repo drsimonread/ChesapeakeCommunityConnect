@@ -1,15 +1,15 @@
 /* This is the ID for the DIV that the search form fits inside of. It takes up the right half of the page. */
 #search { /*? Change to right? */
-    width: 45%;
+    width: 25%;
     float: right;
     margin-top: 2em;
-    /* margin-right: 2em; */
+    margin-right: 2em;
     /* height: 400px; */
 }
 
 /* This is the ID of the DIV that the map fits inside of. It takes up the left half of the page. */
 #left {
-    width: 45%;
+    width: 70%;
     float: left;
     margin-top: 2em;
     margin-left: 2em;
@@ -87,8 +87,8 @@
 
 /* This focuses on every form object within the search DIV. */
 #search form {
-    float: left;
-    width: 60%;
+    float: right;
+    width: 90%;
     min-width: auto;
 }
 
