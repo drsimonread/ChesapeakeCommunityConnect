@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewpost.css' %}">
 <script src="{% static 'mapViewer/postview.js' %}" defer></script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places" defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places" defer></script>
 <script>
     var map;
     var marker;
@@ -21,11 +21,14 @@
             streetViewControl: false,
         });
 
-        
         marker = new google.maps.Marker({
             position: postLocation,
             map: map,
             title: 'Post Location',
+            icon: {
+                url: "{% static '/assets 2/asasqx_52.jpg' %}",
+                scaledSize: new google.maps.Size(30, 30),
+            },
         });
     }
 </script>
