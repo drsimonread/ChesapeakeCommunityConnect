@@ -2,13 +2,12 @@
 
 {% block accountFunc %}
 <!--loads user's info from provided dictionary-->
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'account/single_account.css' %}">
+
 <div id="content">
-    {{msg}}<br>
-    <form action="{{ request.build_absolute_uri }}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Send Report" id="input-submit">
-    </form>
+<div class ="containerOuter">
     <div class="wrapper">
         <div class="imgWrapper">
             <li><img class="proPic" src="{{ user.pic.url }}" alt="Uploaded Image" height="150" width="150"></li>
@@ -29,13 +28,29 @@
             {%endif%}
         </div>
 
-    </div>{{user.name}}'s Posts:
+
+
+    </div>
+    {{user.name}}'s Posts:
+    <div style="margin-top:30px;">
+    </div>
     {%for item in posts%}
     <br>
-    {{item.title}}: {{item.description}} | <button class="editPro" id="edit-account" onclick="window.location.href='{{item.get_absolute_url}}';">
-        View Post</button>
+    <div class ="container">
+
+    {{item.title}}: {{item.description}}| 
+    <div class = "buttonC" style="">
+        <button class="editPro" id="edit-account" 
+        onclick="window.location.href='{{item.get_absolute_url}}';">
+            View Post</button>
+    </div>
+   
+    </div>
     {%endfor%}
 
     <!--posts to the URL titled signout in the account app's URL config-->
 </div>
+</div>
+
+
 {% endblock accountFunc %}
