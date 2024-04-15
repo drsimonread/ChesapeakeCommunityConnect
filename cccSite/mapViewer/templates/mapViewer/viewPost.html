@@ -3,9 +3,9 @@
 
 {% block head %}
 <title>Chesapeake Community Connect - Map</title>
-<link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewpost.css' %}">
-<script src="{% static 'mapViewer/postview.js' %}" defer></script>
 
+<link rel="stylesheet" type="text/css" href="{% static 'mapViewer/slideshow.css' %}">
+<script src="{% static 'mapViewer/postview.js' %}" defer></script>
 {% endblock head %}
 
 {% block content %}
@@ -25,9 +25,6 @@
     <br>
     <p>By {{ post.author }}</p>
     <br>
-
-    <!-- Google Map -->
-    <div id="map"></div>
 
     <!-- Slideshow HTML -->
     <div class="slideshow-container">
