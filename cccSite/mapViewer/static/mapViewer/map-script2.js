@@ -1,23 +1,17 @@
-// JavaScript for slideshow functionality
-let map;
-const posts = JSON.parse(JSON.parse(document.currentScript.nextElementSibling.textContent)); //don't know why it needs to JSON.parse twice, but with only one posts is a String
-const markerList = []; //use this to iteratively create post markers on the map
-const infoWindowList = []; //same but for the post windows for when you click on the markers
-let slideIndex = 0;
-showSlides();
-async function initMap() {
 
+async function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
         zoom: 8,
         mapId: '946a9c10600de2ba'
+        
     });
 
+    // Assuming `posts` is defined elsewhere in your code
     for (let item of posts) {
         const title = item.fields.title;
         const description = item.fields.description;
-        const stringArray = window.location.href.split("?")
-        const postURL = stringArray[0] + "post/" + item.pk;
+        const postID = item.pk; // Get the post ID
         const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng };
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
@@ -25,12 +19,16 @@ async function initMap() {
             position,
             map,
             title: title,
+            icon: {
+                url: "{% static '/assets 2/asasqx_52.jpg' %}",
+                scaledSize: new google.maps.Size(32, 32), // Adjust width and height as needed
+            },
         });
         const infowindow = new google.maps.InfoWindow({
             content: `
                 <h3>${title}</h3>
                 <p>${description}</p>
-                <a href="${postURL}">See More</a>
+                <a href="#" onclick="openSlideshow(${postID})">See More</a> 
             `
         });
         
@@ -41,29 +39,9 @@ async function initMap() {
         markerList.push(marker);
         infoWindowList.push(infowindow);
     }
-}
 
-
-
-function showSlides() {
-    let i;
-    const slides = document.getElementsByClassName("mySlides");
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) { slideIndex = 1 }
-    slides[slideIndex - 1].style.display = "block";
-    setTimeout(showSlides, 2000); // Change image every 2 seconds
-}
-
-function plusSlides(n) {
-    showSlides(slideIndex += n);
-}
-
-// Function to open the slideshow popup
-function openSlideshow(postID) {
-    window.location.href = `/slideshow/${postID}/`;
+    // After initializing the map, trigger the slideshow
+    plusSlides(1); // Move to the next slide (the first image slide)
 }
 
 
