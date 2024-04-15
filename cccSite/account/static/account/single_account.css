@@ -1,0 +1,30 @@
+
+.container{
+    padding:15px;
+    margin:auto;
+    min-width:300px;
+    max-width:300px;
+    min-height:300px;
+    border-radius: 5px;
+    border-style:none;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+.buttonC{
+    margin-top:100px;
+}
+
+.editPro{
+    border:none; 
+        margin-top:20px;
+        background-color: #f3c10d;
+        border-radius:5px;
+        font-weight:large;
+        padding: 10px
+}
+
+.editPro:hover{
+    background-color: orange;
+    cursor: pointer; 
+
+}
