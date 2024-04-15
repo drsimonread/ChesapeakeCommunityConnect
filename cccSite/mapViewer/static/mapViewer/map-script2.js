@@ -20,7 +20,7 @@ async function initMap() {
             map,
             title: title,
             icon: {
-                url: "{% static '/assets 2/asasqx_52.jpg' %}",
+                url: "{% static 'assets 2/asasqx_52.jpg' %}",
                 scaledSize: new google.maps.Size(32, 32), // Adjust width and height as needed
             },
         });
