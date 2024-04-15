@@ -16,7 +16,8 @@ async function initMap() {
     for (let item of posts) {
         const title = item.fields.title;
         const description = item.fields.description;
-        const postURL = window.location.href + "post/" + item.pk;
+        const stringArray = window.location.href.split("?")
+        const postURL = stringArray[0] + "post/" + item.pk;
         const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng };
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
