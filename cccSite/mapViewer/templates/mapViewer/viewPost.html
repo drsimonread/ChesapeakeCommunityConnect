@@ -6,6 +6,29 @@
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewpost.css' %}">
 <script src="{% static 'mapViewer/postview.js' %}" defer></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places" defer></script>
+<script>
+    var map;
+    var marker;
+    var postLocation = { lat: {{ postLocation.lat }}, lng: {{ postLocation.lng }} }; // Set post location from server
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: postLocation,
+            zoom: 12,
+            mapTypeControl: false,
+            streetViewControl: false,
+        });
+
+        
+        marker = new google.maps.Marker({
+            position: postLocation,
+            map: map,
+            title: 'Post Location',
+        });
+    }
+</script>
 {% endblock head %}
 
 {% block content %}
@@ -25,6 +48,9 @@
     <br>
     <p>By {{ post.author }}</p>
     <br>
+
+    <!-- Google Map -->
+    <div id="map"></div>
 
     <!-- Slideshow HTML -->
     <div class="slideshow-container">
