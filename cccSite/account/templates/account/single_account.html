@@ -5,6 +5,13 @@
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'account/single_account.css' %}">
+{{msg}}
+<br>
+<form action="{{ request.build_absolute_uri }}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Send Report" id="input-submit">
+</form>
 
 <div id="content">
 <div class ="containerOuter">
