@@ -10,7 +10,7 @@
     b) the API script is executed AFTER our script file is loaded and so the callback function works
     c) the widgets are rendered such that our script file can access them
 -->
-<script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
+<script src="{% static 'mapViewer/map-script.js' %}" defer></script>
 {{widgets|json_script}}
 <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>

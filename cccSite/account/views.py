@@ -10,7 +10,7 @@ from mapViewer.models import MapPost, PostFile, MapTag
 from Janitor.forms import UserRepForm
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
-from .forms import CreateAccountForm
+from .forms import CreateAccountForm, SearchAccountForm
 from django.db.models import Count
 from django.db.models import Q
 # from .forms import NameForm
@@ -46,8 +46,28 @@ def default(request):
         })
     
 def account_list(request):
+    nameQ= request.GET.get("q")
+    sortQ=request.GET.get("s")
     users = Member.objects.filter(mappost__visibility__gt=0).distinct().annotate(num_posts=Count("mappost"), filter=Q(mappost__visibility=1))
+    search = SearchAccountForm(request.GET)
+    if nameQ:
+        users=users.filter(name__icontains=nameQ)
+    if not sortQ:
+        users=users.order_by("name")
+    else:
+        match sortQ:
+            case "0":
+                users=users.order_by("name")
+            case "1":
+                users=users.order_by("-name")
+            case "2":
+                users=users.order_by("num_posts")
+            case "3":
+                users=users.order_by("-num_posts")
+            case _:
+                users=users.order_by("name")
     return render(request, 'account/account_list.html', {'users' : users,
+                                                         'search' : search,
                                                          })
 
 def my_posts(request):
