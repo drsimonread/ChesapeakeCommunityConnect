@@ -1,3 +1,7 @@
+<!-- 
+    This is the base HTML file. The entire website loads from this file.
+-->
+
 <!DOCTYPE html>
 <html>
 {% load static %}
@@ -26,10 +30,8 @@
    {% block content %} {%endblock content%}
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <img src="{%static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" id="smcm-logo">
-            &copy; 2023 SMCM Capstone Website
-        </div>
+        <img src="{%static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" id="smcm-logo">
+        &copy; 2023 SMCM Capstone Website
     </footer>
 </body>
 {%endwith%}
