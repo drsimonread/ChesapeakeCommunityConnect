@@ -20,10 +20,11 @@ async function initMap() {
             map,
             title: title,
             icon: {
-                url: "{% static '/Users/alexs/Documents/GitHub/localCapstone/assets 2/asasqx_52.jpg' %}",
+                url: "/Users/alexs/Documents/GitHub/localCapstone/assets 2/asasqx_52.jpg",
                 scaledSize: new google.maps.Size(32, 32), // Adjust width and height as needed
             },
         });
+        
         const infowindow = new google.maps.InfoWindow({
             content: `
                 <h3>${title}</h3>
