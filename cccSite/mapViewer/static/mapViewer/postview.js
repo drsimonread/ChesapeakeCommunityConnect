@@ -1,4 +1,5 @@
 var slideIndex = 1;
+let map;
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -18,6 +19,14 @@ function showSlides(n) {
         slides[i].style.display = "none";
     }
     slides[slideIndex-1].style.display = "block";
+}
+
+async function initMap(){
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
+        zoom: 8,
+        mapId: '946a9c10600de2ba'
+    });
 }
 
 

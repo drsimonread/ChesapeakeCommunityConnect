@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewpost.css' %}">
 <script src="{% static 'mapViewer/postview.js' %}" defer></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>
 
 {% endblock head %}
 
@@ -28,11 +30,14 @@
     <br>
 
     <!-- Google Map -->
-    <div id="map"></div>
+   
 
     <!-- Slideshow HTML -->
     <div class="slideshow-container">
         <!-- Slides -->
+        <div class="mySlides fade">
+            <div id="map"></div>
+        </div>
         {% for item in files %}
         <div class="mySlides fade">
             <div class="image-container">
