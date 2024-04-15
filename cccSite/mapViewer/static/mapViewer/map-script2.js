@@ -19,10 +19,6 @@ async function initMap() {
             position,
             map,
             title: title,
-            icon: {
-                url: "/Users/alexs/Documents/GitHub/localCapstone/assets 2/asasqx_52.jpg",
-                scaledSize: new google.maps.Size(32, 32), // Adjust width and height as needed
-            },
         });
         
         const infowindow = new google.maps.InfoWindow({
