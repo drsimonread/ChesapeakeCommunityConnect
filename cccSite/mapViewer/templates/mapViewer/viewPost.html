@@ -31,19 +31,21 @@
         <!-- Slides -->
         {% for item in files %}
         <div class="mySlides fade">
-            {% if item.format == 0 %}
-            <img src="{{ item.file.url }}" class="slide-image">
-            {% elif item.format == 1 %}
-            <video width="100%" controls>
-                <source src="{{ item.file.url }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            {% elif item.format == 2 %}
-            <audio controls>
-                <source src="{{ item.file.url }}" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-            {% endif %}
+            <div class="image-container">
+                {% if item.format == 0 %}
+                <img src="{{ item.file.url }}" class="slide-image">
+                {% elif item.format == 1 %}
+                <video width="100%" controls>
+                    <source src="{{ item.file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                {% elif item.format == 2 %}
+                <audio controls>
+                    <source src="{{ item.file.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
         
