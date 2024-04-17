@@ -3,8 +3,6 @@ let map;
 const posts = JSON.parse(JSON.parse(document.currentScript.nextElementSibling.textContent)); //don't know why it needs to JSON.parse twice, but with only one posts is a String
 const markerList = []; //use this to iteratively create post markers on the map
 const infoWindowList = []; //same but for the post windows for when you click on the markers
-let slideIndex = 0;
-showSlides();
 async function initMap() {
 
     map = new google.maps.Map(document.getElementById("map"), {
@@ -35,39 +33,13 @@ async function initMap() {
         });
         
         marker.addListener('click', function() {
+            for (let item of infoWindowList){
+                item.close();
+            }
             infowindow.open(map, marker);
         });
 
         markerList.push(marker);
         infoWindowList.push(infowindow);
     }
-}
-
-
-
-function showSlides() {
-    let i;
-    const slides = document.getElementsByClassName("mySlides");
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) { slideIndex = 1 }
-    slides[slideIndex - 1].style.display = "block";
-    setTimeout(showSlides, 2000); // Change image every 2 seconds
-}
-
-function plusSlides(n) {
-    showSlides(slideIndex += n);
-}
-
-// Function to open the slideshow popup
-function openSlideshow(postID) {
-    window.location.href = `/slideshow/${postID}/`;
-}
-
-
-// Function to open the slideshow popup
-function openSlideshow(postID) {
-    window.location.href = `/slideshow/${postID}/`;
 }

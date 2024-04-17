@@ -1,3 +1,8 @@
+#map {
+  /*Map icon styling*/
+  border-radius: 10px;
+  height: 400px;
+}
 /* Slideshow container */
 .slideshow-container {
     max-width: 800px;

@@ -1,5 +1,6 @@
 var slideIndex = 1;
 let map;
+const locCode = JSON.parse(document.currentScript.nextElementSibling.textContent);
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -22,11 +23,27 @@ function showSlides(n) {
 }
 
 async function initMap(){
+    const address = locCode.formatted_address;
+    const position = { lat: locCode.geometry.location.lat, lng: locCode.geometry.location.lng };
     map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 38.9, lng: -77.0 }, // Chesapeake Bay Area
-        zoom: 8,
+        center: position, // Chesapeake Bay Area
+        zoom: 12,
         mapId: '946a9c10600de2ba'
     });
+
+
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    const marker = new AdvancedMarkerElement({
+        position,
+        map,
+    });
+    const infowindow = new google.maps.InfoWindow({
+        content: `
+            <h3>${address}</h3>
+        `
+    });
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });
+    
 }
-
-

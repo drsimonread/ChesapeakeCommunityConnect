@@ -5,6 +5,7 @@
 <title>Chesapeake Community Connect - Map</title>
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewpost.css' %}">
 <script src="{% static 'mapViewer/postview.js' %}" defer></script>
+{{post.geoCode|json_script}}
 <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>
 
