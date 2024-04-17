@@ -27,11 +27,19 @@
                <form action="{% url 'account:signin' %}" id = "account-form" method="post" style="display:none">
                     {% csrf_token %}
                     {% comment %} {{ createForm.as_p }} {% endcomment %}
-                    {{ createForm.email }}
-                    {{ createForm.username }}
-                    {{ createForm.password }}
-                    {{ createForm.confirm_password }}
-                    <input type="submit" value="Submit" class="button">
+                    {{ createForm.errors }}
+                    <div class="half left cf">
+                         {{ createForm.email }}
+                         {{ createForm.username }}
+                    </div>
+                    <div class="half right cf">
+
+                         {{ createForm.password }}
+                         <input type="password" id = "confirm-pass" onkeyup="comparePasswords()" placeholder="Confirm Password">
+                         {% comment %} {{ createForm.confirm_password }} {% endcomment %}
+                    </div>
+
+                    <input type="submit" id = "submit-button" value="Submit" class="button">
                </form>
           </div>
      </div>
@@ -57,11 +65,26 @@
 </div>
 
 <script>
+     document.getElementById("id_password").addEventListener("keyup", comparePasswords);
      function showAccountCreation() {
          const contactForm = document.getElementById("account-form");
          contactForm.style.display = "block";
          {% comment %} const contactButton = document.getElementById("account-button");
          contactButton.style.display = "none"; {% endcomment %}
      }
+     function comparePasswords(){ 
+          
+          var password = document.getElementById("id_password");
+          var confirmPass = document.getElementById("confirm-pass");
+          console.log(password.value)
+          const submitButton = document.getElementById("submit-button");
+          if (confirmPass.value == password.value){
+               
+               submitButton.disabled = false;
+          }else{
+               submitButton.disabled = true;
+          }
+     }
+
 </script>
 {% endblock accountFunc %}

@@ -13,7 +13,7 @@
     <input type="submit" value="Send Report" id="input-submit">
 </form>
 
-<div id="content">
+<div class="content">
 <div class ="containerOuter">
     <div class="wrapper">
         <div class="imgWrapper">
@@ -37,20 +37,23 @@
 
 
 
-    </div>
     {{user.name}}'s Posts:
-    <div style="margin-top:30px;">
-    </div>
+</div>
+
+   
     {%for item in posts%}
     <br>
     <div class ="container">
 
+        <div class ="singleP">
     {{item.title}}: {{item.description}}| 
-    <div class = "buttonC" style="">
+    
+    <div class = "buttonC">
         <button class="editPro" id="edit-account" 
         onclick="window.location.href='{{item.get_absolute_url}}';">
             View Post</button>
     </div>
+        </div>
    
     </div>
     {%endfor%}
