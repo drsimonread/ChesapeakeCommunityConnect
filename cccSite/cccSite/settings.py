@@ -152,4 +152,5 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-VALID_UPLOAD_TYPES = ['image/jpeg','image/png',] #https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+#https://pro.europeana.eu/page/media-formats-mime-types
+VALID_UPLOAD_TYPES = ['image/jpeg','image/png','image/gif','audio/mpeg','audio/wav','video/mp4','video/quicktime'] #https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
