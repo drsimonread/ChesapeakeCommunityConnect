@@ -3,6 +3,7 @@
 {% load static %}
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'account/accountBasestyle.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 </head>
 {%block accHead%}
 <title>Chesapeake Community Connect - Contributors</title>
@@ -10,7 +11,7 @@
 {%endblock head%}
 {% block content %}
 <div id="body">  
-    <ul class="menu" style="width: 15%; text-align: center; float: left;">
+    {% comment %} <ul class="menu">
         <li><a class="button" href="{%url 'account:account_list'%}" style="text-decoration: none;">Search Contributors</a></li>
         {% if rank > 0 %}
         <li><a class="button" href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/manage/' not in request.path and '/create/' not in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;" >My Account</a></li>
@@ -23,6 +24,52 @@
         {%else%}
         <li><a class="button" href="{% url 'account:signin' %}" style="text-decoration: none;">Sign In</a></li>
         {%endif%}
+    </ul> {% endcomment %}
+
+
+    <ul class="menu">
+
+        {% if rank > 0 %}
+        <li>
+            <a href="{%url 'account:account_list'%}" {%if '/view/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
+                <i class='bx bx-search-alt' ></i>
+                <span>Search Contributors</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{%url 'account:create_post' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>
+                <i class='bx bx-message-square-add'></i>
+                <span>Create Post</span>
+            </a>
+        </li>
+
+        <li><a class="button" href="{%url 'account:my_posts' %}" {%if '/myposts/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>My Posts</a></li>
+        <li>
+            <a href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/view/' not in request.path and '/create/' not in request.path and '/myposts/' not in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
+                <i class='bx bxs-user-account' ></i>
+                <span>My Account</span>
+            </a>
+        </li>
+
+        <li>
+            <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
+                <button>
+                    <i class='bx bx-log-out' ></i>
+                    Sign Out
+                </button>
+            </form>
+        </li>
+
+        {%else%}
+        <li>
+            <a class="button" href="{% url 'account:signin' %}">
+                <i class='bx bx-log-in'></i>
+                <span>Sign In</span>
+            </a>
+        </li>
+        {%endif%}
+
     </ul>
 
     <div id="right">
