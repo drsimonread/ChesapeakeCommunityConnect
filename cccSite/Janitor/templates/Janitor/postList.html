@@ -7,7 +7,7 @@
 {%for item in posts %}
 <button class="accordion">{{item.title}} | {{item.description}} by {{item.author.name}}</button>
 <div class="panel">
-    <p><a class="button" href="{{item.get_absolute_url}}">Manage Post</a>/<a class="button" href="{{item.get_admin_url}}">Manage Post</a></p>
+    <p><a class="button" href="{{item.get_absolute_url}}">View Post</a><a class="button" href="{{item.get_admin_url}}">Manage Post</a></p>
 </div>
 {%endfor%}
 {% endblock adminFunc %}

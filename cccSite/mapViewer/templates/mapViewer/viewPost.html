@@ -12,7 +12,10 @@
 {% endblock head %}
 
 {% block content %}
-<br>
+{%if rank > 1%}
+<a class="button" href="{{post.get_admin_url}}">Manage Post</a>
+{%endif%}
+{{msg}}<br>
 <div id="content" class="body">
     {% if not hasReported %}
     <form action="{{ request.build_absolute_uri }}" method="post">
@@ -26,7 +29,7 @@
 
     <h1>{{ post.title }}</h1>
     <br>
-    <p>By {{ post.author }}</p>
+    <p>By <a href="{{post.author.get_absolute_url}}">{{ post.author }}</a></p>
     <br>
 
     <!-- Google Map -->

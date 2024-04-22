@@ -1,9 +1,11 @@
 {%extends "account/accountBase.html"%}
-
+{% load static %}
 {% block accountFunc %}
 <!--loads user's info from provided dictionary-->
 
-{% load static %}
+{%if rank == 99%}
+<a class="button" href="{{user.get_admin_url}}">Manage User</a>
+{%endif%}
 <link rel="stylesheet" type="text/css" href="{% static 'account/single_account.css' %}">
 {{msg}}
 <br>
@@ -46,7 +48,7 @@
     <div class ="container">
 
         <div class ="singleP">
-    {{item.title}}: {{item.description}}| 
+    {{item.title}}: {{item.description}} 
     
     <div class = "buttonC">
         <button class="editPro" id="edit-account" 

@@ -2,6 +2,11 @@
 {% load static %}
 
 {% block adminFunc %}
+<link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewpost.css' %}">
+<script src="{% static 'mapViewer/postview.js' %}" defer></script>
+{{post.geoCode|json_script}}
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>
 
 {%if msg%}
 <br>{{msg}}<br>
@@ -17,16 +22,40 @@
     <br>
     By {{post.author}}
     <br>
-    {%for item in files%}
-    {%if item.format == 0 %}
-    <img src="{{item.file.url}}">
+    <!-- Slideshow HTML -->
+    <div class="slideshow-container">
+        <!-- Slides -->
+        <div class="mySlides fade">
+            <div id="map"></div>
+        </div>
+        {% for item in files %}
+        <div class="mySlides fade">
+            <div class="image-container">
+                {% if item.format == 0 %}
+                <img src="{{ item.file.url }}" class="slide-image">
+                {% elif item.format == 1 %}
+                <video width="100%" controls>
+                    <source src="{{ item.file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                {% elif item.format == 2 %}
+                <audio controls>
+                    <source src="{{ item.file.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        
+        <!-- Next and previous buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
     <br>
-    {%elif item.format == 1%}
-    <video src="{{item.file.url}}">
-    {%elif item.format == 2%}
-    <audio src="{{item.file.url}}">
-    {%endif%}
-    {%endfor%}
+    <div id="caption">
+    
+    </div>
     {{post.content}}
     <br>
     Tags:

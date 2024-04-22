@@ -64,7 +64,7 @@ def post_detail(request, want):
             if lookAt.visibility==0:
                 msg="Your post is currently pending approval and only visible to you."
             elif lookAt.visibility == -1:
-                msg="Your post has been denied for the following reason: .\nTo resubmit, please create a new post."
+                msg="Your post has been denied for the following reason: {0}.\nTo resubmit, please create a new post.".format(lookAt.description)
             return render(request, "mapViewer/viewPost.html", {"post" : lookAt,
                                                                "form" : reporter,
                                                                "hasReported" : hasReported,

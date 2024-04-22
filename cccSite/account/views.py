@@ -166,7 +166,7 @@ def make_post(request):
         return redirect(reverse("account:signin"))
     if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
         contentForm= MakePostForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
-        if contentForm.is_valid(): #if the post is good to go, calls the clean method and validators from MakePostForm in mapViewer/fornms.py
+        if contentForm.is_valid(): #if the post is good to go, calls the clean method and validators from MakePostForm in mapViewer/forms.py
             userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
             if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
                 disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview

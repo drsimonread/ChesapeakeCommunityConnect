@@ -16,7 +16,7 @@ def contactList(request):
     messages = Message.objects.all() #fetch messages
     return render(request, "Janitor/contactList.html", {'messages' : messages,})#pass messages to template
 
-#display a list of users, not including the currently logged in account
+#display a list of users, not including the currently logged in account. needs to be remade using querysets to allow searching/sorting
 def memberList(request):
     if request.session.get('rank',0) != 99: #if user isn't an admin, they aren't allowed to edit ranks
         redirect(default)
@@ -80,7 +80,7 @@ def rev_post(request, want):
 def tagList(request): #view allowing mod/admin to add/remove tags to the post tagging system
     msg = ""
     if request.method == "POST":
-        if 'addTag' in request.POST: #if a form has been posted, a tag is being added or deleted this if checks it
+        if 'addTag' in request.POST: #if a form has been posted, a tag is being added or deleted this checks which one, indicated by a hidden field
             addForm = TagAdder(request.POST)
             delForm = TagRemover()
             if addForm.is_valid(): 

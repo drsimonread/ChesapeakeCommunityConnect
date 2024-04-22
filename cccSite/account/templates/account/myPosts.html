@@ -1,7 +1,8 @@
 {%extends "account/accountBase.html"%}
+{%load static%}
 
 {% block accountFunc %}
-
+<link rel="stylesheet" type="text/css" href="{% static 'account/accordian.css' %}">
 <style>
 
     .container{
@@ -36,30 +37,36 @@
 <!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
 <div id="content">
     <div class="container">
-        Visible Posts:
+        <button class="accordion">Visible Posts:</button>
+        <div class="panel">
         {%if not vis%}
         <br>You do not have any visible posts
         {%endif%}
         <!--need to make these accordions for each category-->
         {%for item in vis%}
-        <br>{{item.title}} | {{item.description}} | <a class="button" href="{{item.get_absolute_url}}">View Post</a>
+        <br>{{item.title}} | {{item.description}} <a class="button" href="{{item.get_absolute_url}}">View Post</a>
         {%endfor%}
+        </div>
         <br>
-        Pending Posts:
+        <button class="accordion">Pending Posts:</button>
+        <div class="panel">
         {%if not pend%}
         You do not have any pending posts
         {%endif%}
         {%for item in pend%}
-        <br>{{item.title}} | {{item.description}} | <a class="button" href="{{item.get_absolute_url}}">View Post</a>
+        <br>{{item.title}} | {{item.description}} <a class="button" href="{{item.get_absolute_url}}">View Post</a>
         {%endfor%}
+        </div>
         <br>
-        Denied Posts:
+        <button class="accordion"> Denied Posts:</button>
+        <div class="panel">
         {%if not den%}
         You do not have any denied posts.
         {%endif%}
         {%for item in den%}
-        <br>{{item.title}} | {{item.description}} | <a class="button" href="{{item.get_absolute_url}}">View Post</a>
+        <br>{{item.title}} | {{item.description}} <a class="button" href="{{item.get_absolute_url}}">View Post</a>
         {%endfor%}
+        </div>
     </div>
   
 </div>

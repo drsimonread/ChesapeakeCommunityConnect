@@ -15,7 +15,7 @@ class MapPost(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     author = models.ForeignKey(Member, on_delete=models.CASCADE)
-    description = models.TextField() #will be derived from content. whenever this stuff gets working.
+    description = models.TextField()
     geoCode = models.JSONField()
     tags = models.ManyToManyField(MapTag, related_name="posts", blank=True)
     visible_options = { 
@@ -41,9 +41,6 @@ def post_file_directory(instance, filename):
     ext = filename.split('.')[-1]
     filename="{0}.".format(uuid4().hex)+ext
     return 'posts/{0}/{1}'.format(instance.post.pk, filename) 
-
-
-
 
 class PostFile(models.Model):
     post = models.ForeignKey(MapPost, on_delete=models.CASCADE)
