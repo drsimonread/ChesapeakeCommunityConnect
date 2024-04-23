@@ -9,6 +9,9 @@ from django.db.models import Count
 
 # Create your views here.
 def default(request):
+    databaseRank = Member.objects.get(pk=request.session.get('user',-1)).ranking
+    if request.session.get('rank',0) != databaseRank:
+        request.session['rank']=databaseRank
     return render(request, "Janitor/AdminBase.html")
 
 #displays a list of accordion elements that show contact instances from the contact us form.

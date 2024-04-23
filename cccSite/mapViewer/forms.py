@@ -59,7 +59,7 @@ class MakePostForm(forms.Form):
             geoResult=gmaps.geocode(address=self.cleaned_data['location']) #fetch geocode for provided address (API call)
             if not geoResult: #if still none, then the address is invalid
                 raise ValidationError(_("Invalid Address"), code="adderr")
-        print(geoResult)
+        #print(geoResult)
         return {'title': cleaned_data['title'],
                 'location': cleaned_data['location'],
                 'content': cleaned_data['content'],

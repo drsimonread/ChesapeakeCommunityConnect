@@ -40,7 +40,11 @@ def default(request):
     if request.session.get('rank',0)==0:
         return redirect(reverse("account:signin"))
     else:
-        userInz=Member.objects.get(pk=request.session['user']) #get user from session
+        userInz=Member.objects.get(pk=request.session['user'])
+        databaseRank = userInz.ranking
+        if request.session.get('rank',0) != databaseRank:
+            request.session['rank']=databaseRank
+         #get user from session
         return render(request, 'account/myaccount.html', {
             'self': userInz,
         })
