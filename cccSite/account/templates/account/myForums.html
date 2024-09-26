@@ -1,0 +1,73 @@
+{%extends "account/accountBase.html"%}
+{%load static%}
+
+{% block accountFunc %}
+<link rel="stylesheet" type="text/css" href="{% static 'account/accordian.css' %}">
+<style>
+
+    .container{
+        min-width: 100%;
+        margin-bottom: 20%;
+    }
+
+    .nameField,.emailField,.aboutField{
+        border: none;
+        width: 300px;
+        padding:10px;
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    .submitB {
+        background-color: #f3c10d;
+        padding: 10px;
+        border-radius: 3px;
+        border: none;
+        font-size: 15px;
+        width: 150px;
+
+    }
+
+    .submitB:hover{
+        cursor: pointer;
+        background-color: orange;
+    }
+
+</style>
+<!--loads the form with line breaks between entries. forums to the URL titled manage in the account app's URL config-->
+<div id="content">
+    <div class="container">
+        <button class="accordion">Visible Forums:</button>
+        <div class="panel">
+        {%if not vis%}
+        <br>You do not have any visible forums
+        {%endif%}
+        <!--need to make these accordions for each category-->
+        {%for item in vis%}
+        <br>{{item.title}} | {{item.description}} <a class="button" href="{{item.get_absolute_url}}">View Forum</a>
+        {%endfor%}
+        </div>
+        <br>
+        <button class="accordion">Pending Forums:</button>
+        <div class="panel">
+        {%if not pend%}
+        You do not have any pending forums
+        {%endif%}
+        {%for item in pend%}
+        <br>{{item.title}} | {{item.description}} <a class="button" href="{{item.get_absolute_url}}">View Forum</a>
+        {%endfor%}
+        </div>
+        <br>
+        <button class="accordion"> Denied Forums:</button>
+        <div class="panel">
+        {%if not den%}
+        You do not have any denied forums.
+        {%endif%}
+        {%for item in den%}
+        <br>{{item.title}} | {{item.description}} <a class="button" href="{{item.get_absolute_url}}">View Forum</a>
+        {%endfor%}
+        </div>
+    </div>
+  
+</div>
+{% endblock accountFunc %}

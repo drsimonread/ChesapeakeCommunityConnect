@@ -5,8 +5,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import HttpResponse
-from mapViewer.forms import MakePostForm
-from mapViewer.models import MapPost, PostFile, MapTag
+from mapViewer.forms import MakeForumForm
+from mapViewer.models import Forum, Media, Tag
 from Janitor.forms import UserRepForm
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
@@ -52,7 +52,7 @@ def default(request):
 def account_list(request):
     nameQ= request.GET.get("q")
     sortQ=request.GET.get("s")
-    users = Member.objects.filter(mappost__visibility__gt=0).distinct().annotate(num_posts=Count("mappost"), filter=Q(mappost__visibility=1))
+    users = Member.objects.filter(forum__visibility__gt=0).distinct().annotate(num_forums=Count("forum"), filter=Q(forum__visibility=1))
     search = SearchAccountForm(request.GET)
     if nameQ:
         users=users.filter(name__icontains=nameQ)
@@ -65,31 +65,31 @@ def account_list(request):
             case "1":
                 users=users.order_by("-name")
             case "2":
-                users=users.order_by("num_posts")
+                users=users.order_by("num_forums")
             case "3":
-                users=users.order_by("-num_posts")
+                users=users.order_by("-num_forums")
             case _:
                 users=users.order_by("name")
     return render(request, 'account/account_list.html', {'users' : users,
                                                          'search' : search,
                                                          })
 
-def my_posts(request):
+def my_forums(request):
     if request.session.get('rank',0)==0:
         return redirect(reverse(default))
     else:
         userInz = Member.objects.get(pk=request.session.get('user'))
-        userPosts=MapPost.objects.filter(author=userInz)
-        vis = userPosts.filter(visibility=1)
-        pend = userPosts.filter(visibility=0)
-        den = userPosts.filter(visibility=-1)
-        return render(request, 'account/myPosts.html', {'vis' : vis,
+        userForums=Forum.objects.filter(author=userInz)
+        vis = userForums.filter(visibility=1)
+        pend = userForums.filter(visibility=0)
+        den = userForums.filter(visibility=-1)
+        return render(request, 'account/myForums.html', {'vis' : vis,
                                     'pend' : pend,
                                     'den' : den})
     
 def account_view(request, want):
     msg = ""
-    if not Member.objects.get(pk=want):
+    if not Member.objects.get(pk=want): # MEMBER_DELETE
         return redirect(reverse("account:default"))
     
     if request.method == "POST":
@@ -99,10 +99,10 @@ def account_view(request, want):
             msg="Your report has been sent."
     else:
         accountInz=Member.objects.get(pk=want)
-        userPosts=MapPost.objects.filter(author=accountInz).filter(visibility=1)
+        userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
         form = UserRepForm(initial={'account':accountInz})
     return render(request, 'account/single_account.html', {'user' : accountInz,
-                                                           'posts' : userPosts,
+                                                           'forums' : userForums,
                                                            'form' : form,
                                                            'msg':msg})
     
@@ -164,39 +164,42 @@ def authG(request):
         return redirect(reverse("account:default"))
     
 
-#view for creating posts
-def make_post(request):
+#view for creating forums
+def make_forum(request):
     if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
         return redirect(reverse("account:signin"))
-    if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
-        contentForm= MakePostForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
-        if contentForm.is_valid(): #if the post is good to go, calls the clean method and validators from MakePostForm in mapViewer/forms.py
+    if(request.method=="POST"): #if the request was a post, it is an attempt to create a forum
+        contentForm= MakeForumForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
+        if contentForm.is_valid(): #if the forum is good to go, calls the clean method and validators from MakeForumForm in mapViewer/forms.py
+            # MEMBER_DELETE
             userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
             if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
                 disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
             else:
-                disc = contentForm.cleaned_data['content'] #otherwise just use content to describe
+                disc = contentForm.cleaned_data['content'] #otherwise just use content to describe #? Why does description exist at all?
             vis=0 #default visibility set to pending
             if request.session['rank'] > 1: #if user is trusted, set visibility to visible
                 vis=1
-            postInz=MapPost.objects.create(title=contentForm.cleaned_data['title'], #actually create the post instance in the database
+            forumInz=Forum.objects.create(title=contentForm.cleaned_data['title'], #actually create the forum instance in the database
                                    content=contentForm.cleaned_data['content'],
                                    author=userInz,
                                    description=disc,
                                    geoCode=contentForm.cleaned_data['geoResult'][0],
-                                   visibility=vis
+                                   visibility=vis,
+                                   associated=contentForm.cleaned_data['associated'],
+                                   private_public=contentForm.cleaned_data['private_public']
                                    )
             if contentForm.cleaned_data['tags']: #if there are any tags
-                postInz.tags.set(contentForm.cleaned_data['tags']) #set the post's tags according to selected tags
+                forumInz.tags.set(contentForm.cleaned_data['tags']) #set the forum's tags according to selected tags
             
             if contentForm.cleaned_data['files']: #if there are files uploaded
                 for item in contentForm.cleaned_data['files']: #iterates through file upload fields
                     if item != None: #if item is none, then nothing was uploaded
-                        fileInz = PostFile.objects.create(post=postInz, file=item) #create a postfile instance
+                        fileInz = Media.objects.create(forum=forumInz, file=item) #create a forumfile instance
                         fileInz.format = fileInz.get_format() #get the format and set the format
                         fileInz.save() #save the updated format
-            return redirect(reverse('mapViewer:post_detail', args=[postInz.pk])) #redirect to the post view of the just posted post
+            return redirect(reverse('mapViewer:forum_detail', args=[forumInz.pk])) #redirect to the forum view of the just posted forum
             
     else:
-        contentForm = MakePostForm()
-    return render(request, 'account/create_post.html', {'form': contentForm,})
+        contentForm = MakeForumForm()
+    return render(request, 'account/create_forum.html', {'form': contentForm,})

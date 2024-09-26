@@ -200,7 +200,7 @@ input[type=text] {
 
 /*? The code after this point is only every used in a .js file, what does it do? */
 
-/* Create a Post and Contact Us buttons */
+/* Create a Forum and Contact Us buttons */
 #add-marker-button {
     padding: 10px 20px;
     width: 40%; /* Take up half the screen width */

@@ -39,11 +39,11 @@
 
 
 
-    {{user.name}}'s Posts:
+    {{user.name}}'s Forums:
 </div>
 
    
-    {%for item in posts%}
+    {%for item in forums%}
     <br>
     <div class ="container">
 
@@ -53,14 +53,14 @@
     <div class = "buttonC">
         <button class="editPro" id="edit-account" 
         onclick="window.location.href='{{item.get_absolute_url}}';">
-            View Post</button>
+            View Forum</button>
     </div>
         </div>
    
     </div>
     {%endfor%}
 
-    <!--posts to the URL titled signout in the account app's URL config-->
+    <!--forums to the URL titled signout in the account app's URL config-->
 </div>
 </div>
 

@@ -10,62 +10,62 @@ from .forms import *
 from django.db.models import Q
 import googlemaps
 from datetime import datetime
-from Janitor.forms import PostRepForm
+from Janitor.forms import ForumRepForm
 from django.shortcuts import get_object_or_404, render
-from .models import MapPost
+from .models import Forum
 
 def viewMap(request):
-    posts = MapPost.objects.filter(visibility=1) #begin by fetching visible posts from database
+    forums = Forum.objects.filter(visibility=1) #begin by fetching visible forums from database
     contQuery = request.GET.get("q") #get content and tag query from url
     tagQuery = request.GET.getlist("t")
-    searchForm = SearchPostsForm(request.GET) #create a search form from url
-    if contQuery: #filter the posts according to search queries if the search queries are nonempty
-        posts = posts.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
+    searchForm = SearchForumsForm(request.GET) #create a search form from url
+    if contQuery: #filter the forums according to search queries if the search queries are nonempty
+        forums = forums.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
     if tagQuery:
         for tag in tagQuery:
-            posts=posts.filter(tags__pk=tag)
-    widgets = serializers.serialize('json', posts) #serialize posts as JSON for google maps
+            forums=forums.filter(tags__pk=tag)
+    widgets = serializers.serialize('json', forums) #serialize forums as JSON for google maps
     #print(widgets)  # Temporary print statement to check the output
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
                                                       'searchForm' : searchForm,}) #render template
 
 
 
-def post_list(request):
+def forum_list(request):
     contQuery = request.GET.get("q")
     tagQuery = request.GET.getlist("t")
-    form = SearchPostsForm(request.GET)
-    posts = MapPost.objects.filter(visibility=1)
+    form = SearchForumsForm(request.GET)
+    forums = Forum.objects.filter(visibility=1)
     if contQuery:
-        posts = posts.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
+        forums = forums.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
     if tagQuery:
         for tag in tagQuery:
-            posts=posts.filter(tags__pk=tag)
-    posts = posts.order_by("id")
-    return render(request, "mapViewer/listPosts.html", {"postList" : posts,
+            forums=forums.filter(tags__pk=tag)
+    forums = forums.order_by("id")
+    return render(request, "mapViewer/listForums.html", {"forumList" : forums,
                                                         "form" : form})
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
-def post_detail(request, want):
+def forum_detail(request, want):
     msg=""
     hasReported=False
-    if MapPost.objects.filter(pk=want).exists():
-        lookAt= MapPost.objects.get(pk=want)
-        files = PostFile.objects.filter(post=lookAt)
+    if Forum.objects.filter(pk=want).exists():
+        lookAt= Forum.objects.get(pk=want)
+        files = Media.objects.filter(forum=lookAt)
         if request.method == 'POST':
-            reporter = PostRepForm(request.POST)
+            reporter = ForumRepForm(request.POST)
             hasReported = reporter.is_valid()
             if hasReported:
                 reporter.save()
         else:
-            reporter = PostRepForm(initial={'post':lookAt})
+            reporter = ForumRepForm(initial={'forum':lookAt})
         if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
             
             if lookAt.visibility==0:
-                msg="Your post is currently pending approval and only visible to you."
+                msg="Your forum is currently pending approval and only visible to you."
             elif lookAt.visibility == -1:
-                msg="Your post has been denied for the following reason: {0}.\nTo resubmit, please create a new post.".format(lookAt.description)
-            return render(request, "mapViewer/viewPost.html", {"post" : lookAt,
+                msg="Your forum has been denied for the following reason: {0}.\nTo resubmit, please create a new forum.".format(lookAt.description)
+            return render(request, "mapViewer/viewForum.html", {"forum" : lookAt,
                                                                "form" : reporter,
                                                                "hasReported" : hasReported,
                                                                "files" : files,

@@ -5,52 +5,96 @@ from uuid import uuid4
 import magic
 
 
-class MapTag(models.Model):
+class Tag(models.Model):
     name = models.CharField(max_length=25, unique=True)
     def __str__(self):
         return self.name
 
-# this will be the ideal post model. we would serialize this to widgets using djangos JSON serialize functionality on the specific fields
-class MapPost(models.Model):
+# this will be the ideal forum model. we would serialize this to widgets using djangos JSON serialize functionality on the specific fields
+class Forum(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    author = models.ForeignKey(Member, on_delete=models.CASCADE)
+    
+    # MEMBER_DELETE
+    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="author")
+    
     description = models.TextField()
     geoCode = models.JSONField()
-    tags = models.ManyToManyField(MapTag, related_name="posts", blank=True)
+    tags = models.ManyToManyField(Tag, related_name="forums", blank=True)
+    
+    
     visible_options = { 
         (-1,"denied"),
         (0, "pending"),
         (1 , "visible"),
     }
     visibility = models.SmallIntegerField(default=0, choices=visible_options)
+    
+    
+    associated_choices = [
+        ("associated", "I am associated with the group providing this solution"),
+        ("not-associated", "I am not associated with the group providing this solution")
+    ]
+    associated = models.CharField(choices=associated_choices, max_length=150)
+    
+    private_public_choices = [
+        ("public", "Public (Anyone can view and add Posts)"),
+        ("private", "Private (Only invited Contributors can view and add Posts)")
+    ]
+    private_public = models.CharField(choices=private_public_choices, max_length=80)
+    
+    # MEMBER_DELETE
+    contributors = models.ManyToManyField(Member, related_name="contributors", blank=True)
+    
     def __str__(self):
         return self.title + " by " + str(self.author)
     @property
     def get_absolute_url(self):
-        return reverse("mapViewer:post_detail", args=[str(self.pk)])
+        return reverse("mapViewer:forum_detail", args=[str(self.pk)])
     @property
     def get_admin_url(self):
-        return reverse("Janitor:postReview", args=[str(self.pk)])
+        return reverse("Janitor:forumReview", args=[str(self.pk)])
     
     #https://forum.djangoproject.com/t/url-template-tag-get-absolute-url-and-views/21249
     #https://levelup.gitconnected.com/django-quick-tips-get-absolute-url-1c22321f806b
 
-def post_file_directory(instance, filename): 
-    # file will be uploaded to MEDIA_ROOT / posts / <post.pk> / <pk>.<ext>
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    
+    # MEMBER_DELETE
+    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL)
+    
+    forum = models.ForeignKey(Forum, null=True, on_delete=models.SET_NULL)
+    
+
+class Comment(models.Model):
+    content = models.TextField()
+    
+    # MEMBER_DELETE
+    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL)
+    
+    post = models.ForeignKey(Post, null=True, on_delete=models.SET_NULL)
+    
+
+def media_directory(instance, filename): 
+    # file will be uploaded to MEDIA_ROOT / forums / <forum.pk> / <pk>.<ext>
     ext = filename.split('.')[-1]
     filename="{0}.".format(uuid4().hex)+ext
-    return 'posts/{0}/{1}'.format(instance.post.pk, filename) 
+    return 'forums/{0}/{1}'.format(instance.forum.pk, filename) 
 
-class PostFile(models.Model):
-    post = models.ForeignKey(MapPost, on_delete=models.CASCADE)
+class Media(models.Model):
+    
+    forum = models.ForeignKey(Forum, on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
+    
     format_options = { 
         (0, "image"),
         (1, "video"),
         (2 , "audio"),
     }
     format = models.SmallIntegerField(default=0, choices=format_options)
-    file = models.FileField(upload_to=post_file_directory)
+    file = models.FileField(upload_to=media_directory)
     def get_format(self):
         filetype = magic.from_buffer(self.file.read(), mime=True).split('/')[0]
         match filetype:

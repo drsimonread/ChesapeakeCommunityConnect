@@ -14,6 +14,8 @@ def user_directory_profile(instance, filename):
     return 'users/{0}/{1}'.format(instance.pk, filename) 
 
 # user model. self explanitory
+
+# MEMBER_DELETE
 class Member(models.Model):
     name = models.CharField(max_length=35)
     ranking_options = { 
@@ -45,12 +47,14 @@ class Member(models.Model):
 # same pattern can be used to implement other log in methods
 class GLogIn(models.Model):
     googleID = models.CharField(max_length=255, unique=True)
+    # MEMBER_DELETE
     referTo = models.ForeignKey(Member, on_delete = models.CASCADE)
     def __str__(self):
         return self.googleID + "|" + str(self.referTo)
 
 class ManageForm(ModelForm):
     class Meta:
+        # MEMBER_DELETE
         model = Member
         fields = ["pic", "name", "email", "about"]
 
@@ -64,6 +68,7 @@ class ManageForm(ModelForm):
 
 
 class UPLogIn(models.Model):
+    # MEMBER_DELETE
     referTo = models.ForeignKey(Member, on_delete = models.CASCADE)
     username = models.CharField(max_length=35, unique=True)
     salt = models.CharField(max_length=22)

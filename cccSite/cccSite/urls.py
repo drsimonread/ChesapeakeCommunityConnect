@@ -28,7 +28,7 @@ urlpatterns = [
     path("", include("mapViewer.urls")),
     path("", include("boiler.urls")),
     path("admin/", include("Janitor.urls")),
-    path('post/<int:want>/', views.post_detail, name='post_detail'),
+    path('forum/<int:want>/', views.forum_detail, name='forum_detail'),
 ] 
 urlpatterns += static(settings.MEDIA_URL,
                       document_root=settings.MEDIA_ROOT)

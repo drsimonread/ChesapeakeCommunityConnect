@@ -3,15 +3,15 @@ from django import forms
 from account.models import Member
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-from mapViewer.models import MapTag, MapPost
+from mapViewer.models import Tag, Forum
 from .models import *
 
 class TagRemover(Form):
-    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags")
+    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags")
 
 class TagAdder(ModelForm):
     class Meta:
-        model = MapTag
+        model = Tag
         fields = ['name']
 
 class UserRepForm(ModelForm):
@@ -22,18 +22,18 @@ class UserRepForm(ModelForm):
             'account' : forms.HiddenInput,
         }
 
-class PostRepForm(ModelForm):
+class ForumRepForm(ModelForm):
     class Meta:
-        model = PostReport
-        fields = ['reason', 'post']
+        model = ForumReport
+        fields = ['reason', 'forum']
         widgets = {
-            'post' : forms.HiddenInput,
+            'forum' : forms.HiddenInput,
         }
 
-class PostManager(ModelForm):
+class ForumManager(ModelForm):
     reason = forms.CharField(label="Reason", widget=forms.Textarea, required=False)
     class Meta:
-        model = MapPost
+        model = Forum
         fields = ['visibility', 'description']
         widgets={
             'description' : forms.HiddenInput

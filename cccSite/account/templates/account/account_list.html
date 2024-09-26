@@ -12,7 +12,7 @@
     </form>
     {%for item in users %}
     <ul>                         
-        <li><a href="{{item.get_absolute_url}}">{{ item.name }}</a> {{item.num_posts}} Posts
+        <li><a href="{{item.get_absolute_url}}">{{ item.name }}</a> {{item.num_forums}} Forums
          </li>                      
      </ul> 
     {%endfor%}

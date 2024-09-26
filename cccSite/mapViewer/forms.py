@@ -1,7 +1,7 @@
 #https://medium.com/swlh/django-forms-for-many-to-many-fields-d977dec4b024
 from django import forms
 from django.conf import settings
-from .models import MapTag
+from .models import Tag
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 import googlemaps
@@ -10,9 +10,9 @@ from datetime import datetime
 import magic
 
 
-class SearchPostsForm(forms.Form):
+class SearchForumsForm(forms.Form):
     q = forms.CharField(max_length=100, required=False, widget=forms.TextInput({"Placeholder": "Search..."}))
-    t = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
+    t = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
     class Meta:
         labels = {
                 'q': _('Search'),
@@ -21,8 +21,8 @@ class SearchPostsForm(forms.Form):
 
 
 
-#post creation form
-class MakePostForm(forms.Form):
+#forum creation form
+class MakeForumForm(forms.Form):
     def get_upload_attrs():#function that converts the list of accepted file types to a string for use in restricting what is selectable in the upload interface
         val = '' #start blank
         for item in settings.VALID_UPLOAD_TYPES: #for valid file type
@@ -33,11 +33,25 @@ class MakePostForm(forms.Form):
                 raise ValidationError(_("Bad file"), code="filerr")
 
 
-    title = forms.CharField(max_length=100, label="Title", widget=forms.TextInput({"Placeholder": "Title"})) #title of post
-    location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of post as an address
-    content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the post
-    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of post
+    title = forms.CharField(max_length=100, label="Title", widget=forms.TextInput({"Placeholder": "Title"})) #title of forum
+    location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of forum as an address
+    content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
+    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
+    
+    associated_choices = [
+        ("associated", "I am associated with the group providing this solution"),
+        ("not-associated", "I am not associated with the group providing this solution")
+    ]
+    associated = forms.ChoiceField(choices=associated_choices)
+    
+    private_public_choices = [
+        ("public", "Public (Anyone can view and add Posts)"),
+        ("private", "Private (Only invited Contributors can view and add Posts)")
+    ]
+    private_public = forms.ChoiceField(choices=private_public_choices)
+    
+    
     #the file upload fields. validated using the custom validator above, if left empty or if a bad file is submitted, these fields have nothing in them
     file1 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
     file2 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
@@ -65,6 +79,8 @@ class MakePostForm(forms.Form):
                 'content': cleaned_data['content'],
                 'tags': cleaned_data['tags'],
                 'geoResult': geoResult,
+                'associated': cleaned_data['associated'],
+                'private_public': cleaned_data['private_public'],
                 'files': [cleaned_data.get('file1'),cleaned_data.get('file2'),cleaned_data.get('file3'),cleaned_data.get('file4')],
                 }  # if a file is legit, the .get returns the file. if not (or if it doesn't exist), 
                 # the .get returns None, and so we can iterate through cleaned_data['files'] in a view, and check if an entry isn't None to 

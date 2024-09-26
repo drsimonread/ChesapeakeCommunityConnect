@@ -5,8 +5,8 @@ class SearchAccountForm(forms.Form):
     CHOICES = (
         ('0','A-Z'),
         ('1','Z-A'),
-        ('2','# of posts, high-low'),
-        ('3','# of posts, low-high'),
+        ('2','# of forums, high-low'),
+        ('3','# of forums, low-high'),
     )
     q = forms.CharField(label='Search', max_length=100, required=False, widget=forms.TextInput({"Placeholder": "Search..."}))
     s = forms.CharField(label='Sort By', widget=forms.Select(choices=CHOICES), required=False)

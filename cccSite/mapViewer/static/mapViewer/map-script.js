@@ -1,8 +1,8 @@
 // JavaScript for slideshow functionality
 let map;
-const posts = JSON.parse(JSON.parse(document.currentScript.nextElementSibling.textContent)); //don't know why it needs to JSON.parse twice, but with only one posts is a String
-const markerList = []; //use this to iteratively create post markers on the map
-const infoWindowList = []; //same but for the post windows for when you click on the markers
+const forums = JSON.parse(JSON.parse(document.currentScript.nextElementSibling.textContent)); //don't know why it needs to JSON.parse twice, but with only one forums is a String
+const markerList = []; //use this to iteratively create forum markers on the map
+const infoWindowList = []; //same but for the forum windows for when you click on the markers
 async function initMap() {
 
     map = new google.maps.Map(document.getElementById("map"), {
@@ -11,11 +11,11 @@ async function initMap() {
         mapId: '946a9c10600de2ba'
     });
 
-    for (let item of posts) {
+    for (let item of forums) {
         const title = item.fields.title;
         const description = item.fields.description;
         const stringArray = window.location.href.split("?")
-        const postURL = stringArray[0] + "post/" + item.pk;
+        const forumURL = stringArray[0] + "forum/" + item.pk;
         const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng };
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
@@ -28,7 +28,7 @@ async function initMap() {
             content: `
                 <h3>${title}</h3>
                 <p>${description}</p>
-                <a href="${postURL}">See More</a>
+                <a href="${forumURL}">See More</a>
             `
         });
         
