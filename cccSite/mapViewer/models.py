@@ -16,7 +16,7 @@ class Forum(models.Model):
     content = models.TextField()
     
     # MEMBER_DELETE
-    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="author")
+    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="forums")
     
     description = models.TextField()
     geoCode = models.JSONField()
@@ -44,7 +44,7 @@ class Forum(models.Model):
     private_public = models.CharField(choices=private_public_choices, max_length=80)
     
     # MEMBER_DELETE
-    contributors = models.ManyToManyField(Member, related_name="contributors", blank=True)
+    contributors = models.ManyToManyField(Member, related_name="contributed_forums", blank=True)
     
     def __str__(self):
         return self.title + " by " + str(self.author)
@@ -75,6 +75,14 @@ class Comment(models.Model):
     author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL)
     
     post = models.ForeignKey(Post, null=True, on_delete=models.SET_NULL)
+    
+class Reply(Comment):
+    
+    parent = models.ForeignKey(Comment, null=True, on_delete=models.SET_NULL, related_name="children")
+    # It's not really a recipient. It's just the Reply object this Reply object is replying to. I can't think of a better word.
+    recipient = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, related_name="replies")
+    
+    
     
 
 def media_directory(instance, filename): 
