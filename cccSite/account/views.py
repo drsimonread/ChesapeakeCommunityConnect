@@ -24,7 +24,7 @@ def signin(request):
             createForm = CreateAccountForm(request.POST)
         else:
             createForm = CreateAccountForm()
-        return render(request, 'account/signin.html', {'createForm' : createForm})
+        return render(request, 'account/signedout.html', {'createForm' : createForm})
     else:
         return redirect(reverse("account:default"))
 
@@ -37,9 +37,7 @@ def signout(request):
  
  # default account page. send to sign in if not signed in, otherwise displays user info
 def default(request):
-    if request.session.get('rank',0)==0:
-        return redirect(reverse("account:signin"))
-    else:
+    if request.session.get('rank',0)!=0:
         userInz=Member.objects.get(pk=request.session['user'])
         databaseRank = userInz.ranking
         if request.session.get('rank',0) != databaseRank:
@@ -48,6 +46,10 @@ def default(request):
         return render(request, 'account/myaccount.html', {
             'self': userInz,
         })
+    else:
+        return redirect(reverse("account:signin"))
+        
+        
     
 def account_list(request):
     nameQ= request.GET.get("q")

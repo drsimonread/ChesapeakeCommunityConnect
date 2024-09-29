@@ -8,6 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{% static 'base/basestyle.css' %}">
+    <script type="text/javascript" src="{% static 'base/jquery-3.7.1.min.js' %}"></script>
     {% block head%}{%endblock head%}
 </head>
 {%with rank=request.session.rank|default:0%}
