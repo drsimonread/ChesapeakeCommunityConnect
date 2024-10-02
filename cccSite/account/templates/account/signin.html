@@ -1,18 +1,169 @@
-<div class="button_CCC" id="signin_button"  onclick="showSigninCreation()" style="display: block;">Sign In</div>
+<a class="signin-modal-trigger" data-target="signin-modal"> Sign In </a>
 
-<form id="signin_form" style="display: none;" action="signin/">
-    <input type="text" id="signin_username" placeholder="username">
-    <input type="password" id="signin_password" placeholder="Password">
-    <input type="submit" id = "signin" value="Submit" class="button_CCC">
-</form>
+<div id="signin-modal" class="modal">
+    {% csrf_token %}
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title has-text-left">Sign In</p>
+            <button type="button" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                    <input class="input is-rounded" type="text" name="username" id="signin_username">
+                </div>
+                <p class="help" id="signin_username_helper"></p>
+            </div>
+            <div class="field">
+                <label class="label">Password</label>
+                <div class="control">
+                    <input class="input is-rounded" type="password" name="password" id="signin_password">
+                </div>
+                <p class="help" id="signin_password_helper"></p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="control">
+                <button class="button is-success" type="submit" id="signin" disabled>Sign In</button>
+                <button type="button" class="button is-danger sign-in-up-cancel">Cancel</button>
+            </div>
+        </footer>
+    </div>
+</div>
 
 
 <script>
-    function showSignintCreation() {
-        const contactForm = document.getElementById("signin_form");
-        contactForm.style.display = "block";
-        {% comment %} const contactButton = document.getElementById("signin_button");
-        contactButton.style.display = "none"; {% endcomment %}
-    }
 
+    let signin_username = document.getElementById("signin_username");
+    let signin_username_helper = document.getElementById("signin_username_helper");
+    
+    let signin_password = document.getElementById("signin_password");
+    let signin_password_helper = document.getElementById("signin_password_helper");
+    let signin = document.getElementById("signin");
+
+    $("#signin_username").change(function (e) {
+        if ($(signin_username).val() == "") {
+            signin_username.classList.remove("is-danger");
+            signin_username_helper.classList.remove("is-danger");
+            signin_username.classList.remove("is-success");
+            signin_username_helper.classList.remove("is-success");
+            signin_username_helper.textContent = "";
+            signin.disabled = true;
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "ajax/username_validation/",
+                data: {
+                    username: $(signin_username).val(),
+                },
+                success: function (data) {
+                    if (data.is_taken) {
+                        signin_username.classList.remove("is-danger");
+                        signin_username.classList.add("is-success");
+                        signin_username_helper.classList.remove("is-danger");
+                        signin_username_helper.classList.add("is-success");
+                        signin_username_helper.textContent = "That username exists.";
+                        signin.disabled = false;
+                    } else {
+                        signin_username.classList.add("is-danger");
+                        signin_username.classList.remove("is-success");
+                        signin_username_helper.classList.add("is-danger");
+                        signin_username_helper.classList.remove("is-success");
+                        signin_username_helper.textContent = "That username doesn't exist.";
+                        signin.disabled = true;
+                    }
+                }
+            });
+        }
+    });
+
+    $("#signin_password").change(function (e) {
+        signin_password.classList.remove("is-danger");
+        signin_password_helper.classList.remove("is-danger");
+        signin_password_helper.textContent = "";
+    });
+
+
+    $("#signin-modal").on("click", "#signin", function (e) {
+
+        $.ajax({
+            url: "signin/",
+            type: "POST",
+            data: {
+                username: $(signin_username).val(),
+                password: $(signin_password).val(),
+                csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+            },
+            success:function(response) {
+                if (!response.is_password) {
+                    signin_password.classList.add("is-danger");
+                    signin_password_helper.classList.add("is-danger");
+                    signin_password_helper.textContent = "Incorrect Password."
+                } else {
+                    location.reload(true);
+                }
+            }
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Functions to open and close a modal
+        function openModal($el) {
+          $el.classList.add('is-active');
+        }
+      
+        function closeModal($el) {
+          $el.classList.remove('is-active');
+          signin_username.classList.remove("is-danger");
+          signin_username_helper.classList.remove("is-danger");
+          signin_username.classList.remove("is-success");
+          signin_username_helper.classList.remove("is-success");
+          signin_username.value = "";
+          signin_username_helper.textContent = "";
+
+          signin_password.classList.remove("is-danger");
+          signin_password_helper.classList.remove("is-danger");
+          signin_password.classList.remove("is-success");
+          signin_password_helper.classList.remove("is-success");
+          signin_password.value = "";
+          signin_password_helper.textContent = "";
+
+          signin.disabled = true;
+        }
+      
+        function closeAllModals() {
+          (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+            closeModal($modal);
+          });
+        }
+      
+        // Add a click event on buttons to open a specific modal
+        (document.querySelectorAll('.signin-modal-trigger') || []).forEach(($trigger) => {
+          const modal = $trigger.dataset.target;
+          const $target = document.getElementById(modal);
+      
+          $trigger.addEventListener('click', () => {
+            openModal($target);
+          });
+        });
+      
+        // Add a click event on various child elements to close the parent modal
+        (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .sign-in-up-cancel') || []).forEach(($close) => {
+          const $target = $close.closest('.modal');
+      
+          $close.addEventListener('click', () => {
+            closeModal($target);
+          });
+        });
+      
+        // Add a keyboard event to close all modals
+        document.addEventListener('keydown', (event) => {
+          if(event.key === "Escape") {
+            closeAllModals();
+          }
+        });
+      });
 </script>

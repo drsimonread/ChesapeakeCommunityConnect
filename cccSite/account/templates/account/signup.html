@@ -1,122 +1,322 @@
-<div class="button_CCC" id="account-button"  onclick="showAccountCreation()" style="display: block;">Create an Account</div>
+<a class="signup-modal-trigger" data-target="signup-modal"> Sign Up </a>
 
-{% comment %} <form action="{% url 'account:signin' %}" id = "account-form" method="post" style="display:none"> {% endcomment %}
-<div id="create_an_account_form" style="display: none;">
-    {% comment %} {{ createForm.as_p }} {% endcomment %}
-    {% comment %} {{ createForm.errors }} {% endcomment %}
-    <div class="half left cf">
-            {% comment %} {{ createForm.email }} {% endcomment %}
-            <input type="email" id="signup_email" placeholder="email">
-            <input type="text" id="signup_username" placeholder="username">
-            {% comment %} {{ createForm.username }} {% endcomment %}
+<div id="signup-modal" class="modal">
+    {% csrf_token %}
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title has-text-left">Sign Up</p>
+            <button type="button" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                    <input class="input is-rounded" type="text" name="username" id="signup_username">
+                </div>
+                <p class="help" id="signup_username_helper"></p>
+            </div>
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                    <input class="input is-rounded" type="email" name="email" id="signup_email">
+                </div>
+                <p class="help" id="signup_email_helper"></p>
+            </div>
+            <div class="field">
+                <label class="label">Password</label>
+                <div class="control">
+                    <input class="input is-rounded" type="password" name="password" id="signup_password">
+                </div>
+                <p class="help" id="signup_password_helper"></p>
+            </div>
+            <div class="field">
+                <label class="label">Confirm Password</label>
+                <div class="control">
+                    <input class="input is-rounded" type="password" name="password" id="signup_confirm_password">
+                </div>
+                <p class="help" id="signup_confirm_password_helper"></p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="control">
+                <button type="submit" class="button is-success" id="signup" disabled>Sign Up</button>
+                <button type="button" class="button is-danger sign-in-up-cancel">Cancel</button>
+            </div>
+        </footer>
     </div>
-    <div class="half right cf">
-
-            <input type="password" id="signup_password" placeholder="Password">
-            <input type="password" id="signup_confirm-password" placeholder="Confirm Password">
-            {% comment %} {{ createForm.confirm_password }} {% endcomment %}
-    </div>
-
-    <input type="submit" id = "signup" value="Submit" class="button_CCC">
 </div>
-{% comment %} </form> {% endcomment %}
 
 
 <script>
-    {% comment %} document.getElementById("id_password").addEventListener("keyup", comparePasswords); {% endcomment %}
-    function showAccountCreation() {
-        const contactForm = document.getElementById("create_an_account_form");
-        contactForm.style.display = "block";
-        {% comment %} const contactButton = document.getElementById("account-button");
-        contactButton.style.display = "none"; {% endcomment %}
-    }
 
+    let signup_username = document.getElementById("signup_username");
+    let signup_username_helper = document.getElementById("signup_username_helper");
+    var signup_usernameIsValid = false;
 
+    let signup_email = document.getElementById("signup_email");
+    let signup_email_helper = document.getElementById("signup_email_helper");
+    const signup_emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    var signup_emailIsValid = false;
 
-    let username = document.getElementById("signup_username");
-    var usernameIsValid = false;
+    let signup_password = document.getElementById("signup_password");
+    let signup_password_helper = document.getElementById("signup_password_helper");
+    var signup_passwordIsValid = false;
 
-    let email = document.getElementById("signup_email");
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    var emailIsValid = false;
+    let signup_confirm_password = document.getElementById("signup_confirm_password");
+    let signup_confirm_password_helper = document.getElementById("signup_confirm_password_helper");
+    var signup_confirm_passwordIsValid = false;
 
-    let password = document.getElementById("signup_password");
-    let confirm_password = document.getElementById("signup_confirm-password");
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&()])[A-Za-z\d@$!%*#?&()]{8,}$/;
-    var passwordIsValid = false;
+    const signup_passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&()])[A-Za-z\d@$!%*#?&()]{8,}$/;
 
+    let submit_button = document.getElementById("signup");
 
-
-    $("#create_an_account_form").on("click", "#signup", function (e) {
-    console.log($(confirm_password).val());
-       
     $("#signup_username").change(function (e) {
-        $.ajax({
-            type: "GET",
-            url: "ajax/username_validation/",
-            data: {
-                username: $(username).val(),
-            },
-            success: function (data) {
-                if (!data.is_taken) {
-                    usernameIsValid = true;
-                } else {
-                    usernameIsValid = false;
-                }
-            }
-        });
-    });
-
-    $("#signup_email").change(function (e) {
-        $.ajax({
-            type: "GET",
-            url: "ajax/email_validation/",
-            data: {
-                email: $(email).val(),
-            },
-            success: function (data) {
-                if (!data.is_taken) {
-                    emailIsValid = true;
-                } else {
-                    emailIsValid = false;
-                }
-            }
-        });
-    });
-
-
-
-        if (($(password).val() == $(confirm_password).val()) && emailIsValid && usernameIsValid) {
-            e.preventDefault();
+        if ($(signup_username).val() == "") {
+            signup_username.classList.remove("is-danger");
+            signup_username_helper.classList.remove("is-danger");
+            signup_username.classList.remove("is-success");
+            signup_username_helper.classList.remove("is-success");
+            signup_username_helper.textContent = "";
+            signup_usernameIsValid = false;
+            submit_button.disabled = true;
+        } else {
             $.ajax({
-                url: "signup/",
-                type: "POST",
+                type: "GET",
+                url: "ajax/username_validation/",
                 data: {
-                    username: $(username).val(),
-                    email: $(email).val(),
-                    password1: $(password).val(),
-                    password2: $(confirm_password).val(),
-                    csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                    username: $(signup_username).val(),
                 },
-                success:function(response) {
-
+                success: function (data) {
+                    if (data.is_taken) {
+                        signup_username.classList.add("is-danger");
+                        signup_username.classList.remove("is-success");
+                        signup_username_helper.classList.add("is-danger");
+                        signup_username_helper.classList.remove("is-success");
+                        signup_username_helper.textContent = "That username is taken.";
+                        signup_usernameIsValid = false;
+                        submit_button.disabled = true;
+                    } else {
+                        signup_username.classList.remove("is-danger");
+                        signup_username.classList.add("is-success");
+                        signup_username_helper.classList.remove("is-danger");
+                        signup_username_helper.classList.add("is-success");
+                        signup_username_helper.textContent = "That username is available.";
+                        signup_usernameIsValid = true;
+                        allIsValid();
+                    }
                 }
             });
         }
     });
+    $("#signup_email").change(function (e) {
 
-    function comparePasswords(){ 
-         
-         var password = document.getElementById("id_password");
-         var confirmPass = document.getElementById("confirm-pass");
-         console.log(password.value)
-         const submitButton = document.getElementById("submit-button");
-         if (confirmPass.value == password.value){
-              
-              submitButton.disabled = false;
-         }else{
-              submitButton.disabled = true;
-         }
+        if ($(signup_email).val() == "") {
+            signup_email.classList.remove("is-danger");
+            signup_email_helper.classList.remove("is-danger");
+            signup_email.classList.remove("is-success");
+            signup_email_helper.classList.remove("is-success");
+            signup_email_helper.textContent = "";
+            signup_emailIsValid = false;
+            submit_button.disabled = true;
+        } else if (signup_emailRegex.test($(signup_email).val())) {
+            $.ajax({
+                type: "GET",
+                url: "ajax/email_validation/",
+                data: {
+                    email: $(signup_email).val(),
+                },
+                success: function (data) {
+                    
+                    if (data.is_taken) {
+                        signup_email.classList.add("is-danger");
+                        signup_email.classList.remove("is-success");
+                        signup_email_helper.classList.add("is-danger");
+                        signup_email_helper.classList.remove("is-success");
+                        signup_email_helper.textContent = "That email is already being used.";
+                        signup_emailIsValid = false;
+                        submit_button.disabled = true;
+                    } else {
+                        signup_email.classList.remove("is-danger");
+                        signup_email.classList.add("is-success");
+                        signup_email_helper.classList.remove("is-danger");
+                        signup_email_helper.classList.add("is-success");
+                        signup_email_helper.textContent = "That email is available.";
+                        signup_emailIsValid = true;
+                        allIsValid();
+                    }
+                }
+            });
+        } else {
+            signup_email.classList.add("is-danger");
+            signup_email.classList.remove("is-success");
+            signup_email_helper.classList.add("is-danger");
+            signup_email_helper.classList.remove("is-success");
+            signup_email_helper.textContent = "That email is invalid.";
+            signup_emailIsValid = false;
+            submit_button.disabled = true;
+        }
+    });
+    $("#signup_password").change(function (e) {
+
+        if ($(signup_password).val() == "") {
+            signup_password.classList.remove("is-danger");
+            signup_password_helper.classList.remove("is-danger");
+            signup_password.classList.remove("is-success");
+            signup_password_helper.classList.remove("is-success");
+            signup_password_helper.textContent = "";
+            signup_passwordIsValid = false;
+            submit_button.disabled = true;
+        } else if (signup_passwordRegex.test($(signup_password).val())) {
+            signup_password.classList.remove("is-danger");
+            signup_password.classList.add("is-success");
+            signup_password_helper.classList.remove("is-danger");
+            signup_password_helper.classList.add("is-success");
+            signup_password_helper.textContent = "That password is valid.";
+            signup_passwordIsValid = true;
+            confirm_signup_password_update();
+            allIsValid();
+        } else {
+            signup_password.classList.add("is-danger");
+            signup_password.classList.remove("is-success");
+            signup_password_helper.classList.add("is-danger");
+            signup_password_helper.classList.remove("is-success");
+            signup_password_helper.textContent = "That password is invalid.";
+            signup_passwordIsValid = false;
+            confirm_signup_password_update();
+            submit_button.disabled = true;
+        }
+    });
+
+    
+    $("#signup_confirm_password").change(function (e) {
+        confirm_signup_password_update();
+    });
+    function confirm_signup_password_update() {
+        if ($(signup_confirm_password).val() == "" || !signup_passwordRegex.test($(signup_password).val())) {
+            signup_confirm_password.classList.remove("is-danger");
+            signup_confirm_password_helper.classList.remove("is-danger");
+            signup_confirm_password.classList.remove("is-success");
+            signup_confirm_password_helper.classList.remove("is-success");
+            signup_confirm_password_helper.textContent = "";
+            signup_confirm_passwordIsValid = false;
+            submit_button.disabled = true;
+        } else if ($(signup_confirm_password).val() == $(signup_password).val()) {
+            signup_confirm_password.classList.remove("is-danger");
+            signup_confirm_password.classList.add("is-success");
+            signup_confirm_password_helper.classList.remove("is-danger");
+            signup_confirm_password_helper.classList.add("is-success");
+            signup_confirm_password_helper.textContent = "The passwords match.";
+            signup_confirm_passwordIsValid = true;
+            allIsValid();
+        } else {
+            signup_confirm_password.classList.add("is-danger");
+            signup_confirm_password.classList.remove("is-success");
+            signup_confirm_password_helper.classList.add("is-danger");
+            signup_confirm_password_helper.classList.remove("is-success");
+            signup_confirm_password_helper.textContent = "The passwords don't match.";
+            signup_confirm_passwordIsValid = false;
+            submit_button.disabled = true;
+        }
+    }
+    function allIsValid() {
+        if (signup_usernameIsValid && signup_emailIsValid && signup_passwordIsValid && signup_confirm_passwordIsValid) {
+            submit_button.disabled = false;
+        }
     }
 
+    $("#signup-modal").on("click", "#signup", function (e) {
+        
+        e.preventDefault();
+        $.ajax({
+            url: "signup/",
+            type: "POST",
+            data: {
+                username: $(signup_username).val(),
+                email: $(signup_email).val(),
+                password1: $(signup_password).val(),
+                password2: $(signup_confirm_password).val(),
+                csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+            },
+            success:function(response) {
+                location.reload(true);
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Functions to open and close a modal
+        function openModal($el) {
+          $el.classList.add('is-active');
+        }
+      
+        function closeModal($el) {
+          $el.classList.remove('is-active');
+          signup_username.classList.remove("is-danger");
+          signup_username_helper.classList.remove("is-danger");
+          signup_username.classList.remove("is-success");
+          signup_username_helper.classList.remove("is-success");
+          signup_username.value = "";
+          signup_username_helper.textContent = "";
+          signup_usernameIsValid = false;
+
+          signup_email.classList.remove("is-danger");
+          signup_email_helper.classList.remove("is-danger");
+          signup_email.classList.remove("is-success");
+          signup_email_helper.classList.remove("is-success");
+          signup_email.value = "";
+          signup_email_helper.textContent = "";
+          signup_emailIsValid = false;
+
+          signup_password.classList.remove("is-danger");
+          signup_password_helper.classList.remove("is-danger");
+          signup_password.classList.remove("is-success");
+          signup_password_helper.classList.remove("is-success");
+          signup_password.value = "";
+          signup_password_helper.textContent = "";
+          signup_passwordIsValid = false;
+
+          signup_confirm_password.classList.remove("is-danger");
+          signup_confirm_password_helper.classList.remove("is-danger");
+          signup_confirm_password.classList.remove("is-success");
+          signup_confirm_password_helper.classList.remove("is-success");
+          signup_confirm_password.value = "";
+          signup_confirm_password_helper.textContent = "";
+          signup_confirm_passwordIsValid = false;
+
+          submit_button.disabled = true;
+        }
+      
+        function closeAllModals() {
+          (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+            closeModal($modal);
+          });
+        }
+      
+        // Add a click event on buttons to open a specific modal
+        (document.querySelectorAll('.signup-modal-trigger') || []).forEach(($trigger) => {
+          const modal = $trigger.dataset.target;
+          const $target = document.getElementById(modal);
+      
+          $trigger.addEventListener('click', () => {
+            openModal($target);
+          });
+        });
+      
+        // Add a click event on various child elements to close the parent modal
+        (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .sign-in-up-cancel') || []).forEach(($close) => {
+          const $target = $close.closest('.modal');
+      
+          $close.addEventListener('click', () => {
+            closeModal($target);
+          });
+        });
+      
+        // Add a keyboard event to close all modals
+        document.addEventListener('keydown', (event) => {
+          if(event.key === "Escape") {
+            closeAllModals();
+          }
+        });
+      });
 </script>

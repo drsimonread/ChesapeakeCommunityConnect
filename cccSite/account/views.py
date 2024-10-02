@@ -21,33 +21,46 @@ from PIL import Image
 def signin(request):
     
     if request.method == "POST":
-        user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            request.session['rank']=user.member.rank
+            request.session['rank']=user.member.ranking
             request.session['user']=user.member.pk
             request.session['name']=user.username
-
+            data = {"is_password": True}
+        else:
+            print("TEST")
+            data = {"is_password": False}
+        return JsonResponse(data)
     return redirect(reverse("account:default"))
+
+
 
 def signup(request):
 
     if request.method == "POST":
-        createUserForm = CreateAccountForm(request.POST)
-        if createUserForm.is_valid():
-            
-            user, member = createUserForm.save()
-            user = authenticate(request, username=user.username, password=request.POST["password1"])
-            if user is not None:
-                login(request, user)
-                request.session['rank']=member.ranking
-                request.session['user']=member.pk
-                request.session['name']=user.username
+        username = request.POST.get("username", None)
+        email = request.POST.get("email", None)
+        if User.objects.filter(username__iexact=username).exists() or User.objects.filter(email__iexact=email).exists():
+            print("You can't reuse an email and/or username, you silly goose!") #? This should be changed to a proper log file or something.
+        else:
+            createUserForm = CreateAccountForm(request.POST)
+            if createUserForm.is_valid():
+                user, member = createUserForm.save()
+                user = authenticate(request, username=user.username, password=request.POST["password1"])
+                if user is not None:
+                    login(request, user)
+                    request.session['rank']=member.ranking
+                    request.session['user']=member.pk
+                    request.session['name']=user.username
 
     return redirect(reverse("account:default"))
 
 def username_validation(request):
     username = request.GET.get("username", None)
+    print(username)
     data = {
         "is_taken": User.objects.filter(username__iexact=username).exists()
     }
