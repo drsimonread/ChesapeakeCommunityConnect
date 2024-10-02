@@ -1,0 +1,18 @@
+<div class="button" id="signin_button"  onclick="showSigninCreation()" style="display: block;">Sign In</div>
+
+<form id="signin_form" style="display: none;" action="signin/">
+    <input type="text" id="signin_username" placeholder="username">
+    <input type="password" id="signin_password" placeholder="Password">
+    <input type="submit" id = "signin" value="Submit" class="button">
+</form>
+
+
+<script>
+    function showSignintCreation() {
+        const contactForm = document.getElementById("signin_form");
+        contactForm.style.display = "block";
+        {% comment %} const contactButton = document.getElementById("signin_button");
+        contactButton.style.display = "none"; {% endcomment %}
+    }
+
+</script>

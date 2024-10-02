@@ -1,10 +1,11 @@
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.forms import formset_factory
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from mapViewer.forms import MakeForumForm
 from mapViewer.models import Forum, Media, Tag
 from Janitor.forms import UserRepForm
@@ -18,15 +19,47 @@ from PIL import Image
 
 # if user not signed in, sends them to log in 
 def signin(request):
-    if request.session.get('rank', 0)==0:
-        
-        if request.method == "POST":
-            createForm = CreateAccountForm(request.POST)
-        else:
-            createForm = CreateAccountForm()
-        return render(request, 'account/signedout.html', {'createForm' : createForm})
-    else:
-        return redirect(reverse("account:default"))
+    
+    if request.method == "POST":
+        user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
+        if user is not None:
+            login(request, user)
+            request.session['rank']=user.member.rank
+            request.session['user']=user.member.pk
+            request.session['name']=user.username
+
+    return redirect(reverse("account:default"))
+
+def signup(request):
+
+    if request.method == "POST":
+        createUserForm = CreateAccountForm(request.POST)
+        if createUserForm.is_valid():
+            
+            user, member = createUserForm.save()
+            user = authenticate(request, username=user.username, password=request.POST["password1"])
+            if user is not None:
+                login(request, user)
+                request.session['rank']=member.ranking
+                request.session['user']=member.pk
+                request.session['name']=user.username
+
+    return redirect(reverse("account:default"))
+
+def username_validation(request):
+    username = request.GET.get("username", None)
+    data = {
+        "is_taken": User.objects.filter(username__iexact=username).exists()
+    }
+    return JsonResponse(data)
+
+def email_validation(request):
+    email = request.GET.get("email", None)
+    data = {
+        "is_taken": User.objects.filter(email__iexact=email).exists()
+    }
+    return JsonResponse(data)
+    
 
 # if a user tries to sign out by GET URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to default account page
 def signout(request):
@@ -47,31 +80,32 @@ def default(request):
             'self': userInz,
         })
     else:
-        return redirect(reverse("account:signin"))
+        return render(request, 'account/signedout.html')
+
         
         
     
 def account_list(request):
     nameQ= request.GET.get("q")
     sortQ=request.GET.get("s")
-    users = Member.objects.filter(forum__visibility__gt=0).distinct().annotate(num_forums=Count("forum"), filter=Q(forum__visibility=1))
+    users = Member.objects.filter(forums__visibility__gt=0).distinct().annotate(num_forums=Count("forums"), filter=Q(forums__visibility=1))
     search = SearchAccountForm(request.GET)
     if nameQ:
         users=users.filter(name__icontains=nameQ)
     if not sortQ:
-        users=users.order_by("name")
+        users=users.order_by("user__username")
     else:
         match sortQ:
             case "0":
-                users=users.order_by("name")
+                users=users.order_by("user__username")
             case "1":
-                users=users.order_by("-name")
+                users=users.order_by("-user__username")
             case "2":
                 users=users.order_by("num_forums")
             case "3":
                 users=users.order_by("-num_forums")
             case _:
-                users=users.order_by("name")
+                users=users.order_by("user__username")
     return render(request, 'account/account_list.html', {'users' : users,
                                                          'search' : search,
                                                          })
@@ -118,7 +152,8 @@ def manage(request):
         form = ManageForm(request.POST, request.FILES, instance=userInz)
         if form.is_valid():
             form.save()
-            request.session['name']=userInz.name
+            request.session['name']=userInz.user.username
+            #! request.session['name']=userInz.name
             return redirect(reverse("account:default"))
     else:
         userInz=Member.objects.get(pk=request.session['user'])
@@ -150,7 +185,9 @@ def authG(request):
                 #when we implement other sign in methods, we will need to ask the user if they already have an account
                 #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
                 
-                userInz = Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
+                DJuserInz = User.objects.create_user(username=idinfo['given_name'], email=idinfo['email'])
+                userInz = Member.objects.create(user=DJuserInz)
+                #! userInz = Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
                 gLogInz = GLogIn.objects.create(googleID=idinfo['sub'], referTo=userInz) # stores the google ID and the member it is associated with
             else: #if the user has logged in with google before
                 gLogInz=GLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
@@ -158,8 +195,9 @@ def authG(request):
 
             #store information about the user in the session
             request.session['rank']=userInz.ranking
-            request.session['user']=userInz.pk 
-            request.session['name']=userInz.name
+            request.session['user']=userInz.pk
+            request.session['name']=userInz.user.username
+            #! request.session['name']=userInz.name
         except ValueError:
             return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
             pass

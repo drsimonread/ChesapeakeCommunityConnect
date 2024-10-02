@@ -1,32 +1,110 @@
-<div class = "button" id="account-button"  onclick="showAccountCreation()" style="display: block;">Create an Account</div>
+<div class="button" id="account-button"  onclick="showAccountCreation()" style="display: block;">Create an Account</div>
 
-<form action="{% url 'account:signin' %}" id = "account-form" method="post" style="display:none">
-    {% csrf_token %}
+{% comment %} <form action="{% url 'account:signin' %}" id = "account-form" method="post" style="display:none"> {% endcomment %}
+<div id="create_an_account_form" style="display: none;">
     {% comment %} {{ createForm.as_p }} {% endcomment %}
-    {{ createForm.errors }}
+    {% comment %} {{ createForm.errors }} {% endcomment %}
     <div class="half left cf">
-            {{ createForm.email }}
-            {{ createForm.username }}
+            {% comment %} {{ createForm.email }} {% endcomment %}
+            <input type="email" id="signup_email" placeholder="email">
+            <input type="text" id="signup_username" placeholder="username">
+            {% comment %} {{ createForm.username }} {% endcomment %}
     </div>
     <div class="half right cf">
 
-            {{ createForm.password }}
-            <input type="password" id = "confirm-pass" onkeyup="comparePasswords()" placeholder="Confirm Password">
+            <input type="password" id="signup_password" placeholder="Password">
+            <input type="password" id="signup_confirm-password" placeholder="Confirm Password">
             {% comment %} {{ createForm.confirm_password }} {% endcomment %}
     </div>
 
-    <input type="submit" id = "submit-button" value="Submit" class="button">
-</form>
+    <input type="submit" id = "signup" value="Submit" class="button">
+</div>
+{% comment %} </form> {% endcomment %}
 
 
 <script>
-    document.getElementById("id_password").addEventListener("keyup", comparePasswords);
+    {% comment %} document.getElementById("id_password").addEventListener("keyup", comparePasswords); {% endcomment %}
     function showAccountCreation() {
-        const contactForm = document.getElementById("account-form");
+        const contactForm = document.getElementById("create_an_account_form");
         contactForm.style.display = "block";
         {% comment %} const contactButton = document.getElementById("account-button");
         contactButton.style.display = "none"; {% endcomment %}
     }
+
+
+
+    let username = document.getElementById("signup_username");
+    var usernameIsValid = false;
+
+    let email = document.getElementById("signup_email");
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    var emailIsValid = false;
+
+    let password = document.getElementById("signup_password");
+    let confirm_password = document.getElementById("signup_confirm-password");
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&()])[A-Za-z\d@$!%*#?&()]{8,}$/;
+    var passwordIsValid = false;
+
+
+
+    $("#create_an_account_form").on("click", "#signup", function (e) {
+    console.log($(confirm_password).val());
+       
+    $("#signup_username").change(function (e) {
+        $.ajax({
+            type: "GET",
+            url: "ajax/username_validation/",
+            data: {
+                username: $(username).val(),
+            },
+            success: function (data) {
+                if (!data.is_taken) {
+                    usernameIsValid = true;
+                } else {
+                    usernameIsValid = false;
+                }
+            }
+        });
+    });
+
+    $("#signup_email").change(function (e) {
+        $.ajax({
+            type: "GET",
+            url: "ajax/email_validation/",
+            data: {
+                email: $(email).val(),
+            },
+            success: function (data) {
+                if (!data.is_taken) {
+                    emailIsValid = true;
+                } else {
+                    emailIsValid = false;
+                }
+            }
+        });
+    });
+
+
+
+        if (($(password).val() == $(confirm_password).val()) && emailIsValid && usernameIsValid) {
+            e.preventDefault();
+            $.ajax({
+                url: "signup/",
+                type: "POST",
+                data: {
+                    username: $(username).val(),
+                    email: $(email).val(),
+                    password1: $(password).val(),
+                    password2: $(confirm_password).val(),
+                    csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                },
+                success:function(response) {
+
+                }
+            });
+        }
+    });
+
     function comparePasswords(){ 
          
          var password = document.getElementById("id_password");

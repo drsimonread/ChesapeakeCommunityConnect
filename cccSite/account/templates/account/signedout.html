@@ -22,6 +22,7 @@
                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
                     data-text="signin" data-size="large" data-logo_alignment="left">
                </div>
+               {% csrf_token %}
                
                {% include "account/signup.html" %}
                {% include "account/signin.html" %}
