@@ -44,7 +44,7 @@
         {%endif%}
         <!--need to make these accordions for each category-->
         {%for item in vis%}
-        <br>{{item.title}} | {{item.description}} <a class="button" href="{{item.get_absolute_url}}">View Forum</a>
+        <br>{{item.title}} | {{item.description}} <a class="button_CCC" href="{{item.get_absolute_url}}">View Forum</a>
         {%endfor%}
         </div>
         <br>
@@ -54,7 +54,7 @@
         You do not have any pending forums
         {%endif%}
         {%for item in pend%}
-        <br>{{item.title}} | {{item.description}} <a class="button" href="{{item.get_absolute_url}}">View Forum</a>
+        <br>{{item.title}} | {{item.description}} <a class="button_CCC" href="{{item.get_absolute_url}}">View Forum</a>
         {%endfor%}
         </div>
         <br>
@@ -64,7 +64,7 @@
         You do not have any denied forums.
         {%endif%}
         {%for item in den%}
-        <br>{{item.title}} | {{item.description}} <a class="button" href="{{item.get_absolute_url}}">View Forum</a>
+        <br>{{item.title}} | {{item.description}} <a class="button_CCC" href="{{item.get_absolute_url}}">View Forum</a>
         {%endfor%}
         </div>
     </div>

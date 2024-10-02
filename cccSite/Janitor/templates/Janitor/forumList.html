@@ -7,7 +7,7 @@
 {%for item in forums %}
 <button class="accordion">{{item.title}} | {{item.description}} by {{item.author.name}}</button>
 <div class="panel">
-    <p><a class="button" href="{{item.get_absolute_url}}">View Forum</a><a class="button" href="{{item.get_admin_url}}">Manage Forum</a></p>
+    <p><a class="button_CCC" href="{{item.get_absolute_url}}">View Forum</a><a class="button_CCC" href="{{item.get_admin_url}}">Manage Forum</a></p>
 </div>
 {%endfor%}
 {% endblock adminFunc %}

@@ -8,7 +8,7 @@
     <h1>Chesapeake Community Connect</h1>
     <form action = "{% url 'account:account_list' %}" method= 'GET'>
         {{search.as_p}}
-        <input type="submit" id="search-btn" class="button" value="Submit">
+        <input type="submit" id="search-btn" class="button_CCC" value="Submit">
     </form>
     {%for item in users %}
     <ul>                         
