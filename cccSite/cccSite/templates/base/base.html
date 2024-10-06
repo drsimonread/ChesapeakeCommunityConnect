@@ -25,6 +25,9 @@
                 <li><a class="nav-link" href="{% url 'boiler:help'%}" {%if '/help/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Help/FAQs</a></li>
                 <li><a class="nav-link" href="{%url 'account:default'%}" {%if '/contribute/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contributors</a></li>
                 {%if rank > 2 %}<li><a class="nav-link" href="{%url 'Janitor:default'%}" {%if '/admin/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Admin</a></li> {%endif%}
+                {%if rank == 0%}<li style="margin-left: auto;">{% include "account/signup.html" %}</li>
+                <li style="margin-right: 1em;">{% include "account/signin.html" %}</li>
+                {% else %} {% with name=request.session.name|default:0 %}<li style="margin-left: auto; margin-right: 1em;"><a class="nav-link"  {% if '/contribute/' == request.path %}  style="background-color: #f3c10d; color: #00205c;" {% endif %} href={% url 'account:default' %}>{{ name }}</a></li> {% endwith %} {%endif%}
             </ul>
         </nav> 
     </header>

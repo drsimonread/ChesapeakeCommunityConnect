@@ -1,4 +1,4 @@
-<a class="signup-modal-trigger" data-target="signup-modal"> Sign Up </a>
+<a class="signup-modal-trigger nav-link" data-target="signup-modal" > Sign Up </a>
 
 <div id="signup-modal" class="modal">
     {% csrf_token %}
@@ -10,38 +10,45 @@
         </header>
         <section class="modal-card-body">
             <div class="field">
-                <label class="label">Username</label>
+                {% comment %} <label class="label">Username</label> {% endcomment %}
                 <div class="control">
-                    <input class="input is-rounded" type="text" name="username" id="signup_username">
+                    <input class="testy input" type="text" name="username" id="signup_username" placeholder="Username">
                 </div>
                 <p class="help" id="signup_username_helper"></p>
             </div>
             <div class="field">
-                <label class="label">Email</label>
+                {% comment %} <label class="label">Email</label> {% endcomment %}
                 <div class="control">
-                    <input class="input is-rounded" type="email" name="email" id="signup_email">
+                    <input class="input" type="email" name="email" id="signup_email" placeholder="Email">
                 </div>
                 <p class="help" id="signup_email_helper"></p>
             </div>
             <div class="field">
-                <label class="label">Password</label>
+                {% comment %} <label class="label">Password</label> {% endcomment %}
                 <div class="control">
-                    <input class="input is-rounded" type="password" name="password" id="signup_password">
+                    <input class="input" type="password" name="password" id="signup_password" placeholder="Password">
                 </div>
                 <p class="help" id="signup_password_helper"></p>
             </div>
             <div class="field">
-                <label class="label">Confirm Password</label>
+                {% comment %} <label class="label">Confirm Password</label> {% endcomment %}
                 <div class="control">
-                    <input class="input is-rounded" type="password" name="password" id="signup_confirm_password">
+                    <input class="input" type="password" name="password" id="signup_confirm_password" placeholder="Confirm Password">
                 </div>
                 <p class="help" id="signup_confirm_password_helper"></p>
             </div>
         </section>
         <footer class="modal-card-foot">
             <div class="control">
-                <button type="submit" class="button is-success" id="signup" disabled>Sign Up</button>
+                <button type="submit" class="button is-link" id="signup" disabled>Sign Up</button>
                 <button type="button" class="button is-danger sign-in-up-cancel">Cancel</button>
+            </div>
+            <br>
+            <div class="control">
+                <!--google sign in button is rendered here-->
+               <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+                    data-text="signin" data-size="large" data-logo_alignment="left">
+                </div>
             </div>
         </footer>
     </div>
@@ -75,8 +82,8 @@
         if ($(signup_username).val() == "") {
             signup_username.classList.remove("is-danger");
             signup_username_helper.classList.remove("is-danger");
-            signup_username.classList.remove("is-success");
-            signup_username_helper.classList.remove("is-success");
+            signup_username.classList.remove("is-link");
+            signup_username_helper.classList.remove("is-link");
             signup_username_helper.textContent = "";
             signup_usernameIsValid = false;
             submit_button.disabled = true;
@@ -90,17 +97,17 @@
                 success: function (data) {
                     if (data.is_taken) {
                         signup_username.classList.add("is-danger");
-                        signup_username.classList.remove("is-success");
+                        signup_username.classList.remove("is-link");
                         signup_username_helper.classList.add("is-danger");
-                        signup_username_helper.classList.remove("is-success");
+                        signup_username_helper.classList.remove("is-link");
                         signup_username_helper.textContent = "That username is taken.";
                         signup_usernameIsValid = false;
                         submit_button.disabled = true;
                     } else {
                         signup_username.classList.remove("is-danger");
-                        signup_username.classList.add("is-success");
+                        signup_username.classList.add("is-link");
                         signup_username_helper.classList.remove("is-danger");
-                        signup_username_helper.classList.add("is-success");
+                        signup_username_helper.classList.add("is-link");
                         signup_username_helper.textContent = "That username is available.";
                         signup_usernameIsValid = true;
                         allIsValid();
@@ -114,8 +121,8 @@
         if ($(signup_email).val() == "") {
             signup_email.classList.remove("is-danger");
             signup_email_helper.classList.remove("is-danger");
-            signup_email.classList.remove("is-success");
-            signup_email_helper.classList.remove("is-success");
+            signup_email.classList.remove("is-link");
+            signup_email_helper.classList.remove("is-link");
             signup_email_helper.textContent = "";
             signup_emailIsValid = false;
             submit_button.disabled = true;
@@ -130,17 +137,17 @@
                     
                     if (data.is_taken) {
                         signup_email.classList.add("is-danger");
-                        signup_email.classList.remove("is-success");
+                        signup_email.classList.remove("is-link");
                         signup_email_helper.classList.add("is-danger");
-                        signup_email_helper.classList.remove("is-success");
+                        signup_email_helper.classList.remove("is-link");
                         signup_email_helper.textContent = "That email is already being used.";
                         signup_emailIsValid = false;
                         submit_button.disabled = true;
                     } else {
                         signup_email.classList.remove("is-danger");
-                        signup_email.classList.add("is-success");
+                        signup_email.classList.add("is-link");
                         signup_email_helper.classList.remove("is-danger");
-                        signup_email_helper.classList.add("is-success");
+                        signup_email_helper.classList.add("is-link");
                         signup_email_helper.textContent = "That email is available.";
                         signup_emailIsValid = true;
                         allIsValid();
@@ -149,9 +156,9 @@
             });
         } else {
             signup_email.classList.add("is-danger");
-            signup_email.classList.remove("is-success");
+            signup_email.classList.remove("is-link");
             signup_email_helper.classList.add("is-danger");
-            signup_email_helper.classList.remove("is-success");
+            signup_email_helper.classList.remove("is-link");
             signup_email_helper.textContent = "That email is invalid.";
             signup_emailIsValid = false;
             submit_button.disabled = true;
@@ -162,25 +169,25 @@
         if ($(signup_password).val() == "") {
             signup_password.classList.remove("is-danger");
             signup_password_helper.classList.remove("is-danger");
-            signup_password.classList.remove("is-success");
-            signup_password_helper.classList.remove("is-success");
+            signup_password.classList.remove("is-link");
+            signup_password_helper.classList.remove("is-link");
             signup_password_helper.textContent = "";
             signup_passwordIsValid = false;
             submit_button.disabled = true;
         } else if (signup_passwordRegex.test($(signup_password).val())) {
             signup_password.classList.remove("is-danger");
-            signup_password.classList.add("is-success");
+            signup_password.classList.add("is-link");
             signup_password_helper.classList.remove("is-danger");
-            signup_password_helper.classList.add("is-success");
+            signup_password_helper.classList.add("is-link");
             signup_password_helper.textContent = "That password is valid.";
             signup_passwordIsValid = true;
             confirm_signup_password_update();
             allIsValid();
         } else {
             signup_password.classList.add("is-danger");
-            signup_password.classList.remove("is-success");
+            signup_password.classList.remove("is-link");
             signup_password_helper.classList.add("is-danger");
-            signup_password_helper.classList.remove("is-success");
+            signup_password_helper.classList.remove("is-link");
             signup_password_helper.textContent = "That password is invalid.";
             signup_passwordIsValid = false;
             confirm_signup_password_update();
@@ -196,24 +203,24 @@
         if ($(signup_confirm_password).val() == "" || !signup_passwordRegex.test($(signup_password).val())) {
             signup_confirm_password.classList.remove("is-danger");
             signup_confirm_password_helper.classList.remove("is-danger");
-            signup_confirm_password.classList.remove("is-success");
-            signup_confirm_password_helper.classList.remove("is-success");
+            signup_confirm_password.classList.remove("is-link");
+            signup_confirm_password_helper.classList.remove("is-link");
             signup_confirm_password_helper.textContent = "";
             signup_confirm_passwordIsValid = false;
             submit_button.disabled = true;
         } else if ($(signup_confirm_password).val() == $(signup_password).val()) {
             signup_confirm_password.classList.remove("is-danger");
-            signup_confirm_password.classList.add("is-success");
+            signup_confirm_password.classList.add("is-link");
             signup_confirm_password_helper.classList.remove("is-danger");
-            signup_confirm_password_helper.classList.add("is-success");
+            signup_confirm_password_helper.classList.add("is-link");
             signup_confirm_password_helper.textContent = "The passwords match.";
             signup_confirm_passwordIsValid = true;
             allIsValid();
         } else {
             signup_confirm_password.classList.add("is-danger");
-            signup_confirm_password.classList.remove("is-success");
+            signup_confirm_password.classList.remove("is-link");
             signup_confirm_password_helper.classList.add("is-danger");
-            signup_confirm_password_helper.classList.remove("is-success");
+            signup_confirm_password_helper.classList.remove("is-link");
             signup_confirm_password_helper.textContent = "The passwords don't match.";
             signup_confirm_passwordIsValid = false;
             submit_button.disabled = true;
@@ -254,32 +261,32 @@
           $el.classList.remove('is-active');
           signup_username.classList.remove("is-danger");
           signup_username_helper.classList.remove("is-danger");
-          signup_username.classList.remove("is-success");
-          signup_username_helper.classList.remove("is-success");
+          signup_username.classList.remove("is-link");
+          signup_username_helper.classList.remove("is-link");
           signup_username.value = "";
           signup_username_helper.textContent = "";
           signup_usernameIsValid = false;
 
           signup_email.classList.remove("is-danger");
           signup_email_helper.classList.remove("is-danger");
-          signup_email.classList.remove("is-success");
-          signup_email_helper.classList.remove("is-success");
+          signup_email.classList.remove("is-link");
+          signup_email_helper.classList.remove("is-link");
           signup_email.value = "";
           signup_email_helper.textContent = "";
           signup_emailIsValid = false;
 
           signup_password.classList.remove("is-danger");
           signup_password_helper.classList.remove("is-danger");
-          signup_password.classList.remove("is-success");
-          signup_password_helper.classList.remove("is-success");
+          signup_password.classList.remove("is-link");
+          signup_password_helper.classList.remove("is-link");
           signup_password.value = "";
           signup_password_helper.textContent = "";
           signup_passwordIsValid = false;
 
           signup_confirm_password.classList.remove("is-danger");
           signup_confirm_password_helper.classList.remove("is-danger");
-          signup_confirm_password.classList.remove("is-success");
-          signup_confirm_password_helper.classList.remove("is-success");
+          signup_confirm_password.classList.remove("is-link");
+          signup_confirm_password_helper.classList.remove("is-link");
           signup_confirm_password.value = "";
           signup_confirm_password_helper.textContent = "";
           signup_confirm_passwordIsValid = false;

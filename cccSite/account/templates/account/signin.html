@@ -1,4 +1,4 @@
-<a class="signin-modal-trigger" data-target="signin-modal"> Sign In </a>
+<a class="signin-modal-trigger nav-link" data-target="signin-modal"> Sign In </a>
 
 <div id="signin-modal" class="modal">
     {% csrf_token %}
@@ -10,24 +10,31 @@
         </header>
         <section class="modal-card-body">
             <div class="field">
-                <label class="label">Username</label>
+                {% comment %} <label class="label">Username</label> {% endcomment %}
                 <div class="control">
-                    <input class="input is-rounded" type="text" name="username" id="signin_username">
+                    <input class="input" type="text" name="username" id="signin_username" placeholder="Username">
                 </div>
                 <p class="help" id="signin_username_helper"></p>
             </div>
             <div class="field">
-                <label class="label">Password</label>
+                {% comment %} <label class="label">Password</label> {% endcomment %}
                 <div class="control">
-                    <input class="input is-rounded" type="password" name="password" id="signin_password">
+                    <input class="input" type="password" name="password" id="signin_password" placeholder="Password">
                 </div>
                 <p class="help" id="signin_password_helper"></p>
             </div>
         </section>
         <footer class="modal-card-foot">
             <div class="control">
-                <button class="button is-success" type="submit" id="signin" disabled>Sign In</button>
+                <button class="button is-link" type="submit" id="signin" disabled>Sign In</button>
                 <button type="button" class="button is-danger sign-in-up-cancel">Cancel</button>
+            </div>
+            <br>
+            <div class="control">
+                <!--google sign in button is rendered here-->
+               <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+                    data-text="signin" data-size="large" data-logo_alignment="left">
+                </div>
             </div>
         </footer>
     </div>
@@ -47,8 +54,8 @@
         if ($(signin_username).val() == "") {
             signin_username.classList.remove("is-danger");
             signin_username_helper.classList.remove("is-danger");
-            signin_username.classList.remove("is-success");
-            signin_username_helper.classList.remove("is-success");
+            signin_username.classList.remove("is-link");
+            signin_username_helper.classList.remove("is-link");
             signin_username_helper.textContent = "";
             signin.disabled = true;
         } else {
@@ -61,16 +68,16 @@
                 success: function (data) {
                     if (data.is_taken) {
                         signin_username.classList.remove("is-danger");
-                        signin_username.classList.add("is-success");
+                        signin_username.classList.add("is-link");
                         signin_username_helper.classList.remove("is-danger");
-                        signin_username_helper.classList.add("is-success");
+                        signin_username_helper.classList.add("is-link");
                         signin_username_helper.textContent = "That username exists.";
                         signin.disabled = false;
                     } else {
                         signin_username.classList.add("is-danger");
-                        signin_username.classList.remove("is-success");
+                        signin_username.classList.remove("is-link");
                         signin_username_helper.classList.add("is-danger");
-                        signin_username_helper.classList.remove("is-success");
+                        signin_username_helper.classList.remove("is-link");
                         signin_username_helper.textContent = "That username doesn't exist.";
                         signin.disabled = true;
                     }
@@ -119,15 +126,15 @@
           $el.classList.remove('is-active');
           signin_username.classList.remove("is-danger");
           signin_username_helper.classList.remove("is-danger");
-          signin_username.classList.remove("is-success");
-          signin_username_helper.classList.remove("is-success");
+          signin_username.classList.remove("is-link");
+          signin_username_helper.classList.remove("is-link");
           signin_username.value = "";
           signin_username_helper.textContent = "";
 
           signin_password.classList.remove("is-danger");
           signin_password_helper.classList.remove("is-danger");
-          signin_password.classList.remove("is-success");
-          signin_password_helper.classList.remove("is-success");
+          signin_password.classList.remove("is-link");
+          signin_password_helper.classList.remove("is-link");
           signin_password.value = "";
           signin_password_helper.textContent = "";
 
