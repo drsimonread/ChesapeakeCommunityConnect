@@ -76,11 +76,12 @@ footer {
     text-align: center; /* Aligns text in the center. */
     background-color: var(--background);
     color: #000;
+    width: 100%;
 }
 
 /* Footer image styling. */
 footer img {
-    max-width: 150px; /* Adjust based on the actual logo size */
+    max-width: 250px; /* Adjust based on the actual logo size */
     margin-bottom: 10px; /* Space between the logo and the copyright message */
 }
 

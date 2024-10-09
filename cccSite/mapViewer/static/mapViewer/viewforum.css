@@ -105,3 +105,42 @@
   width: 100%;
   height: auto;
 }
+
+ /* Custom style for a full-width divider */
+ hr {
+  border: none;
+  height: 2px;
+  background-color: black;
+  width: 100%;
+}
+
+#report-button{
+  background-color: #00205c;
+  color: #f3c10d;
+}
+
+#report-field{
+ border-radius: 40px;
+}
+
+#input-submit{
+  background-color: #00205c;
+  color: #f3c10d;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Footer styling */
+footer {
+  display: flex; /* Sets the items to be displayed flexibly. Hard to explain, lookup CSS flexible box layout. */
+  flex-direction: column; /* Orders the items (image and text) to be ordered as columns. */
+  clear: both; /* Clears both the left and right side, placing it at the bottom of items in the webpage. */
+  justify-content: center; /* Centers the content of the footer relative to the webpage. */
+  align-items: center; /* Aligns the text to the center of the item and centers the item's box on the text. */
+  height: auto; /* Changed to auto to accommodate image size */
+  padding: 20px; /* Add padding for spacing */
+  text-align: center; /* Aligns text in the center. */
+  background-color: var(--background);
+  color: #000;
+  min-width: 100%;
+}
