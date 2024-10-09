@@ -26,47 +26,49 @@
         {%endif%}
     </ul> {% endcomment %}
 
+    {% if rank > 0 %}
+        <ul class="menu">
 
-    <ul class="menu">
+            <li>
+                <a href="{%url 'account:account_list'%}" {%if '/view/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
+                    <i class='bx bx-search-alt' ></i>
+                    <span>Search Contributors</span>
+                </a>
+            </li>
 
-        {% if rank > 0 %}
-        <li>
-            <a href="{%url 'account:account_list'%}" {%if '/view/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
-                <i class='bx bx-search-alt' ></i>
-                <span>Search Contributors</span>
-            </a>
-        </li>
+            <li>
+                <a href="{%url 'account:create_forum' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>
+                    <i class='bx bx-message-square-add'></i>
+                    <span>Create Forum</span>
+                </a>
+            </li>
 
-        <li>
-            <a href="{%url 'account:create_forum' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>
-                <i class='bx bx-message-square-add'></i>
-                <span>Create Forum</span>
-            </a>
-        </li>
+            <li><a class="button_CCC" href="{%url 'account:my_forums' %}" {%if '/myforums/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>My Forums</a></li>
+            <li>
+                <a href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/view/' not in request.path and '/create/' not in request.path and '/myforums/' not in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
+                    <i class='bx bxs-user-account' ></i>
+                    <span>My Account</span>
+                </a>
+            </li>
 
-        <li><a class="button_CCC" href="{%url 'account:my_forums' %}" {%if '/myforums/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>My Forums</a></li>
-        <li>
-            <a href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/view/' not in request.path and '/create/' not in request.path and '/myforums/' not in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
-                <i class='bx bxs-user-account' ></i>
-                <span>My Account</span>
-            </a>
-        </li>
-
-        <li>
-            <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
-                <button>
-                    <i class='bx bx-log-out' ></i>
-                    Sign Out
-                </button>
-            </form>
-        </li>
-        {%endif%}
-
-    </ul>
-
-    <div id="right">
+            <li>
+                <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
+                    <button>
+                        <i class='bx bx-log-out' ></i>
+                        Sign Out
+                    </button>
+                </form>
+            </li>
+        </ul>
+        <div id="right">
+    {%else%}
+    <div>
+    {%endif%}
         {%block accountFunc%} Welcome to the account interface. {% endblock accountFunc %}
     </div>
+
+
+    
 
 </div>
 <script>
