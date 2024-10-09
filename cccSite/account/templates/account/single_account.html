@@ -4,7 +4,7 @@
 <!--loads user's info from provided dictionary-->
 
 {%if rank == 99%}
-<a class="button" href="{{user.get_admin_url}}">Manage User</a>
+<a class="button_CCC" href="{{user.get_admin_url}}">Manage User</a>
 {%endif%}
 <link rel="stylesheet" type="text/css" href="{% static 'account/single_account.css' %}">
 {{msg}}
@@ -22,9 +22,9 @@
             <li><img class="proPic" src="{{ user.pic.url }}" alt="Uploaded Image" height="150" width="150"></li>
         </div>
         <div class="inWrapper">
-            {{user.name}}
+            {{user.user.username}}
             <br>
-            {{user.email}}
+            {{user.user.email}}
             <br>
 
 

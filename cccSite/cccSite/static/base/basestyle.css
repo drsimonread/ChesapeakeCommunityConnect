@@ -104,7 +104,7 @@ footer img {
 }
 
 /* Styled buttons. */
-.button {
+.button_CCC {
     background-color: var(--gold); /* Yellow background */
     color: var(--blue); /* Dark blue text */
     cursor: pointer; /* Changes the cursor when moused over. */
@@ -117,12 +117,12 @@ footer img {
     text-align: center; /* Center the text */
     text-decoration: none; /* Removes underline */
 }
-.button:hover {
+.button_CCC:hover {
     background-color: var(--hover-gold); /* Darker yellow on hover */
 }
 
 /** Isn't currently used, would be used if we wanted a different looking button. */
-.button-alt {
+.button_CCC-alt {
     background-color: var(--blue); /* Yellow background */
     color: var(--gold); /* Dark blue text */
     cursor: pointer;
@@ -135,7 +135,7 @@ footer img {
     /* margin: 0 auto; Centered on the screen */
     text-align: center; /* Center the text */
 }
-.button-alt:hover {
+.button_CCC-alt:hover {
     background-color: var(--hover-blue); /* Darker yellow on hover */
 }
 

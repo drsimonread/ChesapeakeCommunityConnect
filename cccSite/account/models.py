@@ -1,5 +1,6 @@
 from django import forms
 from django.db import models
+from django.contrib.auth.models import User
 from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Textarea
 from django.urls import reverse
 from .storage import OverwriteStorage
@@ -17,7 +18,8 @@ def user_directory_profile(instance, filename):
 
 # MEMBER_DELETE
 class Member(models.Model):
-    name = models.CharField(max_length=35)
+    # name = models.CharField(max_length=35)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     ranking_options = { 
         (-1,"banned"),
         (1 , "member"),
@@ -26,14 +28,14 @@ class Member(models.Model):
         (99 , "admin"),
     }
     ranking = models.SmallIntegerField(default=1, choices=ranking_options)
-    created = models.DateTimeField(auto_now=False, auto_now_add=True)
-    email = models.EmailField()
+    # created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    # email = models.EmailField()
     pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
 
    #location
     def __str__(self):
-        return self.name
+        return self.user.username
     @property
     def get_absolute_url(self):
         return reverse("account:account_view", args=[str(self.pk)])
@@ -56,12 +58,13 @@ class ManageForm(ModelForm):
     class Meta:
         # MEMBER_DELETE
         model = Member
-        fields = ["pic", "name", "email", "about"]
+        fields = ["pic", "about"]
+        #! fields = ["pic", "name", "email", "about"]
 
         widgets = {
             
-            'name': forms.TextInput(attrs={'class':'nameField'}),
-            'email':forms.EmailInput(attrs={'class':'emailField'}),
+            #! 'name': forms.TextInput(attrs={'class':'nameField'}),
+            #! 'email':forms.EmailInput(attrs={'class':'emailField'}),
             'about': forms.TextInput(attrs={'class':'aboutField'})
         }
         

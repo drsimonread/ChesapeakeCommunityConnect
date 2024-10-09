@@ -1,7 +1,7 @@
 {%extends "account/accountBase.html"%}
 {%block accHead%}
 {% load static %}
-
+{% csrf_token %}
 <script src="https://accounts.google.com/gsi/client" async></script>
 <link rel="stylesheet" type="text/css" href="{% static 'account/signinstyle.css' %}">
 <title>Chesapeake Community Connect - Sign In</title>
@@ -13,23 +13,6 @@
           data-context="signin" data-ux_mode="popup" data-login_uri="{%url 'account:authG' %}"
           data-auto_prompt="false">
      </div>
-     <div class="containerS1">
-          <div class="wrapperS1">
-               <h1 class="heading">
-                    Sign in with Google
-               </h1>
-               <!--google sign in button is rendered here-->
-               <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
-                    data-text="signin" data-size="large" data-logo_alignment="left">
-               </div>
-               
-               {% include "account/signup.html" %}
-               {% include "account/signin.html" %}
-
-          </div>
-     </div>
-
-
      <div class="containerS2">
           <div class="wrapperS1">
                <h1 class="heading">What it means to be a Contributor</h1>

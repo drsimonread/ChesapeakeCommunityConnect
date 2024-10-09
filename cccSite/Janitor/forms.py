@@ -65,5 +65,6 @@ class ForumManager(ModelForm):
 class MemberManager(ModelForm):
     class Meta:
         model = Member
-        fields = ['name', 'ranking', 'email','pic','about']
+        #! fields = ['name', 'ranking', 'email','pic','about']
+        fields = ['ranking', 'pic','about']
 
