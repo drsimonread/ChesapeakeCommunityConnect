@@ -59,6 +59,42 @@
    
     </div>
     {%endfor%}
+    
+    {%for item in posts%}
+    <br>
+    <div class ="container">
+
+        <div class ="singleP">
+    {{item.forum}}: {{item.title}}: {{item.content}} 
+    
+    <div class = "buttonC">
+        <button class="editPro" id="edit-account" 
+        onclick="window.location.href='{{item.get_absolute_url}}';">
+            View Post</button>
+    </div>
+        </div>
+   
+    </div>
+    {%endfor%}
+
+    {%for item in comments%}
+    <br>
+    <div class ="container">
+
+        <div class ="singleP">
+    {{item.post.title}}: {{item.content}} 
+    
+    <div class = "buttonC">
+        <button class="editPro" id="edit-account" 
+        onclick="window.location.href='{{item.get_absolute_url}}';">
+            View Comment</button>
+    </div>
+        </div>
+   
+    </div>
+    {%endfor%}
+
+    
 
     <!--forums to the URL titled signout in the account app's URL config-->
 </div>
