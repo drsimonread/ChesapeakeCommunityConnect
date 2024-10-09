@@ -140,7 +140,7 @@ footer img {
 
 /*? Is this required? Styling for columns */
 .body { overflow: hidden; }
-.column { float: left; }
+/* .column { float: left; } */
 .left { width: 50%; float:left;}
 .right { float: right; width: auto; }
 
