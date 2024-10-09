@@ -4,59 +4,88 @@
 {% block head %}
 <title>Chesapeake Community Connect - Map</title>
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewforum.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+
+
 <script src="{% static 'mapViewer/forumview.js' %}" defer></script>
 {{forum.geoCode|json_script}}
-<script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>
 
 {% endblock head %}
 
+
 {% block content %}
+
 {%if rank > 2%}
 <a class="button" href="{{forum.get_admin_url}}">Manage Forum</a>
 {%endif%}
-{{msg}}<br>
-<div id="content" class="body">
-    {% if not hasReported %}
-    <form action="{{ request.build_absolute_uri }}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Send Report" id="input-submit">
-    </form>
-    {% else %}
-    Your report has been received.
-    {% endif %}
 
-    <h1>{{ forum.title }}</h1>
-    <br>
-    <p>By <a href="{{forum.author.get_absolute_url}}">{{ forum.author }}</a></p>
-    <br>
+{{msg}}
+
+<div class = "is-pulled-right pb-10">  
+    <div id="content" class="is-pulled-left">
+        <button id="report-button" class="button mr-1 mt-1 fixed-button">Report Forum</button>
+        <div id="report-form" style="display: none;">
+
+        {% if not hasReported %}
+        <form action="{{ request.build_absolute_uri }}" method="post">
+            {% csrf_token %}
+            <div id="report-field" class = "has-text-dark is-shadowless">{{ form.as_p }}</div>
+            <br>
+            <input type="submit" value="Report" id="input-submit" class=" is-rounded is-size-6">
+        </form>
+        </div>
+        {% else %}
+        Your report has been received.
+        {% endif %}
+    </div>
+</div>
+<br>
+<script>
+    document.getElementById('report-button').addEventListener('click', function() {
+        var reportForm = document.getElementById('report-form');
+        if (reportForm.style.display === "none") {
+            reportForm.style.display = "block";
+        } else {
+            reportForm.style.display = "none";
+        }
+    });
+</script>
+
+    
+    <h1 class = "is-size-1 has-text-dark pl-3">{{ forum.title }}</h1>
+    <p class = "is-size-5 has-text-dark pl-3">By <a class = "has-text-dark has-text-weight-semibold" href="{{forum.author.get_absolute_url}}">{{ forum.author }}</a></p>
+    
 
     <!-- Google Map -->
    
 
     <!-- Slideshow HTML -->
-    <div class="slideshow-container">
-        <!-- Slides -->
-        <div class="mySlides fade">
-            <div id="map"></div>
-        </div>
-        {% for item in files %}
-        <div class="mySlides fade">
-            <div class="image-container">
-                {% if item.format == 0 %}
-                <img src="{{ item.file.url }}" class="slide-image">
-                {% elif item.format == 1 %}
-                <video width="100%" controls>
-                    <source src="{{ item.file.url }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                {% elif item.format == 2 %}
-                <audio controls>
-                    <source src="{{ item.file.url }}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                {% endif %}
+    <div class = "container is-pulled-left">
+        <div class="slideshow-container container  mx-6 is-pulled-left" style = "max-width: 50%">
+            <!-- Slides -->
+            <div class="mySlides fade">
+                <div id="map">
+                </div>
+            </div>
+            {% for item in files %}
+            <div class="mySlides fade">
+                <div class="image-container">
+                    {% if item.format == 0 %}
+                    <img src="{{ item.file.url }}" class="slide-image">
+                    {% elif item.format == 1 %}
+                    <video width="100%" controls>
+                        <source src="{{ item.file.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% elif item.format == 2 %}
+                    <audio controls>
+                        <source src="{{ item.file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    {% endif %}
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -65,19 +94,21 @@
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
-    <br>
-    <div id="caption">
-    
-    </div>
 
-    <p>{{ forum.content }}</p>
-    <br>
-    <p>Tags:</p>
-    <ul>
-        {% for tag in forum.tags.all %}
-        <li>{{ tag.name }}</li>
-        {% endfor %}
-    </ul>
-</div>
+
+
+    <section class = "column is-full has-background-light has-shadow has-text-dark is-size-5">
+        <br>
+        <p class = "pl-6">{{ forum.content }}</p>
+        <br>
+        <p class = "pl-6">Tags:</p>
+
+        <ul>
+            {% for tag in forum.tags.all %}
+            <li>{{ tag.name }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
 
 {% endblock content %}
