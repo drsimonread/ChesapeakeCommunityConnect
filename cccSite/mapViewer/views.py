@@ -71,3 +71,10 @@ def forum_detail(request, want):
                                                                "files" : files,
                                                                "msg" : msg,})
     return redirect(reverse("mapViewer:default"))
+
+def post_detail(request, want, wants):
+    if Forum.objects.filter(pk=want).exists():
+        lookAt= Forum.objects.get(pk=want)
+        lookAtPost= Post.objects.get(pk=wants)
+        return render(request, "mapViewer/viewPost.html", {"forum" : lookAt,
+                                                            "Post" : lookAtPost,})
