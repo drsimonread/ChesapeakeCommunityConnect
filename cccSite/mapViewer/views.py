@@ -59,6 +59,7 @@ def forum_detail(request, want):
                 reporter.save()
         else:
             reporter = ForumRepForm(initial={'forum':lookAt})
+        posts = lookAt.posts.all()
         if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
             
             if lookAt.visibility==0:
@@ -69,7 +70,8 @@ def forum_detail(request, want):
                                                                "form" : reporter,
                                                                "hasReported" : hasReported,
                                                                "files" : files,
-                                                               "msg" : msg,})
+                                                               "msg" : msg,
+                                                               "posts" : posts})
     return redirect(reverse("mapViewer:default"))
 
 def post_detail(request, want, wants):

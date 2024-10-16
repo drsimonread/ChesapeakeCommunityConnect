@@ -63,18 +63,18 @@ class Post(models.Model):
     content = models.TextField()
     
     # MEMBER_DELETE
-    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="posts")
     
-    forum = models.ForeignKey(Forum, null=True, on_delete=models.SET_NULL)
+    forum = models.ForeignKey(Forum, null=True, on_delete=models.SET_NULL, related_name="posts")
     
 
 class Comment(models.Model):
     content = models.TextField()
     
     # MEMBER_DELETE
-    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="comments")
     
-    post = models.ForeignKey(Post, null=True, on_delete=models.SET_NULL)
+    post = models.ForeignKey(Post, null=True, on_delete=models.SET_NULL, related_name="comments")
     
 class Reply(Comment):
     

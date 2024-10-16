@@ -112,15 +112,15 @@
     
     <hr class="ml-3">
         <h1 class="subtitle is-4 has-text-dark ml-6">Forum Posts</h1>
+        <div id="forum-posts">
+            {% for post in posts %}
+            {% include 'mapViewer/postTemplate.html' %}
 
-        {% for post in posts %}
-        {% include 'post_template.html' %}
+            {% empty %}
+            <p class = "ml-6 has-text-black">No posts available.</p>
 
-        {% empty %}
-        <p class = "ml-6 has-text-black">No posts available.</p>
-
-        {% endfor %}
-
+            {% endfor %}
+        </div>
 
 
 {% endblock content %}
