@@ -62,8 +62,8 @@
    
 
     <!-- Slideshow HTML -->
-    <div class = "container is-pulled-left">
-        <div class="slideshow-container container  mx-6 is-pulled-left" style = "max-width: 50%">
+    <div class = "container is-pulled-left " style = "min-width: 100%">
+        <div class="transparent-box slideshow-container container  mx-6 is-pulled-left" >
             <!-- Slides -->
             <div class="mySlides fade">
                 <div id="map">
@@ -94,10 +94,10 @@
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
+</div>
 
 
-
-    <section class = "column is-full has-background-light has-shadow has-text-dark is-size-5">
+    <div class = "has-text-dark is-size-5 ">
         <br>
         <p class = "pl-6">{{ forum.content }}</p>
         <br>
@@ -108,7 +108,19 @@
             <li>{{ tag.name }}</li>
             {% endfor %}
         </ul>
-    </section>
+    </div>
+    
+    <hr class="ml-3">
+        <h1 class="subtitle is-4 has-text-dark ml-6">Forum Posts</h1>
+
+        {% for post in posts %}
+        {% include 'post_template.html' %}
+
+        {% empty %}
+        <p class = "ml-6 has-text-black">No posts available.</p>
+
+        {% endfor %}
+
 
 
 {% endblock content %}
