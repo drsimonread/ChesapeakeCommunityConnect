@@ -2,7 +2,6 @@
 {%block accHead%}
 {% load static %}
 {% csrf_token %}
-<script src="https://accounts.google.com/gsi/client" async></script>
 <link rel="stylesheet" type="text/css" href="{% static 'account/signinstyle.css' %}">
 <title>Chesapeake Community Connect - Sign In</title>
 {%endblock accHead%}
@@ -36,9 +35,6 @@
 
 <div class="columns is-centered">
      <div class="column is-three-quarters">
-          <div id="g_id_onload" data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
-          data-context="signin" data-ux_mode="popup" data-login_uri="{%url 'account:authG' %}"
-          data-auto_prompt="false"></div>
      <h3 class="title is-3">What does it mean to be a Contributor?</h3>
           Labore vel odit sint est omnis ea esse esse. Et voluptate occaecati sequi. Et sed cum explicabo quaerat
           aut. Atque qui placeat vitae delectus eaque similique. Eum quis quia ut delectus est earum sint ex. Qui

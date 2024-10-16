@@ -14,7 +14,7 @@
                 <div class="control">
                     <input class="input" type="text" name="username" id="signin_username" placeholder="Username">
                 </div>
-                <p class="help" id="signin_username_helper"></p>
+                {% comment %} <p class="help" id="signin_username_helper"></p> {% endcomment %}
             </div>
             <div class="field">
                 {% comment %} <label class="label">Password</label> {% endcomment %}
@@ -44,13 +44,13 @@
 <script>
 
     let signin_username = document.getElementById("signin_username");
-    let signin_username_helper = document.getElementById("signin_username_helper");
+    {% comment %} let signin_username_helper = document.getElementById("signin_username_helper"); {% endcomment %}
     
     let signin_password = document.getElementById("signin_password");
     let signin_password_helper = document.getElementById("signin_password_helper");
     let signin = document.getElementById("signin");
 
-    $("#signin_username").change(function (e) {
+    {% comment %} $("#signin_username").change(function (e) {
         if ($(signin_username).val() == "") {
             signin_username.classList.remove("is-danger");
             signin_username_helper.classList.remove("is-danger");
@@ -84,9 +84,14 @@
                 }
             });
         }
-    });
+    }); {% endcomment %}
 
     $("#signin_password").change(function (e) {
+        if ($("#signin_password").val() != "") {
+            signin.disabled = false;
+        } else {
+            signin.disabled = true;
+        }
         signin_password.classList.remove("is-danger");
         signin_password_helper.classList.remove("is-danger");
         signin_password_helper.textContent = "";
@@ -96,7 +101,7 @@
     $("#signin-modal").on("click", "#signin", function (e) {
 
         $.ajax({
-            url: "signin/",
+            url: "/contribute/signin/",
             type: "POST",
             data: {
                 username: $(signin_username).val(),
@@ -124,12 +129,12 @@
       
         function closeModal($el) {
           $el.classList.remove('is-active');
-          signin_username.classList.remove("is-danger");
-          signin_username_helper.classList.remove("is-danger");
-          signin_username.classList.remove("is-link");
-          signin_username_helper.classList.remove("is-link");
+          {% comment %} signin_username.classList.remove("is-danger"); {% endcomment %}
+          {% comment %} signin_username_helper.classList.remove("is-danger"); {% endcomment %}
+          {% comment %} signin_username.classList.remove("is-link"); {% endcomment %}
+          {% comment %} signin_username_helper.classList.remove("is-link"); {% endcomment %}
           signin_username.value = "";
-          signin_username_helper.textContent = "";
+          {% comment %} signin_username_helper.textContent = ""; {% endcomment %}
 
           signin_password.classList.remove("is-danger");
           signin_password_helper.classList.remove("is-danger");

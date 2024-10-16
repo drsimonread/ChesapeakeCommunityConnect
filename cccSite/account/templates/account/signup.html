@@ -90,7 +90,7 @@
         } else {
             $.ajax({
                 type: "GET",
-                url: "ajax/username_validation/",
+                url: "/contribute/ajax/username_validation/",
                 data: {
                     username: $(signup_username).val(),
                 },
@@ -129,7 +129,7 @@
         } else if (signup_emailRegex.test($(signup_email).val())) {
             $.ajax({
                 type: "GET",
-                url: "ajax/email_validation/",
+                url: "/contribute/ajax/email_validation/",
                 data: {
                     email: $(signup_email).val(),
                 },
@@ -236,7 +236,7 @@
         
         e.preventDefault();
         $.ajax({
-            url: "signup/",
+            url: "/contribute/signup/",
             type: "POST",
             data: {
                 username: $(signup_username).val(),

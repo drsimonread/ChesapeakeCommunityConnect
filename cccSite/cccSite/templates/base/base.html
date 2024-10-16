@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'base/basestyle.css' %}">
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <script type="text/javascript" src="{% static 'base/jquery-3.7.1.min.js' %}"></script>
     {% block head%}{%endblock head%}
 </head>
@@ -31,7 +32,9 @@
             </ul>
         </nav> 
     </header>
-
+    <div id="g_id_onload" data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
+          data-context="signin" data-ux_mode="popup" data-login_uri="{%url 'account:authG' %}"
+          data-auto_prompt="false"></div>
    {% block content %} {%endblock content%}
     <!-- Footer -->
     <footer style="min-height: 350px;">
