@@ -23,7 +23,7 @@
 
 {{msg}}
 
-<div class = "is-pulled-right pb-10">  
+<div class = " is-pulled-right pb-10">  
     <div id="content" class="is-pulled-left">
         <button id="report-button" class="button mr-1 mt-1 fixed-button">Report Forum</button>
         <div id="report-form" style="display: none;">
@@ -31,7 +31,7 @@
         {% if not hasReported %}
         <form action="{{ request.build_absolute_uri }}" method="post">
             {% csrf_token %}
-            <div id="report-field" class = "has-text-dark is-shadowless">{{ form.as_p }}</div>
+            <div id="report-field" class = "mt-3 has-text-dark is-shadowless" style="resize:none;">{{ form.as_p }}</div>
             <br>
             <input type="submit" value="Report" id="input-submit" class=" is-rounded is-size-6">
         </form>
@@ -121,6 +121,5 @@
 
             {% endfor %}
         </div>
-
 
 {% endblock content %}
