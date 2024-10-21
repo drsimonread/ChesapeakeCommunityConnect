@@ -15,7 +15,6 @@ class Forum(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     
-    # MEMBER_DELETE
     author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="forums")
     
     description = models.TextField()
@@ -43,7 +42,6 @@ class Forum(models.Model):
     ]
     private_public = models.CharField(choices=private_public_choices, max_length=80)
     
-    # MEMBER_DELETE
     contributors = models.ManyToManyField(Member, related_name="contributed_forums", blank=True)
     
     def __str__(self):
@@ -62,7 +60,6 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     
-    # MEMBER_DELETE
     author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="posts")
     
     forum = models.ForeignKey(Forum, null=True, on_delete=models.SET_NULL, related_name="posts")
@@ -71,7 +68,6 @@ class Post(models.Model):
 class Comment(models.Model):
     content = models.TextField()
     
-    # MEMBER_DELETE
     author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="comments")
     
     post = models.ForeignKey(Post, null=True, on_delete=models.SET_NULL, related_name="comments")
