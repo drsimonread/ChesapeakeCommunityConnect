@@ -121,6 +121,7 @@
 
 #report-field{
  border-radius: 40px;
+ resize: none;
 }
 
 #input-submit{
