@@ -30,7 +30,7 @@ body {
 }
 
 /* Header styling */
-header {
+.headerCCC {
     background-color: var(--blue);
     color: var(--gold);
     padding: 15px 0; /* Sets the top and bottom padding to 15px, the left and right to 0. */
