@@ -138,6 +138,7 @@ def my_forums(request):
     
 def account_view(request, want):
     msg = ""
+    
     if not Member.objects.get(pk=want): # MEMBER_DELETE
         return redirect(reverse("account:default"))
     
@@ -147,6 +148,32 @@ def account_view(request, want):
             form.save()
             msg="Your report has been sent."
     else:
+        #Admin View
+        if(request.session.get('rank',0)==98 or request.session.get('rank',0)==99):
+            accountInz=Member.objects.get(pk=want)
+            userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
+            form = UserRepForm(initial={'account':accountInz})
+            comments = Comment.objects.filter(author=accountInz)
+            post = Post.objects.filter(author=accountInz)
+            return render(request, 'account/single_account.html', {'user' : accountInz,
+                                                           'forums' : userForums,
+                                                           'form' : form,
+                                                           'msg' : msg,
+                                                            'comments' : comments,
+                                                            'posts' : post})
+        #Not Signed in
+        elif(request.session.get('rank',0)==0):
+            accountInz=Member.objects.get(pk=want)
+            userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
+            form = UserRepForm(initial={'account':accountInz})
+            return render(request, 'account/single_account.html', {'user' : accountInz,
+                                                           'forums' : userForums,
+                                                           'form' : form,
+                                                           'msg' : msg,
+                                                            })
+        #Default member view
+        userInz = Member.objects.get(pk=request.session.get('user'))
+        contribute = userInz.contributed_forums.all()
         accountInz=Member.objects.get(pk=want)
         userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
         form = UserRepForm(initial={'account':accountInz})
