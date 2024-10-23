@@ -50,6 +50,7 @@
   </style>
 </head>
 <body>
+<<<<<<< HEAD
     <ul class="post-list">
         <li class="post-item">
             <h2 class="post-title">
@@ -62,5 +63,14 @@
         </li>
         <!-- Repeat for other posts -->
     </ul>
+=======
+    <div class="post">
+        <h2 class="post-title has-text-dark has-text-weight-bold"><a href="post/{{post.pk}}/" style="text-decoration: none; color: inherit;">{{ post.title }}</h2>
+        <p class="post-author mx-3">Posted by: {{ post.author }}</p>
+        <div class="post-content mx-5">
+            {{ post.content }}
+        </div>
+    </div>
+>>>>>>> 43942cba7ff2574cdd348a85e3669c93b5d5deaf
 </body>
 </html>
