@@ -177,14 +177,19 @@ def account_view(request, want):
         accountInz=Member.objects.get(pk=want)
         userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
         form = UserRepForm(initial={'account':accountInz})
-        comments = Comment.objects.filter(author=accountInz)
-        post = Post.objects.filter(author=accountInz)
+        post = Post.objects.filter(author=accountInz, forum__contributors=userInz)
+        comments = Comment.objects.filter(author=accountInz, post__forum__contributors=userInz)
+        
+        
+        
+
     return render(request, 'account/single_account.html', {'user' : accountInz,
                                                            'forums' : userForums,
                                                            'form' : form,
                                                            'msg' : msg,
-                                                            'comments' : comments,
-                                                            'posts' : post})
+                                                           'posts' : post,
+                                                            'comments' : comments
+                                                            })
     
 
 # lets members edit their info
