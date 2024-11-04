@@ -178,10 +178,6 @@ def account_view(request, want):
         form = UserRepForm(initial={'account':accountInz})
         post = Post.objects.filter(author=accountInz, forum__contributors=userInz)
         comments = Comment.objects.filter(author=accountInz, post__forum__contributors=userInz)
-        
-        
-        
-
     return render(request, 'account/single_account.html', {'user' : accountInz,
                                                            'forums' : userForums,
                                                            'form' : form,
