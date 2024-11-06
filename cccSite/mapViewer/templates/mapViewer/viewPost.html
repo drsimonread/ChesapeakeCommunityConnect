@@ -38,6 +38,7 @@
         <!--should this say url or uri in line 37?-->
         <form action="{{ request.build_absolute_uri }}" method="post">
             {% csrf_token %}
+            <!--Report text box does not show up-->
             <div id="report-field" class = "has-text-dark is-shadowless">{{ form.as_p }}</div>
             <br>
             <input type="submit" value="Report" id="input-submit" class=" is-rounded is-size-6">
@@ -120,11 +121,26 @@
     </div>
     
     <hr class="ml-3">
-        <p class = "ml-6 has-text-black">Leave a Comment:</p>
-        <!--TODO: Add Text Box to Add Comments-->
+        <form action="/url" method="GET">
+            <p class = "ml-6 has-text-black">
+            <!--<button id="report-button" class="button mr-1 mt-1 fixed-button" type="submit">Leave a Comment</button> -->
+            <!--TODO: make comment section functional - make sure usernames show - be able to reply to comments-->
+            <!--TODO: want to write text in "Leave a Comment" text box, then click "Comment/Submit button to send comment"-->
+            <Label>
+                Leave a Comment:
+                <textarea id="comments" name="comments" rows="3" cols="50"></textarea>
+                <button id="report-button" class="button mr-1 mt-1 fixed-button" type="submit">Submit</button>
+            </Label>
+            
+            </p>
+            </form>
+
+        
+        <!--TODO: Add Text Box to Add Comments -->
+        <!-- Do we want to be able to report comments?-->
         <br>
-        <h1 class="subtitle is-4 has-text-dark ml-6">Comments</h1>
-        <!-- TODO: Comment Section -->
+        <h1 class="subtitle is-4 has-text-dark ml-6">Comments:</h1>
+        <!-- TODO: Comment Section, Display comment, have option to reply, have dropdown menu to reveal replies and the comments that they reply to -->
         
 
 
