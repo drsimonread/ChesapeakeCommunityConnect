@@ -148,7 +148,7 @@ def account_view(request, want):
             form.save()
             msg="Your report has been sent."
     else:
-        #Admin View
+        #Admin View, includes all forums, posts, and comments from a user
         if(request.session.get('rank',0)==98 or request.session.get('rank',0)==99):
             accountInz=Member.objects.get(pk=want)
             userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
@@ -161,7 +161,7 @@ def account_view(request, want):
                                                            'msg' : msg,
                                                             'comments' : comments,
                                                             'posts' : post})
-        #Not Signed in
+        #Not Signed in only contains forums and posts/comments made on public forums
         elif(request.session.get('rank',0)==0):
             accountInz=Member.objects.get(pk=want)
             userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
@@ -175,7 +175,8 @@ def account_view(request, want):
                                                            'comments' : publicComments,
                                                            'msg' : msg,
                                                             })
-        #Default member view
+        #Default member view contains forums as well as posts/comments made on public forums AND forums-
+        #-the user is a contributor on
         userInz = Member.objects.get(pk=request.session.get('user'))
         accountInz=Member.objects.get(pk=want)
         userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
