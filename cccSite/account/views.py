@@ -166,9 +166,13 @@ def account_view(request, want):
             accountInz=Member.objects.get(pk=want)
             userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
             form = UserRepForm(initial={'account':accountInz})
+            publicPosts= Post.objects.filter(author=accountInz, forum__private_public="public")
+            publicComments = Comment.objects.filter(author=accountInz, post__forum__private_public="public")
             return render(request, 'account/single_account.html', {'user' : accountInz,
                                                            'forums' : userForums,
                                                            'form' : form,
+                                                           'posts' : publicPosts,
+                                                           'comments' : publicComments,
                                                            'msg' : msg,
                                                             })
         #Default member view
@@ -176,14 +180,18 @@ def account_view(request, want):
         accountInz=Member.objects.get(pk=want)
         userForums=Forum.objects.filter(author=accountInz).filter(visibility=1)
         form = UserRepForm(initial={'account':accountInz})
-        post = Post.objects.filter(author=accountInz, forum__contributors=userInz)
-        comments = Comment.objects.filter(author=accountInz, post__forum__contributors=userInz)
+        privatePosts= Post.objects.filter(author=accountInz, forum__contributors=userInz)
+        publicPosts= Post.objects.filter(author=accountInz, forum__private_public="public")
+        allPosts= (privatePosts|publicPosts).distinct
+        privateComments = Comment.objects.filter(author=accountInz, post__forum__contributors=userInz)
+        publicComments = Comment.objects.filter(author=accountInz, post__forum__public_private="public")
+        allComments = (privateComments|publicComments).distinct
     return render(request, 'account/single_account.html', {'user' : accountInz,
                                                            'forums' : userForums,
                                                            'form' : form,
                                                            'msg' : msg,
-                                                           'posts' : post,
-                                                            'comments' : comments
+                                                           'posts' : allPosts,
+                                                            'comments' : allComments
                                                             })
     
 
