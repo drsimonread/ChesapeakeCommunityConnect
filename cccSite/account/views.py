@@ -185,7 +185,7 @@ def account_view(request, want):
         publicPosts= Post.objects.filter(author=accountInz, forum__private_public="public")
         allPosts= (privatePosts|publicPosts).distinct
         privateComments = Comment.objects.filter(author=accountInz, post__forum__contributors=userInz)
-        publicComments = Comment.objects.filter(author=accountInz, post__forum__public_private="public")
+        publicComments = Comment.objects.filter(author=accountInz, post__forum__private_public="public")
         allComments = (privateComments|publicComments).distinct
     return render(request, 'account/single_account.html', {'user' : accountInz,
                                                            'forums' : userForums,
