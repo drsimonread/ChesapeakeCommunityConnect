@@ -66,7 +66,7 @@
 <div id="content">
     <div class="wrapper">
         <div class="imgWrapper">
-            <li><img class="proPic" src="{{ self.pic.url }}" alt="Uploaded Image" height="150" width="150"></li>
+            <li><img class="proPic" src="{{ self.pic.url }}" alt="Profile Picture" height="150" width="150"></li>
         </div>
         <div class="inWrapper">
             {{self.user.username}}
@@ -78,7 +78,7 @@
         </div>
 
         <div class="buttonHolder">
-            <button class="editPro" id="edit-account" onclick="window.location.href='{%url 'account:manage'%}';">
+            <button class="editPro" id="edit-account" onclick="window.location.href= '{% url 'account:manage'%}';">
                 Edit Account Details</button>
         </div>
 

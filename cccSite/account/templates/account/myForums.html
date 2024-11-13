@@ -37,8 +37,8 @@
 <!--loads the form with line breaks between entries. forums to the URL titled manage in the account app's URL config-->
 <div id="content">
     <div class="container">
-        <button class="accordion">Visible Forums:</button>
-        <div class="panel">
+        <button class="accordion" aria-expanded="false" aria-controls="visible-forums-panel">Visible Forums:</button>
+        <div class="panel" id="visible-forums-panel" hidden>
         {%if not vis%}
         <br>You do not have any visible forums
         {%endif%}

@@ -10,7 +10,7 @@
 {%endblock accHead%}
 {%endblock head%}
 {% block content %}
-<div id="body">  
+<div id="body" role="main">  
     {% comment %} <ul class="menu">
         <li><a class="button_CCC" href="{%url 'account:account_list'%}" style="text-decoration: none;">Search Contributors</a></li>
         {% if rank > 0 %}
@@ -27,7 +27,7 @@
     </ul> {% endcomment %}
 
     {% if rank > 0 %}
-        <ul class="menu">
+        <ul class="menu" role="navigation">
 
             <li>
                 <a href="{%url 'account:account_list'%}" {%if '/view/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
