@@ -8,22 +8,25 @@
     margin: 0% 35% 0% 30%;
 }
 
+.full-page {
+    display: flex;
+    flex-direction: column; /* Stack containers vertically */
+    justify-content: center; /* Vertically center the content */
+    align-items: center; /* Horizontally center the content */
+    padding: 20px; /* Add padding around the containers */
+    box-sizing: border-box;
+  }
 
-.container {
-    margin: auto auto auto 25%;
-    padding: 15px;
-    min-width: 300px;
-    max-width: 300px;
-    min-height: 300px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
-}
+  .container {
+    width: 75%;
+    margin-right: 50%;
+    max-width: 1200px; /* Prevent the container from getting too wide */
+    max-height: 300px;
+    box-sizing: border-box; /* Ensure padding doesn't affect container width */
+    margin-bottom: 20px; /* Add space between containers */
+  }
 
-.singleP{
-    width: 70%;
-}
-
+  
 .button_CCCC {
     margin-top: 100px;
 }

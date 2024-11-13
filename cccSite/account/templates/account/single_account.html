@@ -45,9 +45,9 @@
    
     {%for item in forums%}
     <br>
-    <div class ="container">
+    <div class ="full-page">
 
-        <div class ="singleP">
+        <div class ="container box has-background-light">
     {{item.title}}: {{item.description}} 
     
     <div class = "buttonC">
@@ -62,9 +62,9 @@
     
     {%for item in posts%}
     <br>
-    <div class ="container">
+    <div class ="full-page">
 
-        <div class ="singleP">
+        <div class ="container box has-background-light p-5">
     {{item.forum}}: {{item.title}}: {{item.content}} 
     
     <div class = "buttonC">
@@ -79,9 +79,9 @@
 
     {%for item in comments%}
     <br>
-    <div class ="container">
+    <div class ="full-page">
 
-        <div class ="singleP">
+        <div class ="container box has-background-light p-5">
     {{item.post.title}}: {{item.content}} 
     
     <div class = "buttonC">
