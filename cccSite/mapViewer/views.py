@@ -12,7 +12,11 @@ import googlemaps
 from datetime import datetime
 from Janitor.forms import ForumRepForm
 from django.shortcuts import get_object_or_404, render
-from .models import Forum
+from .models import Post, Forum
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
+
+
 
 def viewMap(request):
     forums = Forum.objects.filter(visibility=1) #begin by fetching visible forums from database
@@ -47,6 +51,7 @@ def forum_list(request):
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def forum_detail(request, want):
+    forum = get_object_or_404(Forum, id=want)
     msg=""
     hasReported=False
     if Forum.objects.filter(pk=want).exists():
@@ -59,19 +64,42 @@ def forum_detail(request, want):
                 reporter.save()
         else:
             reporter = ForumRepForm(initial={'forum':lookAt})
-        posts = lookAt.posts.all()
+        posts = Post.objects.filter(forum=forum).order_by('author') #sorted by author
+        paginator = Paginator(posts, 10)
+        page_number = request.GET.get('page', 1)
+        page_obj = paginator.get_page(page_number)
+        current_page = page_obj.number
+
         if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
             
             if lookAt.visibility==0:
                 msg="Your forum is currently pending approval and only visible to you."
             elif lookAt.visibility == -1:
                 msg="Your forum has been denied for the following reason: {0}.\nTo resubmit, please create a new forum.".format(lookAt.description)
-            return render(request, "mapViewer/viewForum.html", {"forum" : lookAt,
-                                                               "form" : reporter,
-                                                               "hasReported" : hasReported,
-                                                               "files" : files,
-                                                               "msg" : msg,
-                                                               "posts" : posts})
+            else:
+                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                    
+                    # Render each post using the postTemplate
+                    post_html = [
+                        render_to_string('mapViewer/postTemplate.html', {'post': post, 'forum': lookAt, 'page_obj': page_obj.number})
+                        for post in page_obj.object_list
+                    ]
+                    
+                    return JsonResponse({
+                        'posts': post_html,
+                        'has_next': page_obj.has_next()
+                    })
+                
+                # Initial render for the HTML template
+
+                return render(request, "mapViewer/viewForum.html", {"forum" : lookAt,
+                                                                "form" : reporter,
+                                                                "hasReported" : hasReported,
+                                                                "files" : files,
+                                                                "msg" : msg,
+                                                                "posts" : page_obj, 
+                                                                "page_number" : page_obj.number
+                                                                })                
     return redirect(reverse("mapViewer:default"))
 
 def post_detail(request, want, wants):

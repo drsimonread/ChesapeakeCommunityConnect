@@ -113,13 +113,53 @@
     <hr class="ml-3">
         <h1 class="subtitle is-4 has-text-dark ml-6">Forum Posts</h1>
         <div id="forum-posts" class = "has-text-dark mx-6">
-            {% for post in posts %}
-            {% include 'mapViewer/postTemplate.html' %}
+            <div id="posts-container">
+                {% for post in posts %}
+                    {% include 'mapViewer/postTemplate.html' with post=post%}
+                {% endfor %}
+            </div>
+            
+            <div id="loading-spinner" style="display: none;">Loading...</div> 
+            
+            <script>
+                let currentPage = 1;
+                let hasNextPage = true;
+            
+                function loadMorePosts() {
+                    if (!hasNextPage) return;
+            
+                    console.log(`Fetching page ${currentPage + 1}`)
 
-            {% empty %}
-            <p class = "ml-6 has-text-black">No posts available.</p>
-
-            {% endfor %}
+                    document.getElementById('loading-spinner').style.display = 'block';
+                    currentPage += 1;
+            
+                    fetch(`?page=${currentPage}`, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('loading-spinner').style.display = 'none';
+                        const postsContainer = document.getElementById('posts-container');
+            
+                        data.posts.forEach(postHtml => {
+                            const postElement = document.createElement('div');
+                            postElement.innerHTML = postHtml;
+                            postsContainer.appendChild(postElement);
+                        });
+            
+                        hasNextPage = data.has_next;
+                    })
+                    .catch(error => console.error('Error loading posts:', error));
+                }
+            
+                window.addEventListener('scroll', () => {
+                    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                        loadMorePosts();
+                    }
+                });
+            </script>
         </div>
 
 {% endblock content %}
