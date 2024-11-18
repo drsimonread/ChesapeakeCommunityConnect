@@ -36,65 +36,66 @@
                 {{user.about}}
             {%endif%}
         </div>
-
-
-
-    {{user.name}}'s Forums:
 </div>
 
    
-    {%for item in forums%}
-    <br>
-    <div class ="full-page">
-
-        <div class ="container box has-background-light">
-    {{item.title}}: {{item.description}} 
-    
-    <div class = "buttonC">
-        <button class="editPro" id="edit-account" 
-        onclick="window.location.href='{{item.get_absolute_url}}';">
-            View Forum</button>
+<div class="container">
+    <p class="is-size-4 has-text-weight-bold">{{ user.user.username }}'s Forums</p>
+    {% for item in forums %}
+    <div class="box mb-4" style="max-width: 600px; margin: 0 auto;">
+      <div class="content">
+        <p class="has-text-left">
+          <strong>{{ item.title }}</strong>: {{ item.description }}
+        </p>
+      </div>
+      <div class="has-text-centered">
+        <button class="button is-warning is-medium" id="edit-account" 
+          onclick="window.location.href='{{ item.get_absolute_url }}';">
+          View Forum
+        </button>
+      </div>
     </div>
-        </div>
-   
+    {% endfor %}
+  </div>
+  
+  <div class="container">
+    <p class="is-size-4 has-text-weight-bold">{{ user.user.username }}'s Posts</p>
+    {% for item in posts %}
+    <div class="box mb-4" style="max-width: 600px; margin: 0 auto;">
+      <div class="content">
+        <p class="has-text-left">
+          <strong>{{ item.forum }}</strong>: {{ item.title }}: {{ item.content }}
+        </p>
+      </div>
+      <div class="has-text-centered">
+        <button class="button is-warning is-medium" id="edit-account" 
+          onclick="window.location.href='{{ item.get_absolute_url }}';">
+          View Post
+        </button>
+      </div>
     </div>
-    {%endfor%}
-    
-    {%for item in posts%}
-    <br>
-    <div class ="full-page">
-
-        <div class ="container box has-background-light p-5">
-    {{item.forum}}: {{item.title}}: {{item.content}} 
-    
-    <div class = "buttonC">
-        <button class="editPro" id="edit-account" 
-        onclick="window.location.href='{{item.get_absolute_url}}';">
-            View Post</button>
+    {% endfor %}
+  </div>
+  
+  <div class="container">
+    <p class="is-size-4 has-text-weight-bold">{{ user.user.username }}'s Comments</p>
+    {% for item in comments %}
+    <div class="box mb-4" style="max-width: 600px; margin: 0 auto;">
+      <div class="content">
+        <p class="has-text-left">
+          <strong>{{ item.post.title }}</strong>: {{ item.content }}
+        </p>
+      </div>
+      <div class="has-text-centered">
+        <button class="button is-warning is-medium" id="edit-account" 
+          onclick="window.location.href='{{ item.get_absolute_url }}';">
+          View Comment
+        </button>
+      </div>
     </div>
-        </div>
-   
-    </div>
-    {%endfor%}
-
-    {%for item in comments%}
-    <br>
-    <div class ="full-page">
-
-        <div class ="container box has-background-light p-5">
-    {{item.post.title}}: {{item.content}} 
-    
-    <div class = "buttonC">
-        <button class="editPro" id="edit-account" 
-        onclick="window.location.href='{{item.get_absolute_url}}';">
-            View Comment</button>
-    </div>
-        </div>
-   
-    </div>
-    {%endfor%}
-
-    
+    {% endfor %}
+  </div>
+  
 
     <!--forums to the URL titled signout in the account app's URL config-->
 </div>
