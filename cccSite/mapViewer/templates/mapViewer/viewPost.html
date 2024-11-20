@@ -121,14 +121,16 @@
     </div>
     
     <hr class="ml-3">
-        <form action="/url" method="GET">
+        <form action="comment/" method="POST">
+        {% csrf_token %}
+
             <p class = "ml-6 has-text-black">
             <!--<button id="report-button" class="button mr-1 mt-1 fixed-button" type="submit">Leave a Comment</button> -->
             <!--TODO: make comment section functional - make sure usernames show - be able to reply to comments-->
             <!--TODO: want to write text in "Leave a Comment" text box, then click "Comment/Submit button to send comment"-->
             <Label>
                 Leave a Comment:
-                <textarea id="comments" name="comments" rows="3" cols="50"></textarea>
+                <textarea id="content" name="content" rows="3" cols="50"></textarea>
                 <button id="report-button" class="button mr-1 mt-1 fixed-button" type="submit">Submit</button>
             </Label>
             
@@ -141,7 +143,16 @@
         <br>
         <h1 class="subtitle is-4 has-text-dark ml-6">Comments:</h1>
         <!-- TODO: Comment Section, Display comment, have option to reply, have dropdown menu to reveal replies and the comments that they reply to -->
-        
+        <div id="posts-comments" class = "has-text-dark mx-6">
+            {{ daniel }}
+            {% for comment in comments %}
+            {% include 'mapViewer/commentTemplate.html' %}
+
+            {% empty %}
+            <p class = "ml-6 has-text-black">No comments available.</p>
+
+            {% endfor %}
+        </div>
 
 
 {% endblock content %}

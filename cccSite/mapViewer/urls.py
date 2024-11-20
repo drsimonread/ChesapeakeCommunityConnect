@@ -11,5 +11,6 @@ urlpatterns = [
     #path("forum/<int:want>/<int:page_number>/", views.forum_detail, name="forum_detail"),
     path("forum/<int:want>/", views.forum_detail, name="forum_detail"),    
     path("forum/<int:want>/post/<int:wants>/", views.post_detail, name="post_detail"),
+    path("forum/<int:want>/post/<int:wants>/comment/", views.create_comment, name="create_comment"),
     # Add other URL patterns here
 ]
