@@ -53,7 +53,9 @@
     <ul class="post-list">
         <li class="post-item">
             <h2 class="post-title">
-                <a href="{% url 'forum_detail' forum.id %}">{{ post.title }}</a>
+                <a href="/forum/{{forum.id}}/post/{{post.id}}">{{ post.title }}</a>
+            <!-- This line should work. I don't know why it doesn't. The above line is my lazy replacement. -Roman -->
+                {% comment %} <a href="{% url 'post_detail' forum.id post.id %}">{{ post.title }}</a> {% endcomment %}
             </h2>
             <p class="post-author">Posted by: {{ post.author }}</p>
             <div class="post-content">
