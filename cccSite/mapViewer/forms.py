@@ -223,39 +223,9 @@ class MakeCommentsForm(forms.Form):
                 raise ValidationError(_("Bad file"), code="filerr")
 
 
-    # title = forms.CharField(max_length=100, label="Title", widget=forms.TextInput({"Placeholder": "Title"})) #title of forum
-    # location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of forum as an address
     content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
-    # tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
-    # geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
-    
-    # associated_choices = [
-    #     ("associated", "I am associated with the group providing this solution"),
-    #     ("not-associated", "I am not associated with the group providing this solution")
-    # ]
-    # associated = forms.ChoiceField(choices=associated_choices)
-    
-    # private_public_choices = [
-    #     ("public", "Public (Anyone can view and add Posts)"),
-    #     ("private", "Private (Only invited Contributors can view and add Posts)")
-    # ]
-    # private_public = forms.ChoiceField(choices=private_public_choices)
-    
-    
-    # #the file upload fields. validated using the custom validator above, if left empty or if a bad file is submitted, these fields have nothing in them
-    # file1 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
-    # file2 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
-    # file3 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
-    # file4 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
     
 
-    
-
-    
-    #to minimize API calls, we don't want to geocode a provided address more than once. 
-    #so if an address is correct, we want to use one geocode call to get the lat/long, but we can't just pass this to the model,
-    #because if the provided address doesn't result in a valid geocode, we can't try to access said geocode. this stores a valid geocode
-    #in the geoResult field of the form, and  also builds in an error message to the address code if there is no geocode
     def clean(self): 
         # gmaps = googlemaps.Client(key='AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc') #initialize maps
         cleaned_data = super().clean() #verify that all the other fields are ok
