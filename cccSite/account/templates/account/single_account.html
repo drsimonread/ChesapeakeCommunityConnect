@@ -38,11 +38,11 @@
         </div>
 </div>
 
-   
+   <!--Loading the specified user's Forums using items passed from views.py and styled with bulma/CSS-->
 <div class="container">
     <p class="is-size-4 has-text-weight-bold">{{ user.user.username }}'s Forums</p>
     {% for item in forums %}
-    <div class="box mb-4" style="max-width: 600px; margin: 0 auto;">
+    <div class="box mb-4" style="max-width: 600px; margin: 1 auto;">
       <div class="content">
         <p class="has-text-left">
           <strong>{{ item.title }}</strong>: {{ item.description }}
@@ -58,18 +58,20 @@
     {% endfor %}
   </div>
   
+  <!--Loading the specified user's Posts using items passed from views.py and styled with bulma/CSS-->
   <div class="container">
     <p class="is-size-4 has-text-weight-bold">{{ user.user.username }}'s Posts</p>
     {% for item in posts %}
-    <div class="box mb-4" style="max-width: 600px; margin: 0 auto;">
+    <div class="box mb-4" style="max-width: 600px; margin: 1 auto;">
       <div class="content">
         <p class="has-text-left">
           <strong>{{ item.forum }}</strong>: {{ item.title }}: {{ item.content }}
         </p>
       </div>
       <div class="has-text-centered">
-        <button class="button is-warning is-medium" id="edit-account" 
-          onclick="window.location.href='{{ item.get_absolute_url }}';">
+        <!--This links to the forum the post is on because there isn't a good way to view posts by themselves-->
+        <button class="button is-warning is-medium" id="edit-account"
+          onclick="window.location.href='{{ item.forum.get_absolute_url }}';">
           View Post
         </button>
       </div>
@@ -80,7 +82,7 @@
   <div class="container">
     <p class="is-size-4 has-text-weight-bold">{{ user.user.username }}'s Comments</p>
     {% for item in comments %}
-    <div class="box mb-4" style="max-width: 600px; margin: 0 auto;">
+    <div class="box mb-4" style="max-width: 600px; margin: 1 auto;">
       <div class="content">
         <p class="has-text-left">
           <strong>{{ item.post.title }}</strong>: {{ item.content }}
