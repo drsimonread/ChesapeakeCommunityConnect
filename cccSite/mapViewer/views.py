@@ -51,7 +51,6 @@ def forum_list(request):
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def forum_detail(request, want):
-    forum = get_object_or_404(Forum, id=want)
     msg=""
     hasReported=False
     if Forum.objects.filter(pk=want).exists():
@@ -64,11 +63,26 @@ def forum_detail(request, want):
                 reporter.save()
         else:
             reporter = ForumRepForm(initial={'forum':lookAt})
-        posts = Post.objects.filter(forum=forum).order_by('author') #sorted by author
-        paginator = Paginator(posts, 10)
-        page_number = request.GET.get('page', 1)
+        posts = Post.objects.filter(forum=lookAt).order_by('title') #sorted by title, can be changed
+        postAmount = Post.objects.filter(forum=lookAt).count() #number of posts held in forum in total
+        #this changes how many are paginated based off of the number of them, not really necessary but I thought it was a good idea and helped troublshoot
+        if postAmount < 4:
+            paginator = Paginator(posts, 1) #in (posts, num) num is the number paginated per page
+        elif postAmount <= 10:
+            paginator = Paginator(posts, 3)
+        else:
+            paginator = Paginator(posts, 10)
+        # paginator = Paginator(posts, 10) #('page', x) : x number of posts loaded on each page.
+        page_number = request.GET.get('page', 1) 
         page_obj = paginator.get_page(page_number)
-        current_page = page_obj.number
+        #print("Requested page:", page_number)
+        #print("Number of Posts: ", postAmount)
+        #print(f"Posts per page: {paginator.per_page}")
+        #print(f"Total Pages: {paginator.num_pages}")
+        #print(f"Request Page: {page_number}")
+        #print(f"Has next Page: {page_obj.has_next()}")
+
+        # current_page = page_obj.number
 
         if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
             

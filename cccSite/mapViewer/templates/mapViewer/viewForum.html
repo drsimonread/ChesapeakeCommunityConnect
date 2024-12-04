@@ -110,6 +110,11 @@
         </ul>
     </div>
     
+
+    <!-- this section was written by Quinnten Hatfield (qehatfield@smcm.edu) in FA24-->
+    <!-- Purpose: Implements pagination of posts and displays them while viewing a Forum-->
+    <!-- Note: If someone scrolls to fast, there may be an error where duplicate posts are shown accidentally-->
+    <!-- Might be smart to add a better loading icon-->
     <hr class="ml-3">
         <h1 class="subtitle is-4 has-text-dark ml-6">Forum Posts</h1>
         <div id="forum-posts" class = "has-text-dark mx-6">
@@ -122,40 +127,55 @@
             <div id="loading-spinner" style="display: none;">Loading...</div> 
             
             <script>
+                //JavaScript for pagination
                 let currentPage = 1;
                 let hasNextPage = true;
+                let isFetching = false;
             
+                //Purpose: use to determing when/if to load more posts, and then load them
                 function loadMorePosts() {
-                    if (!hasNextPage) return;
-            
-                    console.log(`Fetching page ${currentPage + 1}`)
+                    //if statement so that the function is not used when there is no next page or when it is already fetching
+                    if (!hasNextPage || isFetching) {
+                        cosole.log("No more pages to load or is already fetching.");
+                        return;
+                    } 
 
+                    //these were some logs to make sure it was working correctly
+                    //console.log(`Fetching page ${currentPage + 1}`)
+                    isFetching = true;
                     document.getElementById('loading-spinner').style.display = 'block';
-                    currentPage += 1;
-            
-                    fetch(`?page=${currentPage}`, {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('loading-spinner').style.display = 'none';
-                        const postsContainer = document.getElementById('posts-container');
-            
-                        data.posts.forEach(postHtml => {
-                            const postElement = document.createElement('div');
-                            postElement.innerHTML = postHtml;
-                            postsContainer.appendChild(postElement);
-                        });
-            
-                        hasNextPage = data.has_next;
-                    })
-                    .catch(error => console.error('Error loading posts:', error));
+                    currentPage += 1; //increment to next page
+                    
+                    //this section loads the data in from the backend
+                    try {
+                        fetch(`?page=${currentPage}`, {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest' 
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('loading-spinner').style.display = 'none';
+                            const postsContainer = document.getElementById('posts-container');
+                
+                            data.posts.forEach(postHtml => {
+                                const postElement = document.createElement('div');
+                                postElement.innerHTML = postHtml;
+                                postsContainer.appendChild(postElement);
+                            });
+                
+                            hasNextPage = data.has_next;
+                            //console.log(`Has next page: ${hasNextPage}`);
+                        })
+                        .catch(error => console.error('Error loading posts:', error));
+                    } finally {
+                        isFetching = false;
+                    }
                 }
-            
+                //on a scroll, try to load more posts
                 window.addEventListener('scroll', () => {
-                    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) { // if the - constant is closer to 0, must scroll further to load, but
+                    //less chance of having duplicate posts. I think 300 is the best in between of amount of scroll and accuracy. 
                         loadMorePosts();
                     }
                 });
