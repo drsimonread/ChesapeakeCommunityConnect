@@ -45,7 +45,7 @@
             </div>
             <br>
             <div class="control">
-                <!--google sign in button is rendered here-->
+                {% comment %} google sign in button is rendered here {% endcomment %}
                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
                     data-text="signin" data-size="large" data-logo_alignment="left">
                 </div>
@@ -63,6 +63,11 @@
 
     let signup_email = document.getElementById("signup_email");
     let signup_email_helper = document.getElementById("signup_email_helper");
+    {% comment %} The following line checks if the email: 
+    1. Starts with a valid local part consisting of letters, digits, dots, underscores, or hyphens; 
+    2. Contains a single '@'; 
+    3. Has a valid domain name with letters, digits, dots, or hyphens;
+    4. Ends with a top-level domain (like .com, .org) that is 2-6 letters long{% endcomment %}
     const signup_emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     var signup_emailIsValid = false;
 
@@ -74,8 +79,23 @@
     let signup_confirm_password_helper = document.getElementById("signup_confirm_password_helper");
     var signup_confirm_passwordIsValid = false;
 
+    {% comment %} The following line checks if the password:
+    1. Contains at least one lowercase letter.
+    2. Contains at least one uppercase letter.
+    3. Contains at least one numeric digit.
+    4. Contains at least one special character from the set @$!%*#?&().
+    5. Is at least 8 characters long. {% endcomment %}
     const signup_passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&()])[A-Za-z\d@$!%*#?&()]{8,}$/;
-
+    {% comment %} The following line checks if the password contains at least one lowercase letter. {% endcomment %}
+    const signup_passwordHasLowerCaseRegex = /[a-z]/;
+    {% comment %} The following line checks if the password contains at least one uppercase letter. {% endcomment %}
+    const signup_passwordHasUpperCaseRegex = /[A-Z]/;
+    {% comment %} The following line checks if the password contains at least one numeric digit. {% endcomment %}
+    const signup_passwordHasDigitRegex = /\d/;
+    {% comment %} The following line checks if the password contains at least one special character. {% endcomment %}
+    const signup_passwordHasSpecialCharacterRegex = /[@$!%*#?&()]/;
+    {% comment %} The following line checks if the password is at least 8 characters long. {% endcomment %}
+    const signup_passwordMinLengthRegex = /^.{8,}$/;
     let submit_button = document.getElementById("signup");
 
     $("#signup_username").change(function (e) {
@@ -188,7 +208,22 @@
             signup_password.classList.remove("is-link");
             signup_password_helper.classList.add("is-danger");
             signup_password_helper.classList.remove("is-link");
-            signup_password_helper.textContent = "That password is invalid.";
+            signup_password_helper.textContent = "That password is invalid. Passwords must contain the following:";
+            if (!(signup_passwordHasLowerCaseRegex.test($(signup_password).val()))) {
+                signup_password_helper.textContent += "\nA lower case character"
+            }
+            if (!(signup_passwordHasUpperCaseRegex.test($(signup_password).val()))) {
+                signup_password_helper.textContent += "\nAn upper case character"
+            }
+            if (!(signup_passwordHasDigitRegex.test($(signup_password).val()))) {
+                signup_password_helper.textContent += "\nA number"
+            }
+            if (!(signup_passwordHasSpecialCharacterRegex.test($(signup_password).val()))) {
+                signup_password_helper.textContent += "\nA special character such as @,$,!,%,*,#,?,&,(,)"
+            }
+            if (!(signup_passwordMinLengthRegex.test($(signup_password).val()))) {
+                signup_password_helper.textContent += "\nAt least 8 characters"
+            }
             signup_passwordIsValid = false;
             confirm_signup_password_update();
             submit_button.disabled = true;
