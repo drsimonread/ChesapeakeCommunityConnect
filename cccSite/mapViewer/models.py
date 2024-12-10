@@ -5,8 +5,15 @@ from uuid import uuid4
 import magic
 
 
+
+def tag_directory_profile(instance, filename): 
+    # file will be uploaded to MEDIA_ROOT / users / <pk> / profile.<ext>
+    ext = filename.split('.')[-1]
+    filename="tag."+ext
+    return 'title/{0}/{1}'.format(instance.pk, filename) 
 class Tag(models.Model):
     name = models.CharField(max_length=25, unique=True)
+    image = models.ImageField(upload_to=tag_directory_profile, blank=True, null=True, default='default/blankprof.png')
     def __str__(self):
         return self.name
 

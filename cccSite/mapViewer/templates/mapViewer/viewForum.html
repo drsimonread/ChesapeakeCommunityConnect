@@ -103,9 +103,19 @@
         <br>
         <p class = "pl-6">Tags:</p>
 
-        <ul>
+        <ul style="list-style-type: none; padding-left: 20px;">
             {% for tag in forum.tags.all %}
-            <li>{{ tag.name }}</li>
+            <li style="margin-bottom: 20px; padding-left: 20px; border: 1px solid #ddd; border-radius: 5px; display: flex; align-items: center; justify-content: flex-start; margin-right: 15px;">
+                <!-- Display the tag name -->
+                <span style="font-size: 1.1em; font-weight: bold; margin-right: 20px;">{{ tag.name }}</span>
+                <br>
+                <!-- Display the tag image -->
+                {% if tag.image %}
+                <img src="{{ tag.image.url }}" alt="{{ tag.name }}" style="width: 100px; height: 100px; object-fit: cover;">
+                {% else %}
+                <span>No image available</span>
+                {% endif %}
+            </li>
             {% endfor %}
         </ul>
     </div>
