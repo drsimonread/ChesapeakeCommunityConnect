@@ -18,14 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from mapViewer import views
+
+app_name = 'mapViewer'
 
 urlpatterns = [
-    #path("map/", include("mapViewer.urls")),
-    path("account/", include("account.urls")),
+    path("contribute/", include("account.urls")),
     path('DJadmin/', admin.site.urls),
     path("", include("mapViewer.urls")),
     path("", include("boiler.urls")),
     path("admin/", include("Janitor.urls")),
+    path('forum/<int:want>/', views.forum_detail, name='forum_detail'),
 ] 
 urlpatterns += static(settings.MEDIA_URL,
                       document_root=settings.MEDIA_ROOT)

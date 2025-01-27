@@ -2,16 +2,16 @@
 
 {% block adminFunc %}
 {{msg}}
-<form action="{% url 'Janitor:tagList'%}"  method="post">
+<form action="{% url 'Janitor:tagList'%}"  method="post" aria-labelledby="add-tag-form" role="form">
     {% csrf_token %}
     {{addForm.as_p}}
     <input type="hidden" name= "addTag" value="">
-    <input type="submit" value="Add Tag">
+    <input type="submit" value="Add Tag" aria-label="Add new tag">
 </form>
-<form action="{% url 'Janitor:tagList'%}"  method="post">
+<form action="{% url 'Janitor:tagList'%}"  method="post" aria-labelledby="delete-tag-form" role="form">
     {% csrf_token %}
     {{delForm.as_p}}
     <input type="hidden" name= "delTag" value="">
-    <input type="submit" value="Delete Selected">
+    <input type="submit" value="Delete Selected" aria-label="Delete selected tag">
 </form>
 {% endblock adminFunc %}

@@ -3,12 +3,14 @@ cachetools==5.3.1
 certifi==2023.7.22
 charset-normalizer==3.3.0
 Django==4.2.6
+django-address==0.2.8
 google-auth==2.23.3
 googlemaps==4.10.0
-idna==3.4
+idna==3.4 
 Pillow==10.1.0
 pyasn1==0.5.0
 pyasn1-modules==0.3.0
+python-magic==0.4.27 #https://pypi.org/project/python-magic/
 requests==2.31.0
 rsa==4.9
 sqlparse==0.4.4
