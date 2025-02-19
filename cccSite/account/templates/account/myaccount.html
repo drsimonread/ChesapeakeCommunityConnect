@@ -15,6 +15,10 @@
         border-radius: 5px;
     }
 
+    li {
+        list-style: none;
+    }
+
     .proPic {
         margin: 10px 15px 15px 0px;
         width: 250px;
@@ -46,7 +50,7 @@
         cursor: pointer;
     }
 
-    .buttonHolder {
+    .button_CCCHolder {
         min-width: 200px;
         min-height: 50px;
     }
@@ -62,34 +66,34 @@
 <div id="content">
     <div class="wrapper">
         <div class="imgWrapper">
-            <li><img class="proPic" src="{{ image.url }}" alt="Uploaded Image" height="150" width="150"></li>
+            <li><img class="proPic" src="{{ self.pic.url }}" alt="Profile Picture" height="150" width="150"></li>
         </div>
         <div class="inWrapper">
-            {{name}}
+            {{self.user.username}}
             <br>
-            {{email}}
+            {{self.user.email}}
             <br>
 
 
         </div>
 
         <div class="buttonHolder">
-            <button class="editPro" id="edit-account" onclick="window.location.href='{%url 'account:manage'%}';">
+            <button class="editPro" id="edit-account" onclick="window.location.href= '{% url 'account:manage'%}';">
                 Edit Account Details</button>
         </div>
 
         <div class="description">
-            {%if about != ""%}
+            {%if self.about != ""%}
             <p>
-                {{about}}
+                {{self.about}}
                 {%endif%}
-                {%if rank > 1%}
+                {%if self.ranking > 1%}
             <p>You are a trusted user.
                 {%endif%}
         </div>
 
     </div>
 
-    <!--posts to the URL titled signout in the account app's URL config-->
+    <!--forums to the URL titled signout in the account app's URL config-->
 </div>
 {% endblock accountFunc %}

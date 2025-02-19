@@ -1,0 +1,30 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Chesapeake Community Connect - Map</title>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBic0-t_tjjX9CnTFIZY2PdJPOF5hFhuQY&libraries=places"></script>
+{% endblock head %}
+
+{% block content %}
+<div id="content" class="body">
+    <h1>Chesapeake Community Connect</h1>
+    <form action="{% url 'mapViewer:forum_list' %}" id="contact-form" method="get">
+        {{form.as_p}}
+        <input type="submit" value="Submit">
+    </form>
+    {%for forum in forumList %}
+    <ul>                         
+        <li><a href="{% url 'mapViewer:forum_detail' want=forum.id %}">{{ forum.title }}</a>
+         </li>                      
+     </ul> 
+    {%endfor%}
+    
+</div>
+
+<footer class = "column is-full">
+    {%block footer%}
+    {%endblock footer%}
+</footer>
+
+{% endblock content %}
