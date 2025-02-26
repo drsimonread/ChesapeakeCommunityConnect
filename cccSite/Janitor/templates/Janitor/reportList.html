@@ -2,7 +2,7 @@
 
 {% block adminFunc %}
 {{msg}}<br>
-Forum Reports <br>
+Post Reports <br>
 {%if pList%}
 {%for entry in pList %}
 <button class="accordion">{{entry.0.title}} - {{entry.0.num_reports}} Reports <form action="{%url 'Janitor:reportList' %}" method="post">{%csrf_token%}
@@ -14,7 +14,7 @@ Forum Reports <br>
     {%for item in entry.1%}
     <p>{{item.reason}}</p>
     {%endfor%}
-    <a class="button_CCC" href="{{entry.0.get_admin_url}}">Manage Forum</a>
+    <button>Manage Post</button>
 </div>
 {%endfor%}
 {%else%}
@@ -33,7 +33,7 @@ No reports!
     {%for item in entry.1%}
         <p>{{item.reason}}</p>
     {%endfor%}
-    <a class="button_CCC" href="{{entry.0.get_admin_url}}">Manage User</a>
+    <button>Manage User</button>
     </div>
 </div>
 {%endfor%}

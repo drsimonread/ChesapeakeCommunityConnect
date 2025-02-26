@@ -1,8 +1,8 @@
 /* Style the accordion as a button */
 .accordion {
-    background-color: var(--gold);
+    background-color: #f3c10d;
     /* Yellow background */
-    color: var(--blue);
+    color: #00205c;
     /* Dark blue text */
     border: none;
     padding: 10px 20px;
@@ -24,14 +24,14 @@
 /* Style the active class (and arrow icon) */
 .accordion.active,
 .accordion:hover {
-    background-color: var(--hover-gold);
+    background-color: orange;
     /* Change background color on hover */
 }
 
 /* Style the panel class */
 .panel {
     padding: 0 18px;
-    background-color: var(--background);
+    background-color: white;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
