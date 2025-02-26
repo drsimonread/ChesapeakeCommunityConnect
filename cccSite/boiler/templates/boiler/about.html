@@ -11,18 +11,18 @@
 </div>
 <div>
     <!--Banner image under nav bar-->
-    <img src="{%static 'base/assets/about_smcm.png' %}" alt="smcmPic" id="pic1">
+    <img src="{%static 'base/assets/about_smcm.png' %}" alt="Image of St Mary's logo" id="pic1">
 
 </div>
 <body class="aboutBody">
-    <div class="header">
+    <div class="header" role="banner">
     </div>
-    <div id="content">
+    <div id="content" role="main">
         <!--Div for capstone description -->
-        <div class="container">
+        <div class="container" role="region" aria-labelledby="capstone-title">
             <h4>
                 <div class="wrapper">
-                    <img src="{%static 'base/assets/capstonestockpic.png' %}" alt="capstoneLogo" id="pic2">
+                    <img src="{%static 'base/assets/capstonestockpic.png' %}" alt="Image of whiteboard with text 'Capstone Project'" id="pic2">
 
                 </div>
                 Software Startup Simulator Captsone
@@ -42,10 +42,10 @@
         </div>
         
         <!--Description for QA-->
-        <div class="containerR">
+        <div class="containerR" role="region" aria-labelledby="qa-title">
             <h4>
                 <div class="wrapper">
-                    <img src="{%static 'base/assets/qapic.webp' %}" alt="capstoneLogo" id="pic2">
+                    <img src="{%static 'base/assets/qapic.webp' %}" alt="QA team image" id="pic2">
 
                 </div>
                 About the QA Team
@@ -60,10 +60,10 @@
         </div>
 
         <!--Description for RND-->
-        <div class="containerL">
+        <div class="containerL" role="region" aria-labelledby="RND-title">
             <h4>
                 <div class="wrapper">
-                    <img src="{%static 'base/assets/rndpic.jpeg' %}" alt="capstoneLogo" id="pic2">
+                    <img src="{%static 'base/assets/rndpic.jpeg' %}" alt="R&D team image" id="pic2">
                 </div>
                 About the R & D Team
             </h4>

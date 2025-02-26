@@ -1,0 +1,68 @@
+{%extends "account/accountBase.html"%}
+
+
+{% block accountFunc %}
+<script defer> 
+    let autocomplete;
+    async function initAutocomplete(){
+        autocomplete = new google.maps.places.Autocomplete(document.getElementById('id_location'), {
+            fields: ["address_components"],
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initAutocomplete" defer></script>
+
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'account/create_forumstyle.css' %}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://unpkg.com/file-upload-with-preview/dist/style.css"
+    />
+</head>
+
+<!--loads the form with line breaks between entries. forums to the URL titled manage in the account app's URL config-->
+<div id="create">
+
+    <form action="{% url 'account:create_forum'%}" method="post" enctype="multipart/form-data" role="form">
+        {%csrf_token%}
+        {{ form.title }}
+        {{ form.location }}
+        {{ form.content }}
+
+
+        <div id="scroll-box" role="group" aria-labelledby="tags-label">
+            <div id="id_tags">
+                {% for tag in form.tags %}
+                    <div>
+                        <label for="{{ tag.id_for_label }}">
+                            {{ tag.tag }}
+                            <span>{{ tag.choice_label }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {{ form.associated }}
+        {{ form.private_public }}
+
+        <input class="button_CCC" id="id_submit" type="submit" value="Submit">
+
+
+
+        {{ form.file1 }}
+        {{ form.file2 }}
+        {{ form.file3 }}
+        {{ form.file4 }}
+        {% comment %} <div class="custom-file-container" data-upload-id="my-unique-id"></div> {% endcomment %}
+        {% comment %} <script src="https://unpkg.com/file-upload-with-preview/dist/file-upload-with-preview.iife.js"></script> {% endcomment %}
+
+        {% comment %} <script>
+            const upload = new FileUploadWithPreview.FileUploadWithPreview('my-unique-id');
+        </script> {% endcomment %}
+    </form>
+</div>
+
+{% endblock accountFunc %}

@@ -1,0 +1,195 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Chesapeake Community Connect - Map</title>
+<link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewforum.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+
+
+<script src="{% static 'mapViewer/forumview.js' %}" defer></script>
+{{forum.geoCode|json_script}}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN4e1y8ECEgsg_8U6xO02_2InU8G8I8cM&libraries=places&callback=initMap" defer></script>
+
+{% endblock head %}
+
+
+{% block content %}
+
+{%if rank > 2%}
+<a class="button_CCC" href="{{forum.get_admin_url}}">Manage Forum</a>
+{%endif%}
+
+{{msg}}
+
+<div class = " is-pulled-right pb-10">  
+    <div id="content" class="is-pulled-left">
+        <button id="report-button" class="button mr-1 mt-1 fixed-button">Report Forum</button>
+        <div id="report-form" style="display: none;">
+
+        {% if not hasReported %}
+        <form action="{{ request.build_absolute_uri }}" method="post">
+            {% csrf_token %}
+            <div id="report-field" class = "mt-3 has-text-dark is-shadowless" style="resize:none;">{{ form.as_p }}</div>
+            <br>
+            <input type="submit" value="Report" id="input-submit" class=" is-rounded is-size-6">
+        </form>
+        </div>
+        {% else %}
+        Your report has been received.
+        {% endif %}
+    </div>
+</div>
+<br>
+<script>
+    document.getElementById('report-button').addEventListener('click', function() {
+        var reportForm = document.getElementById('report-form');
+        if (reportForm.style.display === "none") {
+            reportForm.style.display = "block";
+        } else {
+            reportForm.style.display = "none";
+        }
+    });
+</script>
+
+    
+    <h1 class = "is-size-1 has-text-dark pl-3">{{ forum.title }}</h1>
+    <p class = "is-size-5 has-text-dark pl-3">By <a class = "has-text-dark has-text-weight-semibold" href="{{forum.author.get_absolute_url}}">{{ forum.author }}</a></p>
+    
+
+    <!-- Google Map -->
+   
+
+    <!-- Slideshow HTML -->
+    <div class = "container is-pulled-left " style = "min-width: 100%">
+        <div class="transparent-box slideshow-container container  mx-6 is-pulled-left" >
+            <!-- Slides -->
+            <div class="mySlides fade">
+                <div id="map">
+                </div>
+            </div>
+            {% for item in files %}
+            <div class="mySlides fade">
+                <div class="image-container">
+                    {% if item.format == 0 %}
+                    <img src="{{ item.file.url }}" class="slide-image">
+                    {% elif item.format == 1 %}
+                    <video width="100%" controls>
+                        <source src="{{ item.file.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% elif item.format == 2 %}
+                    <audio controls>
+                        <source src="{{ item.file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <!-- Next and previous buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+</div>
+
+
+    <div class = "has-text-dark is-size-5 ">
+        <br>
+        <p class = "pl-6">{{ forum.content }}</p>
+        <br>
+        <p class = "pl-6">Tags:</p>
+
+        <ul style="list-style-type: none; padding-left: 20px;">
+            {% for tag in forum.tags.all %}
+            <li style="margin-bottom: 20px; padding-left: 20px; border: 1px solid #ddd; border-radius: 5px; display: flex; align-items: center; justify-content: flex-start; margin-right: 15px;">
+                <!-- Display the tag name -->
+                <span style="font-size: 1.1em; font-weight: bold; margin-right: 20px;">{{ tag.name }}</span>
+                <br>
+                <!-- Display the tag image -->
+                {% if tag.image %}
+                <img src="{{ tag.image.url }}" alt="{{ tag.name }}" style="width: 100px; height: 100px; object-fit: cover;">
+                {% else %}
+                <span>No image available</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+
+    <!-- this section was written by Quinnten Hatfield (qehatfield@smcm.edu) in FA24-->
+    <!-- Purpose: Implements pagination of posts and displays them while viewing a Forum-->
+    <!-- Note: If someone scrolls to fast, there may be an error where duplicate posts are shown accidentally-->
+    <!-- Might be smart to add a better loading icon-->
+    <hr class="ml-3">
+        <h1 class="subtitle is-4 has-text-dark ml-6">Forum Posts</h1>
+        <div id="forum-posts" class = "has-text-dark mx-6">
+            <div id="posts-container">
+                {% for post in posts %}
+                    {% include 'mapViewer/postTemplate.html' with post=post%}
+                {% endfor %}
+            </div>
+            
+            <div id="loading-spinner" style="display: none;">Loading...</div> 
+            
+            <script>
+                //JavaScript for pagination
+                let currentPage = 1;
+                let hasNextPage = true;
+                let isFetching = false;
+            
+                //Purpose: use to determing when/if to load more posts, and then load them
+                function loadMorePosts() {
+                    //if statement so that the function is not used when there is no next page or when it is already fetching
+                    if (!hasNextPage || isFetching) {
+                        cosole.log("No more pages to load or is already fetching.");
+                        return;
+                    } 
+
+                    //these were some logs to make sure it was working correctly
+                    //console.log(`Fetching page ${currentPage + 1}`)
+                    isFetching = true;
+                    document.getElementById('loading-spinner').style.display = 'block';
+                    currentPage += 1; //increment to next page
+                    
+                    //this section loads the data in from the backend
+                    try {
+                        fetch(`?page=${currentPage}`, {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest' 
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('loading-spinner').style.display = 'none';
+                            const postsContainer = document.getElementById('posts-container');
+                
+                            data.posts.forEach(postHtml => {
+                                const postElement = document.createElement('div');
+                                postElement.innerHTML = postHtml;
+                                postsContainer.appendChild(postElement);
+                            });
+                
+                            hasNextPage = data.has_next;
+                            //console.log(`Has next page: ${hasNextPage}`);
+                        })
+                        .catch(error => console.error('Error loading posts:', error));
+                    } finally {
+                        isFetching = false;
+                    }
+                }
+                //on a scroll, try to load more posts
+                window.addEventListener('scroll', () => {
+                    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) { // if the - constant is closer to 0, must scroll further to load, but
+                    //less chance of having duplicate posts. I think 300 is the best in between of amount of scroll and accuracy. 
+                        loadMorePosts();
+                    }
+                });
+            </script>
+        </div>
+
+{% endblock content %}

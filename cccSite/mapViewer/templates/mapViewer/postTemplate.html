@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  <style>
+    body {
+      background-color: white;
+      font-family: Arial, sans-serif;
+    }
+    .post-list {
+      list-style-type: none;
+      padding: 0;
+      max-width: 800px;
+      margin: 0;
+    }
+    .post-item {
+      background-color: white;
+      border-radius: 30px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 15px;
+      padding: 15px;
+    }
+    .post-title {
+      font-size: 1.25rem;
+      margin-bottom: 5px;
+      text-decoration: underline;
+      color: black; /* Bulma primary color */
+    }
+    .post-title a {
+      font-weight: bold;
+      color: inherit;
+      text-decoration: none;
+    }
+    .post-author {
+      font-size: 0.9rem;
+      color: black;
+    }
+    .post-content {
+      margin-top: 10px;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+    hr {
+        border: 0;
+        height: 2px;
+        background: black; /* Color of the line */
+        margin: 20px 0; /* Space above and below the line */
+    }
+  </style>
+</head>
+<body>
+    <ul class="post-list">
+        <li class="post-item">
+            <h2 class="post-title">
+                <a href="/forum/{{forum.id}}/post/{{post.id}}">{{ post.title }}</a>
+            <!-- This line should work. I don't know why it doesn't. The above line is my lazy replacement. -Roman -->
+                {% comment %} <a href="{% url 'post_detail' forum.id post.id %}">{{ post.title }}</a> {% endcomment %}
+            </h2>
+            <p class="post-author">Posted by: {{ post.author }}</p>
+            <div class="post-content">
+                {{ post.content }}
+            </div>
+        </li>
+        <!-- Repeat for other posts -->
+    </ul>
+</body>
+</html>
