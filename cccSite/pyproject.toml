@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "cccsite"
+version = "0.1.0"
+description = ""
+authors = [""]
+readme = "README.md"
+packages = [{include = "cccSite"}]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4"
+asgiref = "^3.8.1"
+cachetools = "^5.3.1"
+certifi = "^2023.7.22"
+charset-normalizer = "^3.3.0"
+django = "^4.2.16"
+google-auth = "^2.23.3"
+idna = "^3.4"
+pillow = "^10.1.0"
+pyasn1 = "^0.5.0"
+pyasn1-modules = "^0.3.0"
+requests = "^2.31.0"
+rsa = "^4.9"
+sqlparse = "^0.4.4"
+urllib3 = "^2.0.6"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
