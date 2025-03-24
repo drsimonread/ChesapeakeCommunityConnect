@@ -51,6 +51,7 @@ form #input-submit:hover {
   padding: 10px 0;
   margin-bottom: 20px;
   border-bottom: 2px solid #ddd;
+  letter-spacing: 10px;
 }
 
 .banner-letter {
