@@ -7,25 +7,25 @@ all the requirements to run CCC.
 
 1.1 Enter the console for your VM by doing one of the following:
 1.1.1 Open a Windows Powershell and type the command “ssh johndoe@123.456.78.901” wherein you replace <br>
-johndoe@123.456.78.901 with your credentials and the ip address you want to connect to (this should be <br>
+johndoe@123.456.78.901 with your credentials and the ip address you want to connect to (this should be
 the external IP address you found in the previous instructions)
 1.1.2 Connect to the virtual machine on Visual Studio and open terminal, which will automatically enter
-the VM
+the VM <br>
 1.1.3 On the google cloud console where you activate the VM, click on the ssh button. This will open a 
-new window that is linked to the VM
+new window that is linked to the VM <br>
 
 ## 2. Creating a Shared Workspace
 
-2.1 This is where your GitHub clone will live
-2.1.1 Open terminal (CTRL+J on Windows and Chromebook, CMD+J on Macbook)
-2.1.2 sudo mkdir /home/shared_workspace
-2.2.3 sudo groupadd sharedgroup
-2.2.4 sudo usermod -aG sharedgroup name (repeat for however many users need access, where name 
-is the name of the users youve connected from)
-2.2.5 sudo chown -R root:sharedgroup /home/shared_workspace
-2.2.6 sudo chmod -R 2770 /home/shared_workspace
-2.2.7 sudo chmod g+s /home/shared_workspace
-2.2.8 This creates a folder in the home directory called shared_workspace where all users added 
+2.1 This is where your GitHub clone will live<br>
+2.1.1 Open terminal (CTRL+J on Windows and Chromebook, CMD+J on Macbook)<br>
+2.1.2 sudo mkdir /home/shared_workspace<br>
+2.2.3 sudo groupadd sharedgroup<br>
+2.2.4 sudo usermod -aG sharedgroup name (repeat for however many users need access, where name <br>
+is the name of the users youve connected from)<br>
+2.2.5 sudo chown -R root:sharedgroup /home/shared_workspace<br>
+2.2.6 sudo chmod -R 2770 /home/shared_workspace<br>
+2.2.7 sudo chmod g+s /home/shared_workspace<br>
+2.2.8 This creates a folder in the home directory called shared_workspace where all users added <br>
 in step C are able to access and modify files
 2.2.9 Restart your Google Cloud VM Session to update user permissions
 
