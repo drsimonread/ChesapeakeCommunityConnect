@@ -8,7 +8,7 @@ all the requirements to run CCC.
 1.1 Enter the console for your VM by doing one of the following:<br>
 1.1.1 Open a Windows Powershell and type the command “ssh johndoe@123.456.78.901” wherein you replace <br>
 johndoe@123.456.78.901 with your credentials and the ip address you want to connect to (this should be
-the external IP address you found in the previous instructions)
+the external IP address you found in the previous instructions) <br>
 1.1.2 Connect to the virtual machine on Visual Studio and open terminal, which will automatically enter
 the VM <br>
 1.1.3 On the google cloud console where you activate the VM, click on the ssh button. This will open a 
