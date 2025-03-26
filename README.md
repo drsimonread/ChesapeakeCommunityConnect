@@ -16,7 +16,7 @@ CCC Test Tracker - https://github.com/swbn1/ChesapeakeCommunityConnect-FA24/blob
 
 Google Cloud Setup - https://docs.google.com/document/d/1Ai8hDPBNv4qPTotV2EuUxNBRlakgkY3VzrYwzGTatvA/edit?tab=t.0 
 
-A guide for setting up CCC and running it via the VM can be found [here](Documentation/Sorted Documents (SP25)/Training/Google Cloud/CCC_VMGuide.md).
+A guide for setting up CCC and running it via the VM can be found [here](CCC_VMGuide.md).
 
 
 
