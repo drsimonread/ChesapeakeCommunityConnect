@@ -187,5 +187,5 @@ You will need to do this for every unique computer you want to connect to the cl
    10. Restart your Google Cloud VM Session to update user permissions
 
 # Set Up your VM for CCC
-## [here](Documentation/Sorted%20Documents%20(SP25)/Training/Google%20Cloud/CCC_VMGuide.md)
+## [here](CCC_VMGuide.md)
 
