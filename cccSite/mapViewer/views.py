@@ -10,6 +10,7 @@ from django.db.models import Q
 import googlemaps
 from datetime import datetime
 from Janitor.forms import PostRepForm
+from .models import MapPost, MapTag
 
 
 
@@ -88,3 +89,24 @@ def post_detail(request, want):
                                                                "form" : reporter,
                                                                "hasReported" : hasReported})
     return redirect(reverse("mapViewer:default"))
+
+
+
+def get_posts_and_tags(request):
+    posts = MapPost.objects.filter(visiblity=1)
+    tags = MapTag.objects.all()
+
+    post_data = []
+    for post in posts:
+        if post.geoCode:
+            post_data.append({
+                "id": post.id,
+                "title": post.title,
+                "description": post.description,
+                "geoCode": post.geoCode,
+                "tags": [tag.name for tag in post.tags.all()]
+            })
+    
+    tag_data = [tag.name for tag in tags]
+
+    return JsonResponse({"posts": post_data, "tags": tag_data})

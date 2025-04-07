@@ -20,10 +20,18 @@
 {% block content %}
     <!-- Map Section --> 
     <div id="left">
-        <div id="map"></div>
+        <div id="map" style="height: 400px;"></div>
     </div>
 
+    <!-- Tag Filter + Project List --> 
+    <div id="project-controls">
+         <label for="tag-filter">List of Post:</label>
+        <!-- <select id="tag-filter"></select> -->
     
+        <ul id="project-list"></ul>
+    </div>
+
+
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
