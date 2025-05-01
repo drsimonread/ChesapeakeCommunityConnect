@@ -31,7 +31,12 @@
      </div>
 </div>-->
 
-
+<!--Trying to add an alphabet banner-->
+<div class="banner">
+     {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+          <span class="banner-letter">{{ letter }} </span>
+     {% endfor %}
+</div>
 
 <div class="columns is-centered">
      <div class="column is-three-quarters">
@@ -45,5 +50,11 @@
      </div>
 </div>
 
+<div class="columns is-centered">
+     <div class="column is-three-quarters">
+     <h3 class="title is-3">List of Contributors</h3>
+          Here is where the list will go.
+     </div>
+</div>
 
 {% endblock accountFunc %}
