@@ -275,6 +275,8 @@ def make_forum(request):
                 vis=1
             forumInz=Forum.objects.create(title=contentForm.cleaned_data['title'], #actually create the forum instance in the database
                                    content=contentForm.cleaned_data['content'],
+                                   firstName=contentForm.cleaned_data['firstName'],
+                                   lastName=contentForm.cleaned_data['lastName'],
                                    author=userInz,
                                    description=disc,
                                    geoCode=contentForm.cleaned_data['geoResult'][0],

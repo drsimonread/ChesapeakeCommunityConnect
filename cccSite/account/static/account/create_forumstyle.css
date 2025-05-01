@@ -7,7 +7,7 @@
 
 
 
-#id_title, #id_location, #id_content, #id_submit {
+#id_title, #id_firstName, #id_lastName, #id_location, #id_content, #id_submit {
     margin: 1em;
     border: 0;
     outline: 0;

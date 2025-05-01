@@ -1,6 +1,8 @@
 var slideIndex = 1;
 let map;
+const forumData = JSON.parse(document.getElementById("forumData").textContent);
 const locCode = JSON.parse(document.currentScript.nextElementSibling.textContent);
+
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -12,6 +14,7 @@ function currentSlide(n) {
 }
 
 function showSlides(n) {
+    
     var i;
     var slides = document.getElementsByClassName("mySlides");
     if (n > slides.length) {slideIndex = 1;}
@@ -39,7 +42,9 @@ async function initMap(){
     });
     const infowindow = new google.maps.InfoWindow({
         content: `
-            <h3>${address}</h3>
+            <div style="color: black; font-family: Arial, sans-serif; font-size: 14px;">
+            <h3 style="color: black;">${forumData.description}</h3>
+            <p>${address}</p>
         `
     });
     marker.addListener('click', function() {

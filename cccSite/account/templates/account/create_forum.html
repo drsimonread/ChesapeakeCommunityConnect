@@ -28,6 +28,8 @@
     <form action="{% url 'account:create_forum'%}" method="post" enctype="multipart/form-data" role="form">
         {%csrf_token%}
         {{ form.title }}
+        {{ form.firstName }}
+        {{ form.lastName }}
         {{ form.location }}
         {{ form.content }}
 
@@ -48,9 +50,7 @@
         {{ form.associated }}
         {{ form.private_public }}
 
-        <input class="button_CCC" id="id_submit" type="submit" value="Submit">
-
-
+        <hr>
 
         {{ form.file1 }}
         {{ form.file2 }}
@@ -62,6 +62,8 @@
         {% comment %} <script>
             const upload = new FileUploadWithPreview.FileUploadWithPreview('my-unique-id');
         </script> {% endcomment %}
+
+        <input class="button_CCC" id="id_submit" type="submit" value="Submit">
     </form>
 </div>
 

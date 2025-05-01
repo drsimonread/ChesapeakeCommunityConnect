@@ -9,6 +9,9 @@
 
 <script src="{% static 'mapViewer/forumview.js' %}" defer></script>
 {{forum.geoCode|json_script}}
+{{ forumData|json_script:"forumData" }}
+
+
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN4e1y8ECEgsg_8U6xO02_2InU8G8I8cM&libraries=places&callback=initMap" defer></script>
 
@@ -59,7 +62,6 @@
     
 
     <!-- Google Map -->
-   
 
     <!-- Slideshow HTML -->
     <div class = "container is-pulled-left " style = "min-width: 100%">

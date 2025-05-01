@@ -56,6 +56,11 @@ def forum_detail(request, want):
     if Forum.objects.filter(pk=want).exists():
         lookAt= Forum.objects.get(pk=want)
         files = Media.objects.filter(forum=lookAt)
+        forumData = {
+            "title": lookAt.title,
+            "description": lookAt.description,
+        }
+
         if request.method == 'POST':
             reporter = ForumRepForm(request.POST)
             hasReported = reporter.is_valid()
@@ -98,16 +103,15 @@ def forum_detail(request, want):
                         render_to_string('mapViewer/postTemplate.html', {'post': post, 'forum': lookAt, 'page_obj': page_obj.number})
                         for post in page_obj.object_list
                     ]
-                    
                     return JsonResponse({
                         'posts': post_html,
                         'has_next': page_obj.has_next()
                     })
                 
                 # Initial render for the HTML template
-
                 return render(request, "mapViewer/viewForum.html", {"forum" : lookAt,
                                                                 "form" : reporter,
+                                                                "forumData": forumData,
                                                                 "hasReported" : hasReported,
                                                                 "files" : files,
                                                                 "msg" : msg,
@@ -162,8 +166,14 @@ def post_detail(request, want, wants):
         lookAt= Forum.objects.get(pk=want)
         lookAtPost= Post.objects.get(pk=wants)
         comments = lookAtPost.comments.all()
+        forumData = {
+            "title": lookAt.title,
+            "description": lookAt.description,
+        }
+
         return render(request, "mapViewer/viewPost.html", {"forum" : lookAt,
                                                             "Post" : lookAtPost,
+                                                            "forumData": forumData,
                                                             "comments" : comments,})
 
 def create_comment(request, want, wants):

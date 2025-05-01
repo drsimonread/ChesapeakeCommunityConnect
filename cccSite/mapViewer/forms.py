@@ -34,6 +34,8 @@ class MakeForumForm(forms.Form):
 
 
     title = forms.CharField(max_length=100, label="Title", widget=forms.TextInput({"Placeholder": "Title"})) #title of forum
+    firstName = forms.CharField(max_length=100, label="First", widget=forms.TextInput({"Placeholder": "First"})) #first name of author of forum
+    lastName = forms.CharField(max_length=100, label="Last", widget=forms.TextInput({"Placeholder": "Last"})) #last name of author of forum
     location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of forum as an address
     content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
     tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
@@ -75,6 +77,8 @@ class MakeForumForm(forms.Form):
                 raise ValidationError(_("Invalid Address"), code="adderr")
         #print(geoResult)
         return {'title': cleaned_data['title'],
+                'firstName': cleaned_data['firstName'],
+                'lastName': cleaned_data['lastName'],
                 'location': cleaned_data['location'],
                 'content': cleaned_data['content'],
                 'tags': cleaned_data['tags'],
@@ -126,6 +130,8 @@ class MakePostForm(forms.Form):
 
 
     title = forms.CharField(max_length=100, label="Title", widget=forms.TextInput({"Placeholder": "Title"})) #title of forum
+    firstName = forms.CharField(max_length=100, label="First", widget=forms.TextInput({"Placeholder": "First"})) #first name of author of forum
+    lastName = forms.CharField(max_length=100, label="Last", widget=forms.TextInput({"Placeholder": "Last"})) #last name of author of forum
     location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of forum as an address
     content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
     tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
@@ -167,6 +173,8 @@ class MakePostForm(forms.Form):
                 raise ValidationError(_("Invalid Address"), code="adderr")
         #print(geoResult)
         return {'title': cleaned_data['title'],
+                'firstName': cleaned_data['firstName'],
+                'lastName': cleaned_data['lastName'],
                 'location': cleaned_data['location'],
                 'content': cleaned_data['content'],
                 'tags': cleaned_data['tags'],
