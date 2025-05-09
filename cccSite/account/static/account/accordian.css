@@ -1,7 +1,7 @@
 .accordion {
     background-color: #c2c2c2;
     /* Yellow background */
-    color: var(--blue);
+    color: #00205c;
     /* Dark blue text */
     border-bottom: 2px solid;
     padding: 10px 20px;
@@ -22,7 +22,7 @@
 /* Style the active class (and arrow icon) */
 .accordion.active,
 .accordion:hover {
-    background-color: var(--hover-gold);
+    background-color: orange;
     /* Change background color on hover */
 }
 

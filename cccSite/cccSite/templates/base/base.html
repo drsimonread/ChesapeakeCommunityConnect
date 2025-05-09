@@ -1,47 +1,36 @@
-<!-- 
-    This is the base HTML file. The entire website loads from this file.
--->
-
 <!DOCTYPE html>
 <html>
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'base/basestyle.css' %}">
-    <script src="https://accounts.google.com/gsi/client" async></script>
-    <script type="text/javascript" src="{% static 'base/jquery-3.7.1.min.js' %}"></script>
     {% block head%}{%endblock head%}
 </head>
 {%with rank=request.session.rank|default:0%}
 <body>
     <!-- Navigation Bar  -->
-    <header class="headerCCC">
+    <header>
         <nav>
             <ul> 
                 <li><img src= "{%static 'base/assets/smcm-seal.png' %}" alt="SMCM Logo" id="smcm-logo"></li>
-                <li><a class="nav-link" href="{% url 'mapViewer:default'%}" {%if '/about/' not in request.path and '/contact/' not in request.path and '/help/' not in request.path and '/contribute/' not in request.path and '/admin/' not in request.path%}style="background-color: #f3c10d; color: #00205c;"{%endif%}>Map</a></li>
+                <li><a class="nav-link" href="{% url 'mapViewer:default'%}" {%if '/about/' not in request.path and '/contact/' not in request.path and '/help/' not in request.path and '/account/' not in request.path and '/admin/' not in request.path%}style="background-color: #f3c10d; color: #00205c;"{%endif%}>Map</a></li>
                 <li><a class="nav-link" href="{% url 'boiler:about'%}" {%if '/about/' in request.path%} style="background-color: #f3c10d; color: #00205c;"{%endif%}>About Us</a><!--<link rel="stylesheet" type="text/css" href="{% static 'base/aboutstyle.css' %}"></li> -->
                 {% comment %} <li><a class="nav-link" href="{% url 'boiler:contact'%}" {%if '/contact/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contact</a></li> {% endcomment %}
                 <li><a class="nav-link" href="{% url 'boiler:help'%}" {%if '/help/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Help/FAQs</a></li>
-                <li><a class="nav-link" href="{%url 'account:default'%}" {%if '/contribute/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contributors</a></li>
-                {%if rank > 2 %}<li><a class="nav-link" href="{%url 'Janitor:default'%}" {%if '/admin/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Admin</a></li> {%endif%}
-                {%if rank == 0%}<li style="margin-left: auto;">{% include "account/signup.html" %}</li>
-                <li style="margin-right: 1em;">{% include "account/signin.html" %}</li>
-                {% else %} {% with name=request.session.name|default:0 %}<li style="margin-left: auto; margin-right: 1em;"><a class="nav-link"  {% if '/contribute/' == request.path %}  style="background-color: #f3c10d; color: #00205c;" {% endif %} href={% url 'account:default' %}>{{ name }}</a></li> {% endwith %} {%endif%}
+                <li><a class="nav-link" href="{%url 'account:default'%}" {%if '/account/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contributors</a></li>
+                {%if rank > 1 %}<li><a class="nav-link" href="{%url 'Janitor:default'%}" {%if '/admin/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Admin</a></li> {%endif%}
             </ul>
         </nav> 
     </header>
-    <div id="g_id_onload" data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
-          data-context="signin" data-ux_mode="popup" data-login_uri="{%url 'account:authG' %}"
-          data-auto_prompt="false"></div>
+
    {% block content %} {%endblock content%}
     <!-- Footer -->
-    <footer style="min-height: 350px;">
-        <img src="{%static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" id="smcm-logo">
-        &copy; 2023 SMCM Capstone Website
+    <footer>
+        <div class="footer-content">
+            <img src="{%static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" id="smcm-logo">
+            &copy; 2023 SMCM Capstone Website
+        </div>
     </footer>
 </body>
 {%endwith%}
 </html>
-
