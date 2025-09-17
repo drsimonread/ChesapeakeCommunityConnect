@@ -20,15 +20,15 @@
 {% block content %}
     <!-- Map Section --> 
     <div id="left">
-        <div id="map"></div>
+        <div id="map" style="height: 400px;"></div>
     </div>
 
-    
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>    
+    <!-- Tag Filter + Project List --> 
+    <div id="project-controls">
+         <label for="tag-filter">List of Post:</label>
+        <ul id="project-list"></ul>
+    </div>
+
 
     <div id="search">
         <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
