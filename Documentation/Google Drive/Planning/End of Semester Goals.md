@@ -1,0 +1,12 @@
+- Get audio and visual widgets working (or at least the framework for them in)  
+  - Have a right panel pop up to hold them instead of being on the audio/video stuff  
+- Bare minimum:  
+  - Sign in   
+  - Some amount of content able to be published  
+    - See who published it  
+  - Markers will be there  
+  - Tagging system w all the categories  
+  - Sketches of every UI finished  
+  - Database  
+- Need to figure out session management
+

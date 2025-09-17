@@ -1,0 +1,13 @@
+The MariaDB root password is `JgH78$2!lk`.
+
+The Chesapeake Community Connect database is called `chesapeakecommunityconnect`.  
+Its user is called `CCC`.  
+The user’s password is `CCC-Hb2jJ8!lm1`.
+
+The CD Spec database is called `cdspeccollab`.  
+Its user is called `CDSpec`.  
+The user’s password is `CDSpec-Lopk8!2kH2`.
+
+You can run one server or another by `cd`ing into its directory and running the command `source .venv/bin/activate`, then finding the `manage.py` file and running the command `python manage.py runserver 0.0.0.0:8080`.
+
+You may have the need to change the version of python you are using. CCC uses 3.12.4. This can be found by running the command `pyenv global 3.12.4`. CD Spec uses 3.8.10, `pyenv global 3.8.10`.

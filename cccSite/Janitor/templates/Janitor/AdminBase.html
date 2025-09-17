@@ -6,18 +6,17 @@
 {%endblock head%}
 {% block content %}
 <div class="body">  
-  {%if rank > 2%}
-  <nav role="navigation" aria-label="Admin Navigation">
+  {%if rank > 1%}
     <ul style="position:fixed;width: 15%;">
-        <li><a class="button_CCC" href="{%url 'Janitor:forumList' %}" aria-label="Approve Forms">Approve Forums</a></li>
-        <li><a class="button_CCC" href="{%url 'Janitor:tagList' %}" aria-label="Manage Tags">Manage Tags</a></li>
-        <li><a class="button_CCC" href="{% url 'Janitor:reportList' %}" aria-label="View Reports">Reports</a></li>
-        <li><a class="button_CCC" href="{% url 'Janitor:messageList'%}" aria-label="View Contact Requests">Contact Requests</a></li>
-        {%if rank == 99%}<li><a class="button_CCC" href="{% url 'Janitor:memberList'%}" aria-label="Manage Users">Manage Users</a></li>{%endif%}
-        <li><a class="button_CCC" href="#about" aria-label="Export Data">Export Data</a></li>
+        <li><a class="button" href="#home">Approve Posts</a></li>
+        <li><a class="button" href="{%url 'Janitor:tagList' %}">Manage Tags</a></li>
+        <li><a class="button" href="{% url 'Janitor:reportList' %}">Reports</a></li>
+        <li><a class="button" href="{% url 'Janitor:messageList'%}">Contact Requests</a></li>
+        {%if rank == 99%}<li><a class="button" href="{% url 'Janitor:memberList'%}">Manage Users</a></li>{%endif%}
+        <li><a class="button" href="#about">Export Data</a></li>
     </ul>
   {%endif%}
-  {%if rank > 2%}
+  {%if rank > 1%}
   <div style="margin-left:15%;padding:1px 16px;">
     {%block adminFunc%} Welcome to the admin interface. {% endblock adminFunc %}
   </div>

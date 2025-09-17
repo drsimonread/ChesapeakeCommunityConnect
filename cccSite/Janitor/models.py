@@ -1,10 +1,10 @@
 from django.db import models
-from mapViewer.models import Forum
+from mapViewer.models import MapPost
 from account.models import Member
 
 # Create your models here.
-class ForumReport(models.Model):
-    forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
+class PostReport(models.Model):
+    post = models.ForeignKey(MapPost, on_delete=models.CASCADE)
     reason = models.TextField()
 
 class UserReport(models.Model):

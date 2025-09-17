@@ -1,0 +1,5 @@
+- Ask Robert Tracy about automated testing  
+- Issues from last semester  
+  - QA had little direction  
+  - Make sure R\&D are doing something  
+- 

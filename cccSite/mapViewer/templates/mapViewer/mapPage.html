@@ -5,40 +5,38 @@
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
 <title>Chesapeake Community Connect - Map</title>
 
-<!--the defer guarantees that TEST
+<!--the defer guarantees that 
     a) the HTML loads pre JS execution so elements referenced in the script exist
     b) the API script is executed AFTER our script file is loaded and so the callback function works
     c) the widgets are rendered such that our script file can access them
 -->
-<script src="{% static 'mapViewer/map-script.js' %}" defer></script>
+<script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
 {{widgets|json_script}}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc&libraries=places&callback=initMap" defer></script>
 
 {% endblock head %}
 
 {% block content %}
-    <!-- Map Section -->
+    <!-- Map Section --> 
     <div id="left">
         <div id="map"></div>
     </div>
 
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>    
+
     <div id="search">
         <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
-            {{ searchForm.q }}
+            {{searchForm.q}}
             <div id="scroll-box">
-                <div id="id_t">
-                    {% for mTag in searchForm.t %}
-                        <div>
-                            <label for="{{ mTag.id_for_label }}">
-                                {{ mTag.tag }}
-                                <span>{{ mTag.choice_label }}</span>
-                            </label>
-                        </div>
-                    {% endfor %}
-                </div>
+                {{searchForm.t}}
             </div>
-            <input type="submit" id="search-btn" class="button_CCC" value="Submit">
+            <input type="submit" id="search-btn" class="button" value="Submit">
         </form>
     </div>
     
