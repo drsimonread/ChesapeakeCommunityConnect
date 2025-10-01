@@ -30,7 +30,7 @@ body {
 }
 
 /* Header styling */
-header {
+.headerCCC {
     background-color: var(--blue);
     color: var(--gold);
     padding: 15px 0; /* Sets the top and bottom padding to 15px, the left and right to 0. */
@@ -76,11 +76,12 @@ footer {
     text-align: center; /* Aligns text in the center. */
     background-color: var(--background);
     color: #000;
+    width: 100%;
 }
 
 /* Footer image styling. */
 footer img {
-    max-width: 150px; /* Adjust based on the actual logo size */
+    max-width: 250px; /* Adjust based on the actual logo size */
     margin-bottom: 10px; /* Space between the logo and the copyright message */
 }
 
@@ -103,7 +104,7 @@ footer img {
 }
 
 /* Styled buttons. */
-.button {
+.button_CCC {
     background-color: var(--gold); /* Yellow background */
     color: var(--blue); /* Dark blue text */
     cursor: pointer; /* Changes the cursor when moused over. */
@@ -116,12 +117,12 @@ footer img {
     text-align: center; /* Center the text */
     text-decoration: none; /* Removes underline */
 }
-.button:hover {
+.button_CCC:hover {
     background-color: var(--hover-gold); /* Darker yellow on hover */
 }
 
 /** Isn't currently used, would be used if we wanted a different looking button. */
-.button-alt {
+.button_CCC-alt {
     background-color: var(--blue); /* Yellow background */
     color: var(--gold); /* Dark blue text */
     cursor: pointer;
@@ -134,13 +135,13 @@ footer img {
     /* margin: 0 auto; Centered on the screen */
     text-align: center; /* Center the text */
 }
-.button-alt:hover {
+.button_CCC-alt:hover {
     background-color: var(--hover-blue); /* Darker yellow on hover */
 }
 
 /*? Is this required? Styling for columns */
 .body { overflow: hidden; }
-.column { float: left; }
+/* .column { float: left; } */
 .left { width: 50%; float:left;}
 .right { float: right; width: auto; }
 
@@ -200,7 +201,7 @@ input[type=text] {
 
 /*? The code after this point is only every used in a .js file, what does it do? */
 
-/* Create a Post and Contact Us buttons */
+/* Create a Forum and Contact Us buttons */
 #add-marker-button {
     padding: 10px 20px;
     width: 40%; /* Take up half the screen width */

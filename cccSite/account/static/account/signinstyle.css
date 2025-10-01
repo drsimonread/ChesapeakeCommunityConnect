@@ -5,7 +5,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-
+/*
 form {
   max-width: 600px;
   text-align: center;
@@ -23,7 +23,7 @@ form input, form textarea {
   width: 100%;
   margin-top: 1em;
   font-family: 'Baskerville';
-  /* font-weight: bold; */
+  /* font-weight: bold; 
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -43,6 +43,30 @@ form #input-submit:hover {
   -moz-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
   -webkit-box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
   box-shadow: 0 1px 1px 1px rgba(170, 170, 170, 0.6);
+}*/
+
+.banner {
+  text-align: center;
+  background-color: #f4f4f4;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+  letter-spacing: 10px;
+}
+
+.banner-letter {
+  display: inline-block;
+  margin: 0 8px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.testy {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.testy:focus {
+  box-shadow: 0 0px 2px var(--gold) !important;
 }
 form textarea {
   height: 154px;
@@ -92,14 +116,14 @@ form textarea {
   border-radius: 10px;
 }
 
-.g_id_signin {
+/* .g_id_signin {
   width: 70%;
   margin: auto;
   padding: 10px;
   
-  /*rounded edges for container*/
+  /*rounded edges for container
   border-radius: 20px;
-}
+} */
 
 .create_an_account{
   width: 70%;

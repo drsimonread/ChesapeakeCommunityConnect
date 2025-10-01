@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
 <title>Chesapeake Community Connect - Map</title>
 
-<!--the defer guarantees that 
+<!--the defer guarantees that TEST
     a) the HTML loads pre JS execution so elements referenced in the script exist
     b) the API script is executed AFTER our script file is loaded and so the callback function works
     c) the widgets are rendered such that our script file can access them
@@ -13,7 +13,7 @@
 <script src="{% static 'mapViewer/map-script.js' %}" defer></script>
 {{widgets|json_script}}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN4e1y8ECEgsg_8U6xO02_2InU8G8I8cM&libraries=places&callback=initMap" defer></script>
 
 {% endblock head %}
 
@@ -38,7 +38,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <input type="submit" id="search-btn" class="button" value="Submit">
+            <input type="submit" id="search-btn" class="button_CCC" value="Submit">
         </form>
     </div>
     

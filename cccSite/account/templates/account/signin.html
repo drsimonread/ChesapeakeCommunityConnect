@@ -1,90 +1,181 @@
-{%extends "account/accountBase.html"%}
-{%block accHead%}
-{% load static %}
+<a class="signin-modal-trigger nav-link" data-target="signin-modal"> Sign In </a>
 
-<script src="https://accounts.google.com/gsi/client" async></script>
-<link rel="stylesheet" type="text/css" href="{% static 'account/signinstyle.css' %}">
-<title>Chesapeake Community Connect - Sign In</title>
-{%endblock accHead%}
-{% block accountFunc %}
-<!--initializes (?) the google API. will need to change the data-login_uri for live site-->
-<div class="body">
-     <div id="g_id_onload" data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
-          data-context="signin" data-ux_mode="popup" data-login_uri="{%url 'account:authG' %}"
-          data-auto_prompt="false">
-     </div>
-     <div class="containerS1">
-          <div class="wrapperS1">
-               <h1 class="heading">
-                    Sign in with Google
-               </h1>
-               <!--google sign in button is rendered here-->
+<div id="signin-modal" class="modal">
+    {% csrf_token %}
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title has-text-left">Sign In</p>
+            <button type="button" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                {% comment %} <label class="label">Username</label> {% endcomment %}
+                <div class="control">
+                    <input class="input" type="text" name="username" id="signin_username" placeholder="Username">
+                </div>
+                {% comment %} <p class="help" id="signin_username_helper"></p> {% endcomment %}
+            </div>
+            <div class="field">
+                {% comment %} <label class="label">Password</label> {% endcomment %}
+                <div class="control">
+                    <input class="input" type="password" name="password" id="signin_password" placeholder="Password">
+                </div>
+                <p class="help" id="signin_password_helper"></p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="control">
+                <button class="button is-link" type="submit" id="signin" disabled>Sign In</button>
+                <button type="button" class="button is-danger sign-in-up-cancel">Cancel</button>
+            </div>
+            <br>
+            <div class="control">
+                <!--google sign in button is rendered here-->
                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
                     data-text="signin" data-size="large" data-logo_alignment="left">
-               </div>
-               <div class = "button" id="account-button"  onclick="showAccountCreation()" style="display: block;">Create an Account</div>
-
-               <form action="{% url 'account:signin' %}" id = "account-form" method="post" style="display:none">
-                    {% csrf_token %}
-                    {% comment %} {{ createForm.as_p }} {% endcomment %}
-                    {{ createForm.errors }}
-                    <div class="half left cf">
-                         {{ createForm.email }}
-                         {{ createForm.username }}
-                    </div>
-                    <div class="half right cf">
-
-                         {{ createForm.password }}
-                         <input type="password" id = "confirm-pass" onkeyup="comparePasswords()" placeholder="Confirm Password">
-                         {% comment %} {{ createForm.confirm_password }} {% endcomment %}
-                    </div>
-
-                    <input type="submit" id = "submit-button" value="Submit" class="button">
-               </form>
-          </div>
-     </div>
-
-
-     <div class="containerS2">
-          <div class="wrapperS1">
-               <h1 class="heading">What it means to be a Contributor</h1>
-               <p>
-                    Labore vel odit sint est omnis ea esse esse. Et voluptate occaecati sequi. Et sed cum explicabo quaerat
-                    aut. Atque qui placeat vitae delectus eaque similique. Eum quis quia ut delectus est earum sint ex. Qui
-                    cumque corrupti et et ullam dolorum ea. Minima ut iste ut. Similique explicabo amet repellat. Ipsa
-                    deserunt in similique animi aperiam consectetur. Unde itaque sint cumque incidunt nihil optio ea.
-                    Molestiae aut quam quasi omnis. Molestiae delectus doloribus reprehenderit aut suscipit. Quae inventore
-                    enim quod non non est. Recusandae vel omnis maiores. Debitis autem hic ipsam illo dicta quis. Rerum dolor
-                    quidem eos alias est quia deleniti. Recusandae doloremque eaque id ab suscipit exercitationem ducimus
-                    dignissimos. Quos consequuntur molestiae aperiam distinctio consequatur cupiditate incidunt est. Ducimus
-                    qui sunt a. Quae sunt odio soluta reiciendis.
-               </p>
-          </div>
-         
-     </div>
+                </div>
+            </div>
+        </footer>
+    </div>
 </div>
 
-<script>
-     document.getElementById("id_password").addEventListener("keyup", comparePasswords);
-     function showAccountCreation() {
-         const contactForm = document.getElementById("account-form");
-         contactForm.style.display = "block";
-         {% comment %} const contactButton = document.getElementById("account-button");
-         contactButton.style.display = "none"; {% endcomment %}
-     }
-     function comparePasswords(){ 
-          
-          var password = document.getElementById("id_password");
-          var confirmPass = document.getElementById("confirm-pass");
-          console.log(password.value)
-          const submitButton = document.getElementById("submit-button");
-          if (confirmPass.value == password.value){
-               
-               submitButton.disabled = false;
-          }else{
-               submitButton.disabled = true;
-          }
-     }
 
+<script>
+
+    let signin_username = document.getElementById("signin_username");
+    {% comment %} let signin_username_helper = document.getElementById("signin_username_helper"); {% endcomment %}
+    
+    let signin_password = document.getElementById("signin_password");
+    let signin_password_helper = document.getElementById("signin_password_helper");
+    let signin = document.getElementById("signin");
+
+    {% comment %} $("#signin_username").change(function (e) {
+        if ($(signin_username).val() == "") {
+            signin_username.classList.remove("is-danger");
+            signin_username_helper.classList.remove("is-danger");
+            signin_username.classList.remove("is-link");
+            signin_username_helper.classList.remove("is-link");
+            signin_username_helper.textContent = "";
+            signin.disabled = true;
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "ajax/username_validation/",
+                data: {
+                    username: $(signin_username).val(),
+                },
+                success: function (data) {
+                    if (data.is_taken) {
+                        signin_username.classList.remove("is-danger");
+                        signin_username.classList.add("is-link");
+                        signin_username_helper.classList.remove("is-danger");
+                        signin_username_helper.classList.add("is-link");
+                        signin_username_helper.textContent = "That username exists.";
+                        signin.disabled = false;
+                    } else {
+                        signin_username.classList.add("is-danger");
+                        signin_username.classList.remove("is-link");
+                        signin_username_helper.classList.add("is-danger");
+                        signin_username_helper.classList.remove("is-link");
+                        signin_username_helper.textContent = "That username doesn't exist.";
+                        signin.disabled = true;
+                    }
+                }
+            });
+        }
+    }); {% endcomment %}
+
+    $("#signin_password").change(function (e) {
+        if ($("#signin_password").val() != "") {
+            signin.disabled = false;
+        } else {
+            signin.disabled = true;
+        }
+        signin_password.classList.remove("is-danger");
+        signin_password_helper.classList.remove("is-danger");
+        signin_password_helper.textContent = "";
+    });
+
+
+    $("#signin-modal").on("click", "#signin", function (e) {
+
+        $.ajax({
+            url: "/contribute/signin/",
+            type: "POST",
+            data: {
+                username: $(signin_username).val(),
+                password: $(signin_password).val(),
+                csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+            },
+            success:function(response) {
+                if (!response.is_password) {
+                    signin_password.classList.add("is-danger");
+                    signin_password_helper.classList.add("is-danger");
+                    signin_password_helper.textContent = "Incorrect Password."
+                } else {
+                    location.reload(true);
+                }
+            }
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Functions to open and close a modal
+        function openModal($el) {
+          $el.classList.add('is-active');
+        }
+      
+        function closeModal($el) {
+          $el.classList.remove('is-active');
+          {% comment %} signin_username.classList.remove("is-danger"); {% endcomment %}
+          {% comment %} signin_username_helper.classList.remove("is-danger"); {% endcomment %}
+          {% comment %} signin_username.classList.remove("is-link"); {% endcomment %}
+          {% comment %} signin_username_helper.classList.remove("is-link"); {% endcomment %}
+          signin_username.value = "";
+          {% comment %} signin_username_helper.textContent = ""; {% endcomment %}
+
+          signin_password.classList.remove("is-danger");
+          signin_password_helper.classList.remove("is-danger");
+          signin_password.classList.remove("is-link");
+          signin_password_helper.classList.remove("is-link");
+          signin_password.value = "";
+          signin_password_helper.textContent = "";
+
+          signin.disabled = true;
+        }
+      
+        function closeAllModals() {
+          (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+            closeModal($modal);
+          });
+        }
+      
+        // Add a click event on buttons to open a specific modal
+        (document.querySelectorAll('.signin-modal-trigger') || []).forEach(($trigger) => {
+          const modal = $trigger.dataset.target;
+          const $target = document.getElementById(modal);
+      
+          $trigger.addEventListener('click', () => {
+            openModal($target);
+          });
+        });
+      
+        // Add a click event on various child elements to close the parent modal
+        (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .sign-in-up-cancel') || []).forEach(($close) => {
+          const $target = $close.closest('.modal');
+      
+          $close.addEventListener('click', () => {
+            closeModal($target);
+          });
+        });
+      
+        // Add a keyboard event to close all modals
+        document.addEventListener('keydown', (event) => {
+          if(event.key === "Escape") {
+            closeAllModals();
+          }
+        });
+      });
 </script>
-{% endblock accountFunc %}

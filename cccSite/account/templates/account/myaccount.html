@@ -50,7 +50,7 @@
         cursor: pointer;
     }
 
-    .buttonHolder {
+    .button_CCCHolder {
         min-width: 200px;
         min-height: 50px;
     }
@@ -66,19 +66,19 @@
 <div id="content">
     <div class="wrapper">
         <div class="imgWrapper">
-            <li><img class="proPic" src="{{ self.pic.url }}" alt="Uploaded Image" height="150" width="150"></li>
+            <li><img class="proPic" src="{{ self.pic.url }}" alt="Profile Picture" height="150" width="150"></li>
         </div>
         <div class="inWrapper">
-            {{self.name}}
+            {{self.user.username}}
             <br>
-            {{self.email}}
+            {{self.user.email}}
             <br>
 
 
         </div>
 
         <div class="buttonHolder">
-            <button class="editPro" id="edit-account" onclick="window.location.href='{%url 'account:manage'%}';">
+            <button class="editPro" id="edit-account" onclick="window.location.href= '{% url 'account:manage'%}';">
                 Edit Account Details</button>
         </div>
 
@@ -94,6 +94,6 @@
 
     </div>
 
-    <!--posts to the URL titled signout in the account app's URL config-->
+    <!--forums to the URL titled signout in the account app's URL config-->
 </div>
 {% endblock accountFunc %}

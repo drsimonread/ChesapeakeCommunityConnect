@@ -7,7 +7,10 @@ app_name = "mapViewer"
 
 urlpatterns = [
     path("", views.viewMap, name="default"),
-    path("search/", views.post_list, name="post_list"),
-    path("post/<int:want>", views.post_detail, name="post_detail"),
+    path("search/", views.forum_list, name="forum_list"),
+    #path("forum/<int:want>/<int:page_number>/", views.forum_detail, name="forum_detail"),
+    path("forum/<int:want>/", views.forum_detail, name="forum_detail"),    
+    path("forum/<int:want>/post/<int:wants>/", views.post_detail, name="post_detail"),
+    path("forum/<int:want>/post/<int:wants>/comment/", views.create_comment, name="create_comment"),
     # Add other URL patterns here
 ]

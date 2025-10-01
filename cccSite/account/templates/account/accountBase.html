@@ -10,71 +10,65 @@
 {%endblock accHead%}
 {%endblock head%}
 {% block content %}
-<div id="body">  
+<div id="body" role="main">  
     {% comment %} <ul class="menu">
-        <li><a class="button" href="{%url 'account:account_list'%}" style="text-decoration: none;">Search Contributors</a></li>
+        <li><a class="button_CCC" href="{%url 'account:account_list'%}" style="text-decoration: none;">Search Contributors</a></li>
         {% if rank > 0 %}
-        <li><a class="button" href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/manage/' not in request.path and '/create/' not in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;" >My Account</a></li>
-        <li><a class="button" href="{%url 'account:manage' %}" {%if '/manage/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Edit Account</a></li>
-        <li><a class="button" href="{%url 'account:create_post' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Create Post</a></li>
-        <li><a class="button" href="{%url 'account:my_posts' %}" style="text-decoration: none;">My Posts</a></li>
+        <li><a class="button_CCC" href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/manage/' not in request.path and '/create/' not in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;" >My Account</a></li>
+        <li><a class="button_CCC" href="{%url 'account:manage' %}" {%if '/manage/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Edit Account</a></li>
+        <li><a class="button_CCC" href="{%url 'account:create_forum' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Create Forum</a></li>
+        <li><a class="button_CCC" href="{%url 'account:my_forums' %}" style="text-decoration: none;">My Forums</a></li>
         <li><form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
             <input type="submit" value="Sign Out">
         </form></li>
         {%else%}
-        <li><a class="button" href="{% url 'account:signin' %}" style="text-decoration: none;">Sign In</a></li>
+        <li><a class="button_CCC" href="{% url 'account:signin' %}" style="text-decoration: none;">Sign In</a></li>
         {%endif%}
     </ul> {% endcomment %}
 
+    {% if rank > 0 %}
+        <ul class="menu" role="navigation">
 
-    <ul class="menu">
+            <li>
+                <a href="{%url 'account:account_list'%}" {%if '/view/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
+                    <i class='bx bx-search-alt' ></i>
+                    <span>Search Contributors</span>
+                </a>
+            </li>
 
-        {% if rank > 0 %}
-        <li>
-            <a href="{%url 'account:account_list'%}" {%if '/view/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
-                <i class='bx bx-search-alt' ></i>
-                <span>Search Contributors</span>
-            </a>
-        </li>
+            <li>
+                <a href="{%url 'account:create_forum' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>
+                    <i class='bx bx-message-square-add'></i>
+                    <span>Create Forum</span>
+                </a>
+            </li>
 
-        <li>
-            <a href="{%url 'account:create_post' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>
-                <i class='bx bx-message-square-add'></i>
-                <span>Create Post</span>
-            </a>
-        </li>
+            <li><a class="button_CCC" href="{%url 'account:my_forums' %}" {%if '/myforums/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>My Forums</a></li>
+            <li>
+                <a href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/view/' not in request.path and '/create/' not in request.path and '/myforums/' not in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
+                    <i class='bx bxs-user-account' ></i>
+                    <span>My Account</span>
+                </a>
+            </li>
 
-        <li><a class="button" href="{%url 'account:my_posts' %}" {%if '/myposts/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>My Posts</a></li>
-        <li>
-            <a href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/view/' not in request.path and '/create/' not in request.path and '/myposts/' not in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
-                <i class='bx bxs-user-account' ></i>
-                <span>My Account</span>
-            </a>
-        </li>
-
-        <li>
-            <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
-                <button>
-                    <i class='bx bx-log-out' ></i>
-                    Sign Out
-                </button>
-            </form>
-        </li>
-
-        {%else%}
-        <li>
-            <a class="button" href="{% url 'account:signin' %}">
-                <i class='bx bx-log-in'></i>
-                <span>Sign In</span>
-            </a>
-        </li>
-        {%endif%}
-
-    </ul>
-
-    <div id="right">
+            <li>
+                <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
+                    <button>
+                        <i class='bx bx-log-out' ></i>
+                        Sign Out
+                    </button>
+                </form>
+            </li>
+        </ul>
+        <div id="right">
+    {%else%}
+    <div>
+    {%endif%}
         {%block accountFunc%} Welcome to the account interface. {% endblock accountFunc %}
     </div>
+
+
+    
 
 </div>
 <script>

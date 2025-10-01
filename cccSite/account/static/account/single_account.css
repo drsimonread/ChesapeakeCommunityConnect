@@ -7,25 +7,10 @@
     max-width: 20%;
     margin: 0% 35% 0% 30%;
 }
-
-
-.container {
-    margin: auto auto auto 25%;
-    padding: 15px;
-    min-width: 300px;
-    max-width: 300px;
-    min-height: 300px;
-    border-radius: 5px;
-    border-style: none;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
-}
-
-.singleP{
-    width: 70%;
-}
-
-.buttonC {
+  
+.button_CCCC {
     margin-top: 100px;
+    width:100%;
 }
 
 .editPro {
