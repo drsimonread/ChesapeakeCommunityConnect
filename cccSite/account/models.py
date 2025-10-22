@@ -69,6 +69,13 @@ class AccountCreation(models.Model):
     confirmpassword = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    ]
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    
     def __str__(self):
         return self.email + " | " + self.username + " | " + self.displayname
     
