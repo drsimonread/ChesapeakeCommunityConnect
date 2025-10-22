@@ -87,6 +87,7 @@ class AccountCreation(models.Model):
     displayname = models.CharField(max_length=75)
     password = models.CharField(max_length=50)
     confirmpassword = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.email + " | " + self.username + " | " + self.displayname
