@@ -121,7 +121,6 @@ def account_list(request):
                 users=users.order_by("user__username")
     return render(request, 'account/account_list.html', {'users' : users,
                                                          'search' : search,
-                                                         'rank' : rank
                                                          })
 
 def my_forums(request):
