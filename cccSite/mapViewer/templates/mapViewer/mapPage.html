@@ -5,54 +5,39 @@
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
 <title>Chesapeake Community Connect - Map</title>
 
-<!--the defer guarantees that TEST
+<!--the defer guarantees that 
     a) the HTML loads pre JS execution so elements referenced in the script exist
     b) the API script is executed AFTER our script file is loaded and so the callback function works
     c) the widgets are rendered such that our script file can access them
 -->
-<script src="{% static 'mapViewer/map-script.js' %}" defer></script>
+<script src="{% static 'mapViewer/map-script2.js' %}" defer></script>
 {{widgets|json_script}}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN4e1y8ECEgsg_8U6xO02_2InU8G8I8cM&libraries=places&callback=initMap" defer></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc&libraries=places&callback=initMap" defer></script>
 
 {% endblock head %}
 
 {% block content %}
-    <!-- Map Section -->
+    <!-- Map Section --> 
     <div id="left">
-        <div id="map"></div>
+        <div id="map" style="height: 400px;"></div>
     </div>
+
+    <!-- Tag Filter + Project List --> 
+    <div id="project-controls">
+         <label for="tag-filter">List of Post:</label>
+        <ul id="project-list"></ul>
+    </div>
+
 
     <div id="search">
         <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
-            {{ searchForm.q }}
+            {{searchForm.q}}
             <div id="scroll-box">
-                <div id="id_t">
-                    {% for mTag in searchForm.t %}
-                        <div>
-                            <label for="{{ mTag.id_for_label }}">
-                                {{ mTag.tag }}
-                                <span>{{ mTag.choice_label }}</span>
-                            </label>
-                        </div>
-                    {% endfor %}
-                </div>
+                {{searchForm.t}}
             </div>
-            <input type="submit" id="search-btn" class="button_CCC" value="Submit">
+            <input type="submit" id="search-btn" class="button" value="Submit">
         </form>
     </div>
-
-      <!-- Tutorial Section -->
-    <div id="help-section" style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 8px;">
-        <li> </li>
-        <h2>How to Use the Map:</h2>
-        <ol style="line-height: 1.6; list-style-type: none; padding-left: 20px;">
-            <li>Move your mouse with two fingers or touchscreen to move around the map.</li>
-            <li>Click on a marker to see more details about that location.</li>
-            <li>Use the search bar to find organizations or resources nearby.</li>
-            <li>Use the checkboxes to filter pinned locations on the map and narrow what's displayed</li>
-            <li>Click the “Reset View” button to return to the default map view.</li>
-        </ol>
-    </div>
-  
+    
 {% endblock content %}
