@@ -17,6 +17,7 @@ class MapPost(models.Model):
     description = models.TextField() #will be derived from content. whenever this stuff gets working.
     geoCode = models.JSONField()
     tags = models.ManyToManyField(MapTag, related_name="posts", blank=True)
+    created = models.DateTimeField(auto_now_add=True)
     visible_options = { 
         (-1,"denied"),
         (0, "pending"),
