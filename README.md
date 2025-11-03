@@ -6,6 +6,7 @@ The Chesapeake Community Connect website serves as a hub for improving connectio
 
 ## Important Links
 
+<<<<<<< HEAD
 STP Testing Track - Click [here](https://github.com/swbn1/ChesapeakeCommunityConnect-FA24/blob/main/Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/STP_Testing_Tracking.md) 
 
 CCC Traceability Matrix - [Click here](https://github.com/swbn1/ChesapeakeCommunityConnect-FA24/blob/main/Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_Traceability_Matrix.md)
@@ -15,6 +16,15 @@ CCC SRS - Click [here](https://github.com/swbn1/ChesapeakeCommunityConnect-FA24/
 CCC Test Tracker - Click [here](https://github.com/swbn1/ChesapeakeCommunityConnect-FA24/blob/main/Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_Test_Tracker.md) 
 
 Google Cloud Setup - Click [here](https://docs.google.com/document/d/1Ai8hDPBNv4qPTotV2EuUxNBRlakgkY3VzrYwzGTatvA/edit?tab=t.0) 
+=======
+[STP Testing Track](https://github.com/swbn1/ChesapeakeCommunityConnect-FA24/blob/main/Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/STP_Testing_Tracking.md) 
+
+[CCC Traceability Matrix](https://github.com/swbn1/ChesapeakeCommunityConnect-FA24/blob/main/Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_Traceability_Matrix.md)
+
+[CCC SRS](https://github.com/swbn1/ChesapeakeCommunityConnect-FA24/blob/main/Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_SRS.md) 
+
+[CCC Test Tracker](https://github.com/swbn1/ChesapeakeCommunityConnect-FA24/blob/main/Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_Test_Tracker.md)
+>>>>>>> origin/kelly_admin_clean
 
 A guide for setting up CCC and running it via the VM can be found [here](Documentation/Sorted%20Documents%20(SP25)/Training/Google%20Cloud/CCC_VMGuide.md).
 
