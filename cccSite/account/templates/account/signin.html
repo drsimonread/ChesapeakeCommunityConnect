@@ -25,7 +25,7 @@
             </div>
             <p>Or</p>
             <div class="field">
-                <button>Sign In With Google</button>
+                <div id="g_id_signin"></div>
             </div>
         </section>
         <footer class="modal-card-foot">
@@ -36,9 +36,9 @@
             <br>
             <div class="control">
                 <!--google sign in button is rendered here-->
-                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+                <!-- <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
                     data-text="signin" data-size="large" data-logo_alignment="left">
-                </div>
+                </div> -->
             </div>
         </footer>
     </div>
@@ -105,7 +105,7 @@
     $("#signin-modal").on("click", "#signin", function (e) {
 
         $.ajax({
-            url: "/contribute/signin/",
+            url: "/contribute/",
             type: "POST",
             data: {
                 username: $(signin_username).val(),
@@ -188,43 +188,42 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script>
-    function handleCredentialResponse(response) {
-        $.ajax({
-            url: "/contribute/google-signin/",
-            type: "POST",
-            data: {
-                credential: response.credential,
-                csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
-            },
-            success: function (res) {
-                console.log("Google Sign-In success:", res);
-                location.reload(true);
-            },
-            error: function (err) {
-                console.error("Google Sign-In failed:", err);
-                alert("Google Sign-In failed.");
-            }
-        });
-    }
+  function handleCredentialResponse(response) {
+    // Decode the JWT
+    const user = JSON.parse(atob(response.credential.split('.')[1]));
+    console.log("User info:", user);
 
-    window.onload = function () {
-        // Initialize Google Sign-In
-        google.accounts.id.initialize({
-            client_id: "Y909497695712-h9smcju9klvlqk70celohtne9o438htn.apps.googleusercontent.com",
-            callback: handleCredentialResponse,
-            login_uri: "http://127.0.0.1:8000/contribute/google-signin/"
-        });
+    // user object contains:
+    // user.name -> full name
+    // user.email -> email
+    // user.picture -> profile picture URL
+
+    // Update the sign-in button
+    const signinBtn = document.querySelector('.signin-modal-trigger');
+    signinBtn.innerHTML = `
+        <img src="${user.picture}" alt="Profile" style="width:24px;height:24px;border-radius:50%;margin-right:8px;vertical-align:middle;">
+        ${user.name}
+    `;
+    signinBtn.classList.add('signed-in'); // optional class if you want to style differently
+
+    // Optional: hide the modal if it's open
+    const modal = document.getElementById('signin-modal');
+    modal.classList.remove('is-active');
+}
 
 
-        // Bind it to your existing button inside the modal
-        const googleBtn = document.querySelector('#signin-modal button');
-        googleBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            google.accounts.id.renderButton(googleBtn, {
-                theme: "outline",
-                size: "large"
-            });
-            // opens Google popup
-        });
-    };
+
+  window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: "576673334850-uflf8tdq48pirq1bmp9r3fjl8ruf5a61.apps.googleusercontent.com",
+      callback: handleCredentialResponse,
+    //   login_uri: "http://127.0.0.1:8080/contribute/google-signin/"
+    });
+
+    // Render the button automatically when the modal loads
+    google.accounts.id.renderButton(
+      document.getElementById("g_id_signin"),
+      { theme: "outline", size: "large" }
+    );
+  };
 </script>

@@ -1,6 +1,23 @@
 <a class="signup-modal-trigger nav-link" data-target="signup-modal" > Sign Up </a>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
+<div id="g_id_onload"
+     data-client_id="576673334850-uflf8tdq48pirq1bmp9r3fjl8ruf5a61.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse"
+     data-auto_select="false"
+     data-login_uri="http://127.0.0.1:8080/contribute/google-signin/">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard"
+     data-shape="rectangular"
+     data-theme="outline"
+     data-text="signin"
+     data-size="large"
+     data-logo_alignment="left">
+</div>
+
+
 <script>
 function handleCredentialResponse(response) {
   $.ajax({
