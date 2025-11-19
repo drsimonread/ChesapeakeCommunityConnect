@@ -104,7 +104,7 @@ def account_list(request):
     users = Member.objects.filter(forums__visibility__gt=0).distinct().annotate(num_forums=Count("forums"), filter=Q(forums__visibility=1))
     search = SearchAccountForm(request.GET)
     if nameQ:
-        users=users.filter(user__username__icontains=nameQ)
+        users=users.filter(user__username__istartswith=nameQ)
     if not sortQ:
         users=users.order_by("user__username")
     else:
