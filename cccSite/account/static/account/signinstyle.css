@@ -52,14 +52,22 @@ form #input-submit:hover {
   margin-bottom: 20px;
   border-bottom: 2px solid #ddd;
   letter-spacing: 10px;
+  cursor: pointer; /* Makes letter clickable */
 }
 
 .banner-letter {
   display: inline-block;
+  padding: 4px 6px;
   margin: 0 8px;
   font-size: 18px;
   font-weight: bold;
   color: #333;
+  cursor: pointer; /* Makes letter clickable */
+}
+
+.banner-letter.active, .banner-letter:hover {
+  background-color:#f3c10d;
+  color:#333;
 }
 
 .testy {
@@ -161,4 +169,27 @@ form textarea {
   width: 70%;
   margin: auto;
   padding: 10px;
+}
+
+.contrib-scroll {
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.contrib-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.contrib-item:last-child {
+  border-bottom: none;
+}
+
+.contrib-location {
+  color: #333;
+  font-size: 0.9rem;
 }

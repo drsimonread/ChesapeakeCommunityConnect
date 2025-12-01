@@ -81,40 +81,29 @@ def signout(request):
     return redirect(reverse("account:default"))
 
  
-# Default account page:
-# If the user is signed in, show their account page
-# If the user is NOT signed in, show the "signed out" preview page
+ # default account page. send to sign in if not signed in, otherwise displays user info
 def default(request):
-
-    # If the user is logged in (rank != 0), show their account info
-    if request.session.get('rank', 0) != 0:
-
-        # Get the Member object based on session user ID
-        userInz = Member.objects.get(pk=request.session['user'])
-
-        # Keep the session rank in sync with the database
+    if request.session.get('rank',0)!=0:
+        userInz=Member.objects.get(pk=request.session['user'])
         databaseRank = userInz.ranking
-        if request.session.get('rank', 0) != databaseRank:
-            request.session['rank'] = databaseRank
-
-        # Render the logged-in user's account page
+        if request.session.get('rank',0) != databaseRank:
+            request.session['rank']=databaseRank
+         #get user from session
         return render(request, 'account/myaccount.html', {
             'self': userInz,
         })
-
-    # If the user is NOT logged in, show the signed-out preview page
     else:
-        # Fetch contributors who have at least one visible (=public) forum
         contributors = Member.objects.filter(
-            forums__visibility__gt=0        # forum.visibility > 0 means "visible/approved"
+            forums__visibility__gt=0
         ).distinct().annotate(
-            num_forums=Count("forums")      # count how many public forums each contributor has
-        ).order_by("user__username")[:20]   # limit preview to first 20 alphabetically
+            num_forums=Count("forums")
+        ).order_by("user__username")[:20]
 
-        # Render the signed-out page with contributor preview
         return render(request, 'account/signedout.html', {
             "contributors": contributors
         })
+
+        
         
     
 def account_list(request):

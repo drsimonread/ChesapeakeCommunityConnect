@@ -6,6 +6,7 @@
 <title>Chesapeake Community Connect - Sign In</title>
 {%endblock accHead%}
 {% block accountFunc %}
+
 <!--initializes (?) the google API. will need to change the data-login_uri for live site-->
 <!--<div class="body">
      <div id="g_id_onload" data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
@@ -52,8 +53,20 @@
 
 <div class="columns is-centered">
      <div class="column is-three-quarters">
-     <h3 class="title is-3">List of Contributors</h3>
-          Here is where the list will go.
+          <h3 class="title is-3">List of Contributors</h3>
+          
+          <div class="contrib-scroll">
+               {% for c in contributors %}
+                   <div class="contrib-item">
+                       {{ c.user.username }} ({{ c.num_forums }} forums)
+                   </div>
+               {% empty %}
+                   <p>No contributors yet.</p>
+               {% endfor %}
+           </div>
+           
+           
+
      </div>
 </div>
 
