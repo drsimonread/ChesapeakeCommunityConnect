@@ -1,0 +1,44 @@
+# Setting up Chesapeake Community Connect (CCC) on your Google Cloud VM
+## CCC Installation
+-	**Configuring your Virtual Machine for git, python, and other dependencies**
+	-	cd /home/shared_workspace
+	-	sudo apt update
+	-	sudo apt upgrade -y
+	-	sudo apt install git
+	-	git config --global user.name `github-username`
+		-	Put in your GitHub username
+	-	git config --global user.email `github-email`
+		-	Put in your GitHub email
+	-	git init
+	-	git clone https://github.com/drsimonread/ChesapeakeCommunityConnect 
+	-	sudo apt install python3-ensurepip
+	-	sudo apt install pip
+	-	python3.10 -m pip install --upgrade pip 
+	-	sudo apt install libapache2-mod-wsgi-py3
+		-	Y to Continue
+	-	sudo apt install mariadb-server
+		-	Y to Continue
+	-	sudo mysql_secure_installation
+		-	No for current password
+		-	N for switch to unix-socket
+		-	Y to set new root password
+		- Set root password to `software_startup_simulator`
+		- Y to remove anonymous users
+		- Y to disallow remote root login
+		- Y to remove test database
+		- Y to reload data table privileges
+	- sudo apt install -y postgresql
+
+-	**Installing your CCC Requirements**
+	-	cd /home/shared_workspace/ChesapeakeCommunityConnect/cccSite
+	-	git pull origin main
+	-	git pull origin development
+	-	python3 -m pip install -r requirements.txt
+	-	python3 -m pip install python-magic
+	-	python3 -m pip install googlemaps
+-	**Running the CCC Website**
+	-	python3 manage.py makemigrations
+	-	python3 manage.py migrate
+	-	python3 manage.py runserver 8080
+		-	If you’re using Visual Studio Code, this should give you a prompt that says “Your application running on port 8080 is available”. Click on “Open in Browser”
+		-	Alternatively, enter “http://127.0.0.1:8080/” in your browser
