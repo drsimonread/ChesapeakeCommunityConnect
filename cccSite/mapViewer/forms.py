@@ -40,7 +40,8 @@ class MakeForumForm(forms.Form):
     content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
     tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
-    
+    description = forms.CharField(label="Description", widget=forms.Textarea({"Placeholder": "Provide a brief description"}), required=True) # description of the forum  
+
     associated_choices = [
         ("associated", "I am associated with the group providing this solution"),
         ("not-associated", "I am not associated with the group providing this solution")
@@ -83,6 +84,7 @@ class MakeForumForm(forms.Form):
                 'content': cleaned_data['content'],
                 'tags': cleaned_data['tags'],
                 'geoResult': geoResult,
+                'description': cleaned_data['description'], 
                 'associated': cleaned_data['associated'],
                 'private_public': cleaned_data['private_public'],
                 'files': [cleaned_data.get('file1'),cleaned_data.get('file2'),cleaned_data.get('file3'),cleaned_data.get('file4')],
@@ -136,7 +138,7 @@ class MakePostForm(forms.Form):
     content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
     tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
-    
+    description = forms.CharField(label="Description", widget=forms.Textarea({"Placeholder": "Provide a brief description"}), required=True) # description of the forum
     associated_choices = [
         ("associated", "I am associated with the group providing this solution"),
         ("not-associated", "I am not associated with the group providing this solution")
@@ -179,6 +181,7 @@ class MakePostForm(forms.Form):
                 'content': cleaned_data['content'],
                 'tags': cleaned_data['tags'],
                 'geoResult': geoResult,
+                'description': cleaned_data['description'],
                 'associated': cleaned_data['associated'],
                 'private_public': cleaned_data['private_public'],
                 'files': [cleaned_data.get('file1'),cleaned_data.get('file2'),cleaned_data.get('file3'),cleaned_data.get('file4')],

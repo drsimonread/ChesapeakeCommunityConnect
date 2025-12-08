@@ -130,22 +130,25 @@ def make_post(request):
         if contentForm.is_valid(): #if the forum is good to go, calls the clean method and validators from MakeForumForm in mapViewer/forms.py
             # MEMBER_DELETE
             userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
-            if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
-                disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
-            else:
-                disc = contentForm.cleaned_data['content'] #otherwise just use content to describe #? Why does description exist at all?
+           # if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
+           #     disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
+           # else:
+           #     disc = contentForm.cleaned_data['content'] #otherwise just use content to describe #? Why does description exist at all?
+            disc = contentForm.cleaned_data['description'] # use description field to describe forum
             vis=0 #default visibility set to pending
             if request.session['rank'] > 1: #if user is trusted, set visibility to visible
                 vis=1
             forumInz=Forum.objects.create(title=contentForm.cleaned_data['title'], #actually create the forum instance in the database
                                    content=contentForm.cleaned_data['content'],
                                    author=userInz,
-                                   description=disc,
+                                   description=contentForm.cleaned_data['description'],
                                    geoCode=contentForm.cleaned_data['geoResult'][0],
                                    visibility=vis,
                                    associated=contentForm.cleaned_data['associated'],
                                    private_public=contentForm.cleaned_data['private_public']
+                                   
                                    )
+
             if contentForm.cleaned_data['tags']: #if there are any tags
                 forumInz.tags.set(contentForm.cleaned_data['tags']) #set the forum's tags according to selected tags
             

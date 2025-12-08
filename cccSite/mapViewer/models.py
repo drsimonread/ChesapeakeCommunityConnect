@@ -66,7 +66,7 @@ class Forum(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    
+    description = models.TextField()
     author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="posts")
     
     forum = models.ForeignKey(Forum, null=True, on_delete=models.SET_NULL, related_name="posts")

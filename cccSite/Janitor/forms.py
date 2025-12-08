@@ -32,12 +32,16 @@ class ForumRepForm(ModelForm):
 
 class ForumManager(ModelForm):
     reason = forms.CharField(label="Reason", widget=forms.Textarea, required=False)
+    
+
     class Meta:
         model = Forum
         fields = ['visibility', 'description']
+        
         widgets={
-            'description' : forms.HiddenInput
+            'description' : forms.HiddenInput,
         }
+        
     def clean(self): 
         cleaned_data = super().clean() #verify that all the other fields are ok
         if cleaned_data.get('visibility')==-1: #if visibility has been set to blocked
