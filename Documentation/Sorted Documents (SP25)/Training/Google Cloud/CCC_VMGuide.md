@@ -46,7 +46,7 @@ Note: If you create multiple VMs, you do not need to create a new keypair.<br>
 3.2.2 git config --global user.name "****" (between “” needs to be the github username”<br>
 3.2.3 git config --global user.email "****" (between the “” needs to be the github email address”<br>
 3.2.4 git init<br>
-3.2.5 git clone https://github.com/swbn1/ChesapeakeCommunityConnect-FA24 (if you are
+3.2.5 git clone https://github.com/drsimonread/ChesapeakeCommunityConnect (if you are
 working on this in FA25 or beyond, have your Project Lead fork the repo and change the link to the fork)<br>
 ### 3.3 Install dependencies<br>
 3.3.1 python3.10 -m ensurepip<br>
