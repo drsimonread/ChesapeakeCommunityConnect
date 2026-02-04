@@ -14,7 +14,7 @@ The Chesapeake Community Connection website serves as a hub for improving connec
 
 [CCC Test Tracker](Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_Test_Tracker.md)
 
-A guide for setting up in the Google Cloud Platform can be found [here](Documentation/Sorted%20Documents%20(SP25)/Training/Google%20Cloud/Setting%20up%20in%20the%20Google Cloud.md)
+A guide for setting up in the Google Cloud Platform can be found [here](Documentation/Sorted%20Documents%20(SP25)/Training/Google%20Cloud/Setting%20up%20in%20the%20Google%20Cloud.md)
 
 A guide for setting up CCC and running it via the VM can be found [here](Documentation/Sorted%20Documents%20(SP25)/Training/Google%20Cloud/CCC_VMGuide.md).
 
