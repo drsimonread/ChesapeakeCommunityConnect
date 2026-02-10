@@ -1,6 +1,15 @@
+.env
+cccSite/.env
+
+cccSite/report.html
+cccSite/reports/
+
 *.pyc
+
 .venv/
+
 *.DS_Store
 .DS_Store
+
 *.sqlite3
 cccSite/db.sqlite3
