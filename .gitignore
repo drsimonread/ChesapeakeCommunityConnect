@@ -3,3 +3,4 @@
 *.DS_Store
 .DS_Store
 *.sqlite3
+cccSite/db.sqlite3
