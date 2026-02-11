@@ -12,3 +12,5 @@ requests==2.31.0
 rsa==4.9
 sqlparse==0.4.4
 urllib3==2.0.6
+python-magic
+googlemaps
