@@ -1,7 +1,7 @@
 <a class="signin-modal-trigger nav-link" data-target="signin-modal"> Sign In </a>
 
 <div id="signin-modal" class="modal">
-    {% csrf_token %}
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
@@ -189,33 +189,26 @@
 
 <script>
   function handleCredentialResponse(response) {
-    // Decode the JWT
-    const user = JSON.parse(atob(response.credential.split('.')[1]));
-    console.log("User info:", user);
-
-    // user object contains:
-    // user.name -> full name
-    // user.email -> email
-    // user.picture -> profile picture URL
-
-    // Update the sign-in button
-    const signinBtn = document.querySelector('.signin-modal-trigger');
-    signinBtn.innerHTML = `
-        <img src="${user.picture}" alt="Profile" style="width:24px;height:24px;border-radius:50%;margin-right:8px;vertical-align:middle;">
-        ${user.name}
-    `;
-    signinBtn.classList.add('signed-in'); // optional class if you want to style differently
-
-    // Optional: hide the modal if it's open
-    const modal = document.getElementById('signin-modal');
-    modal.classList.remove('is-active');
+    $.ajax({
+        url: "/contribute/google-signin/",
+        type: "POST",
+        data: {
+            credential: response.credential,
+            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+        },
+        success: function (data) {
+            if (data.success) {
+                location.reload(); // Let Django session rebuild the UI
+            } else {
+                console.log("Google sign-in failed");
+            }
+        }
+    });
 }
-
-
 
   window.onload = function () {
     google.accounts.id.initialize({
-      client_id: "576673334850-uflf8tdq48pirq1bmp9r3fjl8ruf5a61.apps.googleusercontent.com",
+      client_id: "909497695712-h9smcju9klvlqk70celohtne9o438htn.apps.googleusercontent.com",
       callback: handleCredentialResponse,
     //   login_uri: "http://127.0.0.1:8080/contribute/google-signin/"
     });
