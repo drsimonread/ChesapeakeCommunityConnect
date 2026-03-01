@@ -4,7 +4,6 @@ from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Textar
 from django.urls import reverse
 from .storage import OverwriteStorage
 from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
 
 
 #function used for saving images
@@ -25,7 +24,7 @@ class Member(models.Model):
         (99 , "admin"),
     }
     ranking = models.SmallIntegerField(default=1, choices=ranking_options)
-    created = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
     email = models.EmailField()
     pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
