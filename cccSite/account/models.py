@@ -30,8 +30,13 @@ class Member(models.Model):
     ranking = models.SmallIntegerField(default=1, choices=ranking_options)
     # created = models.DateTimeField(auto_now=False, auto_now_add=True)
     # email = models.EmailField()
+    phone_number = models.CharField(max_length=20, blank=True, default="")
     pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
+    
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
    #location
     def __str__(self):
@@ -81,12 +86,24 @@ class UPLogIn(models.Model):
         return self.username + " | " + self.referTo.name
 
 
-class AccountCreation(models.Model):    
+class AccountCreation(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+    
     email = models.EmailField()
     username = models.CharField(max_length=75)
     displayname = models.CharField(max_length=75)
     password = models.CharField(max_length=50)
     confirmpassword = models.CharField(max_length=50)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = 'User Request'
+        verbose_name_plural = 'User Requests'
     
     def __str__(self):
         return self.email + " | " + self.username + " | " + self.displayname
