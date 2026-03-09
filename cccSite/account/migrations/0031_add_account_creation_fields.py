@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='accountcreation',
             name='created_at',
-            field=models.DateTimeField(auto_now_add=True),
+            field=models.DateTimeField(auto_now_add=True, null=True),
         ),
     ]
