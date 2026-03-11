@@ -3,3 +3,6 @@
 *.DS_Store
 .DS_Store
 *.sqlite3
+mapViewer/migrations/*.py
+!mapViewer/migrations/__init__.py
+db.sqlite3
