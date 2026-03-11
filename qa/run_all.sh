@@ -79,5 +79,5 @@ PY
 
 echo "[6/6] Running tests..."
 cd "${ROOT_DIR}"
-pytest -q qa/ui
+QA_BASE_URL="${BASE_URL}" pytest -q qa/ui
 echo "PASS"
