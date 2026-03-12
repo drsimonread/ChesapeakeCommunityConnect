@@ -7,8 +7,14 @@
 
 2. Vitrual environments:
    - Covered below...
+  
+3. Creating a new smoke test:
+   - Add test to qa/ui/
+   - Use ./qa/run_all.sh to run the test
+   - Open Pull Request into development
+   - Delete the branch after 
 
-3. pytest:
+4. pytest:
    - Tests are functions that start with 'test_'
    - Assertions use:
       - assert 'something'
@@ -16,11 +22,23 @@
    - Run tests manually with:
       - pytest qa/ui
 
-4. Start the CCC site:
+5. Opening the CCC website:
    python3.10 manage.py makemigrations
    python3.10 manage.py migrate
    python3.10 manage.py runserver 8080
 
+#Example of a route smoke test:
+   import os
+   import requests
+
+   def test_homepage_responds():
+       base_url = os.getenv("QA_BASE_URL", "http://127.0.0.1:8080")
+         r = requests.get(base_url + "/", timeout=5)
+         assert r.status_code < 200
+
+#How to delete branch:
+-On github use the "delete branch" button, or
+-Run git branch -d <your-branch-name> in VS code
 
 #Enter QA Virtual Environment:
 
