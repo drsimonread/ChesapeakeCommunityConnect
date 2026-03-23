@@ -60,6 +60,12 @@ form #input-submit:hover {
   font-size: 18px;
   font-weight: bold;
   color: #333;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.banner-letter:hover {
+  color: #777;
 }
 
 .testy {
