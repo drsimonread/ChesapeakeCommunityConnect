@@ -1,4 +1,19 @@
+.env
+cccSite/.env
+
+cccSite/report.html
+cccSite/reports/
+
 *.pyc
+
 .venv/
+
 *.DS_Store
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+
+*.sqlite3
+cccSite/db.sqlite3
+>>>>>>> b4bf70dd41b282f4bbe675fc57a32500531620c3

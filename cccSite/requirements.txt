@@ -2,9 +2,14 @@ asgiref==3.8.1
 cachetools==5.3.1
 certifi==2023.7.22
 charset-normalizer==3.3.0
+<<<<<<< HEAD
 Django==4.2.6
 google-auth==2.23.3
 googlemaps==4.10.0
+=======
+Django==4.2.16
+google-auth==2.23.3
+>>>>>>> b4bf70dd41b282f4bbe675fc57a32500531620c3
 idna==3.4
 Pillow==10.1.0
 pyasn1==0.5.0
@@ -13,3 +18,5 @@ requests==2.31.0
 rsa==4.9
 sqlparse==0.4.4
 urllib3==2.0.6
+python-magic
+googlemaps
