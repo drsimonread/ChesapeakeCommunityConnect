@@ -14,12 +14,12 @@ This guide shows the exact steps to start the local development server for this 
 
 ### macOS
 ```bash
-cd /Users/kellyseanbyrne/Documents/ChesapeakeCommunityConnect-1/cccSite
+cd /ChesapeakeCommunityConnect/cccSite
 ```
 
 ### Windows (PowerShell)
 ```powershell
-cd C:\path\to\ChesapeakeCommunityConnect-1\cccSite
+cd C:\path\to\ChesapeakeCommunityConnect\cccSite
 ```
 
 ---
@@ -115,7 +115,7 @@ In the terminal where it is running, press:
 
 ### macOS
 ```bash
-cd /Users/kellyseanbyrne/Documents/ChesapeakeCommunityConnect-1/cccSite
+cd ChesapeakeCommunityConnect-1/cccSite
 source venv/bin/activate
 python manage.py runserver 8080
 ```
