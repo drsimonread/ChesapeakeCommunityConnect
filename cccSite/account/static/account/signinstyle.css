@@ -64,6 +64,7 @@ form #input-submit:hover {
   transition: color 0.2s ease;
 }
 
+/* Dimly highlights the hovered over letter */
 .banner-letter:hover {
   color: #777;
 }
