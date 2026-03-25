@@ -278,7 +278,7 @@ def make_forum(request):
                                    firstName=contentForm.cleaned_data['firstName'],
                                    lastName=contentForm.cleaned_data['lastName'],
                                    author=userInz,
-                                   description=disc,
+                                   description=contentForm.cleaned_data['description'],
                                    geoCode=contentForm.cleaned_data['geoResult'][0],
                                    visibility=vis,
                                    associated=contentForm.cleaned_data['associated'],
