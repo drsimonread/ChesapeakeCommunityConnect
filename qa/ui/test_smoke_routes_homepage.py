@@ -1,14 +1,14 @@
 import os
 import requests
 
-BASE_URL = os.getenv("APP_URL", "http://127.0.0.1:8080/")
+BASE_URL = "http://127.0.0.1:8080/"
 
 def test_homepage():
-    response = requests.get(f"{BASE_URL}/", timeout=10)
+    response = requests.get(BASE_URL + "/homepage/")
 
-    assert response.status_code == 200, f"Expected status code 200, but got {response.status_code}"
+    assert response.status_code == 200
     expected_text = "Chesapeake Community Connect"
-    assert expected_text in response.text, f"Expected text '{expected_text}' not found in homepage"
+    assert expected_text in response.text
 
     if __name__ == "__main__":
         try:
