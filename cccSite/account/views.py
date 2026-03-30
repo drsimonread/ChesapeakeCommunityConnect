@@ -14,9 +14,76 @@ from .models import *
 from .forms import CreateAccountForm, SearchAccountForm
 from django.db.models import Count
 from django.db.models import Q
-# from .forms import NameForm
+import json
+from django.http import JsonResponse
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 from PIL import Image
+from .models import Member, GLogIn
 
+# YOUR SPECIFIC CLIENT ID
+GOOGLE_CLIENT_ID = "909497695712-h9smcju9klvlqk70celohtne9o438htn.apps.googleusercontent.com"
+
+def google_signin(request):
+    if request.method == "POST":
+        token = request.POST.get("credential", "")
+
+        try:
+            # 1. Verify the Google token
+            idinfo = id_token.verify_oauth2_token(
+                token,
+                requests.Request(),
+                GOOGLE_CLIENT_ID
+            )
+
+            google_id = idinfo["sub"]  # Google's unique user ID
+            email = idinfo.get("email", "")
+            first_name = idinfo.get("given_name", "")
+            last_name = idinfo.get("family_name", "")
+
+            # 2. Check if this GoogleID already exists
+            try:
+                glog = GLogIn.objects.get(googleID=google_id)
+                member = glog.referTo
+                user = member.user
+
+            except GLogIn.DoesNotExist:
+                # 3. Create or get Django User based on email
+                user, created = User.objects.get_or_create(
+                    username=email,
+                    defaults={
+                        "email": email,
+                        "first_name": first_name,
+                        "last_name": last_name,
+                    }
+                )
+
+                # 4. Create Member if not exists
+                member, created_member = Member.objects.get_or_create(
+                    user=user,
+                    defaults={"ranking": 1}
+                )
+
+                # 5. Store mapping GoogleID → Member
+                GLogIn.objects.create(
+                    googleID=google_id,
+                    referTo=member
+                )
+
+            # 6. Log them in using Django
+            login(request, user)
+
+            # 7. Set your custom session keys
+            request.session["rank"] = member.ranking
+            request.session["user"] = member.pk
+            request.session["name"] = user.username
+
+            return JsonResponse({"success": True})
+
+        except ValueError:
+            return JsonResponse({"success": False, "message": "Invalid token"}, status=400)
+
+    return JsonResponse({"success": False}, status=405)
 # if user not signed in, sends them to log in 
 def signin(request):
     
@@ -216,49 +283,6 @@ def manage(request):
     return render(request, "account/manage.html", {'form' : form})
 
 # a lot of this code is from google btw. this view verifies google one touch log in credentials
-@csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
-def authG(request):
-    if request.method == "GET":
-       return redirect(reverse("account:default"))
-    elif request.method == "POST":
-
-        csrf_tok_cookie = request.COOKIES.get('g_csrf_token')
-        # check valid csrf token
-        if not csrf_tok_cookie:
-            return HttpResponse("Something went wrong, no csrf cookie")
-        csrf_tok_body = request.POST.get('g_csrf_token')
-        if not csrf_tok_body:
-            return HttpResponse("Something went wrong, no csrf cookie from google")
-        if csrf_tok_cookie != csrf_tok_body:
-            return HttpResponse("Could not verify csrf")
-        #get token from google
-        tok = request.POST.get("credential")  
-        try:
-            # logs user in via their google ID, or makes an entry in member if they do not have an account yet.
-            idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
-            if not(GLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
-                #when we implement other sign in methods, we will need to ask the user if they already have an account
-                #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
-                
-                DJuserInz = User.objects.create_user(username=idinfo['given_name'], email=idinfo['email'])
-                userInz = Member.objects.create(user=DJuserInz)
-                #! userInz = Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
-                gLogInz = GLogIn.objects.create(googleID=idinfo['sub'], referTo=userInz) # stores the google ID and the member it is associated with
-            else: #if the user has logged in with google before
-                gLogInz=GLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
-                userInz=gLogInz.referTo #get the object that the google ID is associated with
-
-            #store information about the user in the session
-            request.session['rank']=userInz.ranking
-            request.session['user']=userInz.pk
-            request.session['name']=userInz.user.username
-            #! request.session['name']=userInz.name
-        except ValueError:
-            return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
-            pass
-        return redirect(reverse("account:default"))
-    
-
 #view for creating forums
 def make_forum(request):
     if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
