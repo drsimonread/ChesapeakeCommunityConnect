@@ -1,70 +1,169 @@
-#What you might want to learn to help solve issues:
+# QA Automation README
 
-1. Python basics:
-   - How to write simple functions
-   - How to run a script
-   - Basic syntax
+## Purpose
 
-2. Vitrual environments:
-   - Covered below...
-  
-3. Creating a new smoke test:
-   - Add test to qa/ui/
-   - Use ./qa/run_all.sh to run the test
-   - Open Pull Request into development
-   - Delete the branch after 
+This folder contains the QA automation system for ChesapeakeCommunityConnect.
 
-4. pytest:
-   - Tests are functions that start with 'test_'
-   - Assertions use:
-      - assert 'something'
-   - Tests live within 'qa/ui/'
-   - Run tests manually with:
-      - pytest qa/ui
+The goal is to allow R&D to run one command and quickly determine whether critical website functionality still works.
 
-5. Opening the CCC website:
-   python3.10 manage.py makemigrations
-   python3.10 manage.py migrate
-   python3.10 manage.py runserver 8080
+Run the full QA suite with:
 
-#Example of a route smoke test:
-   import os
-   import requests
+```bash
+./qa/run_all.sh
+```
 
-   def test_homepage_responds():
-       base_url = os.getenv("QA_BASE_URL", "http://127.0.0.1:8080")
-         r = requests.get(base_url + "/", timeout=5)
-         assert r.status_code < 200
+---
 
-#How to delete branch:
--On github use the "delete branch" button, or
--Run git branch -d <your-branch-name> in VS code
+## Folder Structure
 
-#Enter QA Virtual Environment:
+- `qa/run_all.sh` — press-play runner script  
+- `qa/ui/` — smoke tests  
+- `qa/ui/conftest.py` — shared test configuration (base URL)  
+- `qa/README.md` — contributor instructions and testing standards  
 
-1. In your terminal:
-   source qa/.venv/bin/activate
+---
 
-2. You should see:
-   (venv) yourname@...
+## General Workflow
 
-3. To exit when done:
-   deactivate
+All QA work should follow this process:
 
+1. Pull latest code:
+   ```bash
+   git checkout development
+   git pull origin development
+   ```
 
-#Django Admin Access (DJadmin):
+2. Create a new branch:
+   ```bash
+   git checkout -b qa/<issue-number>-short-description>
+   ```
 
-Some tasks may require access to the Django admin page. If you do not already have credentials, create a local superuser:
+3. Make changes (only inside `qa/` unless instructed otherwise)
 
-1. Navigate to the Django project directory:
+4. Run tests:
+   ```bash
+   ./qa/run_all.sh
+   ```
+
+5. Commit and push:
+   ```bash
+   git add qa
+   git commit -m "Describe your change"
+   git push -u origin <branch-name>
+   ```
+
+6. Open a Pull Request into:
+   - Base: `development`
+
+7. After merge:
+   - Delete your branch (GitHub button or `git branch -d <branch>`)
+
+---
+
+## Smoke Test Standards
+
+A smoke test verifies that a core part of the application still works.
+
+### Every smoke test must:
+
+- Test **one route or one small behavior**
+- Use the shared `base_url` (from `conftest.py`)
+- Include `timeout=5` in requests
+- Check response status
+- Check at least one stable piece of text (if applicable)
+- Be simple and easy to understand
+
+### Smoke tests should NOT:
+
+- Test styling or layout
+- Use `time.sleep()`
+- Include unnecessary setup or complexity
+- Combine multiple unrelated checks into one test
+- Modify application code outside QA scope
+
+---
+
+## Example Smoke Test
+
+```python
+import requests
+
+def test_about_page_loads(base_url):
+    response = requests.get(base_url + "/about/", timeout=5)
+    assert response.status_code == 200
+    assert "About" in response.text
+```
+
+---
+
+## pytest Basics
+
+- Test functions must start with `test_`  
+- Tests are stored in `qa/ui/`  
+- Assertions use `assert`  
+- Run tests with:
+  ```bash
+  ./qa/run_all.sh
+  ```
+
+Optional manual run:
+```bash
+QA_BASE_URL=http://127.0.0.1:8080 pytest qa/ui
+```
+
+---
+
+## QA Virtual Environment
+
+Enter the QA virtual environment manually:
+
+```bash
+source qa/.venv/bin/activate
+```
+
+You should see:
+```bash
+(.venv) yourname@...
+```
+
+To exit:
+```bash
+deactivate
+```
+
+---
+
+## Django Admin Access (DJadmin)
+
+Some tests may require access to the Django admin panel.
+
+To create a superuser:
+
+1. Navigate to project:
+   ```bash
    cd /home/<your-username>/shared_workspace/ChesapeakeCommunityConnect/cccSite
+   ```
 
-2. Create a superuser:
+2. Create account:
+   ```bash
    python3.10 manage.py createsuperuser
+   ```
 
-3. Follow the prompts to set a username/password.
+3. Follow prompts
 
 Admin URL:
+```
 http://127.0.0.1:8080/DJadmin/
+```
 
-Log in using the credentials you created.
+---
+
+## What You May Want to Learn
+
+Helpful topics for QA contributors:
+
+- Python basics  
+- Virtual environments  
+- pytest fundamentals  
+- HTTP requests using `requests`  
+- Basic Git workflow (branching + PRs)
