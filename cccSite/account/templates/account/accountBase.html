@@ -1,79 +1,94 @@
-{%extends "base/base.html"%}
-{%block head%}
+{% extends "base/base.html" %}
+{% block head %}
 {% load static %}
-<head>
     <link rel="stylesheet" type="text/css" href="{% static 'account/accountBasestyle.css' %}">
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-</head>
-{%block accHead%}
+    <link rel="stylesheet" type="text/css" href="{% static 'account/profile.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
+    {% block account_extra_css %}{% endblock %}
+{% block accHead %}
 <title>Chesapeake Community Connect - Contributors</title>
-{%endblock accHead%}
-{%endblock head%}
+{% endblock accHead %}
+{% endblock head %}
 {% block content %}
-<div id="body" role="main">  
-    {% comment %} <ul class="menu">
-        <li><a class="button_CCC" href="{%url 'account:account_list'%}" style="text-decoration: none;">Search Contributors</a></li>
-        {% if rank > 0 %}
-        <li><a class="button_CCC" href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/manage/' not in request.path and '/create/' not in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;" >My Account</a></li>
-        <li><a class="button_CCC" href="{%url 'account:manage' %}" {%if '/manage/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Edit Account</a></li>
-        <li><a class="button_CCC" href="{%url 'account:create_forum' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c; text-decoration: none;" {%endif%} style="text-decoration: none;">Create Forum</a></li>
-        <li><a class="button_CCC" href="{%url 'account:my_forums' %}" style="text-decoration: none;">My Forums</a></li>
-        <li><form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
-            <input type="submit" value="Sign Out">
-        </form></li>
-        {%else%}
-        <li><a class="button_CCC" href="{% url 'account:signin' %}" style="text-decoration: none;">Sign In</a></li>
-        {%endif%}
-    </ul> {% endcomment %}
-
-    {% if rank > 0 %}
-        <ul class="menu" role="navigation">
-
-            <li>
-                <a href="{%url 'account:account_list'%}" {%if '/view/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
-                    <i class='bx bx-search-alt' ></i>
-                    <span>Search Contributors</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="{%url 'account:create_forum' %}" {%if '/create/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>
-                    <i class='bx bx-message-square-add'></i>
-                    <span>Create Forum</span>
-                </a>
-            </li>
-
-            <li><a class="button_CCC" href="{%url 'account:my_forums' %}" {%if '/myforums/' in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%}>My Forums</a></li>
-            <li>
-                <a href="{%url 'account:default' %}" {%if '/contribute/' in request.path and '/view/' not in request.path and '/create/' not in request.path and '/myforums/' not in request.path%}style="background-color: #e67e22; color: #00205c;" {%endif%} >
-                    <i class='bx bxs-user-account' ></i>
-                    <span>My Account</span>
-                </a>
-            </li>
-
-            <li>
-                <form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
-                    <button>
-                        <i class='bx bx-log-out' ></i>
-                        Sign Out
-                    </button>
-                </form>
-            </li>
-        </ul>
-        <div id="right">
-    {%else%}
-    <div>
-    {%endif%}
-        {%block accountFunc%} Welcome to the account interface. {% endblock accountFunc %}
+<div class="account-shell">
+    <div class="account-shell__aurora" aria-hidden="true"></div>
+    <div class="account-shell__pattern" aria-hidden="true"></div>
+    <div class="account-shell__inner">
+        {% with nav=request.resolver_match.url_name|default:'' %}
+        <div class="account-layout" id="body">
+            {% if rank > 0 %}
+            <nav class="account-nav" aria-label="Contributor pages">
+                <div class="account-nav__head">
+                    <div class="account-nav__head-top">
+                        <span class="account-nav__head-line" aria-hidden="true"></span>
+                        <h2 class="account-nav__head-title">Contributors</h2>
+                    </div>
+                    <div class="account-nav__feature">
+                        <span class="account-nav__feature-icon" aria-hidden="true"><i class="bx bx-grid-alt"></i></span>
+                        <div class="account-nav__feature-body">
+                            <span class="account-nav__feature-kicker">Navigation</span>
+                            <span class="account-nav__feature-title">Select a section</span>
+                        </div>
+                    </div>
+                </div>
+                <ul class="account-nav__tabs" role="list">
+                    <li>
+                        <a href="{% url 'account:account_list' %}" class="account-nav__tab {% if nav == 'account_list' or nav == 'account_view' %}is-active{% endif %}" {% if nav == 'account_list' or nav == 'account_view' %}aria-current="page"{% endif %}>
+                            <i class="bx bx-search-alt" aria-hidden="true"></i>
+                            <span class="account-nav__tab-text">Search contributors</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'account:create_forum' %}" class="account-nav__tab {% if nav == 'create_forum' %}is-active{% endif %}" {% if nav == 'create_forum' %}aria-current="page"{% endif %}>
+                            <i class="bx bx-message-square-add" aria-hidden="true"></i>
+                            <span class="account-nav__tab-text">Create forum</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'account:my_forums' %}" class="account-nav__tab {% if nav == 'my_forums' %}is-active{% endif %}" {% if nav == 'my_forums' %}aria-current="page"{% endif %}>
+                            <i class="bx bx-collection" aria-hidden="true"></i>
+                            <span class="account-nav__tab-text">My forums</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'account:default' %}" class="account-nav__tab {% if nav == 'default' %}is-active{% endif %}" {% if nav == 'default' %}aria-current="page"{% endif %}>
+                            <i class="bx bxs-user-account" aria-hidden="true"></i>
+                            <span class="account-nav__tab-text">My account</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'account:manage' %}" class="account-nav__tab {% if nav == 'manage' %}is-active{% endif %}" {% if nav == 'manage' %}aria-current="page"{% endif %}>
+                            <i class="bx bx-edit-alt" aria-hidden="true"></i>
+                            <span class="account-nav__tab-text">Edit profile</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="account-nav__footer">
+                    <p class="account-nav__footer-label">Session</p>
+                    <form action="{% url 'account:signout' %}" method="post" class="account-nav__form">
+                        {% csrf_token %}
+                        <button type="submit" class="account-nav__signout">
+                            <span class="account-nav__signout-icon" aria-hidden="true"><i class="bx bx-log-out"></i></span>
+                            <span class="account-nav__signout-text">
+                                <span class="account-nav__signout-title">Sign out</span>
+                                <span class="account-nav__signout-sub">End this session</span>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </nav>
+            <div id="right" class="account-main account-main--surface">
+            {% else %}
+            <div class="account-main account-main--guest account-main--surface account-main--guest-wide">
+            {% endif %}
+                {% block accountFunc %} Welcome to the account interface. {% endblock accountFunc %}
+            </div>
+        </div>
+        {% endwith %}
     </div>
-
-
-    
-
 </div>
+{% block account_extra_js %}{% endblock %}
 <script>
-  // Script for smooth accordions
   var acc = document.getElementsByClassName("accordion");
   var i;
   for (i = 0; i < acc.length; i++) {
@@ -87,6 +102,5 @@
           }
       });
   }
-
 </script>
 {% endblock content %}

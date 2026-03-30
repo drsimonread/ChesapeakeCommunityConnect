@@ -1,22 +1,71 @@
 {% extends "account/accountBase.html" %}
 {% load static %}
 
-
+{% block accHead %}
+<title>Search contributors — Chesapeake Community Connect</title>
+{% endblock accHead %}
 
 {% block accountFunc %}
-<div id="content" class="body" role="main" aria-labelledby="page-title">
-    <h1 id="page-title">Chesapeake Community Connect</h1>
-    <form action = "{% url 'account:account_list' %}" method= 'GET' role="search" aria-label="User seach form">
-        {{search.as_p}}
-        <input type="submit" id="search-btn" class="button_CCC" value="Submit" aria-label="Submit search">
-    </form>
-    {%for item in users %}
-    <ul role="list">                         
-        <li role="listitem"><a href="{{item.get_absolute_url}}">{{ item.user.username }}</a> {{item.num_forums}} Forums
-         </li>                      
-     </ul> 
-    {%endfor%}
-    
-</div>
+<div id="content" class="contrib-page" role="main" aria-labelledby="page-title">
+  <header class="contrib-hero">
+    <div class="contrib-hero__inner">
+      <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-group"></i></div>
+      <div>
+        <span class="contrib-hero__kicker">Directory</span>
+        <h1 id="page-title" class="contrib-hero__title">Contributors</h1>
+        <p class="contrib-hero__lede">Browse members who have published community forums. Filter by name and sort the list to find who you are looking for.</p>
+      </div>
+    </div>
+  </header>
 
+  <form class="contrib-toolbar" action="{% url 'account:account_list' %}" method="get" role="search" aria-label="Search contributors">
+    <div class="contrib-toolbar__grid">
+      <div class="contrib-toolbar__field contrib-toolbar__field--grow">
+        <label class="contrib-toolbar__label" for="id_q">Find by username</label>
+        {{ search.q }}
+        {{ search.q.errors }}
+      </div>
+      <div class="contrib-toolbar__field">
+        <label class="contrib-toolbar__label" for="id_s">Sort results</label>
+        {{ search.s }}
+        {{ search.s.errors }}
+      </div>
+      <div class="contrib-toolbar__actions">
+        <button type="submit" class="contrib-toolbar__btn" id="search-btn" aria-label="Run search">Search</button>
+      </div>
+    </div>
+  </form>
+
+  <section class="contrib-panel" aria-labelledby="contrib-results-heading">
+    <div class="contrib-panel__head">
+      <h2 id="contrib-results-heading" class="contrib-panel__title">Directory</h2>
+      <span class="contrib-panel__count">{% if users %}{% with n=users|length %}{{ n }} member{{ n|pluralize }}{% endwith %}{% else %}No results{% endif %}</span>
+    </div>
+
+    {% if users %}
+    <div class="contrib-table-wrap">
+      <table class="contrib-table">
+        <thead>
+          <tr>
+            <th scope="col">Contributor</th>
+            <th scope="col" class="contrib-table__num">Public forums</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in users %}
+          <tr>
+            <td>
+              <a class="contrib-table__link" href="{{ item.get_absolute_url }}">{{ item.user.username }}</a>
+            </td>
+            <td class="contrib-table__num">{{ item.num_forums }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="contrib-results__empty">No contributors match your search. Clear the search field or try a different name.</p>
+    {% endif %}
+  </section>
+</div>
 {% endblock accountFunc %}

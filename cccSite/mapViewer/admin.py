@@ -13,13 +13,20 @@ admin.site.register(Media)
 class ForumAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'visibility_status', 'created_display', 'location_display')
     list_filter = ('visibility', 'private_public', 'associated')
-    search_fields = ('title', 'content', 'author__user__username', 'author__user__email')
+    search_fields = (
+        'title',
+        'content',
+        'first_name',
+        'last_name',
+        'author__user__username',
+        'author__user__email',
+    )
     readonly_fields = ('geoCode', 'description')
     filter_horizontal = ('tags', 'contributors')
     
     fieldsets = (
         ('Basic Information', {
-            'fields': ('title', 'content', 'author', 'description')
+            'fields': ('title', 'content', 'first_name', 'last_name', 'author', 'description')
         }),
         ('Location', {
             'fields': ('geoCode',)
