@@ -44,7 +44,6 @@ pip install -r "${QA_DIR}/requirements.txt" >/dev/null
 
 echo "[4/6] Running Django migrations..."
 cd "${SITE_DIR}"
-python manage.py makemigrations >/dev/null
 python manage.py migrate >/dev/null
 
 echo "[5/6] Starting Django server..."
