@@ -59,6 +59,16 @@ nav a {
     transition: color 0.3s, background-color 0.3s; /* Smooth color transition on hover */
 }
 
+.profile-pic-navbar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+
 nav a:hover {
     background-color: var(--gold); /* Yellow background on hover */
     color: var(--blue); /* Dark blue text on hover */
