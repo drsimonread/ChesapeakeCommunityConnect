@@ -1,70 +1,571 @@
-{%extends "account/accountBase.html"%}
+{% extends "account/accountBase.html" %}
+{% load static %}
 
+{% block accHead %}
+<title>Create forum — Chesapeake Community Connect</title>
+{% endblock accHead %}
+
+{% block account_extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'account/create_forumstyle.css' %}">
+{% endblock %}
 
 {% block accountFunc %}
-<script defer> 
-    let autocomplete;
-    async function initAutocomplete(){
-        autocomplete = new google.maps.places.Autocomplete(document.getElementById('id_location'), {
-            fields: ["address_components"],
-        });
-    }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initAutocomplete" defer></script>
+<div id="create-forum-page" class="contrib-page contrib-page--create" role="main" aria-labelledby="cf-page-title">
+  <header class="contrib-hero">
+    <div class="contrib-hero__inner">
+      <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-map-alt"></i></div>
+      <div>
+        <span class="contrib-hero__kicker">Contributors</span>
+        <h1 id="cf-page-title" class="contrib-hero__title">Create a forum</h1>
+        <p class="contrib-hero__lede">Three quick steps. Use <strong>Continue</strong> to move forward—required fields are checked first. Your answers save as a draft in this browser (file uploads are not included).</p>
+      </div>
+    </div>
+  </header>
 
-{% load static %}
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'account/create_forumstyle.css' %}">
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://unpkg.com/file-upload-with-preview/dist/style.css"
-    />
-</head>
+  <div class="contrib-hero-meta">
+    <p class="contrib-hero-meta__line" id="cf-draft-line" aria-live="polite"></p>
+    <button type="button" class="account-btn account-btn--secondary contrib-hero-meta__btn" id="cf-draft-discard" hidden>Discard draft</button>
+  </div>
 
-<!--loads the form with line breaks between entries. forums to the URL titled manage in the account app's URL config-->
-<div id="create">
+  <div class="cf-form-layout__main">
+    <form class="cf-form cf-gf-form" id="cf-create-forum-form" action="{% url 'account:create_forum' %}" method="post" enctype="multipart/form-data" role="form" novalidate>
+      {% csrf_token %}
 
-    <form action="{% url 'account:create_forum'%}" method="post" enctype="multipart/form-data" role="form">
-        {%csrf_token%}
-        {{ form.title }}
-        {{ form.firstName }}
-        {{ form.lastName }}
-        {{ form.location }}
-        {{ form.content }}
+      <div class="cf-create-shell">
+      {% if form.non_field_errors %}
+      <div class="cf-nonfield" role="alert">
+        {% for err in form.non_field_errors %}
+          <p class="cf-nonfield__p">{{ err }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
 
-
-        <div id="scroll-box" role="group" aria-labelledby="tags-label">
-            <div id="id_tags">
-                {% for tag in form.tags %}
-                    <div>
-                        <label for="{{ tag.id_for_label }}">
-                            {{ tag.tag }}
-                            <span>{{ tag.choice_label }}</span>
-                        </label>
-                    </div>
-                {% endfor %}
+      <div class="cf-wizard" id="cf-wizard" data-cf-total-steps="3">
+        <nav class="cf-wizard__progress" aria-label="Progress through form" id="cf-wizard-progress">
+          <div class="cf-wizard__banner" id="cf-wizard-progress-line" aria-live="polite">
+            <span class="cf-wizard__banner-kicker">Screen <span id="cf-wizard-step-num">1</span> of 3</span>
+            <span class="cf-wizard__banner-title" id="cf-wizard-step-label">Details, map &amp; story</span>
+          </div>
+          <div
+            class="cf-wizard__track"
+            id="cf-wizard-track"
+            role="progressbar"
+            aria-valuemin="1"
+            aria-valuemax="3"
+            aria-valuenow="1"
+            aria-label="Form progress"
+          >
+            <span class="cf-wizard__track-fill" id="cf-wizard-bar-fill"></span>
+          </div>
+          <div class="cf-wizard__stepstrip" role="group" aria-labelledby="cf-stepstrip-label">
+            <p class="cf-wizard__stepstrip-heading" id="cf-stepstrip-label">Switch step</p>
+            <div class="cf-wizard__stepstrip-row">
+              <button type="button" class="cf-wizard__stepnav-btn is-active" data-cf-step-to="1" aria-current="step" aria-label="Step 1: Details and story">
+                <span class="cf-wizard__stepnav-num" aria-hidden="true">1</span>
+                <span class="cf-wizard__stepnav-body">
+                  <span class="cf-wizard__stepnav-title">Details &amp; story</span>
+                  <span class="cf-wizard__stepnav-sub">Title, address, description</span>
+                </span>
+              </button>
+              <button type="button" class="cf-wizard__stepnav-btn" data-cf-step-to="2" aria-label="Step 2: Tags and access">
+                <span class="cf-wizard__stepnav-num" aria-hidden="true">2</span>
+                <span class="cf-wizard__stepnav-body">
+                  <span class="cf-wizard__stepnav-title">Tags &amp; access</span>
+                  <span class="cf-wizard__stepnav-sub">Topics &amp; visibility</span>
+                </span>
+              </button>
+              <button type="button" class="cf-wizard__stepnav-btn" data-cf-step-to="3" aria-label="Step 3: Files and submit">
+                <span class="cf-wizard__stepnav-num" aria-hidden="true">3</span>
+                <span class="cf-wizard__stepnav-body">
+                  <span class="cf-wizard__stepnav-title">Files &amp; submit</span>
+                  <span class="cf-wizard__stepnav-sub">Attachments &amp; send</span>
+                </span>
+              </button>
             </div>
+          </div>
+        </nav>
+
+        <div class="cf-wizard__panels">
+      <div class="cf-wizard__slide is-active" data-cf-step="1" id="cf-section-details" aria-hidden="false">
+        <div class="cf-step-intro" aria-labelledby="cf-step-1-title">
+          <span class="cf-step-intro__eyebrow">Step 1 of 3</span>
+          <h2 id="cf-step-1-title" class="cf-step-intro__title">Details &amp; story</h2>
+          <p class="cf-step-intro__lede">Public title, your name, map address, and the full description visitors will read.</p>
+          <p class="cf-step-intro__tip"><i class="bx bx-edit-alt" aria-hidden="true"></i><span>The boxes below are ordinary text fields—click or tap inside each one to type.</span></p>
+        </div>
+        <fieldset class="cf-fieldset cf-gf-card">
+        <legend class="cf-fieldset__legend"><span class="cf-fieldset__legend-inner"><span class="cf-fieldset__legend-text">Forum information</span></span></legend>
+        <p class="cf-fieldset__lead">Fill out each part below. Every field in this step is required before you can continue.</p>
+        <div class="cf-fieldset__body">
+        <section class="cf-section" aria-labelledby="cf-sec-basic">
+          <h3 class="cf-section__title" id="cf-sec-basic"><span class="cf-section__marker" aria-hidden="true">1</span> Title &amp; your name</h3>
+          <p class="cf-section__hint">How the forum appears in listings and who is submitting it.</p>
+        <div class="cf-field cf-gf-q">
+          {{ form.title.label_tag }}
+          {% if form.title.help_text %}<p class="cf-field__help">{{ form.title.help_text }}</p>{% endif %}
+          {{ form.title }}
+          {{ form.title.errors }}
+        </div>
+        <div class="cf-field cf-field--halfgrid cf-gf-q">
+          <div class="cf-field__cell">
+            {{ form.firstName.label_tag }}
+            {% if form.firstName.help_text %}<p class="cf-field__help">{{ form.firstName.help_text }}</p>{% endif %}
+            {{ form.firstName }}
+            {{ form.firstName.errors }}
+          </div>
+          <div class="cf-field__cell">
+            {{ form.lastName.label_tag }}
+            {% if form.lastName.help_text %}<p class="cf-field__help">{{ form.lastName.help_text }}</p>{% endif %}
+            {{ form.lastName }}
+            {{ form.lastName.errors }}
+          </div>
+        </div>
+        </section>
+        <section class="cf-section" aria-labelledby="cf-sec-loc">
+          <h3 class="cf-section__title" id="cf-sec-loc"><span class="cf-section__marker" aria-hidden="true">2</span> Map location</h3>
+          <p class="cf-section__hint">Searchable address or place—this pins the forum on the map.</p>
+        <div class="cf-field cf-gf-q">
+          {{ form.location.label_tag }}
+          {% if form.location.help_text %}<p class="cf-field__help">{{ form.location.help_text }}</p>{% endif %}
+          {{ form.location }}
+          {{ form.location.errors }}
+        </div>
+        </section>
+        <section class="cf-section" aria-labelledby="cf-sec-desc">
+          <h3 class="cf-section__title" id="cf-sec-desc"><span class="cf-section__marker" aria-hidden="true">3</span> Public description</h3>
+          <p class="cf-section__hint">What visitors read when they open your forum—purpose, context, and how to take part.</p>
+        <div class="cf-field cf-gf-q">
+          {{ form.content.label_tag }}
+          {% if form.content.help_text %}<p class="cf-field__help">{{ form.content.help_text }}</p>{% endif %}
+          {{ form.content }}
+          {{ form.content.errors }}
+        </div>
+        </section>
+        </div>
+        </fieldset>
+      </div>
+
+      <div class="cf-wizard__slide" data-cf-step="2" id="cf-section-tags-access" hidden aria-hidden="true">
+        <div class="cf-step-intro" aria-labelledby="cf-step-2-title">
+          <span class="cf-step-intro__eyebrow">Step 2 of 3</span>
+          <h2 id="cf-step-2-title" class="cf-step-intro__title">Tags &amp; access</h2>
+          <p class="cf-step-intro__lede">Optional topic tags, visibility, and how you relate to this place or resource.</p>
+        </div>
+        <fieldset class="cf-fieldset cf-gf-card cf-fieldset--tags">
+        <legend class="cf-fieldset__legend" id="cf-sec-tags"><span class="cf-fieldset__legend-inner"><span class="cf-fieldset__legend-text">Topic tags</span> <span class="cf-fieldset__optional">Optional</span></span></legend>
+        <div class="cf-fieldset__body">
+        <p class="cf-fieldset__desc">{% if form.tags.field.queryset.exists %}Select topics so people can filter and find this forum.{% else %}Tags are not set up on this site yet—you can skip this.{% endif %}</p>
+        {% if form.tags.field.queryset.exists %}
+        <div class="cf-field cf-field--flush cf-gf-q">
+          {% if form.tags.help_text %}<p class="cf-field__help cf-field__help--above-control">{{ form.tags.help_text }}</p>{% endif %}
+          <div class="cf-tags-grid-wrap" role="group" aria-labelledby="cf-sec-tags">
+            {{ form.tags }}
+          </div>
+          {{ form.tags.errors }}
+        </div>
+        {% else %}
+        <div class="cf-tags-empty" role="status">
+          <i class="bx bx-purchase-tag cf-tags-empty__icon" aria-hidden="true"></i>
+          <p><strong>No tags available yet.</strong> An administrator can add topic tags later. You can still submit your forum.</p>
+        </div>
+        {% endif %}
+        </div>
+        </fieldset>
+        <fieldset class="cf-fieldset cf-gf-card">
+        <legend class="cf-fieldset__legend"><span class="cf-fieldset__legend-inner"><span class="cf-fieldset__legend-text">Access &amp; transparency</span></span></legend>
+        <div class="cf-fieldset__body">
+        <p class="cf-fieldset__desc">These choices appear with your listing.</p>
+        <div class="cf-field cf-field--radios cf-gf-q">
+          {{ form.associated.label_tag }}
+          {% if form.associated.help_text %}<p class="cf-field__help">{{ form.associated.help_text }}</p>{% endif %}
+          {{ form.associated }}
+          {{ form.associated.errors }}
+        </div>
+        <div class="cf-field cf-field--radios cf-gf-q">
+          {{ form.private_public.label_tag }}
+          {% if form.private_public.help_text %}<p class="cf-field__help">{{ form.private_public.help_text }}</p>{% endif %}
+          {{ form.private_public }}
+          {{ form.private_public.errors }}
+        </div>
+        </div>
+        </fieldset>
+      </div>
+
+      <div class="cf-wizard__slide" data-cf-step="3" id="cf-section-files-submit" hidden aria-hidden="true">
+        <div class="cf-step-intro" aria-labelledby="cf-step-3-title">
+          <span class="cf-step-intro__eyebrow">Step 3 of 3</span>
+          <h2 id="cf-step-3-title" class="cf-step-intro__title">Files &amp; submit</h2>
+          <p class="cf-step-intro__lede">Optional attachments, then send your forum for review.</p>
+        </div>
+        <fieldset class="cf-fieldset cf-gf-card cf-fieldset--files">
+        <legend class="cf-fieldset__legend"><span class="cf-fieldset__legend-inner"><span class="cf-fieldset__legend-text">Attachments</span> <span class="cf-fieldset__optional">Optional</span></span></legend>
+        <div class="cf-fieldset__body">
+        <p class="cf-fieldset__desc">Photos or documents (allowed types only).</p>
+        <div class="cf-field cf-gf-q">
+          {{ form.file1.label_tag }}
+          {% if form.file1.help_text %}<p class="cf-field__help">{{ form.file1.help_text }}</p>{% endif %}
+          {{ form.file1 }}
+          {{ form.file1.errors }}
+        </div>
+        <div class="cf-field cf-field--file-secondary cf-gf-q">
+          {{ form.file2.label_tag }}
+          {% if form.file2.help_text %}<p class="cf-field__help">{{ form.file2.help_text }}</p>{% endif %}
+          {{ form.file2 }}
+          {{ form.file2.errors }}
+        </div>
+        <div class="cf-field cf-field--file-secondary cf-gf-q">
+          {{ form.file3.label_tag }}
+          {% if form.file3.help_text %}<p class="cf-field__help">{{ form.file3.help_text }}</p>{% endif %}
+          {{ form.file3 }}
+          {{ form.file3.errors }}
+        </div>
+        <div class="cf-field cf-field--file-secondary cf-gf-q">
+          {{ form.file4.label_tag }}
+          {% if form.file4.help_text %}<p class="cf-field__help">{{ form.file4.help_text }}</p>{% endif %}
+          {{ form.file4 }}
+          {{ form.file4.errors }}
+        </div>
+        </div>
+        </fieldset>
+        <div class="cf-gf-card cf-wizard__step--submit">
+        <h2 class="cf-submit-heading">Ready to submit</h2>
+        <p class="cf-submit-lede">Use <strong>Back</strong> to change answers. File uploads are not saved in the draft—re-attach files if you reload the page.</p>
+        <p class="cf-actions__hint cf-actions__hint--in-step">By submitting, you confirm this information is accurate to the best of your knowledge.</p>
+        </div>
+      </div>
         </div>
 
-        {{ form.associated }}
-        {{ form.private_public }}
+      {{ form.geoResult }}
 
-        <hr>
-
-        {{ form.file1 }}
-        {{ form.file2 }}
-        {{ form.file3 }}
-        {{ form.file4 }}
-        {% comment %} <div class="custom-file-container" data-upload-id="my-unique-id"></div> {% endcomment %}
-        {% comment %} <script src="https://unpkg.com/file-upload-with-preview/dist/file-upload-with-preview.iife.js"></script> {% endcomment %}
-
-        {% comment %} <script>
-            const upload = new FileUploadWithPreview.FileUploadWithPreview('my-unique-id');
-        </script> {% endcomment %}
-
-        <input class="button_CCC" id="id_submit" type="submit" value="Submit">
+        <div class="cf-wizard__footer">
+          <div class="cf-wizard__footer-inner">
+            <a class="cf-wizard__cancel" href="{% url 'account:my_forums' %}">Leave without saving</a>
+            <div class="cf-wizard__footer-cta">
+              <button type="button" class="account-btn account-btn--secondary cf-wizard__back" id="cf-wizard-back">Back</button>
+              <button type="button" class="account-btn account-btn--primary cf-wizard__next" id="cf-wizard-next">Continue</button>
+              <input class="account-btn account-btn--primary cf-submit-btn cf-wizard__submit" id="id_submit" type="submit" value="Submit forum" hidden aria-hidden="true" tabindex="-1" />
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
     </form>
+  </div>
 </div>
-
 {% endblock accountFunc %}
+
+{% block account_extra_js %}
+<script>
+  let autocomplete;
+  async function initAutocomplete() {
+    const el = document.getElementById("id_location");
+    if (!el || !(window.google && google.maps && google.maps.places)) return;
+    autocomplete = new google.maps.places.Autocomplete(el, {
+      fields: ["address_components", "geometry", "formatted_address"],
+    });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initAutocomplete" defer></script>
+<script>
+(function () {
+  var DRAFT_KEY = "ccc-create-forum-draft-v3";
+  var wizard = document.getElementById("cf-wizard");
+  if (!wizard) return;
+
+  var TOTAL = 3;
+  var LABELS = ["Details, map & story", "Tags & access", "Files & submit"];
+
+  var form = document.getElementById("cf-create-forum-form");
+  var steps = wizard.querySelectorAll(".cf-wizard__slide");
+  var btnBack = document.getElementById("cf-wizard-back");
+  var btnNext = document.getElementById("cf-wizard-next");
+  var btnSubmit = document.getElementById("id_submit");
+  var lineNum = document.getElementById("cf-wizard-step-num");
+  var lineLabel = document.getElementById("cf-wizard-step-label");
+  var draftLine = document.getElementById("cf-draft-line");
+  var draftDiscard = document.getElementById("cf-draft-discard");
+  var current = 1;
+  var saveTimer = null;
+
+  function getGeoInput() {
+    return document.getElementById("id_geoResult");
+  }
+
+  function collectDraft() {
+    var tags = [];
+    if (form) {
+      form.querySelectorAll('input[name="tags"]:checked').forEach(function (cb) {
+        tags.push(cb.value);
+      });
+    }
+    var geoEl = getGeoInput();
+    return {
+      v: 3,
+      title: val("id_title"),
+      firstName: val("id_firstName"),
+      lastName: val("id_lastName"),
+      location: val("id_location"),
+      content: val("id_content"),
+      associated: radioVal("associated"),
+      private_public: radioVal("private_public"),
+      tags: tags,
+      geoResult: geoEl ? geoEl.value : "",
+      step: current,
+      savedAt: Date.now(),
+    };
+    function val(id) {
+      var el = document.getElementById(id);
+      return el ? el.value : "";
+    }
+    function radioVal(name) {
+      var c = form && form.querySelector('input[name="' + name + '"]:checked');
+      return c ? c.value : "";
+    }
+  }
+
+  function applyDraft(d) {
+    if (!d || !form) return;
+    setVal("id_title", d.title);
+    setVal("id_firstName", d.firstName);
+    setVal("id_lastName", d.lastName);
+    setVal("id_location", d.location);
+    setVal("id_content", d.content);
+    var geoEl = getGeoInput();
+    if (geoEl && d.geoResult) geoEl.value = d.geoResult;
+    if (d.associated) {
+      var ra = form.querySelector('input[name="associated"][value="' + escSel(d.associated) + '"]');
+      if (ra) {
+        ra.checked = true;
+      }
+    }
+    if (d.private_public) {
+      var rp = form.querySelector('input[name="private_public"][value="' + escSel(d.private_public) + '"]');
+      if (rp) rp.checked = true;
+    }
+    if (d.tags && d.tags.length) {
+      form.querySelectorAll('input[name="tags"]').forEach(function (cb) {
+        cb.checked = d.tags.indexOf(cb.value) !== -1;
+      });
+    }
+    function setVal(id, v) {
+      var el = document.getElementById(id);
+      if (el && v != null) el.value = v;
+    }
+    function escSel(s) {
+      return String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+    }
+  }
+
+  function saveDraft() {
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(collectDraft()));
+      if (draftLine) draftLine.textContent = "Draft saved in this browser";
+      if (draftDiscard) draftDiscard.hidden = false;
+    } catch (e) {}
+  }
+
+  function clearDraft() {
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+      if (draftLine) draftLine.textContent = "";
+      if (draftDiscard) draftDiscard.hidden = true;
+    } catch (e) {}
+  }
+
+  function loadDraft() {
+    try {
+      var raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function scheduleSave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveDraft, 450);
+  }
+
+  if (form) {
+    form.addEventListener("input", scheduleSave);
+    form.addEventListener("change", scheduleSave);
+  }
+  if (draftDiscard) {
+    draftDiscard.addEventListener("click", function () {
+      clearDraft();
+      if (draftLine) draftLine.textContent = "Draft discarded";
+    });
+  }
+
+  function validateStep(stepNum) {
+    if (!form) return true;
+    if (stepNum === 3) return true;
+
+    if (stepNum === 1) {
+      var ids = ["id_title", "id_firstName", "id_lastName", "id_location", "id_content"];
+      for (var i = 0; i < ids.length; i++) {
+        var el = document.getElementById(ids[i]);
+        if (!el || !String(el.value || "").trim()) {
+          if (el) {
+            el.focus();
+            if (typeof el.reportValidity === "function") el.reportValidity();
+          }
+          return false;
+        }
+      }
+      return true;
+    }
+
+    if (stepNum === 2) {
+      var a = form.querySelector('input[name="associated"]:checked');
+      var p = form.querySelector('input[name="private_public"]:checked');
+      if (!a) {
+        var first = form.querySelector('input[name="associated"]');
+        if (first) first.focus();
+        return false;
+      }
+      if (!p) {
+        var fp = form.querySelector('input[name="private_public"]');
+        if (fp) fp.focus();
+        return false;
+      }
+      return true;
+    }
+
+    return true;
+  }
+
+  function validateAllBeforeSubmit() {
+    var s;
+    for (s = 1; s <= 2; s++) {
+      if (!validateStep(s)) {
+        goToStep(s);
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function setStep(n) {
+    if (n < 1 || n > TOTAL) return;
+    current = n;
+    steps.forEach(function (el) {
+      var s = parseInt(el.getAttribute("data-cf-step"), 10);
+      var on = s === n;
+      el.classList.toggle("is-active", on);
+      el.hidden = !on;
+      el.setAttribute("aria-hidden", on ? "false" : "true");
+    });
+    wizard.querySelectorAll(".cf-wizard__stepnav-btn").forEach(function (dot) {
+      var s = parseInt(dot.getAttribute("data-cf-step-to"), 10);
+      var on = s === n;
+      dot.classList.toggle("is-active", on);
+      if (on) dot.setAttribute("aria-current", "step");
+      else dot.removeAttribute("aria-current");
+    });
+    if (lineNum) lineNum.textContent = String(n);
+    if (lineLabel) lineLabel.textContent = LABELS[n - 1] || "";
+    var barFill = document.getElementById("cf-wizard-bar-fill");
+    var track = document.getElementById("cf-wizard-track");
+    if (barFill) barFill.style.width = (100 * n) / TOTAL + "%";
+    if (track) track.setAttribute("aria-valuenow", String(n));
+    if (btnBack) {
+      btnBack.disabled = n <= 1;
+      btnBack.hidden = false;
+    }
+    if (btnNext) {
+      btnNext.hidden = n >= TOTAL;
+      btnNext.style.display = n >= TOTAL ? "none" : "";
+    }
+    if (btnSubmit) {
+      var showSubmit = n === TOTAL;
+      btnSubmit.hidden = !showSubmit;
+      btnSubmit.style.display = showSubmit ? "" : "none";
+      btnSubmit.setAttribute("aria-hidden", showSubmit ? "false" : "true");
+      btnSubmit.tabIndex = showSubmit ? 0 : -1;
+    }
+    var panel = wizard.querySelector('.cf-wizard__slide[data-cf-step="' + n + '"]');
+    if (panel && n < TOTAL) {
+      var focusable = panel.querySelector(
+        'input:not([type="hidden"]):not([type="submit"]), textarea, select, button:not([disabled])'
+      );
+      if (focusable) {
+        try {
+          focusable.focus({ preventScroll: true });
+        } catch (e) {
+          focusable.focus();
+        }
+      }
+    }
+    try {
+      history.replaceState(null, "", "#step=" + n);
+    } catch (e) {}
+    scheduleSave();
+  }
+
+  function goToStep(n) {
+    setStep(n);
+  }
+
+  wizard.querySelectorAll("[data-cf-step-to]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      var n = parseInt(el.getAttribute("data-cf-step-to"), 10);
+      if (!isNaN(n)) goToStep(n);
+    });
+  });
+
+  if (btnBack) {
+    btnBack.addEventListener("click", function () {
+      goToStep(current - 1);
+    });
+  }
+  if (btnNext) {
+    btnNext.addEventListener("click", function () {
+      if (!validateStep(current)) return;
+      goToStep(current + 1);
+    });
+  }
+
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      if (!validateAllBeforeSubmit()) {
+        e.preventDefault();
+        return false;
+      }
+      clearDraft();
+    });
+  }
+
+  var errList = document.querySelector("#create-forum-page .errorlist");
+  if (errList) {
+    var stepEl = errList.closest(".cf-wizard__slide");
+    if (stepEl) {
+      var es = parseInt(stepEl.getAttribute("data-cf-step"), 10);
+      if (!isNaN(es)) goToStep(es);
+    } else {
+      setStep(1);
+    }
+  } else {
+    var hash = (window.location.hash || "").match(/^#step=(\d+)/);
+    var restored = false;
+    var d = loadDraft();
+    if (d && d.v === 3 && !errList) {
+      applyDraft(d);
+      restored = true;
+      if (draftLine) draftLine.textContent = "Restored your draft from this browser";
+      if (draftDiscard) draftDiscard.hidden = false;
+    }
+    if (hash) {
+      var initial = parseInt(hash[1], 10);
+      if (initial >= 1 && initial <= TOTAL) goToStep(initial);
+      else setStep(1);
+    } else if (restored && d && d.step >= 1 && d.step <= TOTAL) {
+      goToStep(d.step);
+    } else {
+      setStep(1);
+    }
+  }
+})();
+</script>
+{% endblock %}

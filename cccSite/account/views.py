@@ -101,7 +101,9 @@ def default(request):
 def account_list(request):
     nameQ= request.GET.get("q")
     sortQ=request.GET.get("s")
-    users = Member.objects.filter(forums__visibility__gt=0).distinct().annotate(num_forums=Count("forums"), filter=Q(forums__visibility=1))
+    users = Member.objects.filter(forums__visibility__gt=0).distinct().annotate(
+        num_forums=Count("forums", filter=Q(forums__visibility=1)),
+    )
     search = SearchAccountForm(request.GET)
     if nameQ:
         users=users.filter(user__username__icontains=nameQ)
@@ -275,8 +277,8 @@ def make_forum(request):
                 vis=1
             forumInz=Forum.objects.create(title=contentForm.cleaned_data['title'], #actually create the forum instance in the database
                                    content=contentForm.cleaned_data['content'],
-                                   firstName=contentForm.cleaned_data['firstName'],
-                                   lastName=contentForm.cleaned_data['lastName'],
+                                   first_name=contentForm.cleaned_data['firstName'],
+                                   last_name=contentForm.cleaned_data['lastName'],
                                    author=userInz,
                                    description=disc,
                                    geoCode=contentForm.cleaned_data['geoResult'][0],
