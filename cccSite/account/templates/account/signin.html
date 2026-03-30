@@ -105,7 +105,7 @@
     $("#signin-modal").on("click", "#signin", function (e) {
 
         $.ajax({
-            url: "/contribute/",
+            url: "/contribute/signin/",
             type: "POST",
             data: {
                 username: $(signin_username).val(),
