@@ -1,4 +1,5 @@
 from mapViewer.models import MapTag
+from django.db import migrations
 
 def update_maptags(apps, schema_editor):
     MapTag = apps.get_model('mapViewer', 'MapTag')
@@ -31,10 +32,10 @@ def update_maptags(apps, schema_editor):
     for name in new_tags:
         MapTag.objects.get_or_create(name=name)
 
-class migration(migrations.Migration):
+class Migration(migrations.Migration):
 
     dependencies = [
-        ('mapViewer', '0023_update_maptags' ),
+        ('mapViewer', '0023_alter_mappost_visibility' ),
     ]
 
     operations = [
