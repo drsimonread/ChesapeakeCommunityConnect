@@ -1,0 +1,12 @@
+<!--TODO: Comment-->
+
+{% load static %}
+
+    <div class="body">
+        <form action="{% url 'mapViewer:default'%}"  method="post">
+            {% csrf_token %}
+            {{postForm.as_p}}
+            <input type="submit" value="Submit" id="input-submit">
+        </form>
+    </div>
+    
