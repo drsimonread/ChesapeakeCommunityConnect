@@ -13,3 +13,6 @@ python manage.py runserver 8080
 
 For feedback related to this project, please open a new issue on
 [GitHub](https://github.com/SamAlby/chesapeakecommunityconnect/issues).
+
+
+To place your own findings and  research use this link [Research Notes](/home/shared_workspace/ChesapeakeCommunityConnect/DeveloperNotes.md)
