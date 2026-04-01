@@ -98,6 +98,8 @@ function handleCredentialResponse(response) {
     let signup_username = document.getElementById("signup_username");
     let signup_username_helper = document.getElementById("signup_username_helper");
     var signup_usernameIsValid = false;
+    // Only allow letters, numbers, and @ . + - _
+    const signup_usernameRegex = /^[A-Za-z0-9.@+\-_]+$/;
 
     let signup_email = document.getElementById("signup_email");
     let signup_email_helper = document.getElementById("signup_email_helper");
@@ -135,45 +137,45 @@ function handleCredentialResponse(response) {
     // The following line checks if the password is at least 8 characters long.
     const signup_passwordMinLengthRegex = /^.{8,}$/;
     let submit_button = document.getElementById("signup");
-
+    
     $("#signup_username").change(function (e) {
-        if ($(signup_username).val() == "") {
-            signup_username.classList.remove("is-danger");
-            signup_username_helper.classList.remove("is-danger");
-            signup_username.classList.remove("is-link");
-            signup_username_helper.classList.remove("is-link");
-            signup_username_helper.textContent = "";
-            signup_usernameIsValid = false;
-            submit_button.disabled = true;
-        } else {
-            $.ajax({
-                type: "GET",
-                url: "/contribute/ajax/username_validation/",
-                data: {
-                    username: $(signup_username).val(),
-                },
-                success: function (data) {
-                    if (data.is_taken) {
-                        signup_username.classList.add("is-danger");
-                        signup_username.classList.remove("is-link");
-                        signup_username_helper.classList.add("is-danger");
-                        signup_username_helper.classList.remove("is-link");
-                        signup_username_helper.textContent = "That username is taken.";
-                        signup_usernameIsValid = false;
-                        submit_button.disabled = true;
-                    } else {
-                        signup_username.classList.remove("is-danger");
-                        signup_username.classList.add("is-link");
-                        signup_username_helper.classList.remove("is-danger");
-                        signup_username_helper.classList.add("is-link");
-                        signup_username_helper.textContent = "That username is available.";
-                        signup_usernameIsValid = true;
-                        allIsValid();
-                    }
+    if ($(signup_username).val() == "") {
+        signup_username.classList.remove("is-danger");
+        signup_username_helper.classList.remove("is-danger");
+        signup_username.classList.remove("is-link");
+        signup_username_helper.classList.remove("is-link");
+        signup_username_helper.textContent = "";
+        signup_usernameIsValid = false;
+        submit_button.disabled = true;
+    } else {
+        $.ajax({
+            type: "GET",
+            url: "{% url 'account:username_validation' %}",
+            data: {
+                username: $(signup_username).val(),
+            },
+            success: function (data) {
+                if (data.is_taken) {
+                    signup_username.classList.add("is-danger");
+                    signup_username.classList.remove("is-link");
+                    signup_username_helper.classList.add("is-danger");
+                    signup_username_helper.classList.remove("is-link");
+                    signup_username_helper.textContent = "That username is taken.";
+                    signup_usernameIsValid = false;
+                    submit_button.disabled = true;
+                } else {
+                    signup_username.classList.remove("is-danger");
+                    signup_username.classList.add("is-link");
+                    signup_username_helper.classList.remove("is-danger");
+                    signup_username_helper.classList.add("is-link");
+                    signup_username_helper.textContent = "That username is available.";
+                    signup_usernameIsValid = true;
+                    allIsValid();
                 }
-            });
-        }
-    });
+            }
+        });
+    }
+});
     $("#signup_email").change(function (e) {
 
         if ($(signup_email).val() == "") {
@@ -187,7 +189,7 @@ function handleCredentialResponse(response) {
         } else if (signup_emailRegex.test($(signup_email).val())) {
             $.ajax({
                 type: "GET",
-                url: "/contribute/ajax/email_validation/",
+                url: "{% url 'account:email_validation' %}",
                 data: {
                     email: $(signup_email).val(),
                 },
@@ -309,7 +311,7 @@ function handleCredentialResponse(response) {
         
         e.preventDefault();
         $.ajax({
-            url: "/contribute/signup/",
+             url: "{% url 'account:signup' %}",
             type: "POST",
             data: {
                 username: $(signup_username).val(),
