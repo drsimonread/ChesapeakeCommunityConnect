@@ -9,7 +9,12 @@ cccSite/reports/
 .venv/
 
 *.DS_Store
+<<<<<<< HEAD
 .DS_Store
-
 *.sqlite3
-cccSite/db.sqlite3
+mapViewer/migrations/*.py
+!mapViewer/migrations/__init__.py
+db.sqlite3
+=======
+.DS_Store
+>>>>>>> main

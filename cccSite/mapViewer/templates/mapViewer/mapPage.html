@@ -13,11 +13,18 @@
 <script src="{% static 'mapViewer/map-script.js' %}" defer></script>
 {{widgets|json_script}}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN4e1y8ECEgsg_8U6xO02_2InU8G8I8cM&libraries=places&callback=initMap" defer></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj3EQIl_hA8iLBAUjDQ8UJOlGYlOl0iog&libraries=places&callback=initMap" defer></script>
 
 {% endblock head %}
 
 {% block content %}
+<div style="text-align: center; width: 100%; margin-bottom: 10px;">
+    <p style="display: inline-block; max-width: 1000px; margin: 0 auto;">
+        Use the interactive map below to explore community organizations and services in the Chesapeake area. 
+        Zoom in or out to browse locations, and click any marker to view details about that organization. 
+        You can also use the search panel on the right to filter results by name or category.
+    </p>
+</div>
     <!-- Map Section -->
     <div id="left">
         <div id="map"></div>
