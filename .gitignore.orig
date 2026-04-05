@@ -1,0 +1,12 @@
+*.pyc
+.venv/
+*.DS_Store
+<<<<<<< HEAD
+.DS_Store
+=======
+.DS_Store
+*.sqlite3
+mapViewer/migrations/*.py
+!mapViewer/migrations/__init__.py
+db.sqlite3
+>>>>>>> 9217a0dea934062225358f845c7b8cc6a98cc31e

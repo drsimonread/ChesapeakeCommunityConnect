@@ -1,1 +1,1 @@
-python smoke_test78.py
+python3 smoke_test78.py
