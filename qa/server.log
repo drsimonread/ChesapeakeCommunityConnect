@@ -1,0 +1,6 @@
+Watching for file changes with StatReloader
+[13/Mar/2026 15:21:43] "GET / HTTP/1.1" 200 24219
+[13/Mar/2026 15:21:44] "GET /DJadmin/ HTTP/1.1" 302 0
+[13/Mar/2026 15:21:44] "GET /DJadmin/login/?next=/DJadmin/ HTTP/1.1" 200 4189
+[13/Mar/2026 15:21:44] "GET / HTTP/1.1" 200 24219
+[13/Mar/2026 15:21:44] "GET / HTTP/1.1" 200 24219

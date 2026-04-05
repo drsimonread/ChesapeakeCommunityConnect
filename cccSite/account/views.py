@@ -104,4 +104,47 @@ def authG(request):
         except ValueError:
             return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
             pass
-        return redirect("/account/")
+        return redirect(reverse("account:default"))
+    
+
+#view for creating forums
+def make_forum(request):
+    if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
+        return redirect(reverse("account:signin"))
+    if(request.method=="POST"): #if the request was a post, it is an attempt to create a forum
+        contentForm= MakeForumForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
+        if contentForm.is_valid(): #if the forum is good to go, calls the clean method and validators from MakeForumForm in mapViewer/forms.py
+            # MEMBER_DELETE
+            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
+            if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
+                disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
+            else:
+                disc = contentForm.cleaned_data['content'] #otherwise just use content to describe #? Why does description exist at all?
+            vis=0 #default visibility set to pending
+            if request.session['rank'] > 1: #if user is trusted, set visibility to visible
+                vis=1
+            forumInz=Forum.objects.create(title=contentForm.cleaned_data['title'], #actually create the forum instance in the database
+                                   content=contentForm.cleaned_data['content'],
+                                   firstName=contentForm.cleaned_data['firstName'],
+                                   lastName=contentForm.cleaned_data['lastName'],
+                                   author=userInz,
+                                   description=disc,
+                                   geoCode=contentForm.cleaned_data['geoResult'][0],
+                                   visibility=vis,
+                                   associated=contentForm.cleaned_data['associated'],
+                                   private_public=contentForm.cleaned_data['private_public']
+                                   )
+            if contentForm.cleaned_data['tags']: #if there are any tags
+                forumInz.tags.set(contentForm.cleaned_data['tags']) #set the forum's tags according to selected tags
+            
+            if contentForm.cleaned_data['files']: #if there are files uploaded
+                for item in contentForm.cleaned_data['files']: #iterates through file upload fields
+                    if item != None: #if item is none, then nothing was uploaded
+                        fileInz = Media.objects.create(forum=forumInz, file=item) #create a forumfile instance
+                        fileInz.format = fileInz.get_format() #get the format and set the format
+                        fileInz.save() #save the updated format
+            return redirect(reverse('mapViewer:forum_detail', args=[forumInz.pk])) #redirect to the forum view of the just posted forum
+            
+    else:
+        contentForm = MakeForumForm()
+    return render(request, 'account/create_forum.html', {'form': contentForm,})
