@@ -1,0 +1,7 @@
+- Worried that things aren't integrated yet  
+  - Would like to see something deployed to azure so everyone can work on it   
+- Concerned with duplication of effort between QA and R\&D  
+  - Necessary to some extent, because of hazy specifications  
+  - Needs more CLARIFICATION, the issue is not communication  
+- Wants CDSpec to function correctly, wants something to exhibit and demonstrate that we are supporting customers after we have completed the project  
+  - More a PR thing than driven by the customer

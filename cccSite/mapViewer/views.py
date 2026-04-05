@@ -1,6 +1,5 @@
 from django.core import serializers
 from django.shortcuts import render, redirect
-from account import views
 from django.urls import reverse
 from .models import *
 from django.http import HttpResponse
@@ -10,48 +9,71 @@ from .forms import *
 from django.db.models import Q
 import googlemaps
 from datetime import datetime
-from Janitor.forms import ForumRepForm
-from django.shortcuts import get_object_or_404, render
-from .models import Post, Forum
-from django.core.paginator import Paginator
-from django.template.loader import render_to_string
+from Janitor.forms import PostRepForm
+from .models import MapPost, MapTag
 
 
 
 def viewMap(request):
-    forums = Forum.objects.filter(visibility=1) #begin by fetching visible forums from database
+    posts = MapPost.objects.filter(visibility=1) #begin by fetching visible posts from database
+    madePostSuccess = False #assume the user did not just post
+    if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
+        postingForm= MakePostForm(request.POST) #create the posting form instance and populate it with the data in the POST request
+        madePostSuccess = postingForm.is_valid() #if the data is valid (more info on this in mapViewer/forms.py)
+        if madePostSuccess: #if the post is good to go
+            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\
+            if len(postingForm.cleaned_data['content']) > 35: #if content overflows the preview length
+                disc = postingForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
+            else:
+                disc = postingForm.cleaned_data['content'] #otherwise just use content to describe
+            vis=0
+            if request.session['rank'] > 1:
+                vis=1
+            postInz=MapPost.objects.create(title=postingForm.cleaned_data['title'], #actually create the post instance in the database
+                                   content=postingForm.cleaned_data['content'],
+                                   author=userInz,
+                                   description=disc,
+                                   geoCode=postingForm.cleaned_data['geoResult'][0],
+                                   visibility=vis
+                                   )
+            if postingForm.cleaned_data['tags']:
+                postInz.tags.set(postingForm.cleaned_data['tags']) #set the post's tags according to selected tags
+    else: #if not POST, create a post form with no initial data
+        postingForm = MakePostForm()
     contQuery = request.GET.get("q") #get content and tag query from url
     tagQuery = request.GET.getlist("t")
-    searchForm = SearchForumsForm(request.GET) #create a search form from url
-    if contQuery: #filter the forums according to search queries if the search queries are nonempty
-        forums = forums.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
+    searchForm = SearchPostsForm(request.GET) #create a search form from url
+    if contQuery: #filter the posts according to search queries if the search queries are nonempty
+        posts = posts.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
     if tagQuery:
         for tag in tagQuery:
-            forums=forums.filter(tags__pk=tag)
-    widgets = serializers.serialize('json', forums) #serialize forums as JSON for google maps
+            posts=posts.filter(tags__pk=tag)
+    widgets = serializers.serialize('json', posts) #serialize posts as JSON for google maps
     #print(widgets)  # Temporary print statement to check the output
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
-                                                      'searchForm' : searchForm,}) #render template
+                                                      'postForm' : postingForm,
+                                                      'searchForm' : searchForm,
+                                                      'hasPosted': madePostSuccess}) #render template
 
 
 
-def forum_list(request):
+def post_list(request):
     contQuery = request.GET.get("q")
     tagQuery = request.GET.getlist("t")
-    form = SearchForumsForm(request.GET)
-    forums = Forum.objects.filter(visibility=1)
+    form = SearchPostsForm(request.GET)
+    posts = MapPost.objects.filter(visibility=1)
     if contQuery:
-        forums = forums.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
+        posts = posts.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )
     if tagQuery:
         for tag in tagQuery:
-            forums=forums.filter(tags__pk=tag)
-    forums = forums.order_by("id")
-    return render(request, "mapViewer/listForums.html", {"forumList" : forums,
+            posts=posts.filter(tags__pk=tag)
+    posts = posts.order_by("id")
+    return render(request, "mapViewer/listPosts.html", {"postList" : posts,
                                                         "form" : form})
 
+
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
-def forum_detail(request, want):
-    msg=""
+def post_detail(request, want):
     hasReported=False
     if Forum.objects.filter(pk=want).exists():
         lookAt= Forum.objects.get(pk=want)
@@ -62,33 +84,12 @@ def forum_detail(request, want):
         }
 
         if request.method == 'POST':
-            reporter = ForumRepForm(request.POST)
+            reporter = PostRepForm(request.POST)
             hasReported = reporter.is_valid()
             if hasReported:
                 reporter.save()
         else:
-            reporter = ForumRepForm(initial={'forum':lookAt})
-        posts = Post.objects.filter(forum=lookAt).order_by('title') #sorted by title, can be changed
-        postAmount = Post.objects.filter(forum=lookAt).count() #number of posts held in forum in total
-        #this changes how many are paginated based off of the number of them, not really necessary but I thought it was a good idea and helped troublshoot
-        if postAmount < 4:
-            paginator = Paginator(posts, 1) #in (posts, num) num is the number paginated per page
-        elif postAmount <= 10:
-            paginator = Paginator(posts, 3)
-        else:
-            paginator = Paginator(posts, 10)
-        # paginator = Paginator(posts, 10) #('page', x) : x number of posts loaded on each page.
-        page_number = request.GET.get('page', 1) 
-        page_obj = paginator.get_page(page_number)
-        #print("Requested page:", page_number)
-        #print("Number of Posts: ", postAmount)
-        #print(f"Posts per page: {paginator.per_page}")
-        #print(f"Total Pages: {paginator.num_pages}")
-        #print(f"Request Page: {page_number}")
-        #print(f"Has next Page: {page_obj.has_next()}")
-
-        # current_page = page_obj.number
-
+            reporter = PostRepForm(initial={'post':lookAt})
         if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
             
             if lookAt.visibility==0:
