@@ -2,8 +2,10 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from mapViewer.forms import MakeForumForm
@@ -14,6 +16,8 @@ from .models import *
 from .forms import CreateAccountForm, SearchAccountForm
 from django.db.models import Count
 from django.db.models import Q
+from django.core.paginator import Paginator
+from urllib.parse import urlencode
 import json
 from django.http import JsonResponse
 from django.contrib.auth import login
@@ -166,44 +170,75 @@ def default(request):
         
     
 def account_list(request):
-    nameQ= request.GET.get("q")
-    sortQ=request.GET.get("s")
+    nameQ = (request.GET.get("q") or "").strip()
+    sortQ = request.GET.get("s") or "0"
     users = Member.objects.filter(forums__visibility__gt=0).distinct().annotate(
         num_forums=Count("forums", filter=Q(forums__visibility=1)),
     )
-    search = SearchAccountForm(request.GET)
     if nameQ:
-        users=users.filter(user__username__icontains=nameQ)
-    if not sortQ:
-        users=users.order_by("user__username")
-    else:
-        match sortQ:
-            case "0":
-                users=users.order_by("user__username")
-            case "1":
-                users=users.order_by("-user__username")
-            case "2":
-                users=users.order_by("num_forums")
-            case "3":
-                users=users.order_by("-num_forums")
-            case _:
-                users=users.order_by("user__username")
-    return render(request, 'account/account_list.html', {'users' : users,
-                                                         'search' : search,
-                                                         })
+        users = users.filter(user__username__icontains=nameQ)
+    match sortQ:
+        case "0":
+            users = users.order_by("user__username")
+        case "1":
+            users = users.order_by("-user__username")
+        case "2":
+            users = users.order_by("num_forums")
+        case "3":
+            users = users.order_by("-num_forums")
+        case _:
+            users = users.order_by("user__username")
+    paginator = Paginator(users, 18)
+    page_obj = paginator.get_page(request.GET.get("page"))
+    search = SearchAccountForm(request.GET)
+
+    def qs(**params):
+        data = {}
+        if nameQ:
+            data["q"] = nameQ
+        data["s"] = params.get("s", sortQ)
+        if "page" in params:
+            data["page"] = params["page"]
+        return "?" + urlencode(data)
+
+    ctx = {
+        "page_obj": page_obj,
+        "search": search,
+        "search_query": nameQ,
+        "sort_value": sortQ,
+        "qs_sort_az": qs(s="0", page=1),
+        "qs_sort_za": qs(s="1", page=1),
+        "qs_sort_forums_hi": qs(s="2", page=1),
+        "qs_sort_forums_lo": qs(s="3", page=1),
+        "qs_clear_search": "?" + urlencode({"s": sortQ, "page": 1}),
+        "qs_reset": "?",
+    }
+    if page_obj.has_next():
+        ctx["qs_next"] = qs(page=page_obj.next_page_number())
+    if page_obj.has_previous():
+        ctx["qs_prev"] = qs(page=page_obj.previous_page_number())
+    return render(request, "account/account_list.html", ctx)
 
 def my_forums(request):
     if request.session.get('rank',0)==0:
-        return redirect(reverse(default))
+        return redirect(reverse("account:default"))
     else:
         userInz = Member.objects.get(pk=request.session.get('user'))
         userForums=Forum.objects.filter(author=userInz)
         vis = userForums.filter(visibility=1)
         pend = userForums.filter(visibility=0)
         den = userForums.filter(visibility=-1)
-        return render(request, 'account/myForums.html', {'vis' : vis,
-                                    'pend' : pend,
-                                    'den' : den})
+        return render(
+            request,
+            "account/myForums.html",
+            {
+                "vis": vis,
+                "pend": pend,
+                "den": den,
+                "forum_just_submitted": request.GET.get("success") == "1",
+                "forum_just_updated": request.GET.get("updated") == "1",
+            },
+        )
     
 def account_view(request, want):
     msg = ""
@@ -282,45 +317,163 @@ def manage(request):
         form = ManageForm(instance=userInz)
     return render(request, "account/manage.html", {'form' : form})
 
+def _geocode_for_forum_storage(geo_result):
+    """Normalize MakeForumForm.cleaned_data['geoResult'] to one dict for Forum.geoCode."""
+    if geo_result is None:
+        return None
+    if isinstance(geo_result, list) and len(geo_result) > 0:
+        return geo_result[0]
+    if isinstance(geo_result, dict):
+        return geo_result
+    return geo_result
+
+
+def _make_forum_initial_from_instance(forum):
+    """Initial data for MakeForumForm when editing a pending forum."""
+    loc = ""
+    gc = forum.geoCode
+    if isinstance(gc, dict):
+        loc = gc.get("formatted_address") or ""
+    elif isinstance(gc, list) and len(gc) > 0 and isinstance(gc[0], dict):
+        loc = gc[0].get("formatted_address") or ""
+    initial = {
+        "title": forum.title,
+        "firstName": forum.first_name,
+        "lastName": forum.last_name,
+        "location": loc,
+        "content": forum.content,
+        "associated": forum.associated,
+        "private_public": forum.private_public,
+    }
+    if gc is not None:
+        initial["geoResult"] = gc
+    return initial
+
+
 # a lot of this code is from google btw. this view verifies google one touch log in credentials
-#view for creating forums
+# view for creating forums
 def make_forum(request):
-    if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
+    if request.session.get("rank", 0) == 0:
         return redirect(reverse("account:signin"))
-    if(request.method=="POST"): #if the request was a post, it is an attempt to create a forum
-        contentForm= MakeForumForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
-        if contentForm.is_valid(): #if the forum is good to go, calls the clean method and validators from MakeForumForm in mapViewer/forms.py
-            # MEMBER_DELETE
-            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
-            if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
-                disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
+    if request.method == "POST":
+        contentForm = MakeForumForm(request.POST, request.FILES)
+        if contentForm.is_valid():
+            userInz = Member.objects.get(pk=request.session["user"])
+            content = contentForm.cleaned_data["content"]
+            if len(content) > 35:
+                disc = content[0:35] + "..."
             else:
-                disc = contentForm.cleaned_data['content'] #otherwise just use content to describe #? Why does description exist at all?
-            vis=0 #default visibility set to pending
-            if request.session['rank'] > 1: #if user is trusted, set visibility to visible
-                vis=1
-            forumInz=Forum.objects.create(title=contentForm.cleaned_data['title'], #actually create the forum instance in the database
-                                   content=contentForm.cleaned_data['content'],
-                                   first_name=contentForm.cleaned_data['firstName'],
-                                   last_name=contentForm.cleaned_data['lastName'],
-                                   author=userInz,
-                                   description=disc,
-                                   geoCode=contentForm.cleaned_data['geoResult'][0],
-                                   visibility=vis,
-                                   associated=contentForm.cleaned_data['associated'],
-                                   private_public=contentForm.cleaned_data['private_public']
-                                   )
-            if contentForm.cleaned_data['tags']: #if there are any tags
-                forumInz.tags.set(contentForm.cleaned_data['tags']) #set the forum's tags according to selected tags
-            
-            if contentForm.cleaned_data['files']: #if there are files uploaded
-                for item in contentForm.cleaned_data['files']: #iterates through file upload fields
-                    if item != None: #if item is none, then nothing was uploaded
-                        fileInz = Media.objects.create(forum=forumInz, file=item) #create a forumfile instance
-                        fileInz.format = fileInz.get_format() #get the format and set the format
-                        fileInz.save() #save the updated format
-            return redirect(reverse('mapViewer:forum_detail', args=[forumInz.pk])) #redirect to the forum view of the just posted forum
-            
+                disc = content
+            geo = _geocode_for_forum_storage(contentForm.cleaned_data["geoResult"])
+            if geo is None:
+                messages.error(
+                    request,
+                    "We could not save the map location. Please choose a full address from the suggestions and try again.",
+                )
+            else:
+                forumInz = Forum.objects.create(
+                    title=contentForm.cleaned_data["title"],
+                    content=content,
+                    first_name=contentForm.cleaned_data["firstName"],
+                    last_name=contentForm.cleaned_data["lastName"],
+                    author=userInz,
+                    description=disc,
+                    geoCode=geo,
+                    visibility=0,
+                    associated=contentForm.cleaned_data["associated"],
+                    private_public=contentForm.cleaned_data["private_public"],
+                )
+                tags = contentForm.cleaned_data.get("tags")
+                if tags:
+                    forumInz.tags.set(tags)
+                for item in contentForm.cleaned_data.get("files") or []:
+                    if item is not None:
+                        fileInz = Media.objects.create(forum=forumInz, file=item)
+                        fileInz.format = fileInz.get_format()
+                        fileInz.save()
+                messages.success(
+                    request,
+                    "Forum successfully submitted! It will appear under Pending review until an administrator approves it.",
+                )
+                return redirect(
+                    reverse("account:my_forums") + "?success=1&cleardraft=1"
+                )
+        else:
+            messages.error(
+                request,
+                "Your forum was not saved. Please fix the errors highlighted below and try again.",
+            )
     else:
         contentForm = MakeForumForm()
-    return render(request, 'account/create_forum.html', {'form': contentForm,})
+    return render(request, "account/create_forum.html", {"form": contentForm})
+
+
+def edit_forum(request, forum_id):
+    """Let the author update a forum that is still pending approval."""
+    if request.session.get("rank", 0) == 0:
+        return redirect(reverse("account:signin"))
+    forum = get_object_or_404(Forum, pk=forum_id)
+    if forum.author_id != request.session.get("user"):
+        messages.error(request, "You can only edit your own forums.")
+        return redirect(reverse("account:my_forums"))
+    if forum.visibility != 0:
+        messages.error(
+            request,
+            "You can only edit forums that are still pending review. This forum is no longer pending.",
+        )
+        return redirect(reverse("account:my_forums"))
+
+    if request.method == "POST":
+        contentForm = MakeForumForm(request.POST, request.FILES)
+        if contentForm.is_valid():
+            d = contentForm.cleaned_data
+            content = d["content"]
+            if len(content) > 35:
+                disc = content[0:35] + "..."
+            else:
+                disc = content
+            geo = _geocode_for_forum_storage(d["geoResult"])
+            if geo is None:
+                messages.error(
+                    request,
+                    "We could not save the map location. Please choose a full address from the suggestions and try again.",
+                )
+            else:
+                forum.title = d["title"]
+                forum.content = content
+                forum.first_name = d["firstName"]
+                forum.last_name = d["lastName"]
+                forum.description = disc
+                forum.geoCode = geo
+                forum.associated = d["associated"]
+                forum.private_public = d["private_public"]
+                forum.save()
+                tags = d.get("tags")
+                forum.tags.set(tags if tags else [])
+                for item in d.get("files") or []:
+                    if item is not None:
+                        fileInz = Media.objects.create(forum=forum, file=item)
+                        fileInz.format = fileInz.get_format()
+                        fileInz.save()
+                messages.success(
+                    request,
+                    "Forum updated successfully! Your changes are still pending review.",
+                )
+                return redirect(
+                    reverse("account:my_forums") + "?updated=1&cleardraft=1"
+                )
+        else:
+            messages.error(
+                request,
+                "Your changes were not saved. Please fix the errors highlighted below and try again.",
+            )
+    else:
+        init = _make_forum_initial_from_instance(forum)
+        tag_ids = list(forum.tags.values_list("pk", flat=True))
+        init["tags"] = tag_ids
+        contentForm = MakeForumForm(initial=init)
+    return render(
+        request,
+        "account/create_forum.html",
+        {"form": contentForm, "editing_forum": forum},
+    )

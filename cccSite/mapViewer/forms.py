@@ -178,19 +178,21 @@ class MakeForumForm(forms.Form):
             ],
         }
 
-    def _clean_form(self): #when we check is_valid, this occurs
+    def _clean_form(self):
+        """Run clean(); map known ValidationError codes to fields, else non-field (avoids silent is_valid bugs)."""
         try:
-            cleaned_data = self.clean() #try to clean the data
+            cleaned_data = self.clean()
         except ValidationError as e:
-            match e.code:
-                case "adderr":
-                    self.add_error('location', e) #if we get the error of invalid address, attach it to the location field
-                case "filerr":
-                    self.add_error('file1', e) #if we get a file error, attach it to the first file field.
-
+            code = getattr(e, "code", None)
+            if code == "adderr":
+                self.add_error("location", e)
+            elif code == "filerr":
+                self.add_error("file1", e)
+            else:
+                self.add_error(None, e)
         else:
             if cleaned_data is not None:
-                self.cleaned_data = cleaned_data #if successful, store in cleaned_data
+                self.cleaned_data = cleaned_data
 
 
 

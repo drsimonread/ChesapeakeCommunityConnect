@@ -17,8 +17,10 @@ class SearchAccountForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "contrib-search-input cc-field-input",
-                "placeholder": "Search by username…",
+                "placeholder": "Type part of a username…",
                 "autocomplete": "off",
+                "inputmode": "search",
+                "enterkeyhint": "search",
             }
         ),
     )

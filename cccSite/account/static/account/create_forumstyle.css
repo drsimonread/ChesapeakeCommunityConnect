@@ -5,6 +5,35 @@
   --cf-border-strong: #4a5d72;
   --cf-border-mid: #5f7288;
   --cf-border-soft: #7d90a3;
+  --cf-invalid: #b91c1c;
+}
+
+/* Client-side validation (wizard) */
+.cf-client-validation-msg {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #7f1d1d;
+  background: #fef2f2;
+  border: 2px solid #fecaca;
+  border-radius: 10px;
+}
+
+#create-forum-page .cf-field.cf-field--invalid .cc-field-input,
+#create-forum-page .cf-field.cf-field--invalid textarea,
+#create-forum-page .cf-field.cf-field--invalid .cf-control {
+  border-color: var(--cf-invalid) !important;
+  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2);
+}
+
+#create-forum-page .cf-field.cf-field--invalid.cf-field--radios {
+  padding: 0.5rem;
+  margin: 0 -0.5rem;
+  border-radius: 10px;
+  outline: 2px solid rgba(185, 28, 28, 0.45);
+  outline-offset: 2px;
 }
 
 .contrib-page--create {
@@ -32,6 +61,12 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.92);
   max-width: 44rem;
+}
+
+/* “Continue” callout in the hero — brand gold, not default bold/dark */
+#create-forum-page .contrib-hero__lede strong {
+  color: var(--gold);
+  font-weight: 700;
 }
 
 /* Single white shell wrapping progress + steps + footer */
@@ -477,6 +512,19 @@
   padding-right: 1.35rem;
   font-size: 1.05rem;
   font-weight: 700;
+}
+
+/* Continue — explicit gold primary (reads clearly vs. slate Back button) */
+#create-forum-page .cf-wizard__footer .cf-wizard__next.account-btn--primary {
+  background: linear-gradient(180deg, var(--gold) 0%, #e0b00c 100%);
+  color: var(--blue);
+  border: 2px solid rgba(0, 32, 92, 0.12);
+  box-shadow: 0 2px 10px rgba(243, 193, 13, 0.4);
+}
+
+#create-forum-page .cf-wizard__footer .cf-wizard__next.account-btn--primary:hover {
+  filter: brightness(1.05);
+  color: var(--blue);
 }
 
 #create-forum-page .cf-wizard__footer .cf-wizard__back:disabled {
@@ -1097,4 +1145,19 @@
     padding-top: 0.65rem;
     padding-bottom: 0.65rem;
   }
+}
+
+/* Align with contributor shell + hero text column */
+#create-forum-page .contrib-hero__text {
+  flex: 1;
+  min-width: 0;
+}
+
+#create-forum-page .contrib-hero-meta {
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+#create-forum-page .cf-form-layout__main {
+  margin-top: 0.25rem;
 }

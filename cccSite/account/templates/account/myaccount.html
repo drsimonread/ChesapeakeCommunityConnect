@@ -6,11 +6,11 @@
 {% endblock accHead %}
 
 {% block accountFunc %}
-<div id="content" class="contrib-page account-profile" role="main" aria-labelledby="account-overview-title">
+<div id="content" class="contrib-page contrib-page--account account-profile" role="main" aria-labelledby="account-overview-title">
   <header class="contrib-hero">
     <div class="contrib-hero__inner">
       <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bxs-user-account"></i></div>
-      <div>
+      <div class="contrib-hero__text">
         <span class="contrib-hero__kicker">Your profile</span>
         <h1 id="account-overview-title" class="contrib-hero__title">Contributor overview</h1>
         <p class="contrib-hero__lede">This is how you appear to others on Chesapeake Community Connect.</p>
@@ -20,8 +20,11 @@
 
   <article class="account-profile__card" aria-labelledby="profile-heading">
     <header class="account-profile__header">
-      <h2 id="profile-heading" class="account-profile__card-title">Profile</h2>
-      <p class="account-profile__header-note">Photo, contact details, and bio</p>
+      <div class="account-profile__header-icon" aria-hidden="true"><i class="bx bx-id-card"></i></div>
+      <div class="account-profile__header-text">
+        <h2 id="profile-heading" class="account-profile__card-title">Profile</h2>
+        <p class="account-profile__header-note">Photo, contact details, and bio</p>
+      </div>
     </header>
 
     <div class="account-profile__body">
