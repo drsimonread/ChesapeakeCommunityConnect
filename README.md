@@ -22,12 +22,8 @@ A guide for setting up CCC and running it via the VM can be found [here](Documen
 
 ## Feedback
 
-For feedback related to this project, please open a new issue on
-<<<<<<< HEAD
-[GitHub](https://github.com/SamAlby/chesapeakecommunityconnect/issues).
+For feedback related to this project, please open a new issue on [GitHub](https://github.com/drsimonread/ChesapeakeCommunityConnect/issues).
+
 
 
 To place your own findings and  research use this link [Research Notes](/home/shared_workspace/ChesapeakeCommunityConnect/DeveloperNotes.md)
-=======
-[GitHub](https://github.com/drsimonread/ChesapeakeCommunityConnect/issues).
->>>>>>> main
