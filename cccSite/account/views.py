@@ -477,3 +477,27 @@ def edit_forum(request, forum_id):
         "account/create_forum.html",
         {"form": contentForm, "editing_forum": forum},
     )
+
+
+def delete_pending_forum(request, forum_id):
+    if request.session.get("rank", 0) == 0:
+        return redirect(reverse("account:signin"))
+    if request.method != "POST":
+        return redirect(reverse("account:my_forums"))
+    forum = get_object_or_404(Forum, pk=forum_id)
+    if forum.author_id != request.session.get("user"):
+        messages.error(request, "You can only delete your own forums.")
+        return redirect(reverse("account:my_forums"))
+    if forum.visibility != 0:
+        messages.error(
+            request,
+            "Only forums still pending review can be deleted here.",
+        )
+        return redirect(reverse("account:my_forums"))
+    title = forum.title
+    forum.delete()
+    messages.success(
+        request,
+        f'Pending forum "{title}" was deleted.',
+    )
+    return redirect(reverse("account:my_forums"))

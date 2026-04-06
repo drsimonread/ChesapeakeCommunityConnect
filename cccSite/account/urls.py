@@ -13,6 +13,11 @@ urlpatterns = [
     path("view/<want>/", views.account_view, name='account_view'),
     path("create/", views.make_forum, name="create_forum"),
     path("edit/<int:forum_id>/", views.edit_forum, name="edit_forum"),
+    path(
+        "forum/<int:forum_id>/delete/",
+        views.delete_pending_forum,
+        name="delete_pending_forum",
+    ),
     path("myforums/", views.my_forums, name='my_forums'),
     path("ajax/username_validation/", views.username_validation, name='username_validation'),
     path("ajax/email_validation/", views.email_validation, name='email_validation'),

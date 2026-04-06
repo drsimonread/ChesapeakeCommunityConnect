@@ -73,6 +73,10 @@
             <div class="forum-row__actions">
               <a class="account-btn account-btn--secondary account-btn--compact" href="{% url 'account:edit_forum' item.pk %}">Edit</a>
               <a class="account-btn account-btn--primary account-btn--compact" href="{{ item.get_absolute_url }}">View</a>
+              <form method="post" action="{% url 'account:delete_pending_forum' item.pk %}" class="forum-row__delete-form" onsubmit="return confirm('Delete this pending forum? This cannot be undone.');">
+                {% csrf_token %}
+                <button type="submit" class="account-btn account-btn--danger account-btn--compact">Delete</button>
+              </form>
             </div>
           </div>
         {% endfor %}

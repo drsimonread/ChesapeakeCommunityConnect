@@ -1637,6 +1637,24 @@
     color: var(--blue);
 }
 
+.account-btn--danger {
+    background: #fff;
+    color: #b91c1c;
+    border-color: rgba(185, 28, 28, 0.45);
+}
+
+.account-btn--danger:hover {
+    background: #fef2f2;
+    border-color: rgba(185, 28, 28, 0.65);
+    color: #991b1b;
+}
+
+.my-forums-page .forum-row__delete-form {
+    display: flex;
+    margin: 0;
+    align-items: center;
+}
+
 .account-form {
     max-width: 520px;
 }
