@@ -14,6 +14,8 @@ from .models import *
 from .forms import CreateAccountForm, SearchAccountForm
 from django.db.models import Count
 from django.db.models import Q
+from django.core.paginator import Paginator
+from urllib.parse import urlencode
 import json
 from django.http import JsonResponse
 from django.contrib.auth import login
@@ -166,31 +168,54 @@ def default(request):
         
     
 def account_list(request):
-    nameQ= request.GET.get("q")
-    sortQ=request.GET.get("s")
+    nameQ = (request.GET.get("q") or "").strip()
+    sortQ = request.GET.get("s") or "0"
     users = Member.objects.filter(forums__visibility__gt=0).distinct().annotate(
         num_forums=Count("forums", filter=Q(forums__visibility=1)),
     )
-    search = SearchAccountForm(request.GET)
     if nameQ:
-        users=users.filter(user__username__icontains=nameQ)
-    if not sortQ:
-        users=users.order_by("user__username")
-    else:
-        match sortQ:
-            case "0":
-                users=users.order_by("user__username")
-            case "1":
-                users=users.order_by("-user__username")
-            case "2":
-                users=users.order_by("num_forums")
-            case "3":
-                users=users.order_by("-num_forums")
-            case _:
-                users=users.order_by("user__username")
-    return render(request, 'account/account_list.html', {'users' : users,
-                                                         'search' : search,
-                                                         })
+        users = users.filter(user__username__icontains=nameQ)
+    match sortQ:
+        case "0":
+            users = users.order_by("user__username")
+        case "1":
+            users = users.order_by("-user__username")
+        case "2":
+            users = users.order_by("num_forums")
+        case "3":
+            users = users.order_by("-num_forums")
+        case _:
+            users = users.order_by("user__username")
+    paginator = Paginator(users, 18)
+    page_obj = paginator.get_page(request.GET.get("page"))
+    search = SearchAccountForm(request.GET)
+
+    def qs(**params):
+        data = {}
+        if nameQ:
+            data["q"] = nameQ
+        data["s"] = params.get("s", sortQ)
+        if "page" in params:
+            data["page"] = params["page"]
+        return "?" + urlencode(data)
+
+    ctx = {
+        "page_obj": page_obj,
+        "search": search,
+        "search_query": nameQ,
+        "sort_value": sortQ,
+        "qs_sort_az": qs(s="0", page=1),
+        "qs_sort_za": qs(s="1", page=1),
+        "qs_sort_forums_hi": qs(s="2", page=1),
+        "qs_sort_forums_lo": qs(s="3", page=1),
+        "qs_clear_search": "?" + urlencode({"s": sortQ, "page": 1}),
+        "qs_reset": "?",
+    }
+    if page_obj.has_next():
+        ctx["qs_next"] = qs(page=page_obj.next_page_number())
+    if page_obj.has_previous():
+        ctx["qs_prev"] = qs(page=page_obj.previous_page_number())
+    return render(request, "account/account_list.html", ctx)
 
 def my_forums(request):
     if request.session.get('rank',0)==0:
