@@ -18,6 +18,19 @@
     </div>
   </header>
 
+  {% if forum_just_submitted %}
+  <div class="my-forums-flash my-forums-flash--success" role="status">
+    <p class="my-forums-flash__title">Forum successfully submitted!</p>
+    <p class="my-forums-flash__text">Your forum is in <strong>Pending review</strong>. You can edit it there until an administrator approves it.</p>
+  </div>
+  {% endif %}
+  {% if forum_just_updated %}
+  <div class="my-forums-flash my-forums-flash--success" role="status">
+    <p class="my-forums-flash__title">Forum updated</p>
+    <p class="my-forums-flash__text">Your changes are still pending review.</p>
+  </div>
+  {% endif %}
+
   <div class="my-forums-shell">
     <div class="my-forums-accordion">
       <button type="button" class="accordion accordion--visible" aria-expanded="false" aria-controls="visible-forums-panel" id="acc-visible">
@@ -57,7 +70,10 @@
               <p class="forum-row__title">{{ item.title }}</p>
               <p class="forum-row__desc">{{ item.description }}</p>
             </div>
-            <a class="account-btn account-btn--primary account-btn--compact" href="{{ item.get_absolute_url }}">View</a>
+            <div class="forum-row__actions">
+              <a class="account-btn account-btn--secondary account-btn--compact" href="{% url 'account:edit_forum' item.pk %}">Edit</a>
+              <a class="account-btn account-btn--primary account-btn--compact" href="{{ item.get_absolute_url }}">View</a>
+            </div>
           </div>
         {% endfor %}
       </div>
@@ -86,3 +102,31 @@
   </div>
 </div>
 {% endblock accountFunc %}
+
+{% block account_extra_js %}
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  if (
+    params.get("cleardraft") === "1" ||
+    params.get("success") === "1" ||
+    params.get("updated") === "1"
+  ) {
+    try {
+      localStorage.removeItem("ccc-create-forum-draft-v3");
+    } catch (e) {}
+    params.delete("cleardraft");
+    params.delete("success");
+    params.delete("updated");
+    var q = params.toString();
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + (q ? "?" + q : "")
+      );
+    }
+  }
+})();
+</script>
+{% endblock %}

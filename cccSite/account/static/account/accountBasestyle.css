@@ -77,6 +77,37 @@
     margin-right: auto;
 }
 
+/* Flash messages (django.contrib.messages) */
+.account-messages {
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0;
+}
+
+.account-message {
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.account-message--success {
+    color: #14532d;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+}
+
+.account-message--error {
+    color: #7f1d1d;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+.account-message + .account-message {
+    margin-top: 0.5rem;
+}
+
 /* Sidebar — minimal header + tab strip */
 .account-nav {
     flex: 0 0 auto;
@@ -1308,6 +1339,34 @@
     box-sizing: border-box;
 }
 
+.my-forums-flash {
+    margin: 0 0 1.25rem;
+    padding: 1rem 1.15rem;
+    border-radius: 14px;
+    border: 2px solid rgba(0, 32, 92, 0.12);
+    background: linear-gradient(180deg, #f0fdf4 0%, #fff 100%);
+}
+
+.my-forums-flash--success {
+    border-color: #bbf7d0;
+    box-shadow: 0 4px 18px rgba(21, 128, 61, 0.08);
+}
+
+.my-forums-flash__title {
+    margin: 0 0 0.35rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #14532d;
+}
+
+.my-forums-flash__text {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: #334155;
+}
+
 .my-forums-page .forum-row {
     display: flex;
     flex-wrap: wrap;
@@ -1325,6 +1384,13 @@
 .my-forums-page .forum-row__main {
     flex: 1 1 200px;
     min-width: 0;
+}
+
+.my-forums-page .forum-row__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .my-forums-page .forum-row__title {

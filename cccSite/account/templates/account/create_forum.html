@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block accHead %}
-<title>Create forum — Chesapeake Community Connect</title>
+<title>{% if editing_forum %}Edit pending forum{% else %}Create forum{% endif %} — Chesapeake Community Connect</title>
 {% endblock accHead %}
 
 {% block account_extra_css %}
@@ -16,19 +16,19 @@
       <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-map-alt"></i></div>
       <div class="contrib-hero__text">
         <span class="contrib-hero__kicker">Contributors</span>
-        <h1 id="cf-page-title" class="contrib-hero__title">Create a forum</h1>
-        <p class="contrib-hero__lede">Three quick steps. Use <strong>Continue</strong> to move forward—required fields are checked first. Your answers save as a draft in this browser (file uploads are not included).</p>
+        <h1 id="cf-page-title" class="contrib-hero__title">{% if editing_forum %}Edit your pending forum{% else %}Create a forum{% endif %}</h1>
+        <p class="contrib-hero__lede">{% if editing_forum %}Update your submission before it is approved. Changes stay in <strong>Pending review</strong> until an administrator approves them.{% else %}Three quick steps. Use <strong>Continue</strong> to move forward—required fields are checked first. Your answers save as a draft in this browser (file uploads are not included).{% endif %}</p>
       </div>
     </div>
   </header>
 
-  <div class="contrib-hero-meta">
+  <div class="contrib-hero-meta"{% if editing_forum %} hidden{% endif %}>
     <p class="contrib-hero-meta__line" id="cf-draft-line" aria-live="polite"></p>
     <button type="button" class="account-btn account-btn--secondary contrib-hero-meta__btn" id="cf-draft-discard" hidden>Discard draft</button>
   </div>
 
   <div class="cf-form-layout__main">
-    <form class="cf-form cf-gf-form" id="cf-create-forum-form" action="{% url 'account:create_forum' %}" method="post" enctype="multipart/form-data" role="form" novalidate>
+    <form class="cf-form cf-gf-form" id="cf-create-forum-form" action="{% if editing_forum %}{% url 'account:edit_forum' editing_forum.pk %}{% else %}{% url 'account:create_forum' %}{% endif %}" method="post" enctype="multipart/form-data" role="form" novalidate>
       {% csrf_token %}
 
       <div class="cf-create-shell">
@@ -39,6 +39,7 @@
         {% endfor %}
       </div>
       {% endif %}
+      <p id="cf-client-validation-msg" class="cf-client-validation-msg" role="alert" hidden></p>
 
       <div class="cf-wizard" id="cf-wizard" data-cf-total-steps="3">
         <nav class="cf-wizard__progress" aria-label="Progress through form" id="cf-wizard-progress">
@@ -256,6 +257,7 @@
 
 {% block account_extra_js %}
 <script>
+  window.CF_EDIT_FORUM_ID = {% if editing_forum %}{{ editing_forum.pk }}{% else %}null{% endif %};
   let autocomplete;
   async function initAutocomplete() {
     const el = document.getElementById("id_location");
@@ -268,12 +270,14 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initAutocomplete" defer></script>
 <script>
 (function () {
+  var isEditing = !!window.CF_EDIT_FORUM_ID;
   var DRAFT_KEY = "ccc-create-forum-draft-v3";
   var wizard = document.getElementById("cf-wizard");
   if (!wizard) return;
 
   var TOTAL = 3;
   var LABELS = ["Details, map & story", "Tags & access", "Files & submit"];
+  var STEP1_IDS = ["id_title", "id_firstName", "id_lastName", "id_location", "id_content"];
 
   var form = document.getElementById("cf-create-forum-form");
   var steps = wizard.querySelectorAll(".cf-wizard__slide");
@@ -284,11 +288,48 @@
   var lineLabel = document.getElementById("cf-wizard-step-label");
   var draftLine = document.getElementById("cf-draft-line");
   var draftDiscard = document.getElementById("cf-draft-discard");
+  var clientMsg = document.getElementById("cf-client-validation-msg");
   var current = 1;
   var saveTimer = null;
 
   function getGeoInput() {
     return document.getElementById("id_geoResult");
+  }
+
+  function showClientMsg(text) {
+    if (!clientMsg) return;
+    if (text) {
+      clientMsg.textContent = text;
+      clientMsg.hidden = false;
+    } else {
+      clientMsg.textContent = "";
+      clientMsg.hidden = true;
+    }
+  }
+
+  function clearClientMsg() {
+    showClientMsg("");
+  }
+
+  function markFieldInvalid(el) {
+    if (!el) return;
+    var wrap = el.closest(".cf-field");
+    if (wrap) wrap.classList.add("cf-field--invalid");
+  }
+
+  function clearStepInvalidUI(stepNum) {
+    var slide = wizard.querySelector('.cf-wizard__slide[data-cf-step="' + stepNum + '"]');
+    if (!slide) return;
+    slide.querySelectorAll(".cf-field--invalid").forEach(function (node) {
+      node.classList.remove("cf-field--invalid");
+    });
+  }
+
+  function clearAllInvalidUI() {
+    if (!form) return;
+    form.querySelectorAll(".cf-field--invalid").forEach(function (node) {
+      node.classList.remove("cf-field--invalid");
+    });
   }
 
   function collectDraft() {
@@ -357,6 +398,7 @@
   }
 
   function saveDraft() {
+    if (isEditing) return;
     try {
       localStorage.setItem(DRAFT_KEY, JSON.stringify(collectDraft()));
       if (draftLine) draftLine.textContent = "Draft saved in this browser";
@@ -373,6 +415,7 @@
   }
 
   function loadDraft() {
+    if (isEditing) return null;
     try {
       var raw = localStorage.getItem(DRAFT_KEY);
       if (!raw) return null;
@@ -388,8 +431,18 @@
   }
 
   if (form) {
-    form.addEventListener("input", scheduleSave);
-    form.addEventListener("change", scheduleSave);
+    form.addEventListener("input", function (e) {
+      scheduleSave();
+      var inv = e.target && e.target.closest && e.target.closest(".cf-field--invalid");
+      if (inv) inv.classList.remove("cf-field--invalid");
+      clearClientMsg();
+    });
+    form.addEventListener("change", function (e) {
+      scheduleSave();
+      var inv = e.target && e.target.closest && e.target.closest(".cf-field--invalid");
+      if (inv) inv.classList.remove("cf-field--invalid");
+      clearClientMsg();
+    });
   }
   if (draftDiscard) {
     draftDiscard.addEventListener("click", function () {
@@ -398,52 +451,83 @@
     });
   }
 
+  function validateStep1Fields() {
+    var ok = true;
+    var firstFocus = null;
+    for (var i = 0; i < STEP1_IDS.length; i++) {
+      var el = document.getElementById(STEP1_IDS[i]);
+      if (!el || !String(el.value || "").trim()) {
+        ok = false;
+        if (el) {
+          markFieldInvalid(el);
+          if (!firstFocus) firstFocus = el;
+        }
+      }
+    }
+    if (!ok && firstFocus) {
+      try {
+        firstFocus.focus();
+        firstFocus.scrollIntoView({ block: "center", behavior: "smooth" });
+      } catch (err) {
+        firstFocus.focus();
+      }
+      showClientMsg("Please fill in every required field in step 1 (title, names, address, and description).");
+    }
+    return ok;
+  }
+
+  function validateStep2Fields() {
+    var a = form.querySelector('input[name="associated"]:checked');
+    var p = form.querySelector('input[name="private_public"]:checked');
+    var ok = true;
+    if (!a) {
+      ok = false;
+      var ia = form.querySelector('input[name="associated"]');
+      if (ia) markFieldInvalid(ia);
+    }
+    if (!p) {
+      ok = false;
+      var ip = form.querySelector('input[name="private_public"]');
+      if (ip) markFieldInvalid(ip);
+    }
+    if (!ok) {
+      var focusEl = form.querySelector('input[name="associated"]') || form.querySelector('input[name="private_public"]');
+      if (focusEl) {
+        try {
+          focusEl.focus();
+          focusEl.scrollIntoView({ block: "center", behavior: "smooth" });
+        } catch (err) {
+          focusEl.focus();
+        }
+      }
+      showClientMsg("Please choose both options under Tags & access before continuing or submitting.");
+    }
+    return ok;
+  }
+
   function validateStep(stepNum) {
     if (!form) return true;
     if (stepNum === 3) return true;
-
-    if (stepNum === 1) {
-      var ids = ["id_title", "id_firstName", "id_lastName", "id_location", "id_content"];
-      for (var i = 0; i < ids.length; i++) {
-        var el = document.getElementById(ids[i]);
-        if (!el || !String(el.value || "").trim()) {
-          if (el) {
-            el.focus();
-            if (typeof el.reportValidity === "function") el.reportValidity();
-          }
-          return false;
-        }
-      }
-      return true;
-    }
-
-    if (stepNum === 2) {
-      var a = form.querySelector('input[name="associated"]:checked');
-      var p = form.querySelector('input[name="private_public"]:checked');
-      if (!a) {
-        var first = form.querySelector('input[name="associated"]');
-        if (first) first.focus();
-        return false;
-      }
-      if (!p) {
-        var fp = form.querySelector('input[name="private_public"]');
-        if (fp) fp.focus();
-        return false;
-      }
-      return true;
-    }
-
+    clearClientMsg();
+    clearStepInvalidUI(stepNum);
+    if (stepNum === 1) return validateStep1Fields();
+    if (stepNum === 2) return validateStep2Fields();
     return true;
   }
 
   function validateAllBeforeSubmit() {
-    var s;
-    for (s = 1; s <= 2; s++) {
-      if (!validateStep(s)) {
-        goToStep(s);
-        return false;
-      }
+    clearClientMsg();
+    clearAllInvalidUI();
+    if (!validateStep1Fields()) {
+      goToStep(1);
+      return false;
     }
+    clearAllInvalidUI();
+    if (!validateStep2Fields()) {
+      goToStep(2);
+      return false;
+    }
+    clearClientMsg();
     return true;
   }
 
@@ -511,7 +595,14 @@
   wizard.querySelectorAll("[data-cf-step-to]").forEach(function (el) {
     el.addEventListener("click", function () {
       var n = parseInt(el.getAttribute("data-cf-step-to"), 10);
-      if (!isNaN(n)) goToStep(n);
+      if (isNaN(n)) return;
+      clearClientMsg();
+      if (n > current) {
+        for (var s = current; s < n; s++) {
+          if (!validateStep(s)) return;
+        }
+      }
+      goToStep(n);
     });
   });
 
@@ -533,8 +624,18 @@
         e.preventDefault();
         return false;
       }
-      clearDraft();
+      if (!isEditing) clearDraft();
     });
+  }
+
+  if (isEditing) {
+    var locEl = document.getElementById("id_location");
+    if (locEl) {
+      locEl.addEventListener("input", function () {
+        var g = document.getElementById("id_geoResult");
+        if (g) g.value = "";
+      });
+    }
   }
 
   var errList = document.querySelector("#create-forum-page .errorlist");
@@ -549,12 +650,15 @@
   } else {
     var hash = (window.location.hash || "").match(/^#step=(\d+)/);
     var restored = false;
-    var d = loadDraft();
-    if (d && d.v === 3 && !errList) {
-      applyDraft(d);
-      restored = true;
-      if (draftLine) draftLine.textContent = "Restored your draft from this browser";
-      if (draftDiscard) draftDiscard.hidden = false;
+    var d = null;
+    if (!isEditing) {
+      d = loadDraft();
+      if (d && d.v === 3 && !errList) {
+        applyDraft(d);
+        restored = true;
+        if (draftLine) draftLine.textContent = "Restored your draft from this browser";
+        if (draftDiscard) draftDiscard.hidden = false;
+      }
     }
     if (hash) {
       var initial = parseInt(hash[1], 10);

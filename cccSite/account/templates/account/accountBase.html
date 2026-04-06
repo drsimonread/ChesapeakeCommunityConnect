@@ -78,6 +78,13 @@
       {% endif %}
 
       <div class="account-main account-main--surface{% if not user.is_authenticated or rank == 0 %} account-main--guest-wide{% endif %}">
+        {% if messages %}
+        <ul class="account-messages" role="list">
+          {% for message in messages %}
+          <li class="account-message account-message--{{ message.level_tag }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
         {% block accountFunc %}
           Welcome to the account interface.
         {% endblock accountFunc %}
@@ -96,5 +103,7 @@
       });
   }
 </script>
+
+{% block account_extra_js %}{% endblock %}
 
 {% endblock content %}
