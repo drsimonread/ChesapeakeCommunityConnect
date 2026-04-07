@@ -1,8 +1,18 @@
-*.pyc
+# Virtual environments
+venv/
 .venv/
-*.DS_Store
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS junk
 .DS_Store
+
+# Database
 *.sqlite3
+db.sqlite3
+
+# Django migrations (optional, but your repo already doing this)
 mapViewer/migrations/*.py
 !mapViewer/migrations/__init__.py
-db.sqlite3
