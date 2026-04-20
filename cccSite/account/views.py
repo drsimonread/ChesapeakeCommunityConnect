@@ -1,5 +1,3 @@
-from google.oauth2 import id_token
-from google.auth.transport import requests
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -30,13 +28,23 @@ GOOGLE_CLIENT_ID = "909497695712-h9smcju9klvlqk70celohtne9o438htn.apps.googleuse
 
 def google_signin(request):
     if request.method == "POST":
+        try:
+            # Lazy import so management commands can run without google auth crypto deps.
+            from google.oauth2 import id_token
+            from google.auth.transport import requests as google_requests
+        except Exception:
+            return JsonResponse(
+                {"success": False, "message": "Google sign-in dependencies are unavailable"},
+                status=503,
+            )
+
         token = request.POST.get("credential", "")
 
         try:
             # 1. Verify the Google token
             idinfo = id_token.verify_oauth2_token(
                 token,
-                requests.Request(),
+                google_requests.Request(),
                 GOOGLE_CLIENT_ID
             )
 
