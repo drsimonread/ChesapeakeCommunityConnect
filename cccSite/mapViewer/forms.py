@@ -1,5 +1,6 @@
 #https://medium.com/swlh/django-forms-for-many-to-many-fields-d977dec4b024
 from django import forms
+from django.conf import settings
 from .models import MapTag
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -8,10 +9,16 @@ from django.db import models
 from datetime import datetime
 import magic
 
+VALID_UPLOAD_TYPES = getattr(
+    settings,
+    "VALID_UPLOAD_TYPES",
+    ("image/jpeg", "image/png", "image/gif", "application/pdf"),
+)
+
 
 class SearchForumsForm(forms.Form):
     q = forms.CharField(max_length=100, required=False, widget=forms.TextInput({"Placeholder": "Search..."}))
-    t = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
+    t = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
     class Meta:
         labels = {
                 'q': _('Search'),
@@ -24,11 +31,11 @@ class SearchForumsForm(forms.Form):
 class MakeForumForm(forms.Form):
     def get_upload_attrs():#function that converts the list of accepted file types to a string for use in restricting what is selectable in the upload interface
         val = '' #start blank
-        for item in settings.VALID_UPLOAD_TYPES: #for valid file type
+        for item in VALID_UPLOAD_TYPES: #for valid file type
             val = '{0},{1}'.format(val, item) #add to string
         return val
     def validate_file(value): #validator that verifies that uploaded file is of an accepted type. if not, raise validation error
-        if magic.from_buffer(value.read(), mime=True) not in settings.VALID_UPLOAD_TYPES:
+        if magic.from_buffer(value.read(), mime=True) not in VALID_UPLOAD_TYPES:
                 raise ValidationError(_("Bad file"), code="filerr")
 
 
@@ -37,7 +44,7 @@ class MakeForumForm(forms.Form):
     lastName = forms.CharField(max_length=100, label="Last", widget=forms.TextInput({"Placeholder": "Last"})) #last name of author of forum
     location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of forum as an address
     content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
+    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
     
     associated_choices = [
@@ -119,11 +126,11 @@ class SearchPostsForm(forms.Form):
 class MakePostForm(forms.Form):
     def get_upload_attrs():#function that converts the list of accepted file types to a string for use in restricting what is selectable in the upload interface
         val = '' #start blank
-        for item in settings.VALID_UPLOAD_TYPES: #for valid file type
+        for item in VALID_UPLOAD_TYPES: #for valid file type
             val = '{0},{1}'.format(val, item) #add to string
         return val
     def validate_file(value): #validator that verifies that uploaded file is of an accepted type. if not, raise validation error
-        if magic.from_buffer(value.read(), mime=True) not in settings.VALID_UPLOAD_TYPES:
+        if magic.from_buffer(value.read(), mime=True) not in VALID_UPLOAD_TYPES:
                 raise ValidationError(_("Bad file"), code="filerr")
 
 
@@ -132,7 +139,7 @@ class MakePostForm(forms.Form):
     lastName = forms.CharField(max_length=100, label="Last", widget=forms.TextInput({"Placeholder": "Last"})) #last name of author of forum
     location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of forum as an address
     content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
+    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
     
     associated_choices = [
@@ -187,5 +194,3 @@ class MakePostForm(forms.Form):
         else:
             if cleaned_data is not None:
                 self.cleaned_data = cleaned_data #if successful, store in cleaned_data
-
-

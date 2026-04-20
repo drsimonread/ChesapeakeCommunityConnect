@@ -72,6 +72,12 @@ def post_list(request):
                                                         "form" : form})
 
 
+def get_posts_and_tags(request):
+    posts = serializers.serialize("json", MapPost.objects.filter(visibility=1))
+    tags = list(MapTag.objects.values("id", "name"))
+    return JsonResponse({"widgets": posts, "tags": tags})
+
+
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
     hasReported=False
