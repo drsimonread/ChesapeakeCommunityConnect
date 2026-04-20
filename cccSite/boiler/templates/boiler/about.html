@@ -1,81 +1,60 @@
-{%extends "base/base.html"%}
-{%block head%}
+{% extends "base/base.html" %}
+{% block head %}
 {% load static %}
 
 <script src="https://accounts.google.com/gsi/client" async></script>
 <link rel="stylesheet" type="text/css" href="{% static 'boiler/aboutstyle.css' %}">
 <title>Chesapeake Community Connect - About</title>
-{%endblock head%}
-{% block content %}
-<div id="content">
-</div>
-<div>
-    <!--Banner image under nav bar-->
-    <img src="{%static 'base/assets/about_smcm.png' %}" alt="smcmPic" id="pic1">
+{% endblock head %}
 
+{% block content %}
+
+<!-- Banner image under nav bar -->
+<div>
+    <img src="{% static 'base/assets/about_smcm.png' %}" alt="smcmPic" id="pic1">
 </div>
+
 <body class="aboutBody">
-    <div class="header">
-    </div>
+    <div class="header"></div>
+
     <div id="content">
-        <!--Div for capstone description -->
+
+        <!-- Research Team Section -->
         <div class="container">
             <h4>
                 <div class="wrapper">
-                    <img src="{%static 'base/assets/capstonestockpic.png' %}" alt="capstoneLogo" id="pic2">
-
+                    <img src="{% static 'base/assets/research_team.jpg' %}" alt="researchTeam" id="pic2">
                 </div>
-                Software Startup Simulator Captsone
+                Research Team
             </h4>
             <div class="wrapper">
                 <p>
-                    The Software Startup Simulator Captsone is a unique opportunity for students in the St. Mary's
-                    College Computer Science
-                    Department to participate in a real-world development project that gives participants a
-                    corporate-like
-                    experience, by working within specialized teams to create a software application in hopes of
-                    assisting
-                    local businesses in their application development needs.
-
-                </p>
-            </div>
-        </div>
-        
-        <!--Description for QA-->
-        <div class="containerR">
-            <h4>
-                <div class="wrapper">
-                    <img src="{%static 'base/assets/qapic.webp' %}" alt="capstoneLogo" id="pic2">
-
-                </div>
-                About the QA Team
-            </h4>
-            <div class="wrapper">
-                <p>
-                    The Quality Assurance Team is in charge of all documentation regarding the product, running and
-                    testing all of the developed applications created by the Research and Development Team, and
-                    identifying and reporting errors, ensuring a fully functional product for the client.
+                    Our research team focuses on coastal community resilience, working to understand and address environmental 
+                    and societal challenges facing coastal regions. Through collaboration, data analysis, and community engagement, 
+                    the team develops insights and solutions that support sustainable and resilient coastal communities.
                 </p>
             </div>
         </div>
 
-        <!--Description for RND-->
+        <!-- R&D / QA / Capstone Section -->
         <div class="containerL">
             <h4>
                 <div class="wrapper">
-                    <img src="{%static 'base/assets/rndpic.jpeg' %}" alt="capstoneLogo" id="pic2">
+                    <img src="{% static 'base/assets/group_photo.jpg' %}" alt="groupPhoto" id="pic2">
                 </div>
-                About the R & D Team
+                R&D, QA, and Capstone Teams
             </h4>
             <div class="wrapper">
                 <p>
-                    The Research and Development team’s role is to conduct the research necessary to provide a worthy
-                    product and use all available tools to develop this product. They are also responsible for
-                    developing new and wanted features for the client, and improving and renewing existing products.
+                    The Software Startup Simulator Capstone brings together students in Research & Development, Quality Assurance, 
+                    and project teams to collaborate on real-world software projects. The R&D team focuses on building and enhancing 
+                    application features, while QA ensures quality through testing and documentation. Together, these teams simulate 
+                    a professional development environment, delivering meaningful solutions for real clients.
                 </p>
             </div>
         </div>
 
     </div>
 </body>
+
 {% endblock content %}
