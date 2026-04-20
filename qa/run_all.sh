@@ -10,6 +10,7 @@ SITE_DIR="${ROOT_DIR}/cccSite"
 
 VENV_DIR="${QA_DIR}/.venv"
 LOG_FILE="${QA_DIR}/server.log"
+DB_FILE="${SITE_DIR}/db.sqlite3"
 REPO_STATUS_BEFORE=""
 REPO_STATUS_AFTER=""
 SERVER_PID=""
@@ -91,6 +92,7 @@ pip install -r "${QA_DIR}/requirements.txt" >/dev/null
 
 echo "[4/6] Running Django migrations..."
 cd "${SITE_DIR}"
+rm -f "${DB_FILE}"
 python manage.py migrate >/dev/null
 
 echo "[5/6] Starting Django server..."
