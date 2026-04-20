@@ -26,7 +26,8 @@ body {
     background-color: var(--background);
     color: #000;
     line-height: 1.6; /* The height of the space where the text resides. */
-    overflow: auto; /* Creates scroll bar only if the content overflows. */
+    overflow-x: hidden; /* Contain full-bleed sections (e.g. contributor shell) without horizontal scroll */
+    overflow-y: auto;
 }
 
 /* Header styling */

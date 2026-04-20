@@ -11,7 +11,17 @@ import magic
 
 
 class SearchForumsForm(forms.Form):
-    q = forms.CharField(max_length=100, required=False, widget=forms.TextInput({"Placeholder": "Search..."}))
+    q = forms.CharField(
+        max_length=100,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                "class": "map-search-input",
+                "placeholder": "Search by title or description…",
+                "autocomplete": "off",
+            }
+        ),
+    )
     t = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
     class Meta:
         labels = {
