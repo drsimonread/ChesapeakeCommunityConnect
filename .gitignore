@@ -9,7 +9,11 @@ cccSite/reports/
 .venv/
 
 *.DS_Store
+<<<<<<<<< Temporary merge branch 1
+.DS_Store
+=========
 .DS_Store
 
 *.sqlite3
 cccSite/db.sqlite3
+>>>>>>>>> Temporary merge branch 2

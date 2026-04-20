@@ -164,7 +164,6 @@ class MakePostForm(forms.Form):
 
     
 
-
     #to minimize API calls, we don't want to geocode a provided address more than once. 
     #so if an address is correct, we want to use one geocode call to get the lat/long, but we can't just pass this to the model,
     #because if the provided address doesn't result in a valid geocode, we can't try to access said geocode. this stores a valid geocode

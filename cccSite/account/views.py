@@ -6,8 +6,79 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from .forms import CreateAccountForm, SearchAccountForm
+from django.db.models import Count
+from django.db.models import Q
+import json
+from django.http import JsonResponse
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 from PIL import Image
+from .models import Member, GLogIn
 
+# YOUR SPECIFIC CLIENT ID
+GOOGLE_CLIENT_ID = "909497695712-h9smcju9klvlqk70celohtne9o438htn.apps.googleusercontent.com"
+
+def google_signin(request):
+    if request.method == "POST":
+        token = request.POST.get("credential", "")
+
+        try:
+            # 1. Verify the Google token
+            idinfo = id_token.verify_oauth2_token(
+                token,
+                requests.Request(),
+                GOOGLE_CLIENT_ID
+            )
+
+            google_id = idinfo["sub"]  # Google's unique user ID
+            email = idinfo.get("email", "")
+            first_name = idinfo.get("given_name", "")
+            last_name = idinfo.get("family_name", "")
+
+            # 2. Check if this GoogleID already exists
+            try:
+                glog = GLogIn.objects.get(googleID=google_id)
+                member = glog.referTo
+                user = member.user
+
+            except GLogIn.DoesNotExist:
+                # 3. Create or get Django User based on email
+                user, created = User.objects.get_or_create(
+                    username=email,
+                    defaults={
+                        "email": email,
+                        "first_name": first_name,
+                        "last_name": last_name,
+                    }
+                )
+
+                # 4. Create Member if not exists
+                member, created_member = Member.objects.get_or_create(
+                    user=user,
+                    defaults={"ranking": 1}
+                )
+
+                # 5. Store mapping GoogleID → Member
+                GLogIn.objects.create(
+                    googleID=google_id,
+                    referTo=member
+                )
+
+            # 6. Log them in using Django
+            login(request, user)
+
+            # 7. Set your custom session keys
+            request.session["rank"] = member.ranking
+            request.session["user"] = member.pk
+            request.session["name"] = user.username
+
+            return JsonResponse({"success": True})
+
+        except ValueError:
+            return JsonResponse({"success": False, "message": "Invalid token"}, status=400)
+
+    return JsonResponse({"success": False}, status=405)
 # if user not signed in, sends them to log in 
 def signin(request):
     if request.session.get('rank', 0)==0:
@@ -105,9 +176,8 @@ def authG(request):
             return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
             pass
         return redirect(reverse("account:default"))
-    
 
-#view for creating forums
+    #view for creating forums
 def make_forum(request):
     if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
         return redirect(reverse("account:signin"))
@@ -148,3 +218,4 @@ def make_forum(request):
     else:
         contentForm = MakeForumForm()
     return render(request, 'account/create_forum.html', {'form': contentForm,})
+>>>>>>>>> Temporary merge branch 2
