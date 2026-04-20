@@ -30,6 +30,13 @@ if [ ! -f "${SITE_DIR}/requirements.txt" ]; then
   exit 1
 fi
 
+if git -C "${ROOT_DIR}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  REPO_STATUS_BEFORE="$(mktemp)"
+  REPO_STATUS_AFTER="$(mktemp)"
+  capture_repo_state > "${REPO_STATUS_BEFORE}"
+fi
+trap cleanup EXIT
+
 echo "[1/6] Creating/activating QA virtualenv..."
 if [ ! -d "${VENV_DIR}" ]; then
   python3.10 -m venv "${VENV_DIR}"
@@ -53,13 +60,6 @@ echo "[5/6] Starting Django server..."
 : > "${LOG_FILE}"
 CCCSITE_SQLITE_DB="${QA_DB_FILE}" python manage.py runserver "${PORT}" > "${LOG_FILE}" 2>&1 &
 SERVER_PID=$!
-
-cleanup() {
-  echo
-  echo "Stopping server (PID ${SERVER_PID})..."
-  kill "${SERVER_PID}" >/dev/null 2>&1 || true
-}
-trap cleanup EXIT
 
 echo "Waiting for server to respond..."
 python - <<PY
