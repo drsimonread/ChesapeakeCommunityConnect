@@ -114,5 +114,24 @@ input[type=text] { /*? Maybe move to basestyles.css. */
     float: left;
 }
 
+#create-post {
+    width: 25%;
+    margin: 20px auto 0 auto;
+    text-align: center;
+    float: right;
+}
+
+#create-post input {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 6px;
+}
+
+#open-post-btn {
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+}
+
 
   

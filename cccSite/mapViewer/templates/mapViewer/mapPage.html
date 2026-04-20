@@ -25,11 +25,11 @@
         You can also use the search panel on the right to filter results by name or category.
     </p>
 </div>
-    <!-- Map Section -->
+    <!-- Map Section on the left -->
     <div id="left">
         <div id="map"></div>
     </div>
-
+    <!-- Search Section on the right -->
     <div id="search">
         <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
             {{ searchForm.q }}
@@ -48,5 +48,24 @@
             <input type="submit" id="search-btn" class="button_CCC" value="Submit">
         </form>
     </div>
-    
+
+    <!--create post-->
+    <div id="create-post">
+    <!-- Button always visible -->
+    <button onclick="togglePostForm()" class="button_CCC" id="open-post-btn">
+        Create a Post
+    </button>
+
+    <!-- Hidden form -->
+    <div id="post-form" style="display: none; margin-top: 15px;">
+        <input id="title" placeholder="Title"><br>
+        <input id="description" placeholder="Description"><br>
+        <input id="address" placeholder="Address"><br>
+        <input id="city" placeholder="City"><br>
+        <input id="state" placeholder="State"><br>
+        <input id="zipcode" placeholder="Zip Code"><br>
+
+        <button onclick="createPost()" class="button_CCC">Post</button>
+    </div>
+</div>
 {% endblock content %}
