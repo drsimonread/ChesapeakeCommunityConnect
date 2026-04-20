@@ -137,8 +137,47 @@ def manage(request):
         form = ManageForm(instance=userInz)
     return render(request, "account/manage.html", {'form' : form})
 
-# a lot of this code is from google btw. this view verifies google one touch log in credentials
-#view for creating forums
+# a lot of this code is from google btw
+@csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
+def authG(request):
+    if request.method == "GET":
+       return redirect("/account/")
+    elif request.method == "POST":
+
+        csrf_tok_cookie = request.COOKIES.get('g_csrf_token')
+        # check valid csrf token
+        if not csrf_tok_cookie:
+            return HttpResponse("Something went wrong, no csrf cookie")
+        csrf_tok_body = request.POST.get('g_csrf_token')
+        if not csrf_tok_body:
+            return HttpResponse("Something went wrong, no csrf cookie from google")
+        if csrf_tok_cookie != csrf_tok_body:
+            return HttpResponse("Could not verify csrf")
+        #get token from google
+        tok = request.POST.get("credential")  
+        try:
+            # logs user in via their google ID, or makes an entry in member if they do not have an account yet.
+            idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
+            if not(GLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
+                #when we implement other sign in methods, we will need to ask the user if they already have an account
+                #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
+                
+                userInz = Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
+                gLogInz = GLogIn.objects.create(googleID=idinfo['sub'], referTo=userInz) # stores the google ID and the member it is associated with
+            else: #if the user has logged in with google before
+                gLogInz=GLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
+                userInz=gLogInz.referTo #get the object that the google ID is associated with
+
+            #store information about the user in the session
+            request.session['rank']=userInz.ranking
+            request.session['user']=userInz.pk 
+            request.session['name']=userInz.name
+        except ValueError:
+            return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
+            pass
+        return redirect(reverse("account:default"))
+
+    #view for creating forums
 def make_forum(request):
     if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
         return redirect(reverse("account:signin"))
@@ -179,3 +218,4 @@ def make_forum(request):
     else:
         contentForm = MakeForumForm()
     return render(request, 'account/create_forum.html', {'form': contentForm,})
+>>>>>>>>> Temporary merge branch 2

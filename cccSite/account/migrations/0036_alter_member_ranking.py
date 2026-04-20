@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='member',
             name='ranking',
-            field=models.SmallIntegerField(choices=[(2, 'trusted member'), (1, 'member'), (98, 'moderator'), (99, 'admin'), (-1, 'banned')], default=1),
+            field=models.SmallIntegerField(choices=[(-1, 'banned'), (1, 'member'), (2, 'trusted member'), (98, 'moderator'), (99, 'admin')], default=1),
         ),
     ]
