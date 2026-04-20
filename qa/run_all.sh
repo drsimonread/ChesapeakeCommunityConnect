@@ -10,6 +10,47 @@ SITE_DIR="${ROOT_DIR}/cccSite"
 
 VENV_DIR="${QA_DIR}/.venv"
 LOG_FILE="${QA_DIR}/server.log"
+DB_FILE="${SITE_DIR}/db.sqlite3"
+REPO_STATUS_BEFORE=""
+REPO_STATUS_AFTER=""
+SERVER_PID=""
+
+capture_repo_state() {
+  git -C "${ROOT_DIR}" status --porcelain=v1 --untracked-files=all -- qa cccSite
+}
+
+verify_repo_unchanged() {
+  if [ -z "${REPO_STATUS_BEFORE}" ] || [ -z "${REPO_STATUS_AFTER}" ]; then
+    return 0
+  fi
+
+  if ! diff -u "${REPO_STATUS_BEFORE}" "${REPO_STATUS_AFTER}" >/dev/null; then
+    echo "ERROR: QA runner changed tracked or untracked files in qa/ or cccSite/."
+    echo "Diff:"
+    diff -u "${REPO_STATUS_BEFORE}" "${REPO_STATUS_AFTER}" || true
+    return 1
+  fi
+}
+
+cleanup() {
+  exit_code=$?
+
+  if [ -n "${SERVER_PID}" ]; then
+    echo
+    echo "Stopping server (PID ${SERVER_PID})..."
+    kill "${SERVER_PID}" >/dev/null 2>&1 || true
+  fi
+
+  if [ -n "${REPO_STATUS_BEFORE}" ] && [ -n "${REPO_STATUS_AFTER}" ]; then
+    capture_repo_state > "${REPO_STATUS_AFTER}"
+    if ! verify_repo_unchanged; then
+      exit_code=1
+    fi
+    rm -f "${REPO_STATUS_BEFORE}" "${REPO_STATUS_AFTER}"
+  fi
+
+  exit "${exit_code}"
+}
 
 echo "QA press-play runner"
 echo "Repo: ${ROOT_DIR}"
@@ -28,6 +69,13 @@ if [ ! -f "${SITE_DIR}/requirements.txt" ]; then
   exit 1
 fi
 
+if git -C "${ROOT_DIR}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  REPO_STATUS_BEFORE="$(mktemp)"
+  REPO_STATUS_AFTER="$(mktemp)"
+  capture_repo_state > "${REPO_STATUS_BEFORE}"
+fi
+trap cleanup EXIT
+
 echo "[1/6] Creating/activating QA virtualenv..."
 if [ ! -d "${VENV_DIR}" ]; then
   python3.10 -m venv "${VENV_DIR}"
@@ -44,19 +92,13 @@ pip install -r "${QA_DIR}/requirements.txt" >/dev/null
 
 echo "[4/6] Running Django migrations..."
 cd "${SITE_DIR}"
+rm -f "${DB_FILE}"
 python manage.py migrate >/dev/null
 
 echo "[5/6] Starting Django server..."
 : > "${LOG_FILE}"
 python manage.py runserver "${PORT}" > "${LOG_FILE}" 2>&1 &
 SERVER_PID=$!
-
-cleanup() {
-  echo
-  echo "Stopping server (PID ${SERVER_PID})..."
-  kill "${SERVER_PID}" >/dev/null 2>&1 || true
-}
-trap cleanup EXIT
 
 echo "Waiting for server to respond..."
 python - <<PY
