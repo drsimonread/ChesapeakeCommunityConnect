@@ -3,6 +3,22 @@
 
 {% block head %}
 <title>Chesapeake Community Connect - Map</title>
+<<<<<<< HEAD
+=======
+<link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewforum.css' %}">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+
+
+<script src="{% static 'mapViewer/forumview.js' %}" defer></script>
+{{forum.geoCode|json_script}}
+{{ forumData|json_script:"forumData" }}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>
+
+>>>>>>> 2f3d9e2c95593ff95e5344f49ffce6b5f282a2d3
 {% endblock head %}
 
 {% block content %}
