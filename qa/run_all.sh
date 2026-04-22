@@ -12,6 +12,41 @@ VENV_DIR="${QA_DIR}/.venv"
 LOG_FILE="${QA_DIR}/server.log"
 QA_DB_FILE="${QA_DIR}/qa.sqlite3"
 
+SERVER_PID=""
+REPO_STATUS_BEFORE=""
+REPO_STATUS_AFTER=""
+PYTEST_LOG=""
+
+capture_repo_state() {
+  git -C "${ROOT_DIR}" status --short --untracked-files=all
+}
+
+cleanup() {
+  local exit_code=$?
+
+  if [ -n "${SERVER_PID}" ] && kill -0 "${SERVER_PID}" >/dev/null 2>&1; then
+    kill "${SERVER_PID}" >/dev/null 2>&1 || true
+    wait "${SERVER_PID}" 2>/dev/null || true
+  fi
+
+  if [ -n "${PYTEST_LOG}" ] && [ -f "${PYTEST_LOG}" ]; then
+    rm -f "${PYTEST_LOG}"
+  fi
+
+  if [ -n "${REPO_STATUS_BEFORE}" ] && [ -f "${REPO_STATUS_BEFORE}" ]; then
+    capture_repo_state > "${REPO_STATUS_AFTER}"
+    if ! cmp -s "${REPO_STATUS_BEFORE}" "${REPO_STATUS_AFTER}"; then
+      echo
+      echo "WARNING: Repository state changed while qa/run_all.sh was running."
+      echo "Review git status before committing."
+    fi
+    rm -f "${REPO_STATUS_BEFORE}" "${REPO_STATUS_AFTER}"
+  fi
+
+  trap - EXIT
+  exit "${exit_code}"
+}
+
 echo "QA press-play runner"
 echo "Repo: ${ROOT_DIR}"
 echo "Site: ${SITE_DIR}"
@@ -129,8 +164,6 @@ result = "PASS" if pytest_status == 0 else "FAIL"
 print(total, passed, failed, result)
 PY
 )
-
-rm -f "${PYTEST_LOG}"
 
 echo
 echo "Test Summary"
