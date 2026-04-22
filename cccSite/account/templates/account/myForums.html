@@ -1,73 +1,132 @@
-{%extends "account/accountBase.html"%}
-{%load static%}
+{% extends "account/accountBase.html" %}
+{% load static %}
+
+{% block accHead %}
+<title>My forums — Chesapeake Community Connect</title>
+{% endblock accHead %}
 
 {% block accountFunc %}
-<link rel="stylesheet" type="text/css" href="{% static 'account/accordian.css' %}">
-<style>
-
-    .container{
-        min-width: 100%;
-        margin-bottom: 20%;
-    }
-
-    .nameField,.emailField,.aboutField{
-        border: none;
-        width: 300px;
-        padding:10px;
-        margin: 10px;
-        border-radius: 5px;
-    }
-
-    .submitB {
-        background-color: #f3c10d;
-        padding: 10px;
-        border-radius: 3px;
-        border: none;
-        font-size: 15px;
-        width: 150px;
-
-    }
-
-    .submitB:hover{
-        cursor: pointer;
-        background-color: orange;
-    }
-
-</style>
-<!--loads the form with line breaks between entries. forums to the URL titled manage in the account app's URL config-->
-<div id="content">
-    <div class="container">
-        <button class="accordion" aria-expanded="false" aria-controls="visible-forums-panel">Visible Forums:</button>
-        <div class="panel" id="visible-forums-panel" hidden>
-        {%if not vis%}
-        <br>You do not have any visible forums
-        {%endif%}
-        <!--need to make these accordions for each category-->
-        {%for item in vis%}
-        <br>{{item.title}} | {{item.description}} <a class="button_CCC" href="{{item.get_absolute_url}}">View Forum</a>
-        {%endfor%}
-        </div>
-        <br>
-        <button class="accordion">Pending Forums:</button>
-        <div class="panel">
-        {%if not pend%}
-        You do not have any pending forums
-        {%endif%}
-        {%for item in pend%}
-        <br>{{item.title}} | {{item.description}} <a class="button_CCC" href="{{item.get_absolute_url}}">View Forum</a>
-        {%endfor%}
-        </div>
-        <br>
-        <button class="accordion"> Denied Forums:</button>
-        <div class="panel">
-        {%if not den%}
-        You do not have any denied forums.
-        {%endif%}
-        {%for item in den%}
-        <br>{{item.title}} | {{item.description}} <a class="button_CCC" href="{{item.get_absolute_url}}">View Forum</a>
-        {%endfor%}
-        </div>
+<div id="content" class="contrib-page contrib-page--my-forums my-forums-page" role="main" aria-labelledby="my-forums-title">
+  <header class="contrib-hero">
+    <div class="contrib-hero__inner">
+      <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-collection"></i></div>
+      <div class="contrib-hero__text">
+        <span class="contrib-hero__kicker">Your content</span>
+        <h1 id="my-forums-title" class="contrib-hero__title">My forums</h1>
+        <p class="contrib-hero__lede">Forums you created are grouped by status. Pending listings are reviewed before they appear on the map.</p>
+      </div>
     </div>
-  
+  </header>
+
+  {% if forum_just_submitted %}
+  <div class="my-forums-flash my-forums-flash--success" role="status">
+    <p class="my-forums-flash__title">Forum successfully submitted!</p>
+    <p class="my-forums-flash__text">Your forum is in <strong>Pending review</strong>. You can edit it there until an administrator approves it.</p>
+  </div>
+  {% endif %}
+  {% if forum_just_updated %}
+  <div class="my-forums-flash my-forums-flash--success" role="status">
+    <p class="my-forums-flash__title">Forum updated</p>
+    <p class="my-forums-flash__text">Your changes are still pending review.</p>
+  </div>
+  {% endif %}
+
+  <div class="my-forums-shell">
+    <div class="my-forums-accordion">
+      <button type="button" class="accordion accordion--visible" aria-expanded="false" aria-controls="visible-forums-panel" id="acc-visible">
+        <span class="accordion__lead"><i class="bx bx-show" aria-hidden="true"></i></span>
+        <span class="accordion__label">Visible forums</span>
+        <span class="accordion__badge">{{ vis|length }}</span>
+        <span class="accordion__chevron" aria-hidden="true"><i class="bx bx-chevron-down"></i></span>
+      </button>
+      <div class="panel" id="visible-forums-panel" role="region" aria-labelledby="acc-visible">
+        {% if not vis %}
+          <p class="empty-msg">You do not have any visible forums yet.</p>
+        {% endif %}
+        {% for item in vis %}
+          <div class="forum-row">
+            <div class="forum-row__main">
+              <p class="forum-row__title">{{ item.title }}</p>
+              <p class="forum-row__desc">{{ item.description }}</p>
+            </div>
+            <a class="account-btn account-btn--primary account-btn--compact" href="{{ item.get_absolute_url }}">View</a>
+          </div>
+        {% endfor %}
+      </div>
+
+      <button type="button" class="accordion accordion--pending" aria-expanded="false" aria-controls="pending-forums-panel" id="acc-pending">
+        <span class="accordion__lead"><i class="bx bx-time" aria-hidden="true"></i></span>
+        <span class="accordion__label">Pending review</span>
+        <span class="accordion__badge">{{ pend|length }}</span>
+        <span class="accordion__chevron" aria-hidden="true"><i class="bx bx-chevron-down"></i></span>
+      </button>
+      <div class="panel" id="pending-forums-panel" role="region" aria-labelledby="acc-pending">
+        {% if not pend %}
+          <p class="empty-msg">You do not have any forums pending review.</p>
+        {% endif %}
+        {% for item in pend %}
+          <div class="forum-row">
+            <div class="forum-row__main">
+              <p class="forum-row__title">{{ item.title }}</p>
+              <p class="forum-row__desc">{{ item.description }}</p>
+            </div>
+            <div class="forum-row__actions">
+              <a class="account-btn account-btn--secondary account-btn--compact" href="{% url 'account:edit_forum' item.pk %}">Edit</a>
+              <a class="account-btn account-btn--primary account-btn--compact" href="{{ item.get_absolute_url }}">View</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <button type="button" class="accordion accordion--denied" aria-expanded="false" aria-controls="denied-forums-panel" id="acc-denied">
+        <span class="accordion__lead"><i class="bx bx-x-circle" aria-hidden="true"></i></span>
+        <span class="accordion__label">Not approved</span>
+        <span class="accordion__badge">{{ den|length }}</span>
+        <span class="accordion__chevron" aria-hidden="true"><i class="bx bx-chevron-down"></i></span>
+      </button>
+      <div class="panel" id="denied-forums-panel" role="region" aria-labelledby="acc-denied">
+        {% if not den %}
+          <p class="empty-msg">You do not have any forums in this category.</p>
+        {% endif %}
+        {% for item in den %}
+          <div class="forum-row">
+            <div class="forum-row__main">
+              <p class="forum-row__title">{{ item.title }}</p>
+              <p class="forum-row__desc">{{ item.description }}</p>
+            </div>
+            <a class="account-btn account-btn--primary account-btn--compact" href="{{ item.get_absolute_url }}">View</a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock accountFunc %}
+
+{% block account_extra_js %}
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  if (
+    params.get("cleardraft") === "1" ||
+    params.get("success") === "1" ||
+    params.get("updated") === "1"
+  ) {
+    try {
+      localStorage.removeItem("ccc-create-forum-draft-v3");
+    } catch (e) {}
+    params.delete("cleardraft");
+    params.delete("success");
+    params.delete("updated");
+    var q = params.toString();
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + (q ? "?" + q : "")
+      );
+    }
+  }
+})();
+</script>
+{% endblock %}

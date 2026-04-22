@@ -26,7 +26,8 @@ body {
     background-color: var(--background);
     color: #000;
     line-height: 1.6; /* The height of the space where the text resides. */
-    overflow: auto; /* Creates scroll bar only if the content overflows. */
+    overflow-x: hidden; /* Contain full-bleed sections (e.g. contributor shell) without horizontal scroll */
+    overflow-y: auto;
 }
 
 /* Header styling */
@@ -58,6 +59,16 @@ nav a {
     border-radius: 5px; /* Sets the border radius to 5px (curves the edges). */
     transition: color 0.3s, background-color 0.3s; /* Smooth color transition on hover */
 }
+
+.profile-pic-navbar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
 
 nav a:hover {
     background-color: var(--gold); /* Yellow background on hover */

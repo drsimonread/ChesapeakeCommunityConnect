@@ -63,14 +63,34 @@ class ManageForm(ModelForm):
     class Meta:
         # MEMBER_DELETE
         model = Member
-        fields = ["pic", "about"]
-        #! fields = ["pic", "name", "email", "about"]
+        fields = ["pic", "phone_number", "about"]
 
         widgets = {
-            
-            #! 'name': forms.TextInput(attrs={'class':'nameField'}),
-            #! 'email':forms.EmailInput(attrs={'class':'emailField'}),
-            'about': forms.TextInput(attrs={'class':'aboutField'})
+            "phone_number": forms.TextInput(
+                attrs={
+                    "class": "account-form-input cc-field-input",
+                    "placeholder": "Optional",
+                    "autocomplete": "tel",
+                    "maxlength": "20",
+                }
+            ),
+            "about": forms.Textarea(
+                attrs={
+                    "class": "account-form-textarea cc-field-input",
+                    "rows": 5,
+                    "placeholder": "Tell others a bit about yourself or your organization…",
+                }
+            ),
+        }
+        labels = {
+            "pic": "Profile photo",
+            "phone_number": "Phone number",
+            "about": "About you",
+        }
+        help_texts = {
+            "pic": "JPEG or PNG recommended. Square images work best.",
+            "phone_number": "Optional. Shown only where you choose to share it.",
+            "about": "A short bio or description for your contributor page.",
         }
         
 

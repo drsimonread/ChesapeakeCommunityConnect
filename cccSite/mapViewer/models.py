@@ -21,7 +21,9 @@ class Tag(models.Model):
 class Forum(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    
+    first_name = models.CharField(max_length=100, blank=True, default="")
+    last_name = models.CharField(max_length=100, blank=True, default="")
+
     author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="forums")
     
     description = models.TextField()
