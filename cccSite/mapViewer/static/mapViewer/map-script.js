@@ -1,3 +1,4 @@
+// You need Maps JavaScript API, Places API, and Geocoding API
 // JavaScript for slideshow functionality
 let map;
 let geocoder;
@@ -44,6 +45,34 @@ async function initMap() {
         markerList.push(marker);
         infoWindowList.push(infowindow);
     }
+    const addressInput = document.getElementById("address");
+
+const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+    types: ["address"],
+    componentRestrictions: { country: "us" }
+});
+
+// When user selects a suggestion
+autocomplete.addListener("place_changed", () => {
+    const place = autocomplete.getPlace();
+
+    if (!place.geometry) return;
+
+    // Autofill city/state/zip
+    for (const component of place.address_components) {
+        const types = component.types;
+
+        if (types.includes("locality")) {
+            document.getElementById("city").value = component.long_name;
+        }
+        if (types.includes("administrative_area_level_1")) {
+            document.getElementById("state").value = component.short_name;
+        }
+        if (types.includes("postal_code")) {
+            document.getElementById("zipcode").value = component.long_name;
+        }
+    }
+});
 }
 function createPost() {
     const title = document.getElementById("title").value;
@@ -55,6 +84,11 @@ function createPost() {
 
     const fullAddress = `${address}, ${city}, ${state} ${zipcode}`;
 
+    if (!address) {
+        alert("Please enter an address");
+        return;
+    }
+
     geocoder.geocode({ address: fullAddress }, function (results, status) {
         if (status === "OK") {
             const location = results[0].geometry.location;
@@ -62,10 +96,15 @@ function createPost() {
             const marker = new google.maps.Marker({
                 map: map,
                 position: location,
+                title: title
             });
 
             const infoWindow = new google.maps.InfoWindow({
-                content: `<h4>${title}</h4><p>${description}</p>`
+                content: `
+                    <h4>${title}</h4>
+                    <p>${description}</p>
+                    <p>${fullAddress}</p>
+                `
             });
 
             marker.addListener("click", () => {
@@ -73,6 +112,7 @@ function createPost() {
             });
 
             map.setCenter(location);
+            map.setZoom(14);
 
         } else {
             alert("Address not found: " + status);
