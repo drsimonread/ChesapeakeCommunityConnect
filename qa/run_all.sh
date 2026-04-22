@@ -12,6 +12,41 @@ VENV_DIR="${QA_DIR}/.venv"
 LOG_FILE="${QA_DIR}/server.log"
 QA_DB_FILE="${QA_DIR}/qa.sqlite3"
 
+SERVER_PID=""
+REPO_STATUS_BEFORE=""
+REPO_STATUS_AFTER=""
+PYTEST_LOG=""
+
+capture_repo_state() {
+  git -C "${ROOT_DIR}" status --short --untracked-files=all
+}
+
+cleanup() {
+  local exit_code=$?
+
+  if [ -n "${SERVER_PID}" ] && kill -0 "${SERVER_PID}" >/dev/null 2>&1; then
+    kill "${SERVER_PID}" >/dev/null 2>&1 || true
+    wait "${SERVER_PID}" 2>/dev/null || true
+  fi
+
+  if [ -n "${PYTEST_LOG}" ] && [ -f "${PYTEST_LOG}" ]; then
+    rm -f "${PYTEST_LOG}"
+  fi
+
+  if [ -n "${REPO_STATUS_BEFORE}" ] && [ -f "${REPO_STATUS_BEFORE}" ]; then
+    capture_repo_state > "${REPO_STATUS_AFTER}"
+    if ! cmp -s "${REPO_STATUS_BEFORE}" "${REPO_STATUS_AFTER}"; then
+      echo
+      echo "WARNING: Repository state changed while qa/run_all.sh was running."
+      echo "Review git status before committing."
+    fi
+    rm -f "${REPO_STATUS_BEFORE}" "${REPO_STATUS_AFTER}"
+  fi
+
+  trap - EXIT
+  exit "${exit_code}"
+}
+
 echo "QA press-play runner"
 echo "Repo: ${ROOT_DIR}"
 echo "Site: ${SITE_DIR}"
@@ -81,5 +116,62 @@ PY
 
 echo "[6/6] Running tests..."
 cd "${ROOT_DIR}"
-QA_BASE_URL="${BASE_URL}" pytest -q qa/ui
-echo "PASS"
+PYTEST_LOG="$(mktemp)"
+
+set +e
+QA_BASE_URL="${BASE_URL}" pytest -q qa/ui 2>&1 | tee "${PYTEST_LOG}"
+PYTEST_STATUS=${PIPESTATUS[0]}
+set -e
+
+read -r TOTAL_TESTS PASSED_TESTS FAILED_TESTS FINAL_RESULT < <(
+  python - "${PYTEST_LOG}" "${PYTEST_STATUS}" <<'PY'
+import re
+import sys
+
+log_path = sys.argv[1]
+pytest_status = int(sys.argv[2])
+
+with open(log_path, "r", encoding="utf-8") as handle:
+    lines = [line.strip() for line in handle if line.strip()]
+
+summary_line = ""
+for line in reversed(lines):
+    if re.search(r"\b(?:passed|failed|error|errors|skipped|xfailed|xpassed)\b", line):
+        summary_line = line
+        break
+
+counts = {
+    "passed": 0,
+    "failed": 0,
+    "error": 0,
+    "errors": 0,
+    "skipped": 0,
+    "xfailed": 0,
+    "xpassed": 0,
+}
+
+for value, label in re.findall(
+    r"(\d+)\s+(passed|failed|error|errors|skipped|xfailed|xpassed)",
+    summary_line,
+):
+    counts[label] += int(value)
+
+passed = counts["passed"]
+failed = counts["failed"] + counts["error"] + counts["errors"]
+total = passed + failed + counts["skipped"] + counts["xfailed"] + counts["xpassed"]
+result = "PASS" if pytest_status == 0 else "FAIL"
+
+print(total, passed, failed, result)
+PY
+)
+
+echo
+echo "Test Summary"
+echo "Tests Run: ${TOTAL_TESTS}"
+echo "Passed: ${PASSED_TESTS}"
+echo "Failed: ${FAILED_TESTS}"
+echo "Result: ${FINAL_RESULT}"
+
+if [ "${PYTEST_STATUS}" -ne 0 ]; then
+  exit "${PYTEST_STATUS}"
+fi
