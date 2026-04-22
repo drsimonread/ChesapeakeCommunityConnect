@@ -81,5 +81,64 @@ PY
 
 echo "[6/6] Running tests..."
 cd "${ROOT_DIR}"
-QA_BASE_URL="${BASE_URL}" pytest -q qa/ui
-echo "PASS"
+PYTEST_LOG="$(mktemp)"
+
+set +e
+QA_BASE_URL="${BASE_URL}" pytest -q qa/ui 2>&1 | tee "${PYTEST_LOG}"
+PYTEST_STATUS=${PIPESTATUS[0]}
+set -e
+
+read -r TOTAL_TESTS PASSED_TESTS FAILED_TESTS FINAL_RESULT < <(
+  python - "${PYTEST_LOG}" "${PYTEST_STATUS}" <<'PY'
+import re
+import sys
+
+log_path = sys.argv[1]
+pytest_status = int(sys.argv[2])
+
+with open(log_path, "r", encoding="utf-8") as handle:
+    lines = [line.strip() for line in handle if line.strip()]
+
+summary_line = ""
+for line in reversed(lines):
+    if re.search(r"\b(?:passed|failed|error|errors|skipped|xfailed|xpassed)\b", line):
+        summary_line = line
+        break
+
+counts = {
+    "passed": 0,
+    "failed": 0,
+    "error": 0,
+    "errors": 0,
+    "skipped": 0,
+    "xfailed": 0,
+    "xpassed": 0,
+}
+
+for value, label in re.findall(
+    r"(\d+)\s+(passed|failed|error|errors|skipped|xfailed|xpassed)",
+    summary_line,
+):
+    counts[label] += int(value)
+
+passed = counts["passed"]
+failed = counts["failed"] + counts["error"] + counts["errors"]
+total = passed + failed + counts["skipped"] + counts["xfailed"] + counts["xpassed"]
+result = "PASS" if pytest_status == 0 else "FAIL"
+
+print(total, passed, failed, result)
+PY
+)
+
+rm -f "${PYTEST_LOG}"
+
+echo
+echo "Test Summary"
+echo "Tests Run: ${TOTAL_TESTS}"
+echo "Passed: ${PASSED_TESTS}"
+echo "Failed: ${FAILED_TESTS}"
+echo "Result: ${FINAL_RESULT}"
+
+if [ "${PYTEST_STATUS}" -ne 0 ]; then
+  exit "${PYTEST_STATUS}"
+fi
