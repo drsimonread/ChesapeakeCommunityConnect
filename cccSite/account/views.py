@@ -86,6 +86,11 @@ def signin(request):
     else:
         return redirect("/account/")
 
+def signup(request):
+    if request.session.get('rank', 0) != 0:
+        return redirect("/account/")
+    return render(request, 'account/signup.html')
+
 # if a user tries to sign out by URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to confirmation
 def signout(request):
     if request.method == "POST":
@@ -108,7 +113,25 @@ def default(request):
     
 def account_all(request):
     return HttpResponse("insert account view list here")
-    
+
+def account_list(request):
+    return account_all(request)
+
+def my_forums(request):
+    if request.session.get('rank', 0) == 0:
+        return redirect(reverse("account:signin"))
+    return HttpResponse("insert my forums view here")
+
+def username_validation(request):
+    username = request.GET.get("username", "").strip()
+    is_taken = User.objects.filter(username=username).exists() if username else False
+    return JsonResponse({"is_taken": is_taken})
+
+def email_validation(request):
+    email = request.GET.get("email", "").strip()
+    is_taken = User.objects.filter(email=email).exists() if email else False
+    return JsonResponse({"is_taken": is_taken})
+
 def account_view(request, want):
     if not want:
         return HttpResponse("Insert list view here")
@@ -218,4 +241,3 @@ def make_forum(request):
     else:
         contentForm = MakeForumForm()
     return render(request, 'account/create_forum.html', {'form': contentForm,})
->>>>>>>>> Temporary merge branch 2

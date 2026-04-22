@@ -15,5 +15,6 @@ urlpatterns = [
     path("myforums/", views.my_forums, name='my_forums'),
     path("ajax/username_validation/", views.username_validation, name='username_validation'),
     path("ajax/email_validation/", views.email_validation, name='email_validation'),
+    path("authG/", views.authG, name="authG"),
     path("google-signin/", views.google_signin, name="google_signin"),
 ]
