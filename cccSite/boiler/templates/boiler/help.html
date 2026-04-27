@@ -82,14 +82,34 @@
 
 <script>
   var acc = document.getElementsByClassName("accordion");
+
   for (var i = 0; i < acc.length; i++) {
     acc[i].addEventListener("click", function () {
-      this.classList.toggle("active");
+
       var panel = this.nextElementSibling;
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-      } else {
+      var isOpen = panel.style.maxHeight;
+
+      // 🔴 CLOSE ALL OTHER PANELS FIRST
+      for (var j = 0; j < acc.length; j++) {
+        var otherPanel = acc[j].nextElementSibling;
+
+        acc[j].classList.remove("active");
+        otherPanel.style.maxHeight = null;
+
+        // 🔥 Stop video if it's inside
+        var video = otherPanel.querySelector("video");
+        if (video) {
+          video.pause();
+          video.currentTime = 0;
+        }
+      }
+
+      // 🟢 OPEN CURRENT ONE (only if it was closed)
+      if (!isOpen) {
+        this.classList.add("active");
         panel.style.maxHeight = panel.scrollHeight + "px";
+
+        // keep your tutorial height fix
         if (panel.classList.contains("panel--tutorial")) {
           var fixTutorialHeight = function () {
             panel.style.maxHeight = panel.scrollHeight + "px";
