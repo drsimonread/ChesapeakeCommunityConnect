@@ -1,11 +1,10 @@
-{%extends "account/accountBase.html"%}
+{% extends "account/accountBase.html" %}
 
 {% block accountFunc %}
 <style>
     .wrapper {
         float: right;
-        border: solid;
-        border-width: 2px;
+        border: solid 2px;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
         min-width: 300px;
         width: 300px;
@@ -13,10 +12,6 @@
         margin-top: 15px;
         margin-right: 15px;
         border-radius: 5px;
-    }
-
-    li {
-        list-style: none;
     }
 
     .proPic {
@@ -28,6 +23,9 @@
 
     .imgWrapper {
         text-align: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
     }
 
     .inWrapper {
@@ -46,54 +44,52 @@
         color: blue;
     }
 
-    .editPro:hover{
+    .editPro:hover {
         cursor: pointer;
     }
 
-    .button_CCCHolder {
+    .buttonHolder {
         min-width: 200px;
         min-height: 50px;
+        clear: both;
     }
 
-    .description{
+    .description {
         margin-left: 13px;
         margin-right: 13px;
         text-align: left;
     }
-
 </style>
-<!--loads user's info from provided dictionary-->
+
 <div id="content">
     <div class="wrapper">
+
         <div class="imgWrapper">
-            <li><img class="proPic" src="{{ self.pic.url }}" alt="Profile Picture" height="150" width="150"></li>
+            <img class="proPic" src="{{ image.url }}" alt="Uploaded Image">
         </div>
+
         <div class="inWrapper">
-            {{self.user.username}}
-            <br>
-            {{self.user.email}}
-            <br>
-
-
+            {{ name }}<br>
+            {{ email }}<br>
         </div>
 
         <div class="buttonHolder">
-            <button class="editPro" id="edit-account" onclick="window.location.href= '{% url 'account:manage'%}';">
-                Edit Account Details</button>
+            <button class="editPro" id="edit-account"
+onclick='window.location.href="{% url "account:manage" %}"'>
+                Edit Account Details
+            </button>
         </div>
 
         <div class="description">
-            {%if self.about != ""%}
-            <p>
-                {{self.about}}
-                {%endif%}
-                {%if self.ranking > 1%}
-            <p>You are a trusted user.
-                {%endif%}
+            {% if about %}
+                <p>{{ about }}</p>
+            {% endif %}
+
+            {% if rank > 1 %}
+                <p>You are a trusted user.</p>
+            {% endif %}
         </div>
 
     </div>
-
-    <!--forums to the URL titled signout in the account app's URL config-->
 </div>
 {% endblock accountFunc %}
