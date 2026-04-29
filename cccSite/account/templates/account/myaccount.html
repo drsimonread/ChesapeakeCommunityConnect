@@ -1,6 +1,12 @@
-{%extends "account/accountBase.html"%}
+{% extends "account/accountBase.html" %}
+{% load static %}
+
+{% block accHead %}
+<title>My account — Chesapeake Community Connect</title>
+{% endblock accHead %}
 
 {% block accountFunc %}
+<<<<<<< HEAD
 <style>
     .wrapper {
         float: right;
@@ -88,8 +94,89 @@
                 {%endif%}
         </div>
 
+=======
+<div id="content" class="contrib-page contrib-page--account account-profile" role="main" aria-labelledby="account-overview-title">
+  <header class="contrib-hero">
+    <div class="contrib-hero__inner">
+      <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bxs-user-account"></i></div>
+      <div class="contrib-hero__text">
+        <span class="contrib-hero__kicker">Your profile</span>
+        <h1 id="account-overview-title" class="contrib-hero__title">Contributor overview</h1>
+        <p class="contrib-hero__lede">This is how you appear to others on Chesapeake Community Connect.</p>
+      </div>
+>>>>>>> integration
     </div>
+  </header>
 
+<<<<<<< HEAD
     <!--posts to the URL titled signout in the account app's URL config-->
+=======
+  <article class="account-profile__card" aria-labelledby="profile-heading">
+    <header class="account-profile__header">
+      <div class="account-profile__header-icon" aria-hidden="true"><i class="bx bx-id-card"></i></div>
+      <div class="account-profile__header-text">
+        <h2 id="profile-heading" class="account-profile__card-title">Profile</h2>
+        <p class="account-profile__header-note">Photo, contact details, and bio</p>
+      </div>
+    </header>
+
+    <div class="account-profile__body">
+      <div class="account-profile__avatar-wrap">
+        <div class="account-profile__avatar-ring">
+          <img
+            class="account-profile__avatar"
+            src="{{ self.pic.url }}"
+            alt="Profile photo for {{ self.user.username }}"
+            width="200"
+            height="200"
+          >
+        </div>
+        {% if self.ranking == 2 %}
+          <span class="account-profile__badge">Trusted contributor</span>
+        {% elif self.ranking == 98 %}
+          <span class="account-profile__badge">Moderator</span>
+        {% elif self.ranking == 99 %}
+          <span class="account-profile__badge">Administrator</span>
+        {% elif self.ranking == -1 %}
+          <span class="account-profile__badge account-profile__badge--warn">Account restricted</span>
+        {% endif %}
+      </div>
+
+      <div class="account-profile__details">
+        <dl class="account-profile__dl">
+          <div class="account-profile__dl-row">
+            <dt>Username</dt>
+            <dd>{{ self.user.username }}</dd>
+          </div>
+          <div class="account-profile__dl-row">
+            <dt>Email</dt>
+            <dd><a href="mailto:{{ self.user.email }}">{{ self.user.email }}</a></dd>
+          </div>
+          {% if self.phone_number %}
+          <div class="account-profile__dl-row">
+            <dt>Phone</dt>
+            <dd><a href="tel:{{ self.phone_number }}">{{ self.phone_number }}</a></dd>
+          </div>
+          {% endif %}
+        </dl>
+
+        <div class="account-profile__about">
+          <h3 class="account-profile__about-title">About</h3>
+          {% if self.about %}
+            <div class="account-profile__about-body">{{ self.about|linebreaksbr }}</div>
+          {% else %}
+            <p class="account-profile__about--empty">You have not added a short bio yet. Edit your profile to tell the community about yourself or your organization.</p>
+          {% endif %}
+        </div>
+
+        <div class="account-profile__actions">
+          <a class="account-btn account-btn--primary" href="{% url 'account:manage' %}">Edit profile</a>
+          <a class="account-btn account-btn--secondary" href="{% url 'account:my_forums' %}">My forums</a>
+          <a class="account-btn account-btn--secondary" href="{% url 'account:create_forum' %}">Create forum</a>
+        </div>
+      </div>
+    </div>
+  </article>
+>>>>>>> integration
 </div>
 {% endblock accountFunc %}

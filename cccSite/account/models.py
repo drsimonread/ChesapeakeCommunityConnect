@@ -28,6 +28,10 @@ class Member(models.Model):
     email = models.EmailField()
     pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
+    
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
    #location
     def __str__(self):

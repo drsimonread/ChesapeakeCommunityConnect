@@ -1,10 +1,12 @@
-{%extends "base/base.html"%}
-{%block head%}
+{% extends "base/base.html" %}
+{% block head %}
 {% load static %}
 {%block accHead%}
 <title>Chesapeake Community Connect - Contributors</title>
-{%endblock accHead%}
-{%endblock head%}
+{% endblock accHead %}
+
+{% endblock head %}
+
 {% block content %}
 <div class="body">  
     <ul style="position:fixed;width: 15%;">
@@ -24,21 +26,18 @@
     {%block accountFunc%} Welcome to the account interface. {% endblock accountFunc %}
 
 </div>
+
 <script>
-  // Script for smooth accordions
   var acc = document.getElementsByClassName("accordion");
-  var i;
-  for (i = 0; i < acc.length; i++) {
+  for (let i = 0; i < acc.length; i++) {
       acc[i].addEventListener("click", function () {
           this.classList.toggle("active");
           var panel = this.nextElementSibling;
-          if (panel.style.maxHeight) {
-              panel.style.maxHeight = null;
-          } else {
-              panel.style.maxHeight = panel.scrollHeight + "px";
-          }
+          panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
       });
   }
-
 </script>
+
+{% block account_extra_js %}{% endblock %}
+
 {% endblock content %}

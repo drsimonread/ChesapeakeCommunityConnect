@@ -6,8 +6,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'base/basestyle.css' %}">
     {% block head%}{%endblock head%}
 </head>
-{%with rank=request.session.rank|default:0%}
+
+{% with rank=request.session.rank|default:0 %}
 <body>
+
     <!-- Navigation Bar  -->
     <header>
         <nav>
@@ -31,6 +33,7 @@
             &copy; 2023 SMCM Capstone Website
         </div>
     </footer>
+
 </body>
-{%endwith%}
+{% endwith %}
 </html>

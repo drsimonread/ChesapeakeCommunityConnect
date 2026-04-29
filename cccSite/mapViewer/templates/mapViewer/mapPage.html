@@ -3,6 +3,7 @@
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
 <title>Chesapeake Community Connect - Map</title>
 
 <!--the defer guarantees that TEST
@@ -18,24 +19,54 @@
 {% endblock head %}
 
 {% block content %}
-    <!-- Map Section -->
-    <div id="left">
-        <div id="map"></div>
-    </div>
+<div class="site-shell site-font">
+  <div class="site-shell__aurora" aria-hidden="true"></div>
+  <div class="site-shell__pattern" aria-hidden="true"></div>
+  <div class="site-shell__inner">
+    <header class="site-hero--gradient" aria-labelledby="map-page-title">
+      <div class="site-hero__inner">
+        <span class="site-hero__mark" aria-hidden="true"><i class="bx bx-map-alt"></i></span>
+        <div class="site-hero__text">
+          <span class="site-hero__kicker">Chesapeake Community Connect</span>
+          <h1 id="map-page-title" class="site-hero__title">Explore the map</h1>
+          <p class="site-hero__lede">
+            Use the interactive map below to explore community organizations and services in the Chesapeake area.
+            Zoom in or out to browse locations, and click any marker for details.
+            Use the search panel to filter by name or category.
+          </p>
+        </div>
+      </div>
+    </header>
 
-    <div id="search">
-        <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
-            {{ searchForm.q }}
-            <div id="scroll-box">
+    <div class="site-main site-main--map">
+      <div class="map-page-layout">
+        <div class="map-page-layout__map" id="left">
+          <div id="map" role="presentation" aria-label="Interactive map of forums"></div>
+        </div>
+
+        <aside class="map-page-layout__search map-search-panel" id="search" aria-label="Search and filter map pins">
+          <div class="map-search-panel__head">
+            <h2 class="map-search-panel__title">Filter the map</h2>
+            <p class="map-search-panel__intro">Narrow pins by text or topic, then apply.</p>
+          </div>
+          <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get" class="map-search-form">
+            <div class="map-search-block">
+              <label class="map-search-label" for="{{ searchForm.q.id_for_label }}">Name or keywords</label>
+              {{ searchForm.q }}
+            </div>
+            <div class="map-search-block map-search-block--tags">
+              <span class="map-search-label" id="map-topics-label">Topics</span>
+              <p class="map-search-hint" id="map-topics-hint">Select any combination. Forums must match all chosen tags.</p>
+              <div id="scroll-box" class="map-tag-scroll" role="group" aria-labelledby="map-topics-label" aria-describedby="map-topics-hint">
                 <div id="id_t">
-                    {% for mTag in searchForm.t %}
-                        <div>
-                            <label for="{{ mTag.id_for_label }}">
-                                {{ mTag.tag }}
-                                <span>{{ mTag.choice_label }}</span>
-                            </label>
-                        </div>
-                    {% endfor %}
+                  {% for choice in searchForm.t %}
+                  <div class="map-tag-row">
+                    <label for="{{ choice.id_for_label }}">
+                      {{ choice.tag }}
+                      <span>{{ choice.choice_label }}</span>
+                    </label>
+                  </div>
+                  {% endfor %}
                 </div>
             </div>
             <input type="submit" id="search-btn" class="button_CCC" value="Submit">

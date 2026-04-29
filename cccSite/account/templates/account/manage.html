@@ -1,4 +1,9 @@
-{%extends "account/accountBase.html"%}
+{% extends "account/accountBase.html" %}
+{% load static %}
+
+{% block accHead %}
+<title>Edit profile — Chesapeake Community Connect</title>
+{% endblock accHead %}
 
 {% block accountFunc %}
 
@@ -43,6 +48,6 @@
             <input class="submitB" type="submit" value="Submit">
         </form>
     </div>
-  
+  </form>
 </div>
 {% endblock accountFunc %}
