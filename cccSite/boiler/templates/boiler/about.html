@@ -7,68 +7,68 @@
 {% endblock head %}
 
 {% block content %}
+<!-- Main container for the About page -->
+<main class="about-container">
 
-<div>
-    <img src="{% static 'base/assets/about_smcm.png' %}" alt="St. Mary's College banner" id="pic1">
-</div>
-
-<body class="aboutBody">
+    <!-- Banner Image -->
+    <section class="banner-section">
+        <img src="{% static 'base/assets/about_smcm.png' %}" alt="St. Mary's College banner" class="banner-image">
+    </section>
 
     <!-- =========================
          SECTION 1: RESEARCH TEAM
     ========================== -->
-    <div class="container">
-
-        <h4>Research Team</h4>
-
-        <div class="wrapper">
-            <img src="{% static 'base/assets/rndpic.jpeg' %}" id="pic2" alt="Research team">
+    <section class="team-section">
+        <h2 class="section-title">Research Team</h2>
+        <div class="team-info">
+            <figure class="team-image-wrapper">
+                <img src="{% static 'base/assets/rndpic.jpeg' %}" alt="Research team" class="team-image">
+            </figure>
+            <div class="team-description">
+                <p>
+                    The Research Team is responsible for analyzing community needs and identifying real-world problems
+                    that can be addressed through software solutions. They conduct background research, gather requirements,
+                    and ensure that development efforts align with user expectations and project goals.
+                </p>
+                <p>
+                    Their work serves as the foundation for the entire project. By studying existing systems and consulting
+                    stakeholders, the research team helps define what features should be built and why they are important.
+                    This ensures the final product is both useful and relevant to the community it serves.
+                </p>
+            </div>
         </div>
+    </section>
 
-        <p>
-            The Research Team is responsible for analyzing community needs and identifying real-world problems
-            that can be addressed through software solutions. They conduct background research, gather requirements,
-            and ensure that development efforts align with user expectations and project goals.
-        </p>
-
-        <p>
-            Their work serves as the foundation for the entire project. By studying existing systems and consulting
-            stakeholders, the research team helps define what features should be built and why they are important.
-            This ensures the final product is both useful and relevant to the community it serves.
-        </p>
-
-    </div>
-
-    <!-- ======================================
+    <!-- =========================
          SECTION 2: R&D / QA / CAPSTONE TEAM
-    ======================================= -->
-    <div class="containerR">
-
-        <h4>R&D / QA / Capstone Team</h4>
-
-        <div class="wrapper">
-            <img src="{% static 'base/assets/qapic.webp' %}" id="pic2" alt="QA team">
+    ========================== -->
+    <section class="team-section">
+        <h2 class="section-title">R&D / QA / Capstone Team</h2>
+        <div class="team-info">
+            <figure class="team-image-wrapper">
+                <img src="{% static 'base/assets/qapic.webp' %}" alt="QA team" class="team-image">
+            </figure>
+            <div class="team-description">
+                <p>
+                    This combined group brings together Research & Development, Quality Assurance, and Capstone collaboration
+                    to design, build, and refine the final application. Each subgroup plays a key role in delivering a
+                    functional and polished product.
+                </p>
+                <p>
+                    The R&D team focuses on implementing features and improving system functionality. QA ensures that all
+                    components are tested thoroughly, documenting bugs and verifying fixes. The Capstone coordination group
+                    oversees integration, ensuring that all parts of the project work together smoothly.
+                </p>
+                <p>
+                    Together, these teams follow a structured development process similar to a real software company,
+                    preparing students for professional roles in software engineering and collaborative development environments.
+                </p>
+            </div>
         </div>
+    </section>
 
-        <p>
-            This combined group brings together Research & Development, Quality Assurance, and Capstone collaboration
-            to design, build, and refine the final application. Each subgroup plays a key role in delivering a
-            functional and polished product.
-        </p>
+</main>
 
-        <p>
-            The R&D team focuses on implementing features and improving system functionality. QA ensures that all
-            components are tested thoroughly, documenting bugs and verifying fixes. The Capstone coordination group
-            oversees integration, ensuring that all parts of the project work together smoothly.
-        </p>
-
-        <p>
-            Together, these teams follow a structured development process similar to a real software company,
-            preparing students for professional roles in software engineering and collaborative development environments.
-        </p>
-
-    </div>
-
-</body>
+<!-- Optional additional styling or scripts can be added here -->
 
 {% endblock content %}

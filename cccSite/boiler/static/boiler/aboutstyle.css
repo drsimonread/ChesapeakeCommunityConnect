@@ -1,8 +1,11 @@
 .aboutBody {
-    /* background + base text setup */
     background-color: #f3f3f3;
-    color: #ffffff; /* FIX: white text works better on dark containers */
+    color: #ffffff; /* Text on dark backgrounds */
     font-family: Arial, sans-serif;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* =========================
@@ -13,15 +16,20 @@
 .containerL,
 .containerR {
     background-color: #00205c;
-
     width: 40%;
-    padding: 1%;
+    padding: 2%;
     border-radius: 15px;
-
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
-
-    /* spacing between sections */
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
     margin: 30px auto;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Slight lift on hover for decoration */
+.container:hover,
+.containerL:hover,
+.containerR:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.4);
 }
 
 /* override positioning differences safely */
@@ -43,13 +51,18 @@
     font-size: 16px;
     line-height: 1.6;
     padding: 0 10px;
+    color: #ffffff; /* Ensure text is visible on dark background */
+    margin-top: 10px;
 }
 
-/* center headings */
+/* Centered headings with style */
 h4 {
     font-size: 30px;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    color: #ffd700; /* Gold color for emphasis */
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    font-family: 'Arial Black', sans-serif;
 }
 
 /* =========================
@@ -57,7 +70,11 @@ h4 {
    ========================= */
 
 .wrapper {
-    margin: 10px 20px;
+    margin: 20px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
 }
 
 /* =========================
@@ -68,20 +85,40 @@ h4 {
     width: 100%;
     height: auto;
     display: block;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    margin-top: 10px;
 }
 
 #pic2 {
     width: 100%;
     border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 /* =========================
-   OPTIONAL CLEANUP
+   ADDITIONAL DECORATION
    ========================= */
 
-/* ensures text doesn't inherit weird colors */
+/* Add a decorative border or icon to headers if desired */
+h4::after {
+    content: "✨";
+    margin-left: 10px;
+}
+
+/* Optional: Add a background pattern or gradient to sections */
 .container,
 .containerL,
 .containerR {
-    color: white;
+    background: linear-gradient(135deg, #003366, #001f3f);
+}
+
+/* Responsive adjustments */
+@media(max-width: 768px) {
+    .container,
+    .containerL,
+    .containerR {
+        width: 80%;
+        margin: 20px auto;
+    }
 }

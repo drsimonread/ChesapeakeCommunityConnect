@@ -1,22 +1,41 @@
-{%extends "account/accountBase.html"%}
+{% extends "account/accountBase.html" %}
 
 {% block accountFunc %}
-
+<!-- Consider moving this CSS to an external stylesheet for cleaner code -->
 <style>
-
-    .container{
+    .container {
         min-width: 100%;
         margin-bottom: 20%;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
     }
 
-    .nameField,.emailField,.aboutField{
-        border: none;
-        width: 300px;
-        padding:10px;
-        margin: 10px;
+    form#contact-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 400px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    /* Style form fields */
+    .nameField, .emailField, .aboutField {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
         border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
     }
 
+    /* Style submit button */
     .submitB {
         background-color: #f3c10d;
         padding: 10px;
@@ -24,25 +43,22 @@
         border: none;
         font-size: 15px;
         width: 150px;
-
-    }
-
-    .submitB:hover{
         cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s;
+    }
+    .submitB:hover {
         background-color: orange;
     }
-
 </style>
-<!--loads the form with line breaks between entries. forums to the URL titled manage in the account app's URL config-->
+
 <div id="content">
-    <div class="container">
-        <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">
-            {%csrf_token%}
-            {{form.as_p}}
-    
+    <section class="form-section" aria-label="Manage your account">
+        <form action="{% url 'account:manage' %}" id="contact-form" method="post" enctype="multipart/form-data" role="form">
+            {% csrf_token %}
+            {{ form.as_p }}
             <input class="submitB" type="submit" value="Submit">
         </form>
-    </div>
-  
+    </section>
 </div>
 {% endblock accountFunc %}

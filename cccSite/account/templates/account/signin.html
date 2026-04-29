@@ -1,222 +1,74 @@
-<a class="signin-modal-trigger nav-link" data-target="signin-modal"> Sign In </a>
+<!-- Trigger button (better accessibility) -->
+<button class="signin-modal-trigger button" data-target="signin-modal" aria-haspopup="true" aria-controls="signin-modal">Sign In</button>
 
-<div id="signin-modal" class="modal">
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title has-text-left">Sign In</p>
-            <button type="button" class="delete" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body">
-            <div class="field">
-                {% comment %} <label class="label">Username</label> {% endcomment %}
-                <div class="control">
-                    <input class="input" type="text" name="username" id="signin_username" placeholder="Username">
-                </div>
-                {% comment %} <p class="help" id="signin_username_helper"></p> {% endcomment %}
-            </div>
-            <div class="field">
-                {% comment %} <label class="label">Password</label> {% endcomment %}
-                <div class="control">
-                    <input class="input" type="password" name="password" id="signin_password" placeholder="Password">
-                </div>
-                <p class="help" id="signin_password_helper"></p>
-            </div>
-            <p>Or</p>
-            <div class="field">
-                <div id="g_id_signin"></div>
-            </div>
-        </section>
-        <footer class="modal-card-foot">
-            <div class="control">
-                <button class="button is-link" type="submit" id="signin" disabled>Sign In</button>
-                <button type="button" class="button is-danger sign-in-up-cancel">Cancel</button>
-            </div>
-            <br>
-            <div class="control">
-                <!--google sign in button is rendered here-->
-                <!-- <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
-                    data-text="signin" data-size="large" data-logo_alignment="left">
-                </div> -->
-            </div>
-        </footer>
-    </div>
+<!-- Modal Structure -->
+<div id="signin-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signin-modal-title">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p id="signin-modal-title" class="modal-card-title">Sign In</p>
+      <button class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+<form id="signin-form" method="post" action="{% url 'account:signin' %}">        {% csrf_token %}
+        <div class="field">
+          <label for="signin_username" class="label visually-hidden">Username</label>
+          <div class="control">
+            <input class="input" type="text" id="signin_username" name="username" placeholder="Username" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="signin_password" class="label visually-hidden">Password</label>
+          <div class="control">
+            <input class="input" type="password" id="signin_password" name="password" placeholder="Password" required>
+          </div>
+        </div>
+        <div id="g_id_signin"></div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-primary" id="submit-signin" type="submit">Sign In</button>
+      <button class="button sign-in-up-cancel" type="button">Cancel</button>
+    </footer>
+  </div>
 </div>
 
-
+<!-- Scripts (preferably at the end of body) -->
 <script>
-
-    let signin_username = document.getElementById("signin_username");
-    {% comment %} let signin_username_helper = document.getElementById("signin_username_helper"); {% endcomment %}
-
-    let signin_password = document.getElementById("signin_password");
-    let signin_password_helper = document.getElementById("signin_password_helper");
-    let signin = document.getElementById("signin");
-
-    {% comment %} $("#signin_username").change(function (e) {
-        if ($(signin_username).val() == "") {
-            signin_username.classList.remove("is-danger");
-            signin_username_helper.classList.remove("is-danger");
-            signin_username.classList.remove("is-link");
-            signin_username_helper.classList.remove("is-link");
-            signin_username_helper.textContent = "";
-            signin.disabled = true;
-        } else {
-            $.ajax({
-                type: "GET",
-                url: "ajax/username_validation/",
-                data: {
-                    username: $(signin_username).val(),
-                },
-                success: function (data) {
-                    if (data.is_taken) {
-                        signin_username.classList.remove("is-danger");
-                        signin_username.classList.add("is-link");
-                        signin_username_helper.classList.remove("is-danger");
-                        signin_username_helper.classList.add("is-link");
-                        signin_username_helper.textContent = "That username exists.";
-                        signin.disabled = false;
-                    } else {
-                        signin_username.classList.add("is-danger");
-                        signin_username.classList.remove("is-link");
-                        signin_username_helper.classList.add("is-danger");
-                        signin_username_helper.classList.remove("is-link");
-                        signin_username_helper.textContent = "That username doesn't exist.";
-                        signin.disabled = true;
-                    }
-                }
-            });
-        }
-    }); {% endcomment %}
-
-    $("#signin_password").change(function (e) {
-        if ($("#signin_password").val() != "") {
-            signin.disabled = false;
-        } else {
-            signin.disabled = true;
-        }
-        signin_password.classList.remove("is-danger");
-        signin_password_helper.classList.remove("is-danger");
-        signin_password_helper.textContent = "";
+  document.addEventListener('DOMContentLoaded', () => {
+    // Modal open/close logic
+    document.querySelectorAll('.signin-modal-trigger').forEach(btn => {
+      btn.onclick = () => {
+        document.getElementById(btn.dataset.target).classList.add('is-active');
+      };
     });
-
-
-    $("#signin-modal").on("click", "#signin", function (e) {
-
-        $.ajax({
-            url: "/contribute/",
-            type: "POST",
-            data: {
-                username: $(signin_username).val(),
-                password: $(signin_password).val(),
-                csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
-            },
-            success: function (response) {
-                if (!response.is_password) {
-                    signin_password.classList.add("is-danger");
-                    signin_password_helper.classList.add("is-danger");
-                    signin_password_helper.textContent = "Incorrect Password."
-                } else {
-                    location.reload(true);
-                }
-            }
-        });
+    document.querySelectorAll('.modal-background, .modal-close, .sign-in-up-cancel').forEach(btn => {
+      btn.onclick = () => {
+        btn.closest('.modal').classList.remove('is-active');
+        // Reset form fields
+        document.getElementById('signin-form').reset();
+        document.getElementById('submit-signin').disabled = true;
+      };
     });
-
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // Functions to open and close a modal
-        function openModal($el) {
-            $el.classList.add('is-active');
-        }
-
-        function closeModal($el) {
-            $el.classList.remove('is-active');
-            {% comment %} signin_username.classList.remove("is-danger"); {% endcomment %}
-            {% comment %} signin_username_helper.classList.remove("is-danger"); {% endcomment %}
-            {% comment %} signin_username.classList.remove("is-link"); {% endcomment %}
-            {% comment %} signin_username_helper.classList.remove("is-link"); {% endcomment %}
-            signin_username.value = "";
-            {% comment %} signin_username_helper.textContent = ""; {% endcomment %}
-
-            signin_password.classList.remove("is-danger");
-            signin_password_helper.classList.remove("is-danger");
-            signin_password.classList.remove("is-link");
-            signin_password_helper.classList.remove("is-link");
-            signin_password.value = "";
-            signin_password_helper.textContent = "";
-
-            signin.disabled = true;
-        }
-
-        function closeAllModals() {
-            (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-                closeModal($modal);
-            });
-        }
-
-        // Add a click event on buttons to open a specific modal
-        (document.querySelectorAll('.signin-modal-trigger') || []).forEach(($trigger) => {
-            const modal = $trigger.dataset.target;
-            const $target = document.getElementById(modal);
-
-            $trigger.addEventListener('click', () => {
-                openModal($target);
-            });
-        });
-
-        // Add a click event on various child elements to close the parent modal
-        (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .sign-in-up-cancel') || []).forEach(($close) => {
-            const $target = $close.closest('.modal');
-
-            $close.addEventListener('click', () => {
-                closeModal($target);
-            });
-        });
-
-        // Add a keyboard event to close all modals
-        document.addEventListener('keydown', (event) => {
-            if (event.key === "Escape") {
-                closeAllModals();
-            }
-        });
-    });
-</script>
-
-<!-- Load Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-
-<script>
-  function handleCredentialResponse(response) {
-    $.ajax({
-        url: "/contribute/google-signin/",
-        type: "POST",
-        data: {
-            credential: response.credential,
-            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
-        },
-        success: function (data) {
-            if (data.success) {
-                location.reload(); // Let Django session rebuild the UI
-            } else {
-                console.log("Google sign-in failed");
-            }
-        }
-    });
-}
-
-  window.onload = function () {
+    // Submit button handler
+    document.getElementById('submit-signin').onclick = () => {
+      document.getElementById('signin-form').submit();
+    };
+    // Enable submit button on password input
+    document.getElementById('signin_password').oninput = () => {
+      document.getElementById('submit-signin').disabled = false;
+    };
+    // Google Sign-In setup
     google.accounts.id.initialize({
-      client_id: "909497695712-h9smcju9klvlqk70celohtne9o438htn.apps.googleusercontent.com",
+      client_id: 'YOUR_CLIENT_ID',
       callback: handleCredentialResponse,
-    //   login_uri: "http://127.0.0.1:8080/contribute/google-signin/"
     });
-
-    // Render the button automatically when the modal loads
     google.accounts.id.renderButton(
-      document.getElementById("g_id_signin"),
-      { theme: "outline", size: "large" }
+      document.getElementById('g_id_signin'),
+      { theme: 'outline', size: 'large' }
     );
-  };
+  });
+  function handleCredentialResponse(response) {
+    // AJAX to your backend
+  }
 </script>

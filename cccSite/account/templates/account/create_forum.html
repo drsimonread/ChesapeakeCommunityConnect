@@ -1,70 +1,110 @@
-{%extends "account/accountBase.html"%}
-
+{% extends "account/accountBase.html" %}
 
 {% block accountFunc %}
-<script defer> 
+{% load static %}
+
+<!-- Load Google Places Autocomplete -->
+<script defer>
     let autocomplete;
-    async function initAutocomplete(){
-        autocomplete = new google.maps.places.Autocomplete(document.getElementById('id_location'), {
-            fields: ["address_components"],
-        });
+    async function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('id_location'), 
+            { fields: ["address_components"] }
+        );
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initAutocomplete" defer></script>
 
-{% load static %}
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'account/create_forumstyle.css' %}">
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://unpkg.com/file-upload-with-preview/dist/style.css"
-    />
-</head>
+<!-- Include CSS styles -->
+<!-- Move this to your base's head block if preferred -->
+<link rel="stylesheet" type="text/css" href="{% static 'account/create_forumstyle.css' %}">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview/dist/style.css" />
 
-<!--loads the form with line breaks between entries. forums to the URL titled manage in the account app's URL config-->
+<!-- Form for creating a forum -->
 <div id="create">
+    <form action="{% url 'account:create_forum' %}" method="post" enctype="multipart/form-data" role="form" aria-labelledby="create-form-label">
+        {% csrf_token %}
+        <h2 id="create-form-label">Create a New Forum</h2>
 
-    <form action="{% url 'account:create_forum'%}" method="post" enctype="multipart/form-data" role="form">
-        {%csrf_token%}
-        {{ form.title }}
-        {{ form.firstName }}
-        {{ form.lastName }}
-        {{ form.location }}
-        {{ form.content }}
+        <!-- Title -->
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">Title</label>
+            {{ form.title|add_class:"form-control" }}
+        </div>
 
+        <!-- First Name -->
+        <div class="form-group">
+            <label for="{{ form.firstName.id_for_label }}">First Name</label>
+            {{ form.firstName|add_class:"form-control" }}
+        </div>
 
+        <!-- Last Name -->
+        <div class="form-group">
+            <label for="{{ form.lastName.id_for_label }}">Last Name</label>
+            {{ form.lastName|add_class:"form-control" }}
+        </div>
+
+        <!-- Location with autocomplete -->
+        <div class="form-group">
+            <label for="{{ form.location.id_for_label }}">Location</label>
+            {{ form.location|add_class:"form-control" id="id_location" }}
+        </div>
+
+        <!-- Content -->
+        <div class="form-group">
+            <label for="{{ form.content.id_for_label }}">Content</label>
+            {{ form.content|add_class:"form-control" }}
+        </div>
+
+        <!-- Tags -->
         <div id="scroll-box" role="group" aria-labelledby="tags-label">
+            <h3 id="tags-label">Tags</h3>
             <div id="id_tags">
                 {% for tag in form.tags %}
-                    <div>
-                        <label for="{{ tag.id_for_label }}">
-                            {{ tag.tag }}
-                            <span>{{ tag.choice_label }}</span>
-                        </label>
-                    </div>
+                <div class="tag-item">
+                    <label for="{{ tag.id_for_label }}">
+                        {{ tag.tag }}<span>{{ tag.choice_label }}</span>
+                    </label>
+                </div>
                 {% endfor %}
             </div>
         </div>
 
-        {{ form.associated }}
-        {{ form.private_public }}
+        <!-- Associated -->
+        <div class="form-group">
+            <label for="{{ form.associated.id_for_label }}">Associated</label>
+            {{ form.associated|add_class:"form-control" }}
+        </div>
+
+        <!-- Privacy -->
+        <div class="form-group">
+            <label for="{{ form.private_public.id_for_label }}">Privacy</label>
+            {{ form.private_public|add_class:"form-control" }}
+        </div>
 
         <hr>
 
-        {{ form.file1 }}
-        {{ form.file2 }}
-        {{ form.file3 }}
-        {{ form.file4 }}
-        {% comment %} <div class="custom-file-container" data-upload-id="my-unique-id"></div> {% endcomment %}
-        {% comment %} <script src="https://unpkg.com/file-upload-with-preview/dist/file-upload-with-preview.iife.js"></script> {% endcomment %}
+        <!-- File uploads -->
+        <div class="form-group">
+            <label for="{{ form.file1.id_for_label }}">File 1</label>
+            {{ form.file1|add_class:"form-control-file" }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.file2.id_for_label }}">File 2</label>
+            {{ form.file2|add_class:"form-control-file" }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.file3.id_for_label }}">File 3</label>
+            {{ form.file3|add_class:"form-control-file" }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.file4.id_for_label }}">File 4</label>
+            {{ form.file4|add_class:"form-control-file" }}
+        </div>
 
-        {% comment %} <script>
-            const upload = new FileUploadWithPreview.FileUploadWithPreview('my-unique-id');
-        </script> {% endcomment %}
-
+        <!-- Submit Button -->
         <input class="button_CCC" id="id_submit" type="submit" value="Submit">
+
     </form>
 </div>
-
-{% endblock accountFunc %}
+{% endblock %}

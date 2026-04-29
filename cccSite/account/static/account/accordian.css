@@ -1,52 +1,58 @@
+/* Accordion styles */
 .accordion {
-    background-color: #c2c2c2;
-    /* Yellow background */
+    background-color: #c2c2c2; /* Gray background */
     color: var(--blue);
-    /* Dark blue text */
     border-bottom: 2px solid;
     padding: 10px 20px;
     display: block;
     cursor: pointer;
     transition: background-color 0.3s;
-    /* Smooth background color transition on hover */
-    width: 1000%;
-    /* Take up half the screen width */
-    /*margin: 0 auto;*/
-    /* Centered on the screen */
+    width: 100%; /* Make it full width */
     text-align: left;
-    /* Center the text */
     outline: none;
-    /* Remove outline */
 }
 
-/* Style the active class (and arrow icon) */
+/* Active or hover states */
 .accordion.active,
 .accordion:hover {
     background-color: var(--hover-gold);
-    /* Change background color on hover */
 }
 
-/* Style the panel class */
+/* Panel content */
 .panel {
     padding: 0 18px;
     background-color: white;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-    width: 100%;
-    /* Take up half the screen width */
+    width: 100%; /* Full width within container */
 }
 
+/* Subcontainer left */
 .subcontainerL {
     width: 40%;
     margin-left: 3%;
+    display: inline-block;
+    /* Or consider flex if needed */
 }
 
-.subcontainerR{
+/* Subcontainer right */
+.subcontainerR {
     margin-left: auto;
     margin-top: 2%;
-    float: right;
     width: 50%;
     margin-right: 3%;
-    transform: (-50%,-50%);
+    transform: translate(-50%, -50%);
+    display: inline-block; /* or Flexbox for layout */
+}
+
+/* Consider adding responsiveness */
+@media(max-width: 768px) {
+    .subcontainerL,
+    .subcontainerR {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 1em;
+        transform: none;
+    }
 }

@@ -1,22 +1,79 @@
 {% extends "account/accountBase.html" %}
 {% load static %}
 
-
-
 {% block accountFunc %}
 <div id="content" class="body" role="main" aria-labelledby="page-title">
     <h1 id="page-title">Chesapeake Community Connect</h1>
-    <form action = "{% url 'account:account_list' %}" method= 'GET' role="search" aria-label="User seach form">
-        {{search.as_p}}
-        <input type="submit" id="search-btn" class="button_CCC" value="Submit" aria-label="Submit search">
+
+    <!-- Search Form -->
+    <form action="{% url 'account:account_list' %}" method="GET" role="search" aria-label="User search form" class="search-form">
+        <label for="search-input" class="visually-hidden">Search Users</label>
+        {{ search.as_p }}
+        <button type="submit" id="search-btn" class="button_CCC" aria-label="Submit search">Search</button>
     </form>
-    {%for item in users %}
-    <ul role="list">                         
-        <li role="listitem"><a href="{{item.get_absolute_url}}">{{ item.user.username }}</a> {{item.num_forums}} Forums
-         </li>                      
-     </ul> 
-    {%endfor%}
-    
+
+    <!-- Users List -->
+    <section aria-labelledby="users-list-heading" class="users-section">
+        <h2 id="users-list-heading" class="visually-hidden">User List</h2>
+        {% if users %}
+            <ul role="list" class="user-list">
+                {% for item in users %}
+                <li role="listitem" class="user-item">
+                    <a href="{{ item.get_absolute_url }}" class="user-link" aria-label="View profile of {{ item.user.username }}">
+                        {{ item.user.username }}
+                    </a>
+                    <span class="forum-count">{{ item.num_forums }} Forums</span>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No users found.</p>
+        {% endif %}
+    </section>
 </div>
 
+<!-- Optional: Add styles for better appearance -->
+<style>
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+    .search-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    .user-list {
+        list-style: none;
+        padding: 0;
+    }
+    .user-item {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .user-link {
+        font-weight: bold;
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s;
+    }
+    .user-link:hover {
+        color: #0056b3;
+    }
+    .forum-count {
+        font-size: 14px;
+        color: #555;
+    }
+</style>
 {% endblock accountFunc %}

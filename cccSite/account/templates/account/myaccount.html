@@ -2,94 +2,284 @@
 
 {% block accountFunc %}
 <style>
-    .wrapper {
-        float: right;
-        border: solid 2px;
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
-        min-width: 300px;
-        width: 300px;
-        min-height: 600px;
-        margin-top: 15px;
-        margin-right: 15px;
-        border-radius: 5px;
+    /* Reset and base styles */
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
     }
 
+    /* Container styling */
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        float: right;
+        border: solid 2px #ddd;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        max-width: 350px;
+        width: 100%;
+        min-height: 600px;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #fff;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .wrapper:hover {
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Profile picture styling */
     .proPic {
-        margin: 10px 15px 15px 0px;
         width: 250px;
         height: 250px;
-        border-radius: 4px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ccc;
+        transition: border-color 0.3s ease;
     }
 
-    .imgWrapper {
-        text-align: center;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .inWrapper {
-        text-align: left;
-        margin-left: 10px;
-    }
-
-    .editPro {
-        border: none;
-        background-color: #f3f3f3;
-        margin-top: 5px;
-        margin-left: 5px;
-        float: left;
-        text-align: left;
-        font-size: 16px;
-        color: blue;
-    }
-
-    .editPro:hover {
+    .proPic:hover {
+        border-color: #007bff;
         cursor: pointer;
     }
 
-    .buttonHolder {
-        min-width: 200px;
-        min-height: 50px;
-        clear: both;
+    /* Button styles */
+    .editPro {
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        margin: 15px 5px 5px 5px;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
-    .description {
-        margin-left: 13px;
-        margin-right: 13px;
+    .editPro:hover {
+        background-color: #0056b3;
+    }
+
+    /* Container for profile info */
+    .infoContainer {
+        width: 100%;
+        padding: 10px 20px;
+        text-align: center;
+    }
+
+    /* Name and email styling */
+    .nameEmail {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 10px 0;
+        word-wrap: break-word;
+    }
+
+    /* About section */
+    .aboutSection {
+        margin-top: 15px;
         text-align: left;
+        padding: 0 10px;
+    }
+
+    /* Trusted user badge */
+    .trustedBadge {
+        display: inline-block;
+        background-color: #28a745;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    /* Last updated timestamp */
+    .lastUpdated {
+        font-size: 12px;
+        color: #555;
+        margin-top: 10px;
+    }
+
+    /* Responsive adjustments */
+    @media(max-width: 400px) {
+        .wrapper {
+            margin: 10px;
+            width: 90%;
+        }
+        .proPic {
+            width: 200px;
+            height: 200px;
+        }
+        .editPro {
+            width: 100%;
+            margin: 10px 0;
+        }
     }
 </style>
 
 <div id="content">
-    <div class="wrapper">
+    <div class="wrapper" role="region" aria-label="User Profile">
 
-        <div class="imgWrapper">
-            <img class="proPic" src="{{ image.url }}" alt="Uploaded Image">
-        </div>
-
-        <div class="inWrapper">
-            {{ name }}<br>
-            {{ email }}<br>
-        </div>
-
-        <div class="buttonHolder">
-            <button class="editPro" id="edit-account"
-onclick='window.location.href="{% url "account:manage" %}"'>
-                Edit Account Details
-            </button>
-        </div>
-
-        <div class="description">
-            {% if about %}
-                <p>{{ about }}</p>
+        <!-- Profile Image -->
+        <div class="imgWrapper" style="margin-bottom: 15px;">
+            {% if image.url %}
+                <img class="proPic" src="{{ image.url }}" alt="Profile Picture" id="profileImage" title="Click to change your profile picture">
+            {% else %}
+                <img class="proPic" src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" id="profileImage" title="Click to upload a profile picture">
             {% endif %}
-
-            {% if rank > 1 %}
-                <p>You are a trusted user.</p>
-            {% endif %}
+            <button class="editPro" id="uploadBtn" aria-label="Upload new profile picture" style="margin-top:10px;">Upload New Photo</button>
+            <input type="file" id="imageUpload" accept="image/*" style="display:none;">
         </div>
 
+        <!-- Profile Info -->
+        <div class="infoContainer">
+            <div class="nameEmail" id="nameEmail" contenteditable="true" aria-label="Name and Email" title="Click to edit your name or email">{{ name }}</div>
+            <button class="editPro" id="saveInfo" style="display:none;">Save Changes</button>
+            <button class="editPro" id="cancelEdit" style="display:none;">Cancel</button>
+        </div>
+
+        <!-- About Section -->
+        <div class="aboutSection" id="aboutSection">
+            <h3>About</h3>
+            <p id="aboutText" contenteditable="true" aria-label="About you" title="Click to edit about section">{{ about }}</p>
+            <button class="editPro" id="saveAbout" style="display:none;">Save About</button>
+            <button class="editPro" id="cancelAbout" style="display:none;">Cancel</button>
+        </div>
+
+        <!-- Trusted User Badge -->
+        {% if rank > 1 %}
+            <div class="trustedBadge" aria-label="Trusted User Badge">Trusted User</div>
+        {% endif %}
+
+        <!-- Last Updated -->
+        <div class="lastUpdated" id="lastUpdated">Last updated: {{ last_updated }}</div>
+
+        <!-- Buttons -->
+        <div style="margin-top:20px; display:flex; justify-content: center; gap:10px;">
+<a class="editPro button" href="{% url 'account:manage' %}">Edit Account Details</a>        </div>
     </div>
 </div>
+
+<script>
+    // JavaScript for inline editing and image upload
+    document.addEventListener('DOMContentLoaded', () => {
+        const nameEmail = document.getElementById('nameEmail');
+        const aboutText = document.getElementById('aboutText');
+        const saveInfoBtn = document.getElementById('saveInfo');
+        const cancelEditBtn = document.getElementById('cancelEdit');
+        const saveAboutBtn = document.getElementById('saveAbout');
+        const cancelAboutBtn = document.getElementById('cancelAbout');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const imageUpload = document.getElementById('imageUpload');
+        const profileImage = document.getElementById('profileImage');
+        const lastUpdated = document.getElementById('lastUpdated');
+
+        let originalNameEmail = nameEmail.innerText;
+        let originalAbout = aboutText.innerText;
+
+        // Enable editing
+        document.getElementById('nameEmail').addEventListener('focus', () => {
+            nameEmail.contentEditable = true;
+            saveInfoBtn.style.display = 'inline-block';
+            cancelEditBtn.style.display = 'inline-block';
+        });
+        document.getElementById('aboutText').addEventListener('focus', () => {
+            aboutText.contentEditable = true;
+            saveAboutBtn.style.display = 'inline-block';
+            cancelAboutBtn.style.display = 'inline-block';
+        });
+
+        // Save info
+        document.getElementById('saveInfo').addEventListener('click', () => {
+            // Send AJAX request to save data
+            fetch('{% url "account:update_info" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ name_email: nameEmail.innerText })
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    lastUpdated.innerText = 'Last updated: ' + new Date().toLocaleString();
+                    nameEmail.contentEditable = false;
+                    saveInfoBtn.style.display = 'none';
+                    cancelEditBtn.style.display = 'none';
+                }
+            });
+        });
+
+        // Cancel editing name/email
+        document.getElementById('cancelEdit').addEventListener('click', () => {
+            nameEmail.innerText = originalNameEmail;
+            nameEmail.contentEditable = false;
+            saveInfoBtn.style.display = 'none';
+            cancelEditBtn.style.display = 'none';
+        });
+
+        // Save about
+        document.getElementById('saveAbout').addEventListener('click', () => {
+            fetch('{% url "account:update_about" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ about: aboutText.innerText })
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    lastUpdated.innerText = 'Last updated: ' + new Date().toLocaleString();
+                    aboutText.contentEditable = false;
+                    saveAboutBtn.style.display = 'none';
+                    cancelAboutBtn.style.display = 'none';
+                }
+            });
+        });
+
+        // Cancel editing about
+        document.getElementById('cancelAbout').addEventListener('click', () => {
+            aboutText.innerText = originalAbout;
+            aboutText.contentEditable = false;
+            saveAboutBtn.style.display = 'none';
+            cancelAboutBtn.style.display = 'none';
+        });
+
+        // Upload new profile picture
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            imageUpload.click();
+        });
+
+        imageUpload.addEventListener('change', () => {
+            const file = imageUpload.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('image', file);
+                fetch('{% url "account:upload_image" %}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: formData
+                }).then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        profileImage.src = data.new_image_url;
+                        lastUpdated.innerText = 'Last updated: ' + new Date().toLocaleString();
+                    }
+                });
+            }
+        });
+
+        // Download profile
+        document.getElementById('downloadProfileBtn').addEventListener('click', () => {
+            window.location.href = '{% url "account:download_profile" %}';
+        });
+    });
+</script>
 {% endblock accountFunc %}
