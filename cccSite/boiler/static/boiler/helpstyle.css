@@ -1,100 +1,126 @@
-/* Style the accordion as a button */
+/* GENERAL */
+#content {
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.section {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+/* TITLE */
+.center-title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* ===================== */
+/* FAQ */
+/* ===================== */
+
+.faq-card {
+    background-color: #00205c;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 15px 40px rgba(0,0,0,0.3);
+}
+
+/* ACCORDION */
 .accordion {
     background-color: #f3c10d;
-    /* Yellow background */
     color: #00205c;
-    /* Dark blue text */
+    padding: 16px 20px;
+    width: 100%;
     border: none;
-    padding: 10px 20px;
-    display: block;
-    border-radius: 5px;
+    border-radius: 10px;
+    margin: 12px 0;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
-    transition: background-color 0.3s;
-    /* Smooth background color transition on hover */
-    width: 70%;
-    /* Take up half the screen width */
-    margin: 0 auto;
-    /* Centered on the screen */
-    text-align: center;
-    /* Center the text */
-    outline: none;
-    /* Remove outline */
+    transition: 0.2s ease;
 }
 
-/* Style the active class (and arrow icon) */
-.accordion.active,
 .accordion:hover {
-    background-color: orange;
-    /* Change background color on hover */
+    background-color: #ffd84d;
+    transform: translateY(-2px);
 }
 
-/* Style the panel class */
+.icon {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* PANEL */
 .panel {
-    padding: 0 18px;
     background-color: white;
+    border-radius: 0 0 10px 10px;
+    padding: 0 15px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    margin: 0 auto;
-    /* Center the panel */
-    width: 40%;
-    /* Take up half the screen width */
+    transition: max-height 0.3s ease;
 }
 
-/* Centering the video container */
-.video-container {
+/* ===================== */
+/* LAYOUT */
+/* ===================== */
+
+.split {
+    display: flex;
+    gap: 40px;
+    align-items: stretch; /* makes cards equal height */
+}
+
+/* CARDS */
+.card {
+    flex: 1;
+    background-color: #00205c;
+    padding: 25px;
+    border-radius: 15px;
+    color: #f3c10d;
+    box-shadow: 0px 15px 40px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.center-card {
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    margin: 0 auto 40px  20px;
-    /* Ensures space for the footer */
-    max-width: 100%;
-    /* Adjust based on video size or preference */
 }
 
-.subcontainerL {
-    width: 40%;
-    margin-left: 3%;
-}
-
-.subcontainerR{
-    margin-left: auto;
-    margin-top: 2%;
-    float: right;
-    width: 50%;
-    margin-right: 3%;
-    transform: (-50%,-50%);
-}
-
-
-
-video {
-    width: 100%;
-    /* Responsive video */
-    height: auto;
-    /* Maintain aspect ratio */
-
-    border-radius: 8px;
-}
-
-#content {
-    margin-bottom: 60px;
-    /* Space at the bottom for the footer */
-}
-
-/* Add margin below the FAQ section */
-#FAQ {
-    margin-bottom: 30px;
-    /* Adjust the value as needed for visual spacing */
-}
-
-/* Style for creating space below the video */
-#map-tutorial {
+/* SUBTEXT */
+.subtitle {
     margin-bottom: 20px;
-    /* Adjust this value as needed */
 }
 
-#show-contact-form-button {
-    padding: 10px 20px;
-    width: 40%; /* Take up half the screen width */
-    margin: 20px auto; /* Centered on the screen */
-    margin-top: 40px; /* Increase top margin to add space above the button */
+/* VIDEO */
+.video-wrapper {
+    width: 70%;
+    margin: auto;
+    padding: 10px;
+    background-color: #001a4d;
+    border-radius: 15px;
+}
+
+.video-wrapper video {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* BUTTON */
+.button {
+    background-color: #f3c10d;
+    color: #00205c;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.button:hover {
+    background-color: #ffd84d;
 }
