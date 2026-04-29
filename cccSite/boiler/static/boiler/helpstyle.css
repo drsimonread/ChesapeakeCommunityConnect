@@ -1,273 +1,126 @@
-/* Help page — hero, FAQ, and Contact us all live inside one .site-main white card */
-.help-page {
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
+/* GENERAL */
+#content {
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-/* Hero is first child inside the white card: align flush to top and side padding */
-.help-page > .help-page-hero.site-hero--gradient {
-    margin: -2rem -2.25rem 1.5rem;
-    max-width: none;
-    width: auto;
-    box-sizing: border-box;
-    border-radius: 19px 19px 16px 16px;
+.section {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
 }
 
-.help-page .help-faq {
-    min-width: 0;
-    max-width: 100%;
-}
-
-.help-page p,
-.help-page .panel {
-    overflow-wrap: anywhere;
-    word-break: break-word;
-}
-
-.help-page .accordion {
-    background-color: var(--gold);
-    color: var(--blue);
-    border: none;
-    padding: 10px 16px;
-    display: block;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
-    max-width: 42rem;
-    margin: 0 auto;
-    box-sizing: border-box;
+/* TITLE */
+.center-title {
     text-align: center;
-    outline: none;
+    margin-bottom: 25px;
 }
 
-.help-page .accordion.active,
-.help-page .accordion:hover {
-    background-color: var(--hover-gold);
+/* ===================== */
+/* FAQ */
+/* ===================== */
+
+.faq-card {
+    background-color: #00205c;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 15px 40px rgba(0,0,0,0.3);
 }
 
-.help-page .panel {
-    padding: 0 12px;
-    background-color: transparent;
+/* ACCORDION */
+.accordion {
+    background-color: #f3c10d;
+    color: #00205c;
+    padding: 16px 20px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    margin: 12px 0;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.accordion:hover {
+    background-color: #ffd84d;
+    transform: translateY(-2px);
+}
+
+.icon {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* PANEL */
+.panel {
+    background-color: white;
+    border-radius: 0 0 10px 10px;
+    padding: 0 15px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 42rem;
-    box-sizing: border-box;
+    transition: max-height 0.3s ease;
 }
 
-video {
-    max-width: 100%;
-    height: auto;
+/* ===================== */
+/* LAYOUT */
+/* ===================== */
+
+.split {
+    display: flex;
+    gap: 40px;
+    align-items: stretch; /* makes cards equal height */
 }
 
-/* Map Tutorial panel (video inside accordion) */
-.panel-tutorial-lede {
-    margin: 0.75rem 0 1rem;
-    font-size: 0.95rem;
-    line-height: 1.55;
-    color: #475569;
-}
-
-.help-tutorial-video-wrap {
-    margin: 0 0 0.5rem;
-    min-width: 0;
-    max-width: 100%;
-    overflow: hidden;
-    border-radius: 10px;
-}
-
-.help-tutorial-video-wrap video {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 32, 92, 0.12);
-    box-shadow: 0 4px 16px rgba(0, 32, 92, 0.08);
-    background: #0f172a;
-}
-
-/* Contact us: inside the same white .site-main as FAQ (single card surface) */
-.help-page .help-contact-card {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(0, 32, 92, 0.12);
-    display: flow-root;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    overflow-x: clip;
-    overflow-y: visible;
-}
-
-.help-contact-card__header {
-    text-align: center;
-    margin-bottom: 1.15rem;
-}
-
-.help-contact-card__title {
-    margin: 0 0 0.45rem;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--blue);
-    letter-spacing: -0.02em;
-}
-
-.help-contact-card__intro {
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.55;
-    color: #475569;
-}
-
-.help-contact-card__body {
-    max-width: 42rem;
-    margin: 0 auto;
-    width: 100%;
-    min-width: 0;
-    /* Inset panel so fields read as one unit inside Contact us (stops visual “bleed” past this band) */
-    padding: 1.35rem 1.25rem 1.5rem;
-    background: linear-gradient(180deg, #f1f5f9 0%, #f8fafc 100%);
-    border: 1px solid rgba(0, 32, 92, 0.14);
-    border-radius: 14px;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.75),
-        0 1px 2px rgba(0, 32, 92, 0.06);
-    overflow-x: clip;
-    overflow-y: visible;
-    position: relative;
-    isolation: isolate;
-}
-
-.help-contact-card__body .contact-form-root {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    text-align: left;
-}
-
-/* Stacked fields: full-width controls aligned to the card edges */
-.help-contact-card .contact-form--help {
+/* CARDS */
+.card {
+    flex: 1;
+    background-color: #00205c;
+    padding: 25px;
+    border-radius: 15px;
+    color: #f3c10d;
+    box-shadow: 0px 15px 40px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+}
+
+.center-card {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* SUBTEXT */
+.subtitle {
+    margin-bottom: 20px;
+}
+
+/* VIDEO */
+.video-wrapper {
+    width: 70%;
+    margin: auto;
+    padding: 10px;
+    background-color: #001a4d;
+    border-radius: 15px;
+}
+
+.video-wrapper video {
     width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    margin: 0;
-    float: none;
-}
-
-.help-contact-card .contact-form__field {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    margin: 0 0 0.9rem;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.help-contact-card .contact-form__field:has(+ .contact-form__actions) {
-    margin-bottom: 0.5rem;
-}
-
-.help-contact-card .contact-form__label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin: 0 0 0.4rem;
-}
-
-.help-contact-card .contact-form__control {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0.65rem 0.85rem;
-    border: 1px solid rgba(0, 32, 92, 0.2);
     border-radius: 10px;
-    font-size: 1rem;
-    line-height: 1.4;
-    background: #fff;
-    box-shadow: inset 0 1px 2px rgba(0, 32, 92, 0.04);
-    box-sizing: border-box;
-    min-width: 0;
 }
 
-.help-contact-card textarea.contact-form__control {
-    min-height: 140px;
-    resize: vertical;
-    /* cols=1 in markup; enforce fluid width so nothing extends past the inset panel */
-    width: 100%;
-    max-width: 100%;
-}
-
-.help-contact-card .contact-form__control:focus {
-    outline: none;
-    border-color: rgba(243, 193, 13, 0.85);
-    box-shadow:
-        inset 0 1px 2px rgba(0, 32, 92, 0.04),
-        0 0 0 3px rgba(243, 193, 13, 0.28);
-}
-
-.help-contact-card .contact-form__actions {
-    margin-top: 0.5rem;
-    padding-top: 0.25rem;
-}
-
-.help-contact-card .contact-form__submit {
-    width: 100%;
-    max-width: 100%;
-    padding: 0.75rem 1rem;
-    border: none;
-    border-radius: 10px;
+/* BUTTON */
+.button {
+    background-color: #f3c10d;
+    color: #00205c;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
     cursor: pointer;
-    font-weight: 800;
-    font-size: 1rem;
-    box-sizing: border-box;
+    transition: 0.2s ease;
 }
 
-.help-contact-card .contact-form__error {
-    margin: 0.35rem 0 0;
-    font-size: 0.85rem;
-    color: #b91c1c;
-}
-
-/* Narrow viewports: keep card and accordions inside the viewport */
-@media (max-width: 640px) {
-    .site-main.help-page {
-        padding: 1.35rem 1rem 1.75rem !important;
-    }
-
-    .help-page > .help-page-hero.site-hero--gradient {
-        margin: -1.35rem -1rem 1.25rem;
-        border-radius: 15px 15px 14px 14px;
-    }
-
-    .help-page .help-contact-card {
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
-    }
-
-    .help-page .help-contact-card__body {
-        padding: 1.15rem 1rem 1.35rem;
-    }
-
-    .help-page .accordion {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-}
-
-.help-contact-card .contact-form-root,
-.help-contact-card .contact-form-root * {
-    box-sizing: border-box;
+.button:hover {
+    background-color: #ffd84d;
 }

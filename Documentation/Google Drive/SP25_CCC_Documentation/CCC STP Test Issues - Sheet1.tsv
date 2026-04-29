@@ -1,0 +1,79 @@
+This document will specify the status of each test found in STP Testing Tracking S25.xlsx	Test ID	status	Response		Team Leads: Please enter an option for how you would like us to repsond to this tests status. 		
+					Rework: to update the test to match the current site. Replace: Replace the test with a completely new version to match requirements. Eliminate: Eliminate the test  Wait: Place on hold for the time being. Will revisit at another time.	Note: The majority of these tests require the procedures to be updated, I will take care of this on the main tracker. (Philip)	
+	Test #	Status	Recommended Response	Comments	Team Lead Response	What was fixed	Completed?
+Each test will be given a status of working or depreciated. Each test that has depreciated will then be flagged for either rework, replacement, or elimination.	WD-H-001	Working					FALSE
+	Ex-001						FALSE
+Comments should include specific reason as to why the test holds the status it does. Also should include the reasoning for the selected response.	Ex-001						FALSE
+					Eliminate		FALSE
+					Eliminate		FALSE
+	WF-UU-SF-001	Depreciated	Eliminate	No option to "submit a title" and ""content"	Wait		FALSE
+	WD-H-002	Depreciated	Rework	No filter for map or categories	Wait		FALSE
+	WD-H-003	Working		Map does display Chesapeake area but does not "only" show this area, it shows more	Replace		FALSE
+	WD-H-004	Working		Basic pin does appear	Wait		FALSE
+	WD-H-005	Depreciated	Rework	No option for different pin colors	Rework		FALSE
+	WD-H-006	Depreciated	Rework	Basic pin does not provide a description of the project	Rework		FALSE
+	WF-MF-001	Depreciated		Map filters do not exist	Wait		FALSE
+					Eliminate		FALSE
+	WD-CPD-001	Depreciated	Rework	No contributor login page, only "Sign In" and "Sign Up" exist. Nothing just for contributors.	Rework		FALSE
+	WD-CPD-002	Working		There is a contributor page with a description of what is means to contribute	Wait		FALSE
+	WD-CPD-005	Depreciated	Eliminate	None of this exists	Eliminate		FALSE
+	WD-CPD-003	Depreciated	Rework	Contributors page does not have any of these lists. Only shows "What does it mean to be a contributor"	Rework		FALSE
+	WD-CPD-04	Depreciated	Rework	Contributors page does not have any of these lists. Only shows "What does it mean to be a contributor"	Rework		FALSE
+	WD-CPD-006	Working		SMCM Logo is displayed on all pages but it is NOT bottom right corner, all were displayed on middle bottom.	Wait		FALSE
+					Eliminate		FALSE
+	WF-UUS-002	Depreciated	Doesn't Exist		Replace		FALSE
+	WF-UUS-003	Depreciated	Doesn't Exist		Replace		FALSE
+	WF-UUS-004	Working	Rework	I believe in the forum submission these prompts should be true for submitting a description.	Rework		FALSE
+	WD-TP-001	Working		FAQs Section is clean and clear	Wait		FALSE
+	WD-TP-002	Working			Replace		FALSE
+	WD-TP-003	Depreciated	Rework	No such descriptors for the map show up	Rework		FALSE
+	WD-TP-004	Working		Logo is displayed	Wait		FALSE
+				blank	Eliminate		FALSE
+				blank	Eliminate		FALSE
+	WF-AF-006				Wait		FALSE
+	WD-H-007	Working		Map can go full screen	Wait		FALSE
+	WD-APD-001	Working		Logo is displayed	Wait		FALSE
+	WD-AP-001				Wait		FALSE
+	WD-AP-002				Wait		FALSE
+	WD-AP-003				Wait		FALSE
+	WD-AP-004				Wait		FALSE
+	WD-AP-005				Wait		FALSE
+	WD-AP-006				Wait		FALSE
+				add test number	Replace		FALSE
+				add test number	Replace		FALSE
+	WD-H-008	Working		Logo is displayed	Wait		FALSE
+	WF-AF-001				Wait		FALSE
+	WF-AF-002				Wait		FALSE
+	WF-AD-003				Wait		FALSE
+	WF-AF-004				Wait		FALSE
+	WF-AF-005				Wait		FALSE
+	WF-AF-006				Wait		FALSE
+	WD-AP-002	Working		Exists for the team	Wait		FALSE
+	WD-AP-003	Working			Wait		FALSE
+	WD-AP-005	Working			Wait		FALSE
+	WF-CF-001	Depreciated	Rework	Button to sign in does not function	Rework		FALSE
+	WF-CF-002	Depreciated	Rework	No "contribute" button displays	Rework		FALSE
+	WF-CF-003	Depreciated	Rework	Button does not do anything	Rework		FALSE
+	WF-CF-004	Working		Search contributer button displays	Wait		FALSE
+	WF-CF-005	Working		Contributers do not display but I am not signed in	Wait		FALSE
+	WF-CF-006	Depreciated	Eliminate	No QR code exists for the page	Eliminate		FALSE
+	WF-CF-007			No upload submission button exists.	Wait		FALSE
+	WF-WH-001	Working	Rework	Provided link does not exist. Tabs do exist on page	Rework		FALSE
+	WF-PD-001	Depreciated	Rework	Provided link does not exist. No box displays on the left of the map.	Rework		FALSE
+	WF-MF-001	Working	Rework	Provided link does not exist. 	Rework	updated procedures	TRUE
+	WF-MF-002	Working	Rework	Provided link does not exist	Rework	updated procedures	TRUE
+	CCC_001A	Working			Wait		FALSE
+	CCC_002A	Working			Wait		FALSE
+	CCC_003A	Working			Wait		FALSE
+	CCC_004A	Working			Wait		FALSE
+	CCC_005A	Working			Wait		FALSE
+	CCC_006A	Working			Wait		FALSE
+	CCC_007	Working			Wait		FALSE
+	CCC_008	Working			Wait		FALSE
+	CCC_009	Working			Wait		FALSE
+	CCC_010	Working			Wait		FALSE
+	CCC_011	Working			Wait		FALSE
+	CCC_012	Working			Wait		FALSE
+	CCC_013	Working			Wait		FALSE
+	CCC_014	Working			Wait		FALSE
+	CCC_015	Working			Wait		FALSE
