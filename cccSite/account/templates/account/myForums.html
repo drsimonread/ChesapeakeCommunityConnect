@@ -7,47 +7,86 @@
 
 <!-- Inline style for quick setup (move to CSS file later) -->
 <style>
-    .container {
-        min-width: 100%;
-        margin-bottom: 20%;
-    }
+/* Container */
+.container {
+    min-width: 100%;
+    margin-bottom: 20%;
+    padding: 10px;
+}
 
-    /* Accordion button styles */
-    .accordion {
-        background-color: #eee;
-        cursor: pointer;
-        padding: 10px;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        font-size: 16px;
-        transition: background-color 0.3s;
-        margin-top: 10px;
-    }
+/* Accordion button */
+.accordion {
+    background-color: #f3f3f3;
+    cursor: pointer;
+    padding: 12px 15px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.15s ease;
+    box-shadow: var(--shadow-soft);
+    color: var(--blue);
+}
 
-    /* Active/expanded state */
-    .accordion.active, .accordion:hover {
-        background-color: #ccc;
-    }
+/* Hover + active */
+.accordion:hover,
+.accordion.active {
+    background-color: var(--gold);
+    color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
 
-    /* Panel styles */
-    .panel {
-        padding: 0 10px;
-        display: none;
-        overflow: hidden;
-        background-color: #f9f9f9;
-        border-left: 2px solid #ddd;
-        border-right: 2px solid #ddd;
-        border-bottom: 2px solid #ddd;
-        margin-bottom: 10px;
-    }
+/* Panel container */
+.panel {
+    padding: 0 15px;
+    display: none;
+    overflow: hidden;
+    background-color: #fff;
+    border-left: 2px solid var(--gray-border);
+    border-right: 2px solid var(--gray-border);
+    border-bottom: 2px solid var(--gray-border);
+    border-radius: 0 0 8px 8px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-soft);
+}
 
-    /* Show panel when active */
-    .panel.show {
-        display: block;
-        padding: 10px;
-    }
+/* Visible panel */
+.panel.show {
+    display: block;
+    padding: 15px;
+    background-color: var(--gray-light);
+}
+
+/* Forum links inside panel */
+.panel p {
+    margin: 10px 0;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.panel a.button_CCC {
+    margin-left: 10px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    background-color: var(--gold);
+    color: var(--blue);
+    transition: background-color 0.25s ease,
+                transform 0.15s ease,
+                box-shadow 0.2s ease;
+}
+
+.panel a.button_CCC:hover {
+    background-color: var(--gold-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
 </style>
 
 <div id="content">

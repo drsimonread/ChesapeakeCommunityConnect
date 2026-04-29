@@ -34,46 +34,127 @@
 
 <!-- Optional: Add styles for better appearance -->
 <style>
-    .visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-    }
+/* ============================
+   ACCESSIBILITY HELPERS
+============================ */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================
+   SEARCH FORM
+============================ */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--gray-border);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Style Django form fields */
+.search-form input,
+.search-form select {
+    padding: 0.7em;
+    border-radius: 8px;
+    border: 1px solid var(--gray-border);
+    width: 100%;
+    font-size: 15px;
+}
+
+/* Search button */
+#search-btn {
+    background-color: var(--gold);
+    color: var(--blue);
+    padding: 0.7em 1.2em;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.25s ease,
+                transform 0.15s ease,
+                box-shadow 0.2s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+#search-btn:hover {
+    background-color: var(--gold-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ============================
+   USER LIST
+============================ */
+.user-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-item {
+    padding: 15px 12px;
+    border-bottom: 1px solid var(--gray-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    transition: background-color 0.25s ease;
+}
+
+.user-item:hover {
+    background-color: var(--gray-light);
+}
+
+/* Username link */
+.user-link {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--blue);
+    transition: color 0.25s ease;
+}
+
+.user-link:hover {
+    color: var(--gold-hover);
+}
+
+/* Forum count badge */
+.forum-count {
+    font-size: 14px;
+    color: #555;
+    background: var(--gray-light);
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-border);
+}
+
+/* ============================
+   RESPONSIVE DESIGN
+============================ */
+@media(max-width: 600px) {
     .search-form {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
+        flex-direction: column;
+        align-items: stretch;
     }
-    .user-list {
-        list-style: none;
-        padding: 0;
-    }
+
     .user-item {
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
     }
-    .user-link {
-        font-weight: bold;
-        text-decoration: none;
-        color: #007bff;
-        transition: color 0.3s;
-    }
-    .user-link:hover {
-        color: #0056b3;
-    }
-    .forum-count {
-        font-size: 14px;
-        color: #555;
-    }
+}
 </style>
+
 {% endblock accountFunc %}

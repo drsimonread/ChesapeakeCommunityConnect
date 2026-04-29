@@ -1,4 +1,5 @@
 {% extends "account/accountBase.html" %}
+{% load static %}
 
 {% block accountFunc %}
 <style>
@@ -58,6 +59,8 @@
         font-size: 16px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
     }
 
     .editPro:hover {
@@ -84,6 +87,7 @@
         margin-top: 15px;
         text-align: left;
         padding: 0 10px;
+        width: 100%;
     }
 
     /* Trusted user badge */
@@ -127,17 +131,19 @@
         <!-- Profile Image -->
         <div class="imgWrapper" style="margin-bottom: 15px;">
             {% if image.url %}
-                <img class="proPic" src="{{ image.url }}" alt="Profile Picture" id="profileImage" title="Click to change your profile picture">
+                <img class="proPic" src="{{ image.url }}" alt="Profile Picture" id="profileImage">
             {% else %}
-                <img class="proPic" src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" id="profileImage" title="Click to upload a profile picture">
+                <img class="proPic" src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" id="profileImage">
             {% endif %}
-            <button class="editPro" id="uploadBtn" aria-label="Upload new profile picture" style="margin-top:10px;">Upload New Photo</button>
+
+            <button class="editPro" id="uploadBtn">Upload New Photo</button>
             <input type="file" id="imageUpload" accept="image/*" style="display:none;">
         </div>
 
         <!-- Profile Info -->
         <div class="infoContainer">
-            <div class="nameEmail" id="nameEmail" contenteditable="true" aria-label="Name and Email" title="Click to edit your name or email">{{ name }}</div>
+            <div class="nameEmail" id="nameEmail">{{ name }} — {{ email }}</div>
+
             <button class="editPro" id="saveInfo" style="display:none;">Save Changes</button>
             <button class="editPro" id="cancelEdit" style="display:none;">Cancel</button>
         </div>
@@ -145,141 +151,151 @@
         <!-- About Section -->
         <div class="aboutSection" id="aboutSection">
             <h3>About</h3>
-            <p id="aboutText" contenteditable="true" aria-label="About you" title="Click to edit about section">{{ about }}</p>
+            <p id="aboutText">{{ about }}</p>
+
             <button class="editPro" id="saveAbout" style="display:none;">Save About</button>
             <button class="editPro" id="cancelAbout" style="display:none;">Cancel</button>
         </div>
 
         <!-- Trusted User Badge -->
         {% if rank > 1 %}
-            <div class="trustedBadge" aria-label="Trusted User Badge">Trusted User</div>
+            <div class="trustedBadge">Trusted User</div>
         {% endif %}
 
         <!-- Last Updated -->
         <div class="lastUpdated" id="lastUpdated">Last updated: {{ last_updated }}</div>
 
         <!-- Buttons -->
-        <div style="margin-top:20px; display:flex; justify-content: center; gap:10px;">
-<a class="editPro button" href="{% url 'account:manage' %}">Edit Account Details</a>        </div>
+        <div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">
+            <a class="editPro" href="{% url 'account:manage' %}">Edit Account Details</a>
+            <button class="editPro" id="downloadProfileBtn">Download Profile</button>
+        </div>
+
     </div>
 </div>
 
+{% verbatim %}
 <script>
-    // JavaScript for inline editing and image upload
-    document.addEventListener('DOMContentLoaded', () => {
-        const nameEmail = document.getElementById('nameEmail');
-        const aboutText = document.getElementById('aboutText');
-        const saveInfoBtn = document.getElementById('saveInfo');
-        const cancelEditBtn = document.getElementById('cancelEdit');
-        const saveAboutBtn = document.getElementById('saveAbout');
-        const cancelAboutBtn = document.getElementById('cancelAbout');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const imageUpload = document.getElementById('imageUpload');
-        const profileImage = document.getElementById('profileImage');
-        const lastUpdated = document.getElementById('lastUpdated');
+document.addEventListener('DOMContentLoaded', () => {
+    const nameEmail = document.getElementById('nameEmail');
+    const aboutText = document.getElementById('aboutText');
+    const saveInfoBtn = document.getElementById('saveInfo');
+    const cancelEditBtn = document.getElementById('cancelEdit');
+    const saveAboutBtn = document.getElementById('saveAbout');
+    const cancelAboutBtn = document.getElementById('cancelAbout');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const imageUpload = document.getElementById('imageUpload');
+    const profileImage = document.getElementById('profileImage');
+    const lastUpdated = document.getElementById('lastUpdated');
 
-        let originalNameEmail = nameEmail.innerText;
-        let originalAbout = aboutText.innerText;
+    let originalNameEmail = nameEmail.innerText;
+    let originalAbout = aboutText.innerText;
 
-        // Enable editing
-        document.getElementById('nameEmail').addEventListener('focus', () => {
-            nameEmail.contentEditable = true;
-            saveInfoBtn.style.display = 'inline-block';
-            cancelEditBtn.style.display = 'inline-block';
-        });
-        document.getElementById('aboutText').addEventListener('focus', () => {
-            aboutText.contentEditable = true;
-            saveAboutBtn.style.display = 'inline-block';
-            cancelAboutBtn.style.display = 'inline-block';
-        });
+    /* Enable editing */
+    nameEmail.addEventListener('click', () => {
+        nameEmail.contentEditable = true;
+        saveInfoBtn.style.display = 'inline-block';
+        cancelEditBtn.style.display = 'inline-block';
+    });
 
-        // Save info
-        document.getElementById('saveInfo').addEventListener('click', () => {
-            // Send AJAX request to save data
-            fetch('{% url "account:update_info" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({ name_email: nameEmail.innerText })
-            }).then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    lastUpdated.innerText = 'Last updated: ' + new Date().toLocaleString();
-                    nameEmail.contentEditable = false;
-                    saveInfoBtn.style.display = 'none';
-                    cancelEditBtn.style.display = 'none';
-                }
-            });
-        });
+    aboutText.addEventListener('click', () => {
+        aboutText.contentEditable = true;
+        saveAboutBtn.style.display = 'inline-block';
+        cancelAboutBtn.style.display = 'inline-block';
+    });
 
-        // Cancel editing name/email
-        document.getElementById('cancelEdit').addEventListener('click', () => {
-            nameEmail.innerText = originalNameEmail;
-            nameEmail.contentEditable = false;
-            saveInfoBtn.style.display = 'none';
-            cancelEditBtn.style.display = 'none';
-        });
-
-        // Save about
-        document.getElementById('saveAbout').addEventListener('click', () => {
-            fetch('{% url "account:update_about" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({ about: aboutText.innerText })
-            }).then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    lastUpdated.innerText = 'Last updated: ' + new Date().toLocaleString();
-                    aboutText.contentEditable = false;
-                    saveAboutBtn.style.display = 'none';
-                    cancelAboutBtn.style.display = 'none';
-                }
-            });
-        });
-
-        // Cancel editing about
-        document.getElementById('cancelAbout').addEventListener('click', () => {
-            aboutText.innerText = originalAbout;
-            aboutText.contentEditable = false;
-            saveAboutBtn.style.display = 'none';
-            cancelAboutBtn.style.display = 'none';
-        });
-
-        // Upload new profile picture
-        document.getElementById('uploadBtn').addEventListener('click', () => {
-            imageUpload.click();
-        });
-
-        imageUpload.addEventListener('change', () => {
-            const file = imageUpload.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('image', file);
-                fetch('{% url "account:upload_image" %}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    },
-                    body: formData
-                }).then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        profileImage.src = data.new_image_url;
-                        lastUpdated.innerText = 'Last updated: ' + new Date().toLocaleString();
-                    }
-                });
+    /* Save name/email */
+    saveInfoBtn.addEventListener('click', () => {
+        fetch('/contribute/update-info/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector("input[name='csrfmiddlewaretoken']").value
+            },
+            body: JSON.stringify({ name_email: nameEmail.innerText })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                lastUpdated.innerText = 'Last updated: ' + new Date().toLocaleString();
+                nameEmail.contentEditable = false;
+                saveInfoBtn.style.display = 'none';
+                cancelEditBtn.style.display = 'none';
             }
         });
+    });
 
-        // Download profile
-        document.getElementById('downloadProfileBtn').addEventListener('click', () => {
-            window.location.href = '{% url "account:download_profile" %}';
+    /* Cancel editing name/email */
+    cancelEditBtn.addEventListener('click', () => {
+        nameEmail.innerText = originalNameEmail;
+        nameEmail.contentEditable = false;
+        saveInfoBtn.style.display = 'none';
+        cancelEditBtn.style.display = 'none';
+    });
+
+    /* Save about */
+    saveAboutBtn.addEventListener('click', () => {
+        fetch('/contribute/update-about/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector("input[name='csrfmiddlewaretoken']").value
+            },
+            body: JSON.stringify({ about: aboutText.innerText })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                lastUpdated.innerText = 'Last updated: ' + new Date().toLocaleString();
+                aboutText.contentEditable = false;
+                saveAboutBtn.style.display = 'none';
+                cancelAboutBtn.style.display = 'none';
+            }
         });
     });
+
+    /* Cancel editing about */
+    cancelAboutBtn.addEventListener('click', () => {
+        aboutText.innerText = originalAbout;
+        aboutText.contentEditable = false;
+        saveAboutBtn.style.display = 'none';
+        cancelAboutBtn.style.display = 'none';
+    });
+
+    /* Upload new profile picture */
+    uploadBtn.addEventListener('click', () => {
+        imageUpload.click();
+    });
+
+    imageUpload.addEventListener('change', () => {
+        const file = imageUpload.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('image', file);
+
+            fetch('/contribute/upload-image/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector("input[name='csrfmiddlewaretoken']").value
+                },
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    profileImage.src = data.new_image_url;
+                    lastUpdated.innerText = 'Last updated: ' + new Date().toLocaleString();
+                }
+            });
+        }
+    });
+
+    /* Download profile */
+    document.getElementById('downloadProfileBtn').addEventListener('click', () => {
+        window.location.href = '/contribute/download-profile/';
+    });
+});
 </script>
+{% endverbatim %}
+
 {% endblock accountFunc %}

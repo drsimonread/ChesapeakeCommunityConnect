@@ -1,58 +1,90 @@
+/* =========================
+   Headings
+========================= */
 .heading {
     text-align: center;
-    align-items: center;
     background-color: #f3c10d;
     color: #00205c;
     border-radius: 10px;
+    padding: 12px 20px;
+    font-weight: 700;
+    font-size: 1.4rem;
+    line-height: 1.3;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-.g_id_signin {
+/* =========================
+   Containers
+========================= */
+.g_id_signin,
+.create_an_account,
+#create-an-account {
     width: 70%;
-    margin: auto;
-    padding: 10px;
-    
-    /*rounded edges for container*/
+    margin: 20px auto;
+    padding: 15px;
     border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.create_an_account{
-    width: 70%;
-    margin: auto;
-    padding: 10px;
-    
-    /*rounded edges for container*/
-    border-radius: 20px;
-}
-.containerS1 {
-    margin: 0px 0% 0px 4%;
-    padding-bottom: 20px;
+/* Main container blocks */
+.containerS1,
+.containerS2 {
     width: 100%;
-    align-items: center;
+    padding: 15px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+/* Adjusted margins for layout consistency */
+.containerS1 {
+    margin-left: 4%;
 }
 
 .containerS2 {
-    /*centers div*/
-    margin: 0px 0% 0px 3.5%;
-
-    padding: 10px;
-    width: 100%;
-
-    /*rounded edges for container*/
-    border-radius: 5px;
+    margin-left: 3.5%;
 }
 
-.wrapperS1,.wrapperS2 {
-    margin: 0px 25% 0px auto;
-    padding: 10px;
+/* =========================
+   Wrappers
+========================= */
+.wrapperS1,
+.wrapperS2 {
     width: 60%;
-    border-radius: 5px;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fafafa;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-#create-an-account{
-    width: 70%;
-    margin: auto;
-    padding: 10px;
-    
-    /*rounded edges for container*/
-    border-radius: 20px;
+/* =========================
+   Responsive Improvements
+========================= */
+@media (max-width: 768px) {
+
+    .g_id_signin,
+    .create_an_account,
+    #create-an-account {
+        width: 90%;
+    }
+
+    .wrapperS1,
+    .wrapperS2 {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .containerS1,
+    .containerS2 {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .heading {
+        font-size: 1.2rem;
+        padding: 10px 15px;
+    }
 }

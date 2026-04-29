@@ -1,74 +1,149 @@
-<!-- Trigger button (better accessibility) -->
-<button class="signin-modal-trigger button" data-target="signin-modal" aria-haspopup="true" aria-controls="signin-modal">Sign In</button>
+<!-- Trigger Button -->
+<button 
+    class="signin-modal-trigger button" 
+    data-target="signin-modal" 
+    aria-haspopup="dialog" 
+    aria-controls="signin-modal"
+>
+    Sign In
+</button>
 
-<!-- Modal Structure -->
-<div id="signin-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signin-modal-title">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p id="signin-modal-title" class="modal-card-title">Sign In</p>
-      <button class="delete" aria-label="close"></button>
-    </header>
-    <section class="modal-card-body">
-<form id="signin-form" method="post" action="{% url 'account:signin' %}">        {% csrf_token %}
-        <div class="field">
-          <label for="signin_username" class="label visually-hidden">Username</label>
-          <div class="control">
-            <input class="input" type="text" id="signin_username" name="username" placeholder="Username" required>
-          </div>
-        </div>
-        <div class="field">
-          <label for="signin_password" class="label visually-hidden">Password</label>
-          <div class="control">
-            <input class="input" type="password" id="signin_password" name="password" placeholder="Password" required>
-          </div>
-        </div>
-        <div id="g_id_signin"></div>
-      </form>
-    </section>
-    <footer class="modal-card-foot">
-      <button class="button is-primary" id="submit-signin" type="submit">Sign In</button>
-      <button class="button sign-in-up-cancel" type="button">Cancel</button>
-    </footer>
-  </div>
+<!-- Modal -->
+<div 
+    id="signin-modal" 
+    class="modal" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="signin-modal-title"
+>
+    <div class="modal-background"></div>
+
+    <div class="modal-card">
+
+        <!-- Modal Header -->
+        <header class="modal-card-head">
+            <p id="signin-modal-title" class="modal-card-title">Sign In</p>
+            <button class="delete modal-close" aria-label="Close modal"></button>
+        </header>
+
+        <!-- Modal Body -->
+        <section class="modal-card-body">
+
+            <form 
+                id="signin-form" 
+                method="post" 
+                action="{% url 'account:signin' %}"
+                autocomplete="on"
+            >
+                {% csrf_token %}
+
+                <!-- Username -->
+                <div class="field">
+                    <label for="signin_username" class="label visually-hidden">Username</label>
+                    <div class="control">
+                        <input 
+                            class="input" 
+                            type="text" 
+                            id="signin_username" 
+                            name="username" 
+                            placeholder="Username" 
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="field">
+                    <label for="signin_password" class="label visually-hidden">Password</label>
+                    <div class="control">
+                        <input 
+                            class="input" 
+                            type="password" 
+                            id="signin_password" 
+                            name="password" 
+                            placeholder="Password" 
+                            required
+                        >
+                    </div>
+                </div>
+
+                <!-- Google Sign-In -->
+                <div id="g_id_signin"></div>
+
+            </form>
+        </section>
+
+        <!-- Modal Footer -->
+        <footer class="modal-card-foot">
+            <button 
+                class="button is-primary" 
+                id="submit-signin" 
+                type="submit" 
+                form="signin-form"
+                disabled
+            >
+                Sign In
+            </button>
+
+            <button 
+                class="button sign-in-up-cancel" 
+                type="button"
+            >
+                Cancel
+            </button>
+        </footer>
+
+    </div>
 </div>
 
-<!-- Scripts (preferably at the end of body) -->
+<!-- Modal + Google Script -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Modal open/close logic
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Open modal
     document.querySelectorAll('.signin-modal-trigger').forEach(btn => {
-      btn.onclick = () => {
-        document.getElementById(btn.dataset.target).classList.add('is-active');
-      };
+        btn.onclick = () => {
+            document.getElementById(btn.dataset.target).classList.add('is-active');
+        };
     });
-    document.querySelectorAll('.modal-background, .modal-close, .sign-in-up-cancel').forEach(btn => {
-      btn.onclick = () => {
-        btn.closest('.modal').classList.remove('is-active');
-        // Reset form fields
-        document.getElementById('signin-form').reset();
-        document.getElementById('submit-signin').disabled = true;
-      };
-    });
-    // Submit button handler
-    document.getElementById('submit-signin').onclick = () => {
-      document.getElementById('signin-form').submit();
-    };
-    // Enable submit button on password input
+
+    // Close modal
+    document.querySelectorAll('.modal-background, .modal-close, .sign-in-up-cancel')
+        .forEach(btn => {
+            btn.onclick = () => {
+                const modal = btn.closest('.modal');
+                modal.classList.remove('is-active');
+
+                // Reset form
+                const form = document.getElementById('signin-form');
+                form.reset();
+                document.getElementById('submit-signin').disabled = true;
+            };
+        });
+
+    // Enable submit button when password is typed
     document.getElementById('signin_password').oninput = () => {
-      document.getElementById('submit-signin').disabled = false;
+        document.getElementById('submit-signin').disabled = false;
     };
-    // Google Sign-In setup
+
+    // Submit button triggers form submit
+    document.getElementById('submit-signin').onclick = () => {
+        document.getElementById('signin-form').submit();
+    };
+
+    // Google Sign-In
     google.accounts.id.initialize({
-      client_id: 'YOUR_CLIENT_ID',
-      callback: handleCredentialResponse,
+        client_id: 'YOUR_CLIENT_ID',
+        callback: handleCredentialResponse,
     });
+
     google.accounts.id.renderButton(
-      document.getElementById('g_id_signin'),
-      { theme: 'outline', size: 'large' }
+        document.getElementById('g_id_signin'),
+        { theme: 'outline', size: 'large' }
     );
-  });
-  function handleCredentialResponse(response) {
+});
+
+function handleCredentialResponse(response) {
     // AJAX to your backend
-  }
+}
 </script>

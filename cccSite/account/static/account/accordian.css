@@ -1,58 +1,84 @@
-/* Accordion styles */
+/* ============================
+   ACCORDION BUTTON
+============================ */
 .accordion {
-    background-color: #c2c2c2; /* Gray background */
+    background-color: #e6e6e6; /* Softer gray */
     color: var(--blue);
-    border-bottom: 2px solid;
-    padding: 10px 20px;
-    display: block;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%; /* Make it full width */
+    border: none;
+    border-bottom: 2px solid var(--gray-border);
+    padding: 12px 20px;
+    width: 100%;
     text-align: left;
-    outline: none;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.15s ease;
+    box-shadow: var(--shadow-soft);
 }
 
-/* Active or hover states */
-.accordion.active,
-.accordion:hover {
+/* Hover + active */
+.accordion:hover,
+.accordion.active {
     background-color: var(--hover-gold);
+    color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
-/* Panel content */
+/* ============================
+   PANEL CONTENT
+============================ */
 .panel {
+    background-color: #fff;
     padding: 0 18px;
-    background-color: white;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    width: 100%; /* Full width within container */
+    border-left: 2px solid var(--gray-border);
+    border-right: 2px solid var(--gray-border);
+    border-bottom: 2px solid var(--gray-border);
+    border-radius: 0 0 8px 8px;
+    transition: max-height 0.25s ease-out,
+                padding 0.25s ease-out;
 }
 
-/* Subcontainer left */
+/* When expanded */
+.panel.show {
+    padding: 15px 18px;
+    max-height: 500px; /* Enough for content */
+    background-color: var(--gray-light);
+}
+
+/* ============================
+   SUBCONTAINERS
+============================ */
 .subcontainerL {
     width: 40%;
     margin-left: 3%;
     display: inline-block;
-    /* Or consider flex if needed */
+    vertical-align: top;
 }
 
-/* Subcontainer right */
 .subcontainerR {
-    margin-left: auto;
-    margin-top: 2%;
     width: 50%;
     margin-right: 3%;
-    transform: translate(-50%, -50%);
-    display: inline-block; /* or Flexbox for layout */
+    margin-top: 2%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
 }
 
-/* Consider adding responsiveness */
-@media(max-width: 768px) {
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 768px) {
     .subcontainerL,
     .subcontainerR {
         width: 100%;
-        margin-left: 0;
+        margin: 0;
         margin-top: 1em;
-        transform: none;
+        text-align: left;
     }
 }

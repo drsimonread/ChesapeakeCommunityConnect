@@ -1,36 +1,53 @@
-<!-- In your base template's head block -->
+<!-- Load external CSS -->
 <link rel="stylesheet" type="text/css" href="{% static 'boiler/contact_formstyle.css' %}">
 
-<!-- Form -->
-<form action="{% url 'account:signin_form' %}" id="signin-form" method="post" aria-labelledby="form-title" role="form" class="contact-form">
+<form 
+    action="{% url 'account:signin_form' %}" 
+    id="signin-form" 
+    method="post" 
+    aria-labelledby="form-title" 
+    role="form" 
+    class="contact-form"
+>
     {% csrf_token %}
+
+    <!-- Title -->
     <h2 id="form-title" class="form-title">Sign In</h2>
 
-    <fieldset class="form-group" role="group" aria-labelledby="contact-info">
+    <!-- Contact Info Group -->
+    <fieldset class="form-group" aria-labelledby="contact-info">
         <legend id="contact-info" class="visually-hidden">Contact Information</legend>
+
         <div class="form-field">
             <label for="{{ form.sender.id_for_label }}" class="visually-hidden">Name</label>
             {{ form.sender|add_class:"input-field" }}
         </div>
+
         <div class="form-field">
             <label for="{{ form.email.id_for_label }}" class="visually-hidden">Email</label>
             {{ form.email|add_class:"input-field" }}
         </div>
+
         <div class="form-field">
             <label for="{{ form.subject.id_for_label }}" class="visually-hidden">Subject</label>
             {{ form.subject|add_class:"input-field" }}
         </div>
     </fieldset>
 
-    <fieldset class="form-group" role="group" aria-labelledby="message-info">
+    <!-- Message Group -->
+    <fieldset class="form-group" aria-labelledby="message-info">
         <legend id="message-info" class="visually-hidden">Message</legend>
+
         <div class="form-field">
             <label for="{{ form.message.id_for_label }}" class="visually-hidden">Message</label>
             {{ form.message|add_class:"textarea-field" }}
         </div>
     </fieldset>
 
+    <!-- Submit -->
     <div class="form-actions">
-        <button type="submit" class="btn-primary" aria-label="Submit form">Submit</button>
+        <button type="submit" class="btn-primary" aria-label="Submit form">
+            Submit
+        </button>
     </div>
 </form>

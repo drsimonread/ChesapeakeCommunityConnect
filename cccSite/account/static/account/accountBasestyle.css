@@ -1,63 +1,120 @@
-/* Layout: right section takes 75%, floated right */
+/* ============================
+   GLOBAL VARIABLES
+============================ */
+:root {
+    --gold: #f3c10d;
+    --gold-hover: #e0ad0b;
+    --hover-gold: #ffd700;
+    --blue: #00205c;
+    --gray-light: #f9f9f9;
+    --gray-border: #ddd;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-hover: 0 6px 18px rgba(0,0,0,0.15);
+    --radius: 10px;
+}
+
+/* ============================
+   RIGHT SECTION LAYOUT
+============================ */
 #right {
     width: 75%;
     float: right;
-    padding: 1em; /* optional padding for spacing */
+    padding: 1.5em;
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-border);
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
-/* Menu styling: horizontal or vertical list? assuming vertical */
+#right:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* ============================
+   MENU LIST
+============================ */
 .menu {
     width: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75em;
     line-height: 1.6;
     font-size: large;
     text-align: center;
-    list-style: none; /* no bullets */
-    padding: 0;
-    margin: 0 auto; /* center if needed */
-    display: flex; /* for a horizontal menu, or flex-direction: column for vertical */
-    flex-direction: column; /* remove if horizontal menu needed */
-    align-items: center; /* center items horizontally */
 }
 
-/* Menu items: links styled as buttons */
+/* ============================
+   MENU LINKS
+============================ */
 .menu li a {
     background-color: var(--gold);
-    cursor: pointer;
     color: var(--blue);
-    padding: 0.5em 1em;
-    border-radius: 8px;
-    border: none;
-    display: block;
-    width: 100%; /* full width for easy clicking */
-    max-width: 200px; /* optional: limit width */
-    text-align: center;
+    padding: 0.7em 1.2em;
+    border-radius: var(--radius);
     text-decoration: none;
-    transition: background-color 0.3s;
-    margin: 0.5em 0; /* spacing between items */
+    font-weight: 700;
+    width: 100%;
+    max-width: 220px;
+    display: block;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: background-color 0.25s ease,
+                transform 0.15s ease,
+                box-shadow 0.2s ease;
 }
 
-/* Hover effect for links */
 .menu li a:hover {
-    background-color: var(--hover-gold);
+    background-color: var(--gold-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
-/* Buttons inside list items, for forms */
+/* ============================
+   FORM BUTTONS INSIDE MENU
+============================ */
 .menu li form button {
     background-color: var(--gold);
-    cursor: pointer;
     color: var(--blue);
-    width: 100%;
-    padding: 0.5em 1em;
-    border-radius: 8px;
+    padding: 0.7em 1.2em;
+    border-radius: var(--radius);
     border: none;
     font-size: large;
-    line-height: 1.6;
-    text-align: center;
-    transition: background-color 0.3s;
-    margin: 0.5em 0; /* spacing */
+    font-weight: 700;
+    width: 100%;
+    max-width: 220px;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: background-color 0.25s ease,
+                transform 0.15s ease,
+                box-shadow 0.2s ease;
 }
 
-/* Hover effect for buttons */
 .menu li form button:hover {
-    background-color: var(--hover-gold);
+    background-color: var(--gold-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ============================
+   RESPONSIVE DESIGN
+============================ */
+@media(max-width: 900px) {
+    #right {
+        width: 100%;
+        float: none;
+        margin-top: 1em;
+    }
+}
+
+@media(max-width: 600px) {
+    .menu li a,
+    .menu li form button {
+        max-width: 100%;
+    }
 }

@@ -1,10 +1,43 @@
-/* Container for the form */
-#create {
-    width: 50%;
-    margin: 2em auto; /* Center the form horizontally */
+/* ============================
+   GLOBAL RESET & VARIABLES
+============================ */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
-/* Input and textarea styling */
+:root {
+    --gold: #f3c10d;
+    --gold-hover: #e0ad0b;
+    --hover-gold: #ffd700;
+    --blue: #00205c;
+    --gray-light: #f9f9f9;
+    --gray-border: #ccc;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-hover: 0 6px 18px rgba(0,0,0,0.15);
+    --radius: 10px;
+}
+
+/* ============================
+   FORM CONTAINER
+============================ */
+#create {
+    width: 55%;
+    margin: 2.5em auto;
+    padding: 1em;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+#create:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* ============================
+   INPUTS & TEXTAREAS
+============================ */
 #id_title,
 #id_firstName,
 #id_lastName,
@@ -13,73 +46,110 @@
 #id_submit {
     margin: 1em 0;
     padding: 1em;
-    border: 0;
-    outline: none;
-    border-radius: 8px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     width: 100%;
-    box-sizing: border-box;
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius);
+    background: #fff;
     font-family: Arial, sans-serif;
+    font-size: 15px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Scroll box for content */
+#id_title:focus,
+#id_firstName:focus,
+#id_lastName:focus,
+#id_location:focus,
+#id_content:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 4px var(--gold);
+    outline: none;
+}
+
+/* ============================
+   SCROLL BOX
+============================ */
 #scroll-box {
     height: 280px;
     width: 100%;
-    overflow: auto;
+    overflow-y: auto;
     margin: 1em 0;
-    padding: 0.5em;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    padding: 0.75em;
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius);
+    background: var(--gray-light);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* Tag container */
+/* ============================
+   TAG CONTAINER
+============================ */
 #id_tags {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
     margin-top: 1em;
 }
 
-/* Labels for tags, arranged flexibly */
+/* Tag label wrapper */
 #id_tags label {
     flex: 1 1 auto;
-    min-width: 80px;
+    min-width: 90px;
     height: 3em;
     display: flex;
     align-items: center;
     cursor: pointer;
     position: relative;
-    padding: 0;
     margin: 0;
 }
 
-/* Span inside labels for styling */
+/* Tag visual block */
 #id_tags label span {
     flex: 1;
     text-align: center;
-    padding: 0 10px;
-    display: block;
-    border-radius: 8px;
-    transition: background-color 0.3s, box-shadow 0.3s;
+    padding: 0.5em 10px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--gray-border);
+    transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 
-/* Hide the checkbox input */
+/* Hide checkbox */
 #id_tags label input[type="checkbox"] {
     position: absolute;
     opacity: 0;
     cursor: pointer;
 }
 
-/* Hover effect on spans */
+/* Hover effect */
 #id_tags label span:hover {
-    background-color: var(--hover-gold, #ffd700);
+    background-color: var(--hover-gold);
+    border-color: var(--gold);
 }
 
-/* Style for checked tags */
+/* Checked tag */
 #id_tags input[type="checkbox"]:checked + span {
-    background-color: var(--gold, #FFD700);
+    background-color: var(--gold);
     color: #fff;
-    box-shadow: 0 0 6px rgba(0,0,0,0.8);
+    border-color: var(--gold-hover);
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* ============================
+   RESPONSIVE DESIGN
+============================ */
+@media(max-width: 700px) {
+    #create {
+        width: 85%;
+        padding: 1em;
+    }
+}
+
+@media(max-width: 500px) {
+    #create {
+        width: 95%;
+    }
+    #id_tags label {
+        min-width: 70px;
+    }
 }

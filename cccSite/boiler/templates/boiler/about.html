@@ -7,68 +7,131 @@
 {% endblock head %}
 
 {% block content %}
-<!-- Main container for the About page -->
+
 <main class="about-container">
 
     <!-- Banner Image -->
     <section class="banner-section">
-        <img src="{% static 'base/assets/about_smcm.png' %}" alt="St. Mary's College banner" class="banner-image">
+        <img 
+            src="{% static 'base/assets/about_smcm.png' %}" 
+            alt="St. Mary's College of Maryland banner" 
+            class="banner-image"
+        >
     </section>
 
     <!-- =========================
          SECTION 1: RESEARCH TEAM
     ========================== -->
-    <section class="team-section">
-        <h2 class="section-title">Research Team</h2>
-        <div class="team-info">
-            <figure class="team-image-wrapper">
-                <img src="{% static 'base/assets/rndpic.jpeg' %}" alt="Research team" class="team-image">
+    <section class="team-section" aria-labelledby="research-team-title">
+        <h2 id="research-team-title" class="section-title">Research Team</h2>
+
+        <!-- Portrait Profiles -->
+        <div class="team-portraits">
+
+            <figure class="portrait-profile">
+                <img 
+                    src="{% static 'base/assets/rndpic.jpeg' %}" 
+                    alt="Portrait of Research Lead" 
+                    class="portrait-image"
+                >
+                <figcaption>
+                    <h3>Research Lead</h3>
+                    <p>Responsible for analyzing community needs and identifying real-world problems that can be addressed through software solutions.</p>
+                </figcaption>
             </figure>
-            <div class="team-description">
-                <p>
-                    The Research Team is responsible for analyzing community needs and identifying real-world problems
-                    that can be addressed through software solutions. They conduct background research, gather requirements,
-                    and ensure that development efforts align with user expectations and project goals.
-                </p>
-                <p>
-                    Their work serves as the foundation for the entire project. By studying existing systems and consulting
-                    stakeholders, the research team helps define what features should be built and why they are important.
-                    This ensures the final product is both useful and relevant to the community it serves.
-                </p>
-            </div>
+
+            <figure class="portrait-profile">
+                <img 
+                    src="{% static 'base/assets/rndpic.jpeg' %}" 
+                    alt="Portrait of Research Member" 
+                    class="portrait-image"
+                >
+                <figcaption>
+                    <h3>Research Member</h3>
+                    <p>Conducts background research, gathers requirements, and ensures development efforts align with user expectations.</p>
+                </figcaption>
+            </figure>
+
+        </div>
+
+        <div class="team-description">
+            <p>
+                The Research Team is responsible for analyzing community needs and identifying real-world problems
+                that can be addressed through software solutions. They conduct background research, gather requirements,
+                and ensure that development efforts align with user expectations and project goals.
+            </p>
+            <p>
+                Their work serves as the foundation for the entire project. By studying existing systems and consulting
+                stakeholders, the research team helps define what features should be built and why they are important.
+                This ensures the final product is both useful and relevant to the community it serves.
+            </p>
         </div>
     </section>
 
     <!-- =========================
          SECTION 2: R&D / QA / CAPSTONE TEAM
     ========================== -->
-    <section class="team-section">
-        <h2 class="section-title">R&D / QA / Capstone Team</h2>
-        <div class="team-info">
-            <figure class="team-image-wrapper">
-                <img src="{% static 'base/assets/qapic.webp' %}" alt="QA team" class="team-image">
+    <section class="team-section" aria-labelledby="rd-team-title">
+        <h2 id="rd-team-title" class="section-title">R&D / QA / Capstone Team</h2>
+
+        <div class="team-portraits">
+
+            <figure class="portrait-profile">
+                <img 
+                    src="{% static 'base/assets/qapic.webp' %}" 
+                    alt="Portrait of R&D Lead" 
+                    class="portrait-image"
+                >
+                <figcaption>
+                    <h3>R&D Lead</h3>
+                    <p>Focuses on implementing features and improving system functionality.</p>
+                </figcaption>
             </figure>
-            <div class="team-description">
-                <p>
-                    This combined group brings together Research & Development, Quality Assurance, and Capstone collaboration
-                    to design, build, and refine the final application. Each subgroup plays a key role in delivering a
-                    functional and polished product.
-                </p>
-                <p>
-                    The R&D team focuses on implementing features and improving system functionality. QA ensures that all
-                    components are tested thoroughly, documenting bugs and verifying fixes. The Capstone coordination group
-                    oversees integration, ensuring that all parts of the project work together smoothly.
-                </p>
-                <p>
-                    Together, these teams follow a structured development process similar to a real software company,
-                    preparing students for professional roles in software engineering and collaborative development environments.
-                </p>
-            </div>
+
+            <figure class="portrait-profile">
+                <img 
+                    src="{% static 'base/assets/qapic.webp' %}" 
+                    alt="Portrait of QA Specialist" 
+                    class="portrait-image"
+                >
+                <figcaption>
+                    <h3>QA Specialist</h3>
+                    <p>Ensures all components are tested thoroughly, documents bugs, and verifies fixes.</p>
+                </figcaption>
+            </figure>
+
+            <figure class="portrait-profile">
+                <img 
+                    src="{% static 'base/assets/qapic.webp' %}" 
+                    alt="Portrait of Capstone Coordinator" 
+                    class="portrait-image"
+                >
+                <figcaption>
+                    <h3>Capstone Coordinator</h3>
+                    <p>Oversees integration, ensuring all parts work together smoothly.</p>
+                </figcaption>
+            </figure>
+
+        </div>
+
+        <div class="team-description">
+            <p>
+                This combined group brings together Research & Development, Quality Assurance, and Capstone collaboration
+                to design, build, and refine the final application. Each subgroup plays a key role in delivering a
+                functional and polished product.
+            </p>
+            <p>
+                The R&D team focuses on implementing features and improving system functionality. QA ensures that all
+                components are tested thoroughly, documenting bugs and verifying fixes. The Capstone coordination group
+                oversees integration, ensuring that all parts of the project work together smoothly.
+            </p>
+            <p>
+                Together, these teams follow a structured development process similar to a real software company,
+                preparing students for professional roles in software engineering and collaborative development environments.
+            </p>
         </div>
     </section>
 
 </main>
-
-<!-- Optional additional styling or scripts can be added here -->
 
 {% endblock content %}

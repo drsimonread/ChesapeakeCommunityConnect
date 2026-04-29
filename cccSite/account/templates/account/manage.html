@@ -1,64 +1,69 @@
 {% extends "account/accountBase.html" %}
+{% load static %}
 
 {% block accountFunc %}
-<!-- Consider moving this CSS to an external stylesheet for cleaner code -->
-<style>
-    .container {
-        min-width: 100%;
-        margin-bottom: 20%;
-        display: flex;
-        justify-content: center;
-        padding: 20px;
-        box-sizing: border-box;
-    }
 
-    form#contact-form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 400px;
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    /* Style form fields */
-    .nameField, .emailField, .aboutField {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-        box-sizing: border-box;
-    }
-
-    /* Style submit button */
-    .submitB {
-        background-color: #f3c10d;
-        padding: 10px;
-        border-radius: 3px;
-        border: none;
-        font-size: 15px;
-        width: 150px;
-        cursor: pointer;
-        margin-top: 20px;
-        transition: background-color 0.3s;
-    }
-    .submitB:hover {
-        background-color: orange;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'account/manage_account.css' %}">
 
 <div id="content">
-    <section class="form-section" aria-label="Manage your account">
-        <form action="{% url 'account:manage' %}" id="contact-form" method="post" enctype="multipart/form-data" role="form">
+
+    <section class="manage-section" aria-labelledby="manage-title">
+        <h2 id="manage-title" class="title is-3 has-text-centered mb-5">
+            Manage Your Account
+        </h2>
+
+        <form 
+            action="{% url 'account:manage' %}" 
+            id="contact-form" 
+            method="post" 
+            enctype="multipart/form-data" 
+            class="manage-form box"
+            role="form"
+        >
             {% csrf_token %}
-            {{ form.as_p }}
-            <input class="submitB" type="submit" value="Submit">
+
+            <!-- Name -->
+            <div class="field">
+                <label class="label" for="{{ form.name.id_for_label }}">Name</label>
+                <div class="control">
+                    {{ form.name|add_class:"input" }}
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="field">
+                <label class="label" for="{{ form.email.id_for_label }}">Email</label>
+                <div class="control">
+                    {{ form.email|add_class:"input" }}
+                </div>
+            </div>
+
+            <!-- About -->
+            <div class="field">
+                <label class="label" for="{{ form.about.id_for_label }}">About</label>
+                <div class="control">
+                    {{ form.about|add_class:"textarea" }}
+                </div>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="field">
+                <label class="label" for="{{ form.pic.id_for_label }}">Profile Picture</label>
+                <div class="control">
+                    {{ form.pic|add_class:"file-input" }}
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="field has-text-centered mt-4">
+                <button class="button is-warning is-medium" type="submit">
+                    Save Changes
+                </button>
+            </div>
+
         </form>
     </section>
+
 </div>
+
 {% endblock accountFunc %}

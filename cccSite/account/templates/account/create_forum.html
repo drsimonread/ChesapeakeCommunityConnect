@@ -1,30 +1,39 @@
 {% extends "account/accountBase.html" %}
-
-{% block accountFunc %}
 {% load static %}
 
-<!-- Load Google Places Autocomplete -->
+{% block accountFunc %}
+
+<!-- Google Places Autocomplete -->
 <script defer>
     let autocomplete;
     async function initAutocomplete() {
         autocomplete = new google.maps.places.Autocomplete(
-            document.getElementById('id_location'), 
+            document.getElementById("id_location"),
             { fields: ["address_components"] }
         );
     }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initAutocomplete" defer></script>
+<script 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initAutocomplete" 
+    defer>
+</script>
 
-<!-- Include CSS styles -->
-<!-- Move this to your base's head block if preferred -->
-<link rel="stylesheet" type="text/css" href="{% static 'account/create_forumstyle.css' %}">
-<link rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview/dist/style.css" />
+<!-- Styles -->
+<link rel="stylesheet" href="{% static 'account/create_forumstyle.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/file-upload-with-preview/dist/style.css">
 
-<!-- Form for creating a forum -->
 <div id="create">
-    <form action="{% url 'account:create_forum' %}" method="post" enctype="multipart/form-data" role="form" aria-labelledby="create-form-label">
+
+    <form 
+        action="{% url 'account:create_forum' %}" 
+        method="post" 
+        enctype="multipart/form-data" 
+        role="form" 
+        aria-labelledby="create-form-title"
+    >
         {% csrf_token %}
-        <h2 id="create-form-label">Create a New Forum</h2>
+
+        <h2 id="create-form-title" class="form-title">Create a New Forum</h2>
 
         <!-- Title -->
         <div class="form-group">
@@ -44,7 +53,7 @@
             {{ form.lastName|add_class:"form-control" }}
         </div>
 
-        <!-- Location with autocomplete -->
+        <!-- Location -->
         <div class="form-group">
             <label for="{{ form.location.id_for_label }}">Location</label>
             {{ form.location|add_class:"form-control" id="id_location" }}
@@ -57,18 +66,20 @@
         </div>
 
         <!-- Tags -->
-        <div id="scroll-box" role="group" aria-labelledby="tags-label">
-            <h3 id="tags-label">Tags</h3>
-            <div id="id_tags">
+        <fieldset id="scroll-box" role="group" aria-labelledby="tags-label">
+            <legend id="tags-label" class="tag-legend">Tags</legend>
+
+            <div id="id_tags" class="tag-list">
                 {% for tag in form.tags %}
                 <div class="tag-item">
                     <label for="{{ tag.id_for_label }}">
-                        {{ tag.tag }}<span>{{ tag.choice_label }}</span>
+                        {{ tag.tag }}
+                        <span>{{ tag.choice_label }}</span>
                     </label>
                 </div>
                 {% endfor %}
             </div>
-        </div>
+        </fieldset>
 
         <!-- Associated -->
         <div class="form-group">
@@ -84,27 +95,31 @@
 
         <hr>
 
-        <!-- File uploads -->
+        <!-- File Uploads -->
         <div class="form-group">
             <label for="{{ form.file1.id_for_label }}">File 1</label>
             {{ form.file1|add_class:"form-control-file" }}
         </div>
+
         <div class="form-group">
             <label for="{{ form.file2.id_for_label }}">File 2</label>
             {{ form.file2|add_class:"form-control-file" }}
         </div>
+
         <div class="form-group">
             <label for="{{ form.file3.id_for_label }}">File 3</label>
             {{ form.file3|add_class:"form-control-file" }}
         </div>
+
         <div class="form-group">
             <label for="{{ form.file4.id_for_label }}">File 4</label>
             {{ form.file4|add_class:"form-control-file" }}
         </div>
 
-        <!-- Submit Button -->
-        <input class="button_CCC" id="id_submit" type="submit" value="Submit">
+        <!-- Submit -->
+        <button type="submit" class="button_CCC" id="id_submit">Submit</button>
 
     </form>
 </div>
+
 {% endblock %}

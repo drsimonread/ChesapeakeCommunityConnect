@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block accHead %}
-<!-- Move CSS styling to external stylesheet for cleaner code -->
 <link rel="stylesheet" type="text/css" href="{% static 'account/signinstyle.css' %}">
 <title>Chesapeake Community Connect - Sign In</title>
 {% endblock accHead %}
 
 {% block accountFunc %}
+
 <!-- Alphabet Banner -->
 <div class="banner">
     {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
@@ -15,39 +15,63 @@
     {% endfor %}
 </div>
 
-<!-- Informational Content -->
-<div class="columns is-centered">
+<!-- Contributor Information -->
+<section class="columns is-centered">
     <div class="column is-three-quarters">
         <h3 class="title is-3">What does it mean to be a Contributor?</h3>
+
         <p>
             Contributors are essential to the Chesapeake Community Connect mission. By creating an account, Contributors gain the 
             ability to create and share forums and posts, as well as comment on other Contributors’ content. Contributors can share 
-            stories, projects and efforts that are building resilience across the Chesapeake region. As a Contributor, you can aid in 
-            providing knowledge to this community on environmental issues and concerns, as well as other updates. Contributors are 
-            encouraged to include a location, resource links, and a written description to help others understand and engage with their 
-            project. Every contribution helps this community expand the network of learning and action that keeps this platform thriving. 
+            stories, projects, and efforts that are building resilience across the Chesapeake region.
+        </p>
+
+        <p>
+            As a Contributor, you can aid in providing knowledge to this community on environmental issues and concerns, as well as 
+            other updates. Contributors are encouraged to include a location, resource links, and a written description to help others 
+            understand and engage with their project. Every contribution helps this community expand the network of learning and action 
+            that keeps this platform thriving.
         </p>
     </div>
-</div>
+</section>
 
-<!-- Placeholder for Sign-In Form -->
-<div class="columns is-centered" style="margin-top: 40px;">
+<!-- Sign-In Form -->
+<section class="columns is-centered" style="margin-top: 40px;">
     <div class="column is-half">
         <h3 class="title is-4">Sign In</h3>
-<form method="post" action="{% url 'account:signin' %}">            {% csrf_token %}
-            <!-- Add your login fields here -->
+
+        <form method="post" action="{% url 'account:signin' %}">
+            {% csrf_token %}
+
+            <!-- Username -->
             <div class="field">
                 <label class="label" for="id_username">Username</label>
                 <div class="control">
-                    <input class="input" type="text" name="username" id="id_username" required>
+                    <input 
+                        class="input" 
+                        type="text" 
+                        name="username" 
+                        id="id_username" 
+                        required
+                    >
                 </div>
             </div>
+
+            <!-- Password -->
             <div class="field">
                 <label class="label" for="id_password">Password</label>
                 <div class="control">
-                    <input class="input" type="password" name="password" id="id_password" required>
+                    <input 
+                        class="input" 
+                        type="password" 
+                        name="password" 
+                        id="id_password" 
+                        required
+                    >
                 </div>
             </div>
+
+            <!-- Submit -->
             <div class="field">
                 <div class="control">
                     <button class="button is-primary" type="submit">Sign In</button>
@@ -55,13 +79,14 @@
             </div>
         </form>
     </div>
-</div>
+</section>
 
-<!-- List of Contributors -->
-<div class="columns is-centered" style="margin-top: 40px;">
+<!-- Contributor List Placeholder -->
+<section class="columns is-centered" style="margin-top: 40px;">
     <div class="column is-three-quarters">
         <h3 class="title is-4">List of Contributors</h3>
         <p>Here is where the list will go.</p>
     </div>
-</div>
+</section>
+
 {% endblock %}

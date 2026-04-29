@@ -1,122 +1,181 @@
-/* Reset box-sizing for all elements */
-*, *:before, *:after {
+/* ============================
+   GLOBAL RESET & VARIABLES
+============================ */
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* Banner styles */
+:root {
+  --gold: #f3c10d;
+  --gold-dark: #d4a50b;
+  --blue: #00205c;
+  --gray-light: #f4f4f4;
+  --gray-border: #ddd;
+  --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-hover: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* ============================
+   BANNER
+============================ */
 .banner {
   text-align: center;
-  background-color: #f4f4f4;
-  padding: 10px 0;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #ddd;
-  letter-spacing: 10px;
+  background-color: var(--gray-light);
+  padding: 15px 0;
+  margin-bottom: 25px;
+  border-bottom: 2px solid var(--gray-border);
+  letter-spacing: 12px;
+  font-weight: bold;
+  color: var(--blue);
+  font-size: 20px;
 }
+
 .banner-letter {
   display: inline-block;
-  margin: 0 8px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
+  margin: 0 6px;
+  font-size: 20px;
+  font-weight: 700;
 }
 
-/* Testy class with shadow effects */
+/* ============================
+   FORM ELEMENTS
+============================ */
 .testy {
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-soft);
+  border-radius: 6px;
+  padding: 8px;
+  border: 1px solid var(--gray-border);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
+
 .testy:focus {
-  box-shadow: 0 0 2px var(--gold, #ffd700) !important; /* Added fallback color */
+  border-color: var(--gold);
+  box-shadow: 0 0 4px var(--gold);
+  outline: none;
 }
 
-/* Textarea height */
 form textarea {
-  height: 154px;
+  height: 160px;
+  resize: vertical;
 }
 
-/* Half-width containers with flex layout for responsiveness */
+/* ============================
+   FLEX LAYOUTS
+============================ */
 .half {
   display: flex;
   flex: 1 1 48%;
+  gap: 2%;
   margin-bottom: 1em;
 }
-.right, .left {
+
+.left, .right {
   width: 50%;
 }
+
 .left {
   margin-right: 2%;
 }
 
-/* Clearfix for floats if used */
-.cf:before,
-.cf:after {
+/* Clearfix (legacy support) */
+.cf::before,
+.cf::after {
   content: "";
   display: table;
 }
-.cf:after {
+.cf::after {
   clear: both;
 }
 
-/* Centered headings */
+/* ============================
+   HEADINGS
+============================ */
 .heading {
   text-align: center;
-  background-color: #f3c10d;
-  color: #00205c;
-  border-radius: 10px;
+  background-color: var(--gold);
+  color: var(--blue);
+  border-radius: 12px;
   padding: 15px;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-soft);
 }
 
-/* Container styles for account sections */
+/* ============================
+   CONTAINERS
+============================ */
 .create_an_account,
 .containerS1,
 .containerS2 {
   width: 90%;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 10px;
-  border-radius: 20px; /* for create_an_account */
-  border: 1px solid #ccc; /* optional, for visual clarity */
+  max-width: 650px;
+  margin: 25px auto;
+  padding: 15px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--gray-border);
 }
 
-/* Specific container styles */
+/* Specific containers */
 .containerS1 {
-  margin: 0 4% 0 4%;
-  padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.containerS2 {
-  margin: 0 3.5%;
-  padding: 10px;
-  border-radius: 5px;
+  padding-bottom: 25px;
 }
 
-/* Wrapper styles */
+.containerS2 {
+  border-radius: 8px;
+}
+
+/* Wrappers */
 .wrapperS1,
 .wrapperS2 {
-  padding: 10px;
+  padding: 12px;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
-/* Button container for layout */
+/* ============================
+   BUTTONS
+============================ */
 #account-button {
   width: 70%;
-  margin: 20px auto;
-  padding: 10px;
-  display: block;
+  margin: 25px auto;
+  padding: 12px;
   text-align: center;
+  display: block;
+  background-color: var(--gold);
+  color: var(--blue);
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.15s ease;
 }
 
-/* Responsiveness for smaller screens */
-@media(max-width: 480px) {
+#account-button:hover {
+  background-color: var(--gold-dark);
+  transform: translateY(-2px);
+}
+
+/* ============================
+   RESPONSIVE DESIGN
+============================ */
+@media(max-width: 600px) {
   .half {
     flex-direction: column;
     width: 100%;
-    margin-bottom: 1em;
+    gap: 10px;
   }
+
   #account-button {
     width: 100%;
+  }
+
+  .banner {
+    letter-spacing: 6px;
+    font-size: 18px;
   }
 }
