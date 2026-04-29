@@ -11,9 +11,17 @@ body, h1, h2, p, ul, li {
 
 /* Overall styling */
 body {
+<<<<<<< HEAD
+    background-color: var(--background);
+    color: #000;
+    line-height: 1.6; /* The height of the space where the text resides. */
+    overflow-x: hidden; /* Contain full-bleed sections (e.g. contributor shell) without horizontal scroll */
+    overflow-y: auto;
+=======
     background-color: #f3f3f3; /* Grey background */
     color: #000; /* Black text color for body */
     line-height: 1.6;
+>>>>>>> development
 }
 
 /* Header styling */

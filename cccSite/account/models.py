@@ -56,12 +56,12 @@ class GLogIn(models.Model):
 class ManageForm(ModelForm):
     class Meta:
         model = Member
-        fields = ["pic", "name", "email", "about"]
+        fields = ["pic", "phone_number", "about"]
 
         widgets = {
             
-            'name': forms.TextInput(attrs={'class':'nameField'}),
-            'email':forms.EmailInput(attrs={'class':'emailField'}),
+            #! 'name': forms.TextInput(attrs={'class':'nameField'}),
+            #! 'email':forms.EmailInput(attrs={'class':'emailField'}),
             'about': forms.TextInput(attrs={'class':'aboutField'})
         }
         

@@ -1,26 +1,66 @@
+<<<<<<< HEAD
+/* Help page — hero, FAQ, and Contact us all live inside one .site-main white card */
+.help-page {
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Hero is first child inside the white card: align flush to top and side padding */
+.help-page > .help-page-hero.site-hero--gradient {
+    margin: -2rem -2.25rem 1.5rem;
+    max-width: none;
+    width: auto;
+    box-sizing: border-box;
+    border-radius: 19px 19px 16px 16px;
+}
+
+.help-page .help-faq {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.help-page p,
+.help-page .panel {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.help-page .accordion {
+    background-color: var(--gold);
+    color: var(--blue);
+=======
 /* Style the accordion as a button */
 .accordion {
     background-color: #f3c10d;
     /* Yellow background */
     color: #00205c;
     /* Dark blue text */
+>>>>>>> development
     border: none;
-    padding: 10px 20px;
+    padding: 10px 16px;
     display: block;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
-    /* Smooth background color transition on hover */
-    width: 70%;
-    /* Take up half the screen width */
+    width: 100%;
+    max-width: 42rem;
     margin: 0 auto;
-    /* Centered on the screen */
+    box-sizing: border-box;
     text-align: center;
-    /* Center the text */
     outline: none;
-    /* Remove outline */
 }
 
+<<<<<<< HEAD
+.help-page .accordion.active,
+.help-page .accordion:hover {
+    background-color: var(--hover-gold);
+}
+
+.help-page .panel {
+    padding: 0 12px;
+    background-color: transparent;
+=======
 /* Style the active class (and arrow icon) */
 .accordion.active,
 .accordion:hover {
@@ -32,69 +72,225 @@
 .panel {
     padding: 0 18px;
     background-color: white;
+>>>>>>> development
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     margin: 0 auto;
-    /* Center the panel */
-    width: 40%;
-    /* Take up half the screen width */
+    width: 100%;
+    max-width: 42rem;
+    box-sizing: border-box;
 }
-
-/* Centering the video container */
-.video-container {
-    text-align: center;
-    margin: 0 auto 40px  20px;
-    /* Ensures space for the footer */
-    max-width: 100%;
-    /* Adjust based on video size or preference */
-}
-
-.subcontainerL {
-    width: 40%;
-    margin-left: 3%;
-}
-
-.subcontainerR{
-    margin-left: auto;
-    margin-top: 2%;
-    float: right;
-    width: 50%;
-    margin-right: 3%;
-    transform: (-50%,-50%);
-}
-
-
 
 video {
-    width: 100%;
-    /* Responsive video */
+    max-width: 100%;
     height: auto;
-    /* Maintain aspect ratio */
-
-    border-radius: 8px;
 }
 
-#content {
-    margin-bottom: 60px;
-    /* Space at the bottom for the footer */
+/* Map Tutorial panel (video inside accordion) */
+.panel-tutorial-lede {
+    margin: 0.75rem 0 1rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #475569;
 }
 
-/* Add margin below the FAQ section */
-#FAQ {
-    margin-bottom: 30px;
-    /* Adjust the value as needed for visual spacing */
+.help-tutorial-video-wrap {
+    margin: 0 0 0.5rem;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
 }
 
-/* Style for creating space below the video */
-#map-tutorial {
-    margin-bottom: 20px;
-    /* Adjust this value as needed */
+.help-tutorial-video-wrap video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 32, 92, 0.12);
+    box-shadow: 0 4px 16px rgba(0, 32, 92, 0.08);
+    background: #0f172a;
 }
 
-#show-contact-form-button {
-    padding: 10px 20px;
-    width: 40%; /* Take up half the screen width */
-    margin: 20px auto; /* Centered on the screen */
-    margin-top: 40px; /* Increase top margin to add space above the button */
+/* Contact us: inside the same white .site-main as FAQ (single card surface) */
+.help-page .help-contact-card {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 32, 92, 0.12);
+    display: flow-root;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: clip;
+    overflow-y: visible;
+}
+
+.help-contact-card__header {
+    text-align: center;
+    margin-bottom: 1.15rem;
+}
+
+.help-contact-card__title {
+    margin: 0 0 0.45rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--blue);
+    letter-spacing: -0.02em;
+}
+
+.help-contact-card__intro {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #475569;
+}
+
+.help-contact-card__body {
+    max-width: 42rem;
+    margin: 0 auto;
+    width: 100%;
+    min-width: 0;
+    /* Inset panel so fields read as one unit inside Contact us (stops visual “bleed” past this band) */
+    padding: 1.35rem 1.25rem 1.5rem;
+    background: linear-gradient(180deg, #f1f5f9 0%, #f8fafc 100%);
+    border: 1px solid rgba(0, 32, 92, 0.14);
+    border-radius: 14px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.75),
+        0 1px 2px rgba(0, 32, 92, 0.06);
+    overflow-x: clip;
+    overflow-y: visible;
+    position: relative;
+    isolation: isolate;
+}
+
+.help-contact-card__body .contact-form-root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    text-align: left;
+}
+
+/* Stacked fields: full-width controls aligned to the card edges */
+.help-contact-card .contact-form--help {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    float: none;
+}
+
+.help-contact-card .contact-form__field {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 0 0.9rem;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.help-contact-card .contact-form__field:has(+ .contact-form__actions) {
+    margin-bottom: 0.5rem;
+}
+
+.help-contact-card .contact-form__label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin: 0 0 0.4rem;
+}
+
+.help-contact-card .contact-form__control {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid rgba(0, 32, 92, 0.2);
+    border-radius: 10px;
+    font-size: 1rem;
+    line-height: 1.4;
+    background: #fff;
+    box-shadow: inset 0 1px 2px rgba(0, 32, 92, 0.04);
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+.help-contact-card textarea.contact-form__control {
+    min-height: 140px;
+    resize: vertical;
+    /* cols=1 in markup; enforce fluid width so nothing extends past the inset panel */
+    width: 100%;
+    max-width: 100%;
+}
+
+.help-contact-card .contact-form__control:focus {
+    outline: none;
+    border-color: rgba(243, 193, 13, 0.85);
+    box-shadow:
+        inset 0 1px 2px rgba(0, 32, 92, 0.04),
+        0 0 0 3px rgba(243, 193, 13, 0.28);
+}
+
+.help-contact-card .contact-form__actions {
+    margin-top: 0.5rem;
+    padding-top: 0.25rem;
+}
+
+.help-contact-card .contact-form__submit {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.help-contact-card .contact-form__error {
+    margin: 0.35rem 0 0;
+    font-size: 0.85rem;
+    color: #b91c1c;
+}
+
+/* Narrow viewports: keep card and accordions inside the viewport */
+@media (max-width: 640px) {
+    .site-main.help-page {
+        padding: 1.35rem 1rem 1.75rem !important;
+    }
+
+    .help-page > .help-page-hero.site-hero--gradient {
+        margin: -1.35rem -1rem 1.25rem;
+        border-radius: 15px 15px 14px 14px;
+    }
+
+    .help-page .help-contact-card {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+    }
+
+    .help-page .help-contact-card__body {
+        padding: 1.15rem 1rem 1.35rem;
+    }
+
+    .help-page .accordion {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+.help-contact-card .contact-form-root,
+.help-contact-card .contact-form-root * {
+    box-sizing: border-box;
 }

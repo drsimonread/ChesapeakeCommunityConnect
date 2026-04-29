@@ -61,4 +61,211 @@ input[type=text]{
     padding: 1em;
     width: 60%; /* Take up half the screen width */
     float: left;
+<<<<<<< HEAD
 }
+
+/* -------------------------------------------------------------------------
+   Map page inside contributor-style shell: flex layout + larger map area.
+   (Float 70%/25% breaks inside padded .site-main; search was wrapping away.)
+   ------------------------------------------------------------------------- */
+.map-page-layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1.25rem 1.75rem;
+    width: 100%;
+}
+
+.map-page-layout__map {
+    flex: 1 1 55%;
+    min-width: 0;
+}
+
+.map-page-layout__search {
+    flex: 1 1 280px;
+    max-width: 420px;
+    min-width: 260px;
+}
+
+.map-page-layout #left,
+.map-page-layout #search {
+    float: none;
+    width: auto;
+    margin: 0;
+}
+
+.map-page-layout #map {
+    width: 100%;
+    height: clamp(440px, 58vh, 780px);
+    min-height: 420px;
+}
+
+.map-page-layout #search form {
+    float: none;
+    width: 100%;
+}
+
+.map-search-block {
+    margin-bottom: 1.1rem;
+}
+
+.map-search-block--tags {
+    margin-bottom: 0.75rem;
+}
+
+.map-search-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin: 0 0 0.4rem;
+}
+
+.map-search-hint {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: #64748b;
+}
+
+/* Tag pills: label must anchor absolute checkbox hiding */
+.map-page-layout #id_t label {
+    position: relative;
+}
+
+.map-tag-row {
+    margin-bottom: 2px;
+}
+
+.map-page-layout #scroll-box {
+    max-height: min(320px, 45vh);
+    height: auto;
+    min-height: 160px;
+}
+
+.map-page-layout #search-btn {
+    float: none;
+    margin-top: 0.25rem;
+}
+
+/* ----- Filter panel: clearer hierarchy + large Apply button ----- */
+.map-search-panel {
+    background: linear-gradient(180deg, #f8fafc 0%, #fff 48%);
+    border: 1px solid rgba(0, 32, 92, 0.12);
+    border-radius: 14px;
+    padding: 1.1rem 1.15rem 1.25rem;
+    box-shadow: 0 1px 3px rgba(0, 32, 92, 0.06);
+}
+
+.map-search-panel__head {
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(0, 32, 92, 0.1);
+}
+
+.map-search-panel__title {
+    margin: 0 0 0.35rem;
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--blue);
+    line-height: 1.25;
+}
+
+.map-search-panel__intro {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: #64748b;
+}
+
+.map-search-form .map-search-input,
+.map-page-layout .map-search-input {
+    font-size: 1rem !important;
+    padding: 0.75rem 0.9rem !important;
+    border: 1px solid rgba(0, 32, 92, 0.15) !important;
+    box-shadow: none !important;
+}
+
+.map-search-form .map-search-input:focus {
+    border-color: rgba(243, 193, 13, 0.85) !important;
+    box-shadow: 0 0 0 3px rgba(243, 193, 13, 0.25) !important;
+    outline: none !important;
+}
+
+.map-search-hint {
+    font-size: 0.88rem;
+}
+
+.map-tag-scroll {
+    border-radius: 10px;
+    border: 1px solid rgba(0, 32, 92, 0.08);
+    background: #fff;
+    padding: 0.35rem 0.25rem;
+}
+
+.map-page-layout #id_t label span {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.map-search-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-top: 0.35rem;
+}
+
+.map-filter-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 0.9rem 1rem;
+    float: none !important;
+    border: none;
+    cursor: pointer;
+    border-radius: 12px;
+    background: linear-gradient(180deg, var(--gold) 0%, #e8b30c 100%);
+    color: var(--blue);
+    box-shadow: 0 2px 8px rgba(0, 32, 92, 0.12);
+    transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.map-filter-btn:hover {
+    filter: brightness(1.05);
+}
+
+.map-filter-btn:active {
+    transform: translateY(1px);
+}
+
+.map-filter-btn__text {
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.map-filter-clear {
+    display: block;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.map-filter-clear:hover {
+    color: #001a4d;
+}
+
+
+  
+=======
+}
+>>>>>>> development

@@ -4,6 +4,27 @@ from .models import *
 # Register your models here.
 admin.site.register(MapTag)
 
+<<<<<<< HEAD
+
+@admin.register(Forum)
+class ForumAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'visibility_status', 'created_display', 'location_display')
+    list_filter = ('visibility', 'private_public', 'associated')
+    search_fields = (
+        'title',
+        'content',
+        'first_name',
+        'last_name',
+        'author__user__username',
+        'author__user__email',
+    )
+    readonly_fields = ('geoCode', 'description')
+    filter_horizontal = ('tags', 'contributors')
+    
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('title', 'content', 'first_name', 'last_name', 'author', 'description')
+=======
 @admin.register(MapPost)
 class MapPostAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'visibility', 'get_created_date', 'get_tags')
@@ -15,6 +36,7 @@ class MapPostAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Post Information', {
             'fields': ('title', 'content', 'description', 'author')
+>>>>>>> development
         }),
         ('Location', {
             'fields': ('geoCode',)

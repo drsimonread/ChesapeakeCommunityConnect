@@ -1,19 +1,18 @@
-.env
-cccSite/.env
-
-cccSite/report.html
-cccSite/reports/
-
-*.pyc
-
+# Virtual environments
+venv/
 .venv/
 
-*.DS_Store
-<<<<<<<<< Temporary merge branch 1
-.DS_Store
-=========
+# Python cache
+__pycache__/
+*.pyc
+
+# OS junk
 .DS_Store
 
+# Database
 *.sqlite3
-cccSite/db.sqlite3
->>>>>>>>> Temporary merge branch 2
+db.sqlite3
+
+# Django migrations (optional, but your repo already doing this)
+mapViewer/migrations/*.py
+!mapViewer/migrations/__init__.py

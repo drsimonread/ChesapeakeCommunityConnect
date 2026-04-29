@@ -1,6 +1,39 @@
-<!--TODO: Comment-->
-
 {% load static %}
+<<<<<<< HEAD
+<div class="contact-form-root">
+    <form action="{% url 'boiler:help'%}" id="contact-form" class="contact-form contact-form--help" method="post" role="form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="contact-form__field contact-form__field--nonfield">
+            <p class="contact-form__error">{{ form.non_field_errors }}</p>
+        </div>
+        {% endif %}
+        <div class="contact-form__field">
+            <label class="contact-form__label" for="{{ form.sender.id_for_label }}">{{ form.sender.label }}</label>
+            {{ form.sender }}
+            {% if form.sender.errors %}<p class="contact-form__error">{{ form.sender.errors }}</p>{% endif %}
+        </div>
+        <div class="contact-form__field">
+            <label class="contact-form__label" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            {{ form.email }}
+            {% if form.email.errors %}<p class="contact-form__error">{{ form.email.errors }}</p>{% endif %}
+        </div>
+        <div class="contact-form__field">
+            <label class="contact-form__label" for="{{ form.subject.id_for_label }}">{{ form.subject.label }}</label>
+            {{ form.subject }}
+            {% if form.subject.errors %}<p class="contact-form__error">{{ form.subject.errors }}</p>{% endif %}
+        </div>
+        <div class="contact-form__field">
+            <label class="contact-form__label" for="{{ form.message.id_for_label }}">{{ form.message.label }}</label>
+            {{ form.message }}
+            {% if form.message.errors %}<p class="contact-form__error">{{ form.message.errors }}</p>{% endif %}
+        </div>
+        <div class="contact-form__actions">
+            <button type="submit" class="button_CCC contact-form__submit">Submit</button>
+        </div>
+    </form>
+</div>
+=======
 
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'boiler/contact_formstyle.css' %}">
@@ -24,3 +57,4 @@
     </div>
 
 </body>
+>>>>>>> development

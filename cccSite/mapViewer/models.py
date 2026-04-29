@@ -13,8 +13,17 @@ class MapTag(models.Model):
 class MapPost(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
+<<<<<<< HEAD
+    first_name = models.CharField(max_length=100, blank=True, default="")
+    last_name = models.CharField(max_length=100, blank=True, default="")
+
+    author = models.ForeignKey(Member, null=True, on_delete=models.SET_NULL, related_name="forums")
+    
+    description = models.TextField()
+=======
     author = models.ForeignKey(Member, on_delete=models.CASCADE)
     description = models.TextField() #will be derived from content. whenever this stuff gets working.
+>>>>>>> development
     geoCode = models.JSONField()
     tags = models.ManyToManyField(MapTag, related_name="posts", blank=True)
     created = models.DateTimeField(auto_now_add=True)

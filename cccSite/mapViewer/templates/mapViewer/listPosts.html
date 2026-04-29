@@ -2,11 +2,50 @@
 {% load static %}
 
 {% block head %}
-<title>Chesapeake Community Connect - Map</title>
+<link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
+<title>Chesapeake Community Connect - Forums</title>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBic0-t_tjjX9CnTFIZY2PdJPOF5hFhuQY&libraries=places"></script>
 {% endblock head %}
 
 {% block content %}
+<<<<<<< HEAD:cccSite/mapViewer/templates/mapViewer/listForums.html
+<div class="site-shell site-font">
+  <div class="site-shell__aurora" aria-hidden="true"></div>
+  <div class="site-shell__pattern" aria-hidden="true"></div>
+  <div class="site-shell__inner">
+    <header class="site-hero--gradient" aria-labelledby="forum-list-title">
+      <div class="site-hero__inner">
+        <span class="site-hero__mark" aria-hidden="true"><i class="bx bx-list-ul"></i></span>
+        <div class="site-hero__text">
+          <span class="site-hero__kicker">Browse</span>
+          <h1 id="forum-list-title" class="site-hero__title">Forum list</h1>
+          <p class="site-hero__lede">Search and open a forum from the list below.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="site-main">
+      <form action="{% url 'mapViewer:forum_list' %}" id="contact-form" method="get" class="mb-5">
+        {{ form.as_p }}
+        <input type="submit" value="Submit" class="button_CCC">
+      </form>
+      <ul class="site-forum-simple-list" role="list">
+        {% for forum in forumList %}
+        <li>
+          <a href="{% url 'mapViewer:forum_detail' want=forum.id %}">{{ forum.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="column is-full">
+  {% block footer %}
+  {% endblock footer %}
+</footer>
+
+=======
 <div id="content" class="body">
     <h1>Chesapeake Community Connect</h1>
     <form action="{% url 'mapViewer:post_list' %}" id="contact-form" method="get">
@@ -22,4 +61,5 @@
     
 </div>
 
+>>>>>>> development:cccSite/mapViewer/templates/mapViewer/listPosts.html
 {% endblock content %}

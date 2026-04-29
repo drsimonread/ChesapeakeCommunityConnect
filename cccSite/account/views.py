@@ -1,7 +1,9 @@
-from google.oauth2 import id_token
-from google.auth.transport import requests
+from django.forms import formset_factory
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -9,6 +11,8 @@ from .models import *
 from .forms import CreateAccountForm, SearchAccountForm
 from django.db.models import Count
 from django.db.models import Q
+from django.core.paginator import Paginator
+from urllib.parse import urlencode
 import json
 from django.http import JsonResponse
 from django.contrib.auth import login
@@ -21,13 +25,23 @@ GOOGLE_CLIENT_ID = "909497695712-h9smcju9klvlqk70celohtne9o438htn.apps.googleuse
 
 def google_signin(request):
     if request.method == "POST":
+        try:
+            # Lazy import so management commands can run without google auth crypto deps.
+            from google.oauth2 import id_token
+            from google.auth.transport import requests as google_requests
+        except Exception:
+            return JsonResponse(
+                {"success": False, "message": "Google sign-in dependencies are unavailable"},
+                status=503,
+            )
+
         token = request.POST.get("credential", "")
 
         try:
             # 1. Verify the Google token
             idinfo = id_token.verify_oauth2_token(
                 token,
-                requests.Request(),
+                google_requests.Request(),
                 GOOGLE_CLIENT_ID
             )
 
@@ -100,14 +114,51 @@ def default(request):
     else:
         userInz=Member.objects.get(pk=request.session['user']) #get user from session
         return render(request, 'account/myaccount.html', {
-            'name': userInz.name,
-            'email' : userInz.email,
-            'image' : userInz.pic,
-            'about' : userInz.about,
+            'self': userInz,
         })
+    else:
+        return render(request, 'account/signedout.html')
+
+        
+        
     
-def account_all(request):
-    return HttpResponse("insert account view list here")
+def account_list(request):
+    nameQ= request.GET.get("q")
+    sortQ=request.GET.get("s")
+    users = Member.objects.filter(forums__visibility__gt=0).distinct().annotate(num_forums=Count("forums"), filter=Q(forums__visibility=1))
+    search = SearchAccountForm(request.GET)
+    if nameQ:
+        users=users.filter(user__username__icontains=nameQ)
+    if not sortQ:
+        users=users.order_by("user__username")
+    else:
+        match sortQ:
+            case "0":
+                users=users.order_by("user__username")
+            case "1":
+                users=users.order_by("-user__username")
+            case "2":
+                users=users.order_by("num_forums")
+            case "3":
+                users=users.order_by("-num_forums")
+            case _:
+                users=users.order_by("user__username")
+    return render(request, 'account/account_list.html', {'users' : users,
+                                                         'search' : search,
+                                                         })
+
+def my_forums(request):
+    if request.session.get('rank',0)==0:
+        return redirect(reverse(default))
+    else:
+        userInz = Member.objects.get(pk=request.session.get('user'))
+        userForums=Forum.objects.filter(author=userInz)
+        vis = userForums.filter(visibility=1)
+        pend = userForums.filter(visibility=0)
+        den = userForums.filter(visibility=-1)
+        return render(request, 'account/myForums.html', {'vis' : vis,
+                                    'pend' : pend,
+                                    'den' : den})
     
 def account_view(request, want):
     if not want:
@@ -137,85 +188,59 @@ def manage(request):
         form = ManageForm(instance=userInz)
     return render(request, "account/manage.html", {'form' : form})
 
-# a lot of this code is from google btw
-@csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
-def authG(request):
-    if request.method == "GET":
-       return redirect("/account/")
-    elif request.method == "POST":
-
-        csrf_tok_cookie = request.COOKIES.get('g_csrf_token')
-        # check valid csrf token
-        if not csrf_tok_cookie:
-            return HttpResponse("Something went wrong, no csrf cookie")
-        csrf_tok_body = request.POST.get('g_csrf_token')
-        if not csrf_tok_body:
-            return HttpResponse("Something went wrong, no csrf cookie from google")
-        if csrf_tok_cookie != csrf_tok_body:
-            return HttpResponse("Could not verify csrf")
-        #get token from google
-        tok = request.POST.get("credential")  
-        try:
-            # logs user in via their google ID, or makes an entry in member if they do not have an account yet.
-            idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
-            if not(GLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
-                #when we implement other sign in methods, we will need to ask the user if they already have an account
-                #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
-                
-                userInz = Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
-                gLogInz = GLogIn.objects.create(googleID=idinfo['sub'], referTo=userInz) # stores the google ID and the member it is associated with
-            else: #if the user has logged in with google before
-                gLogInz=GLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
-                userInz=gLogInz.referTo #get the object that the google ID is associated with
-
-            #store information about the user in the session
-            request.session['rank']=userInz.ranking
-            request.session['user']=userInz.pk 
-            request.session['name']=userInz.name
-        except ValueError:
-            return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
-            pass
-        return redirect(reverse("account:default"))
-
-    #view for creating forums
+# a lot of this code is from google btw. this view verifies google one touch log in credentials
+#view for creating forums
 def make_forum(request):
-    if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
+    if request.session.get("rank", 0) == 0:
         return redirect(reverse("account:signin"))
-    if(request.method=="POST"): #if the request was a post, it is an attempt to create a forum
-        contentForm= MakeForumForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
-        if contentForm.is_valid(): #if the forum is good to go, calls the clean method and validators from MakeForumForm in mapViewer/forms.py
-            # MEMBER_DELETE
-            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
-            if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
-                disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
+    if request.method == "POST":
+        contentForm = MakeForumForm(request.POST, request.FILES)
+        if contentForm.is_valid():
+            userInz = Member.objects.get(pk=request.session["user"])
+            content = contentForm.cleaned_data["content"]
+            if len(content) > 35:
+                disc = content[0:35] + "..."
             else:
-                disc = contentForm.cleaned_data['content'] #otherwise just use content to describe #? Why does description exist at all?
-            vis=0 #default visibility set to pending
-            if request.session['rank'] > 1: #if user is trusted, set visibility to visible
-                vis=1
-            forumInz=Forum.objects.create(title=contentForm.cleaned_data['title'], #actually create the forum instance in the database
-                                   content=contentForm.cleaned_data['content'],
-                                   firstName=contentForm.cleaned_data['firstName'],
-                                   lastName=contentForm.cleaned_data['lastName'],
-                                   author=userInz,
-                                   description=disc,
-                                   geoCode=contentForm.cleaned_data['geoResult'][0],
-                                   visibility=vis,
-                                   associated=contentForm.cleaned_data['associated'],
-                                   private_public=contentForm.cleaned_data['private_public']
-                                   )
-            if contentForm.cleaned_data['tags']: #if there are any tags
-                forumInz.tags.set(contentForm.cleaned_data['tags']) #set the forum's tags according to selected tags
-            
-            if contentForm.cleaned_data['files']: #if there are files uploaded
-                for item in contentForm.cleaned_data['files']: #iterates through file upload fields
-                    if item != None: #if item is none, then nothing was uploaded
-                        fileInz = Media.objects.create(forum=forumInz, file=item) #create a forumfile instance
-                        fileInz.format = fileInz.get_format() #get the format and set the format
-                        fileInz.save() #save the updated format
-            return redirect(reverse('mapViewer:forum_detail', args=[forumInz.pk])) #redirect to the forum view of the just posted forum
-            
+                disc = content
+            geo = _geocode_for_forum_storage(contentForm.cleaned_data["geoResult"])
+            if geo is None:
+                messages.error(
+                    request,
+                    "We could not save the map location. Please choose a full address from the suggestions and try again.",
+                )
+            else:
+                forumInz = Forum.objects.create(
+                    title=contentForm.cleaned_data["title"],
+                    content=content,
+                    first_name=contentForm.cleaned_data["firstName"],
+                    last_name=contentForm.cleaned_data["lastName"],
+                    author=userInz,
+                    description=disc,
+                    geoCode=geo,
+                    visibility=0,
+                    associated=contentForm.cleaned_data["associated"],
+                    private_public=contentForm.cleaned_data["private_public"],
+                )
+                tags = contentForm.cleaned_data.get("tags")
+                if tags:
+                    forumInz.tags.set(tags)
+                for item in contentForm.cleaned_data.get("files") or []:
+                    if item is not None:
+                        fileInz = Media.objects.create(forum=forumInz, file=item)
+                        fileInz.format = fileInz.get_format()
+                        fileInz.save()
+                messages.success(
+                    request,
+                    "Forum successfully submitted! It will appear under Pending review until an administrator approves it.",
+                )
+                return redirect(
+                    reverse("account:my_forums") + "?success=1&cleardraft=1"
+                )
+        else:
+            messages.error(
+                request,
+                "Your forum was not saved. Please fix the errors highlighted below and try again.",
+            )
     else:
         contentForm = MakeForumForm()
     return render(request, 'account/create_forum.html', {'form': contentForm,})
->>>>>>>>> Temporary merge branch 2
