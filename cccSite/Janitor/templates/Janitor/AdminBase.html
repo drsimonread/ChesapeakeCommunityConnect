@@ -6,6 +6,7 @@
 <title>Chesapeake Community Connect - Admin</title>
 {%endblock head%}
 {% block content %}
+<<<<<<< HEAD
 <div class="site-shell site-font">
   <div class="site-shell__aurora" aria-hidden="true"></div>
   <div class="site-shell__pattern" aria-hidden="true"></div>
@@ -42,6 +43,22 @@
         {% endif %}
       </div>
     </div>
+=======
+<div class="body">  
+  {%if rank > 1%}
+    <ul style="position:fixed;width: 15%;">
+        <li><a class="button" href="#home">Approve Posts</a></li>
+        <li><a class="button" href="{%url 'Janitor:tagList' %}">Manage Tags</a></li>
+        <li><a class="button" href="{% url 'Janitor:reportList' %}">Reports</a></li>
+        <li><a class="button" href="{% url 'Janitor:messageList'%}">Contact Requests</a></li>
+        {%if rank == 99%}<li><a class="button" href="{% url 'Janitor:memberList'%}">Manage Users</a></li>{%endif%}
+        <li><a class="button" href="#about">Export Data</a></li>
+    </ul>
+  {%endif%}
+  {%if rank > 1%}
+  <div style="margin-left:15%;padding:1px 16px;">
+    {%block adminFunc%} Welcome to the admin interface. {% endblock adminFunc %}
+>>>>>>> development
   </div>
 </div>
 <script>

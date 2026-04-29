@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'cccSite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.environ.get('CCCSITE_SQLITE_DB', BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -151,6 +151,3 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-#https://pro.europeana.eu/page/media-formats-mime-types
-VALID_UPLOAD_TYPES = ['image/jpeg','image/png','image/gif','audio/mpeg','audio/wav','video/mp4','video/quicktime'] #https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types

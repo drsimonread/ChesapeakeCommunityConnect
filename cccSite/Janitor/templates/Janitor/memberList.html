@@ -2,9 +2,9 @@
 
 {% block adminFunc %}
 {%for item in members %}
-<button class="accordion">{{item.user.name}} ({{item.user.email}}) - Rank: {{item.user.get_ranking_display}} - Visible Forums: {{item.goodforums}} - Reports: {{item.reports}}</button>
+<button class="accordion">{{item.user.name}} ({{item.user.email}}) - Rank: {{item.user.get_ranking_display}} - Visible Posts: {{item.goodposts}} - Reports: {{item.reports}}</button>
 <div class="panel">
-    <p><a class="button_CCC" href="{{item.user.get_absolute_url}}">View User</a><a class="button_CCC" href="{{item.user.get_admin_url}}">Manage User</a></p>
+    <p>View Account Page/<a class="button" href="{{item.user.get_admin_url}}">Manage User</a></p>
 </div>
 {%endfor%}
 {% endblock adminFunc %}

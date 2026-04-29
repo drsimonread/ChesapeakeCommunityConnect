@@ -6,6 +6,7 @@
 {% endblock accHead %}
 
 {% block accountFunc %}
+<<<<<<< HEAD
 <div id="content" class="contrib-page account-edit" role="main" aria-labelledby="edit-profile-title">
   <header class="contrib-hero">
     <div class="contrib-hero__inner">
@@ -15,6 +16,49 @@
         <h1 id="edit-profile-title" class="contrib-hero__title">Edit your profile</h1>
         <p class="contrib-hero__lede">Update your photo, phone number, and short bio. Username and email stay tied to your login.</p>
       </div>
+=======
+
+<style>
+
+    .container{
+        min-width: 100%;
+        margin-bottom: 20%;
+    }
+
+    .nameField,.emailField,.aboutField{
+        border: none;
+        width: 300px;
+        padding:10px;
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    .submitB {
+        background-color: #f3c10d;
+        padding: 10px;
+        border-radius: 3px;
+        border: none;
+        font-size: 15px;
+        width: 150px;
+
+    }
+
+    .submitB:hover{
+        cursor: pointer;
+        background-color: orange;
+    }
+
+</style>
+<!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
+<div id="content">
+    <div class="container">
+        <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            {{form.as_p}}
+    
+            <input class="submitB" type="submit" value="Submit">
+        </form>
+>>>>>>> development
     </div>
   </header>
 

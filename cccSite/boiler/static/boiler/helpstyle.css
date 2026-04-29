@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Help page — hero, FAQ, and Contact us all live inside one .site-main white card */
 .help-page {
     max-width: 100%;
@@ -28,6 +29,14 @@
 .help-page .accordion {
     background-color: var(--gold);
     color: var(--blue);
+=======
+/* Style the accordion as a button */
+.accordion {
+    background-color: #f3c10d;
+    /* Yellow background */
+    color: #00205c;
+    /* Dark blue text */
+>>>>>>> development
     border: none;
     padding: 10px 16px;
     display: block;
@@ -42,6 +51,7 @@
     outline: none;
 }
 
+<<<<<<< HEAD
 .help-page .accordion.active,
 .help-page .accordion:hover {
     background-color: var(--hover-gold);
@@ -50,6 +60,19 @@
 .help-page .panel {
     padding: 0 12px;
     background-color: transparent;
+=======
+/* Style the active class (and arrow icon) */
+.accordion.active,
+.accordion:hover {
+    background-color: orange;
+    /* Change background color on hover */
+}
+
+/* Style the panel class */
+.panel {
+    padding: 0 18px;
+    background-color: white;
+>>>>>>> development
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;

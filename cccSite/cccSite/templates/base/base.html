@@ -18,7 +18,6 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'base/basestyle.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'base/site-surface.css' %}">
     <script type="text/javascript" src="{% static 'base/jquery-3.7.1.min.js' %}"></script>
@@ -29,12 +28,17 @@
 <body>
 
     <!-- Navigation Bar  -->
-    <header class="headerCCC">
+    <header>
         <nav>
             <ul> 
                 <li><img src= "{%static 'base/assets/smcm-seal.png' %}" alt="SMCM Logo" id="smcm-logo"></li>
+<<<<<<< HEAD
                 <li><a class="nav-link" href="{% url 'mapViewer:default'%}" {%if '/about/' not in request.path and '/contact/' not in request.path and '/help/' not in request.path and '/contribute/' not in request.path and '/admin/' not in request.path%}style="background-color: #f3c10d; color: #00205c;"{%endif%}>Map</a></li>
                 <li><a class="nav-link" href="{% url 'boiler:about'%}" {%if '/about/' in request.path%} style="background-color: #f3c10d; color: #00205c;"{%endif%}>About Us</a><!--<link rel="stylesheet" type="text/css" href="{% static 'base/aboutstyle.css' %}"></li> -->
+=======
+                <li><a class="nav-link" href="{% url 'mapViewer:default'%}" {%if '/about/' not in request.path and '/contact/' not in request.path and '/help/' not in request.path and '/contribute/' not in request.path and '/admin/' not in request.path%}style="background-color: #f3c10d; color: #00205c;"{%endif%}>Home</a></li>
+                <li><a class="nav-link" href="{% url 'boiler:about'%}" {%if '/about/' in request.path%} style="background-color: #f3c10d; color: #00205c;"{%endif%}>About</a><!--<link rel="stylesheet" type="text/css" href="{% static 'base/aboutstyle.css' %}"></li> -->
+>>>>>>> development
                 {% comment %} <li><a class="nav-link" href="{% url 'boiler:contact'%}" {%if '/contact/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contact</a></li> {% endcomment %}
                 <li><a class="nav-link" href="{% url 'boiler:help'%}" {%if '/help/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Help/FAQs</a></li>
                 <li><a class="nav-link" href="{%url 'account:default'%}" {%if '/contribute/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contributors</a></li>
@@ -45,6 +49,18 @@
             </ul>
         </nav> 
     </header>
+    <div id="g_id_onload" data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
+          data-context="signin" data-ux_mode="popup" data-login_uri="{%url 'account:authG' %}"
+          data-auto_prompt="false"></div>
+   {% block content %} {%endblock content%}
+    <!-- Footer -->
+    <footer style="min-height: 350px;">
+        <img src="{%static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" id="smcm-logo">
+        &copy; 2025 SMCM Capstone Website
+    </footer>
+</body>
+{%endwith%}
+</html>
 
     <!-- GOOGLE SIGN-IN (ONLY FOR LOGGED-OUT USERS) -->
     {% if not user.is_authenticated %}
@@ -90,9 +106,11 @@
     {% block content %}{% endblock content %}
 
     <!-- Footer -->
-    <footer style="min-height: 350px;">
-        <img src="{%static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" id="smcm-logo">
-        &copy; 2025 SMCM Capstone Website
+    <footer>
+        <div class="footer-content">
+            <img src="{%static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" id="smcm-logo">
+            &copy; 2023 SMCM Capstone Website
+        </div>
     </footer>
 
 </body>
