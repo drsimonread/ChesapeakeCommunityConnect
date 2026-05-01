@@ -1,25 +1,30 @@
 /* This is the ID for the DIV that the search form fits inside of. It takes up the right half of the page. */
-#search { /*? Change to right? */
+ /*
+#search { 
     width: 25%;
     float: right;
     margin-top: 2em;
     margin-right: 2em;
-    /* height: 400px; */
-}
+
+}*/
+
 
 /* This is the ID of the DIV that the map fits inside of. It takes up the left half of the page. */
-#left {
+/*#left {
     width: 70%;
     float: left;
     margin-top: 2em;
     margin-left: 2em;
-}
+    min-height:100%;
+}*/
 
 /* This is the ID for the map DIV. */
 #map {
     /*Map icon styling*/
-    border-radius: 10px;
-    height: 400px;
+     width: 100%;
+    height: 100%;
+    min-height: 400px;
+    border-radius: 14px;
 }
 
 /* Removes blue outline when selecting the map. */
@@ -85,13 +90,13 @@
     background-color: var(--gold);
 }
 
-/* This focuses on every form object within the search DIV. */
+/* This focuses on every form object within the search DIV. 
 #search form {
     float: right;
     width: 90%;
     min-width: auto;
 }
-
+*/
 /* This focuses on every input of type text within the entire page. */
 input[type=text] { /*? Maybe move to basestyles.css. */
     border: 0;
@@ -107,28 +112,39 @@ input[type=text] { /*? Maybe move to basestyles.css. */
     box-sizing: border-box; /* Add this line */
 }
 
-/* This is the ID for the search button. */
+/* This is the ID for the search button. 
 #search-btn {
     padding: 1em;
     width: 100%;
     float: left;
 }
-
+*/
 /* -------------------------------------------------------------------------
    Map page inside contributor-style shell: flex layout + larger map area.
    (Float 70%/25% breaks inside padded .site-main; search was wrapping away.)
    ------------------------------------------------------------------------- */
 .map-page-layout {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 1.25rem 1.75rem;
-    width: 100%;
+    display:flex;
+    align-items:stretch;
+    gap:1.5rem;
 }
-
+.map-left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.map-container {
+    height: 500px; 
+}
+.map-right-column {
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+}
 .map-page-layout__map {
-    flex: 1 1 55%;
-    min-width: 0;
+    flex: 1;
+    display:flex;
 }
 
 .map-page-layout__search {
@@ -145,9 +161,10 @@ input[type=text] { /*? Maybe move to basestyles.css. */
 }
 
 .map-page-layout #map {
-    width: 100%;
-    height: clamp(440px, 58vh, 780px);
-    min-height: 420px;
+width:100%;
+height:100%;
+min-height:100%;
+border-radius:14px;
 }
 
 .map-page-layout #search form {
@@ -156,7 +173,7 @@ input[type=text] { /*? Maybe move to basestyles.css. */
 }
 
 .map-search-block {
-    margin-bottom: 1.1rem;
+    margin-bottom: 0.6rem;
 }
 
 .map-search-block--tags {
@@ -173,6 +190,7 @@ input[type=text] { /*? Maybe move to basestyles.css. */
     margin: 0 0 0.4rem;
 }
 
+
 .map-search-hint {
     margin: 0 0 0.5rem;
     font-size: 0.85rem;
@@ -182,7 +200,7 @@ input[type=text] { /*? Maybe move to basestyles.css. */
 
 /* Tag pills: label must anchor absolute checkbox hiding */
 .map-page-layout #id_t label {
-    position: relative;
+    height: 2.2em;
 }
 
 .map-tag-row {
@@ -201,12 +219,15 @@ input[type=text] { /*? Maybe move to basestyles.css. */
 }
 
 /* ----- Filter panel: clearer hierarchy + large Apply button ----- */
-.map-search-panel {
+/*.map-search-panel {
     background: linear-gradient(180deg, #f8fafc 0%, #fff 48%);
     border: 1px solid rgba(0, 32, 92, 0.12);
     border-radius: 14px;
     padding: 1.1rem 1.15rem 1.25rem;
     box-shadow: 0 1px 3px rgba(0, 32, 92, 0.06);
+}*/
+.map-search-panel {
+    flex: 0 0 auto;
 }
 
 .map-search-panel__head {
@@ -253,7 +274,7 @@ input[type=text] { /*? Maybe move to basestyles.css. */
     border-radius: 10px;
     border: 1px solid rgba(0, 32, 92, 0.08);
     background: #fff;
-    padding: 0.35rem 0.25rem;
+    padding:0.25rem;
 }
 
 .map-page-layout #id_t label span {
@@ -313,6 +334,34 @@ input[type=text] { /*? Maybe move to basestyles.css. */
 .map-filter-clear:hover {
     color: #001a4d;
 }
+.map-page-layout__search-column{
+    width:420px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
 
+.create-post-panel{
+    margin-top:0;
+}
+.create-post-full {
+    width: 100%;
+    margin-top: 2rem;
+}
 
-  
+.create-post-full .map-search-panel {
+    max-width: 900px;
+    margin: 0 auto;
+}
+/* Make textarea match input styling */
+textarea.map-search-input {
+    width: 100%;
+    display: block;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(0, 32, 92, 0.15);
+    border-radius: 8px;
+    resize: vertical;
+    min-height: 120px;
+    box-sizing: border-box;
+}
+

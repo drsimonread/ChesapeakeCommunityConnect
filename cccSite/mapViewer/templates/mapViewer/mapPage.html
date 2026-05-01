@@ -6,83 +6,167 @@
 <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
 <title>Chesapeake Community Connect - Map</title>
 
-<!--the defer guarantees that TEST
-    a) the HTML loads pre JS execution so elements referenced in the script exist
-    b) the API script is executed AFTER our script file is loaded and so the callback function works
-    c) the widgets are rendered such that our script file can access them
--->
 <script src="{% static 'mapViewer/map-script.js' %}" defer></script>
 {{widgets|json_script}}
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN4e1y8ECEgsg_8U6xO02_2InU8G8I8cM&libraries=places&callback=initMap" defer></script>
-
+    src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&libraries=places&callback=initMap"
+    defer></script>
 {% endblock head %}
 
 {% block content %}
 <div class="site-shell site-font">
-  <div class="site-shell__aurora" aria-hidden="true"></div>
-  <div class="site-shell__pattern" aria-hidden="true"></div>
+  <div class="site-shell__aurora"></div>
+  <div class="site-shell__pattern"></div>
+
   <div class="site-shell__inner">
-    <header class="site-hero--gradient" aria-labelledby="map-page-title">
+
+    <header class="site-hero--gradient">
       <div class="site-hero__inner">
-        <span class="site-hero__mark" aria-hidden="true"><i class="bx bx-map-alt"></i></span>
+        <span class="site-hero__mark"><i class="bx bx-map-alt"></i></span>
+
         <div class="site-hero__text">
           <span class="site-hero__kicker">Chesapeake Community Connect</span>
-          <h1 id="map-page-title" class="site-hero__title">Explore the map</h1>
+          <h1 class="site-hero__title">Explore the map</h1>
+
           <p class="site-hero__lede">
-            Use the interactive map below to explore community organizations and services in the Chesapeake area.
-            Zoom in or out to browse locations, and click any marker for details.
-            Use the search panel to filter by name or category.
+            Use the interactive map to explore community organizations.
           </p>
         </div>
       </div>
     </header>
 
     <div class="site-main site-main--map">
+
       <div class="map-page-layout">
-        <div class="map-page-layout__map" id="left">
-          <div id="map" role="presentation" aria-label="Interactive map of forums"></div>
+
+        <!-- LEFT COLUMN -->
+        <div class="map-left-column">
+
+          <!-- MAP -->
+          <div class="map-container">
+            <div id="map"></div>
+          </div>
+
+          <!-- FILTER -->
+          <aside class="map-search-panel" id="search">
+
+            <div class="map-search-panel__head">
+              <h2 class="map-search-panel__title">Filter the map</h2>
+              <p class="map-search-panel__intro">
+                Narrow pins by text or topic.
+              </p>
+            </div>
+
+            <form action="{% url 'mapViewer:default' %}" method="get" class="map-search-form">
+
+              <div class="map-search-block">
+                <label class="map-search-label"
+                       for="{{ searchForm.q.id_for_label }}">
+                  Name or keywords
+                </label>
+                {{ searchForm.q }}
+              </div>
+
+              <div class="map-search-block map-search-block--tags">
+
+                <span class="map-search-label">Topics</span>
+
+                <div id="scroll-box" class="map-tag-scroll">
+                  <div id="id_t">
+                    {% for choice in searchForm.t %}
+                    <div class="map-tag-row">
+                      <label for="{{ choice.id_for_label }}">
+                        {{ choice.tag }}
+                        <span>{{ choice.choice_label }}</span>
+                      </label>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="map-search-actions">
+                <button type="submit" class="map-filter-btn">
+                  <span class="map-filter-btn__text">
+                    Apply filters
+                  </span>
+                </button>
+
+                {% if request.GET %}
+                <a class="map-filter-clear"
+                   href="{% url 'mapViewer:default' %}">
+                  Clear filters
+                </a>
+                {% endif %}
+              </div>
+
+            </form>
+          </aside>
+
         </div>
 
-        <aside class="map-page-layout__search map-search-panel" id="search" aria-label="Search and filter map pins">
-          <div class="map-search-panel__head">
-            <h2 class="map-search-panel__title">Filter the map</h2>
-            <p class="map-search-panel__intro">Narrow pins by text or topic, then apply.</p>
-          </div>
-          <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get" class="map-search-form">
-            <div class="map-search-block">
-              <label class="map-search-label" for="{{ searchForm.q.id_for_label }}">Name or keywords</label>
-              {{ searchForm.q }}
+        <!-- RIGHT COLUMN -->
+        <div class="map-right-column">
+
+          <div class="map-search-panel">
+
+            <div class="map-search-panel__head">
+              <h2 class="map-search-panel__title">Create a Post</h2>
+              <p class="map-search-panel__intro">
+                Add a new community location.
+              </p>
             </div>
-            <div class="map-search-block map-search-block--tags">
-              <span class="map-search-label" id="map-topics-label">Topics</span>
-              <p class="map-search-hint" id="map-topics-hint">Select any combination. Forums must match all chosen tags.</p>
-              <div id="scroll-box" class="map-tag-scroll" role="group" aria-labelledby="map-topics-label" aria-describedby="map-topics-hint">
-                <div id="id_t">
-                  {% for choice in searchForm.t %}
-                  <div class="map-tag-row">
-                    <label for="{{ choice.id_for_label }}">
-                      {{ choice.tag }}
-                      <span>{{ choice.choice_label }}</span>
-                    </label>
-                  </div>
-                  {% endfor %}
-                </div>
+
+            <div id="post-form">
+
+              <div class="map-search-block">
+                <label class="map-search-label">Title</label>
+                <input type="text" id="title">
               </div>
-            </div>
-            <div class="map-search-actions">
-              <button type="submit" id="search-btn" class="map-filter-btn">
-                <span class="map-filter-btn__text">Apply filters</span>
+
+              <div class="map-search-block">
+                <label class="map-search-label">Description</label>
+                <textarea id="description" class="map-search-input"></textarea>
+              </div>
+
+              <div class="map-search-block">
+                <label class="map-search-label">Address</label>
+                <input type="text" id="address">
+              </div>
+
+              <div class="map-search-block">
+                <label class="map-search-label">City</label>
+                <input type="text" id="city">
+              </div>
+
+              <div class="map-search-block">
+                <label class="map-search-label">State</label>
+                <input type="text" id="state">
+              </div>
+
+              <div class="map-search-block">
+                <label class="map-search-label">Zipcode</label>
+                <input type="text" id="zipcode">
+              </div>
+
+              <button type="button"
+                      onclick="createPost()"
+                      class="map-filter-btn">
+                <span class="map-filter-btn__text">
+                  Submit Post
+                </span>
               </button>
-              {% if request.GET %}
-              <a class="map-filter-clear" href="{% url 'mapViewer:default' %}">Clear filters</a>
-              {% endif %}
+
             </div>
-          </form>
-        </aside>
+
+          </div>
+
+        </div>
+
       </div>
+
     </div>
   </div>
 </div>
-
 {% endblock content %}
