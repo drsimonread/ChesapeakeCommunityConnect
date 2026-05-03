@@ -1,0 +1,14 @@
+Status Update – Google Login Integration
+
+Google login has been successfully implemented and is currently working in the development environment. Users are able to authenticate using Google accounts without issues.
+
+Current Limitation
+The setup is not yet universal. It relies on local configuration (e.g., specific credentials, redirect URIs, or environment settings), meaning anyone who pulls the code must manually reconfigure Google OAuth for it to work.
+
+Next Steps / To-Do
+
+Refactor the authentication setup to use environment variables for all sensitive credentials (Client ID, Client Secret).
+Ensure redirect URIs are dynamically configured or clearly documented for different environments (local, staging, production).
+Add a .env.example file with required variables so new developers can quickly set up their environment.
+Update documentation with step-by-step instructions for obtaining Google OAuth credentials from Google Cloud Console.
+Verify the login flow works after a fresh clone of the repository (no manual fixes).
