@@ -1,14 +1,88 @@
-Status Update – Google Login Integration
+## Status Update – Google Login Integration
 
 Google login has been successfully implemented and is currently working in the development environment. Users are able to authenticate using Google accounts without issues.
 
-Current Limitation
+---
+
+## Current Limitation
+
 The setup is not yet universal. It relies on local configuration (e.g., specific credentials, redirect URIs, or environment settings), meaning anyone who pulls the code must manually reconfigure Google OAuth for it to work.
 
-Next Steps / To-Do
+---
 
-Refactor the authentication setup to use environment variables for all sensitive credentials (Client ID, Client Secret).
-Ensure redirect URIs are dynamically configured or clearly documented for different environments (local, staging, production).
-Add a .env.example file with required variables so new developers can quickly set up their environment.
-Update documentation with step-by-step instructions for obtaining Google OAuth credentials from Google Cloud Console.
-Verify the login flow works after a fresh clone of the repository (no manual fixes).
+## Next Steps / To-Do
+
+- Refactor the authentication setup to use environment variables for all sensitive credentials (Client ID, Client Secret).
+- Ensure redirect URIs are dynamically configured or clearly documented for different environments (local, staging, production).
+- Add a `.env.example` file with required variables so new developers can quickly set up their environment.
+- Update documentation with step-by-step instructions for obtaining Google OAuth credentials from :contentReference[oaicite:0]{index=0}.
+- Verify the login flow works after a fresh clone of the repository (no manual fixes required).
+
+---
+
+## Play-by-Play Implementation Steps
+
+### 1. Remove Hardcoded Credentials
+- Locate any hardcoded Google Client ID or Client Secret in the codebase  
+- Replace them with environment variables  
+
+---
+
+### 2. Set Up Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8000/auth/callback
+
+
+### 3. Create .env.example
+
+Add a template file to the repository:
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REDIRECT_URI=
+
+- Do NOT include real credentials
+- Commit this file so future developers know what is required
+
+###  4. Configure OAuth in Google Cloud Console
+
+
+- Use a shared team project (not personal accounts) in Google Cloud Console
+- Add authorized redirect URIs:
+- http://localhost:8000/auth/callback
+- Production URL (if applicable)
+
+ 
+###  5. Standardize Redirect URIs
+
+- Ensure the application reads GOOGLE_REDIRECT_URI from .env
+- Remove any hardcoded redirect URLs from the code
+
+
+### 6. Auto-Load Environment Variables
+
+- Use dotenv or equivalent package
+- Ensure .env is automatically loaded when the app starts
+- No manual export steps required
+
+### 7. Document Setup for Future Developers
+
+New developer setup steps:
+
+- Clone the repository
+- Copy .env.example → .env
+- Add shared credentials
+- Run the application
+
+
+### 8. Test From Scratch
+
+- Delete local .env
+- Clone repository fresh
+- Follow only the documented setup steps
+- Confirm Google login works without any manual fixes
