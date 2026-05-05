@@ -1,0 +1,70 @@
+/* Page Styling */
+.aboutBody {
+    color: #f3c10d;
+    background-color: #f3f3f3;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Wrapper for spacing */
+.wrapper {
+    margin: 0 40px 40px 40px;
+}
+
+/* side by side banners */
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 60px 0;
+    flex-wrap: wrap; /* makes it responsive */
+}
+
+
+.container {
+    background-color: #00205c;
+    width: 40%;
+    min-width: 300px;
+
+    box-shadow: 0px 15px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+
+    padding: 30px;
+    box-sizing: border-box;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect for polish */
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Banner image (top wide image) */
+#pic1 {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Content image (inside card) */
+#pic2 {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+/* Headings */
+h4 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* Optional: paragraph styling for readability */
+p {
+    line-height: 1.6;
+    font-size: 16px;
+}
