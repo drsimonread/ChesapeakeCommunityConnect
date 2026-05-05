@@ -1,107 +1,183 @@
+/* =========================
+   Base Styles
+========================= */
 .aboutBody {
-    color: #f3c10d;
-    background: linear-gradient(to bottom, #f3f3f3, #e9ecef);
-    margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-/* Layout */
-#content {
+    background-color: #f3f3f3;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    padding: 40px 20px;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 50px;
-    padding: 60px 40px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Card styling */
+/* =========================
+   Main Containers
+========================= */
 .container,
-.containerL {
-    background: linear-gradient(145deg, #00205c, #001a4d);
-    width: 480px;
-    min-height: 650px;
-
-    border-radius: 20px;
-    padding: 30px;
-
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-
-    text-align: center;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-/* Subtle hover effect */
-.container:hover,
-.containerL:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-}
-
-/* Gold accent line */
-.container::before,
-.containerL::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 20px;
-    right: 20px;
-    height: 4px;
-    background: #f3c10d;
-    border-radius: 10px;
-}
-
-/* Remove old layout */
+.containerL,
 .containerR {
-    display: none;
+    background: linear-gradient(135deg, #003366, #001f3f);
+    width: 40%;
+    padding: 2%;
+    border-radius: 15px;
+    margin: 30px auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    border: 2px solid transparent;
 }
 
-/* Image styling */
+.container:hover,
+.containerL:hover,
+.containerR:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    border-color: #ffd700;
+}
+
+.containerL { margin-left: 5%; }
+.containerR { margin-left: 50%; }
+
+/* =========================
+   Headings
+========================= */
+h4 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffd700;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    font-family: 'Arial Black', sans-serif;
+    position: relative;
+    padding-left: 40px;
+}
+
+h4::before {
+    content: "🚀";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+}
+
+h4::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    margin: 10px auto 0;
+    background: linear-gradient(90deg, #ffd700, #ff8c00);
+    border-radius: 2px;
+}
+
+/* =========================
+   Text Styles
+========================= */
+.container p,
+.containerL p,
+.containerR p {
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 0 10px;
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+.team-description p::before {
+    content: "🌟";
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+/* =========================
+   Images (Legacy)
+========================= */
+#pic1,
 #pic2 {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    margin-top: 10px;
+}
+
+/* =========================
+   Team Portrait Grid
+========================= */
+.team-portraits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.portrait-profile {
+    width: 260px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform .2s ease;
+}
+
+.portrait-profile:hover {
+    transform: translateY(-6px);
+}
+
+.portrait-image {
     width: 100%;
     height: 260px;
     object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 20px;
+    border-radius: 10px;
 }
 
-/* Banner */
-#pic1 {
-    width: 100%;
-    height: auto;
-    display: block;
+.portrait-profile h3 {
+    margin-top: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
-/* Header text */
-h4 {
-    font-size: 26px;
-    margin-bottom: 15px;
-    color: #f3c10d;
-    letter-spacing: 0.5px;
+.portrait-profile p {
+    font-size: 0.95rem;
+    color: #444;
+    margin-top: 6px;
 }
 
-/* Paragraph text */
-p {
-    font-size: 17px;
-    line-height: 1.7;
-    color: #e6e6e6;
-}
-
-/* Wrapper spacing */
-.wrapper {
-    margin: 10px 0;
-}
-
-/* Responsive */
-@media (max-width: 1100px) {
-    #content {
-        flex-direction: column;
-        align-items: center;
-    }
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 768px) {
 
     .container,
-    .containerL {
+    .containerL,
+    .containerR {
+        width: 85%;
+        margin: 20px auto;
+    }
+
+    .containerL,
+    .containerR {
+        margin-left: auto;
+    }
+
+    .portrait-profile {
         width: 90%;
+        height: auto;
+    }
+
+    .portrait-image {
+        height: 220px;
+    }
+
+    h4 {
+        font-size: 26px;
+        padding-left: 30px;
+    }
+
+    h4::before {
+        font-size: 20px;
     }
 }

@@ -1,52 +1,84 @@
+/* ============================
+   ACCORDION BUTTON
+============================ */
 .accordion {
-    background-color: #c2c2c2;
-    /* Yellow background */
-    color: #00205c;
-    /* Dark blue text */
-    border-bottom: 2px solid;
-    padding: 10px 20px;
-    display: block;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    /* Smooth background color transition on hover */
-    width: 1000%;
-    /* Take up half the screen width */
-    /*margin: 0 auto;*/
-    /* Centered on the screen */
+    background-color: #e6e6e6; /* Softer gray */
+    color: var(--blue);
+    border: none;
+    border-bottom: 2px solid var(--gray-border);
+    padding: 12px 20px;
+    width: 100%;
     text-align: left;
-    /* Center the text */
-    outline: none;
-    /* Remove outline */
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.15s ease;
+    box-shadow: var(--shadow-soft);
 }
 
-/* Style the active class (and arrow icon) */
-.accordion.active,
-.accordion:hover {
-    background-color: orange;
-    /* Change background color on hover */
+/* Hover + active */
+.accordion:hover,
+.accordion.active {
+    background-color: var(--hover-gold);
+    color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
-/* Style the panel class */
+/* ============================
+   PANEL CONTENT
+============================ */
 .panel {
+    background-color: #fff;
     padding: 0 18px;
-    background-color: white;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    width: 100%;
-    /* Take up half the screen width */
+    border-left: 2px solid var(--gray-border);
+    border-right: 2px solid var(--gray-border);
+    border-bottom: 2px solid var(--gray-border);
+    border-radius: 0 0 8px 8px;
+    transition: max-height 0.25s ease-out,
+                padding 0.25s ease-out;
 }
 
+/* When expanded */
+.panel.show {
+    padding: 15px 18px;
+    max-height: 500px; /* Enough for content */
+    background-color: var(--gray-light);
+}
+
+/* ============================
+   SUBCONTAINERS
+============================ */
 .subcontainerL {
     width: 40%;
     margin-left: 3%;
+    display: inline-block;
+    vertical-align: top;
 }
 
-.subcontainerR{
-    margin-left: auto;
-    margin-top: 2%;
-    float: right;
+.subcontainerR {
     width: 50%;
     margin-right: 3%;
-    transform: (-50%,-50%);
+    margin-top: 2%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 768px) {
+    .subcontainerL,
+    .subcontainerR {
+        width: 100%;
+        margin: 0;
+        margin-top: 1em;
+        text-align: left;
+    }
 }

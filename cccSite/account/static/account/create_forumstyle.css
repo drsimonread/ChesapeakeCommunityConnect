@@ -1,86 +1,155 @@
-#create {
-    width: 50%;
-    
-    margin: 2em;
-}
-
-
-
-
-#id_title, #id_firstName, #id_lastName, #id_location, #id_content, #id_submit {
-    margin: 1em;
-    border: 0;
-    outline: 0;
-    padding: 1em;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    border-radius: 8px;
-    display: block;
-    width: 100%;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    resize: none;
+/* ============================
+   GLOBAL RESET & VARIABLES
+============================ */
+*, *::before, *::after {
     box-sizing: border-box;
 }
 
-/* #id_content {
+:root {
+    --gold: #f3c10d;
+    --gold-hover: #e0ad0b;
+    --hover-gold: #ffd700;
+    --blue: #00205c;
+    --gray-light: #f9f9f9;
+    --gray-border: #ccc;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-hover: 0 6px 18px rgba(0,0,0,0.15);
+    --radius: 10px;
+}
 
-} */
+/* ============================
+   FORM CONTAINER
+============================ */
+#create {
+    width: 55%;
+    margin: 2.5em auto;
+    padding: 1em;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
 
+#create:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* ============================
+   INPUTS & TEXTAREAS
+============================ */
+#id_title,
+#id_firstName,
+#id_lastName,
+#id_location,
+#id_content,
+#id_submit {
+    margin: 1em 0;
+    padding: 1em;
+    width: 100%;
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius);
+    background: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+#id_title:focus,
+#id_firstName:focus,
+#id_lastName:focus,
+#id_location:focus,
+#id_content:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 4px var(--gold);
+    outline: none;
+}
+
+/* ============================
+   SCROLL BOX
+============================ */
 #scroll-box {
     height: 280px;
     width: 100%;
-    overflow: auto;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    overflow-y: auto;
+    margin: 1em 0;
+    padding: 0.75em;
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius);
+    background: var(--gray-light);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* This is the ID for the DIV that contains every tag. */
+/* ============================
+   TAG CONTAINER
+============================ */
 #id_tags {
     width: 100%;
-    overflow: hidden;
-    float: left;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 1em;
 }
 
-/* This focuses on every label object within the above DIV. */
+/* Tag label wrapper */
 #id_tags label {
-    width: 100%;
-    height: 3.0em;
-    float: left;
+    flex: 1 1 auto;
+    min-width: 90px;
+    height: 3em;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    margin: 0;
 }
 
-/* This focuses on every span object within the above labels. */
+/* Tag visual block */
 #id_tags label span {
+    flex: 1;
     text-align: center;
-    padding: 3px 0;
-    display: block;
+    padding: 0.5em 10px;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid var(--gray-border);
+    transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 
-/* This focuses on every input object within the above labels. */
-#id_tags label input {
+/* Hide checkbox */
+#id_tags label input[type="checkbox"] {
     position: absolute;
-    display: none;
-    color: var(--blue) !important;
+    opacity: 0;
+    cursor: pointer;
 }
 
-/* This focuses on every input and span object within the above labels. */
-#id_tags label input + span {
-    color: var(--blue);
-    transition: background-color 0.3s;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    border-radius: 8px;
-    margin: 4px;
-
-}
-
-/* This focuses on every input and hovered span object within the above labels. */
-#id_tags input + span:hover {
+/* Hover effect */
+#id_tags label span:hover {
     background-color: var(--hover-gold);
+    border-color: var(--gold);
 }
 
-/* This focuses on every checked input and span object within the above labels. */
-#id_tags input:checked + span {
-    color: var(--blue);
-    /* text-shadow: 0 0  6px rgba(0, 0, 0, 0.8); */
+/* Checked tag */
+#id_tags input[type="checkbox"]:checked + span {
     background-color: var(--gold);
+    color: #fff;
+    border-color: var(--gold-hover);
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* ============================
+   RESPONSIVE DESIGN
+============================ */
+@media(max-width: 700px) {
+    #create {
+        width: 85%;
+        padding: 1em;
+    }
+}
+
+@media(max-width: 500px) {
+    #create {
+        width: 95%;
+    }
+    #id_tags label {
+        min-width: 70px;
+    }
 }
