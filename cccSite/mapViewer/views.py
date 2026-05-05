@@ -51,9 +51,8 @@ def viewMap(request):
     widgets = serializers.serialize('json', posts) #serialize posts as JSON for google maps
     #print(widgets)  # Temporary print statement to check the output
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
-                                                      'postForm' : postingForm,
                                                       'searchForm' : searchForm,
-                                                      'hasPosted': madePostSuccess}) #render template
+                                                      'GOOGLE_MAPS_API_KEY': settings.GOOGLE_MAPS_API_KEY,}) #render template
 
 
 
