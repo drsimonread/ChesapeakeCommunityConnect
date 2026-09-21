@@ -1,0 +1,230 @@
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* ============================
+       ELEMENT REFERENCES
+    ============================ */
+    const modal = document.getElementById("signup-modal");
+    const triggerBtn = document.querySelector(".signup-modal-trigger");
+    const cancelBtns = modal.querySelectorAll(".delete, .sign-up-cancel");
+
+    const form = document.getElementById("signup-form");
+    const submitBtn = document.getElementById("signup-submit");
+
+    const usernameInput = document.getElementById("signup_username");
+    const emailInput = document.getElementById("signup_email");
+    const passwordInput = document.getElementById("signup_password");
+    const confirmPasswordInput = document.getElementById("signup_confirm_password");
+
+    const usernameHelper = document.getElementById("signup_username_helper");
+    const emailHelper = document.getElementById("signup_email_helper");
+    const passwordHelper = document.getElementById("signup_password_helper");
+    const confirmHelper = document.getElementById("signup_confirm_password_helper");
+
+    /* ============================
+       VALIDATION FLAGS
+    ============================ */
+    const validationFlags = {
+        username: false,
+        email: false,
+        password: false,
+        confirmPassword: false,
+    };
+
+    /* ============================
+       MODAL OPEN / CLOSE
+    ============================ */
+    triggerBtn?.addEventListener("click", () => {
+        modal.classList.add("is-active");
+    });
+
+    cancelBtns.forEach(btn =>
+        btn.addEventListener("click", () => {
+            modal.classList.remove("is-active");
+            resetForm();
+        })
+    );
+
+    function resetForm() {
+        form.reset();
+        Object.keys(validationFlags).forEach(k => validationFlags[k] = false);
+        clearHelpText();
+        updateSubmitState();
+        removeDangerClasses();
+    }
+
+    function clearHelpText() {
+        [usernameHelper, emailHelper, passwordHelper, confirmHelper].forEach(el => {
+            el.textContent = "";
+        });
+    }
+
+    function removeDangerClasses() {
+        [usernameInput, emailInput, passwordInput, confirmPasswordInput].forEach(el => {
+            el.classList.remove("is-danger");
+        });
+    }
+
+    function updateSubmitState() {
+        submitBtn.disabled = !Object.values(validationFlags).every(Boolean);
+    }
+
+    /* ============================
+       USERNAME VALIDATION (AJAX)
+    ============================ */
+    $("#signup_username").on("input change", () => {
+        const val = usernameInput.value.trim();
+
+        if (!val) {
+            usernameHelper.textContent = "";
+            validationFlags.username = false;
+            updateSubmitState();
+            return;
+        }
+
+        $.get("/contribute/ajax/username_validation/", { username: val }, data => {
+            if (data.is_taken) {
+                usernameInput.classList.add("is-danger");
+                usernameHelper.textContent = "Username is already taken.";
+                validationFlags.username = false;
+            } else {
+                usernameInput.classList.remove("is-danger");
+                usernameHelper.textContent = "Username is available.";
+                validationFlags.username = true;
+            }
+            updateSubmitState();
+        });
+    });
+
+    /* ============================
+       EMAIL VALIDATION (REGEX + AJAX)
+    ============================ */
+    $("#signup_email").on("input change", () => {
+        const val = emailInput.value.trim();
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+        if (!val) {
+            emailHelper.textContent = "";
+            validationFlags.email = false;
+            updateSubmitState();
+            return;
+        }
+
+        if (!emailRegex.test(val)) {
+            emailInput.classList.add("is-danger");
+            emailHelper.textContent = "Invalid email format.";
+            validationFlags.email = false;
+            updateSubmitState();
+            return;
+        }
+
+        $.get("/contribute/ajax/email_validation/", { email: val }, data => {
+            if (data.is_taken) {
+                emailInput.classList.add("is-danger");
+                emailHelper.textContent = "Email already in use.";
+                validationFlags.email = false;
+            } else {
+                emailInput.classList.remove("is-danger");
+                emailHelper.textContent = "Email is available.";
+                validationFlags.email = true;
+            }
+            updateSubmitState();
+        });
+    });
+
+    /* ============================
+       PASSWORD VALIDATION
+    ============================ */
+    $("#signup_password").on("input change", () => {
+        const val = passwordInput.value;
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&()]).{8,}$/;
+
+        if (!regex.test(val)) {
+            passwordInput.classList.add("is-danger");
+            passwordHelper.textContent =
+                "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.";
+            validationFlags.password = false;
+        } else {
+            passwordInput.classList.remove("is-danger");
+            passwordHelper.textContent = "Password looks good.";
+            validationFlags.password = true;
+        }
+
+        validateConfirmPassword();
+        updateSubmitState();
+    });
+
+    /* ============================
+       CONFIRM PASSWORD VALIDATION
+    ============================ */
+    $("#signup_confirm_password").on("input change", () => {
+        validateConfirmPassword();
+        updateSubmitState();
+    });
+
+    function validateConfirmPassword() {
+        if (
+            confirmPasswordInput.value !== passwordInput.value ||
+            !validationFlags.password
+        ) {
+            confirmHelper.textContent = "Passwords don't match.";
+            confirmPasswordInput.classList.add("is-danger");
+            validationFlags.confirmPassword = false;
+        } else {
+            confirmHelper.textContent = "Passwords match.";
+            confirmPasswordInput.classList.remove("is-danger");
+            validationFlags.confirmPassword = true;
+        }
+    }
+
+    /* ============================
+       SUBMIT FORM (AJAX)
+    ============================ */
+    $("#signup-form").on("submit", e => {
+        e.preventDefault();
+        if (!Object.values(validationFlags).every(Boolean)) return;
+
+        $.ajax({
+             url: "{% url 'account:signup' %}",
+            type: "POST",
+            data: {
+                username: usernameInput.value,
+                email: emailInput.value,
+                password1: passwordInput.value,
+                password2: confirmPasswordInput.value,
+                csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+            },
+            success: () => location.reload(),
+            error: () => alert("Signup failed. Please try again."),
+        });
+    });
+
+    /* ============================
+       GOOGLE SIGN-IN
+    ============================ */
+    function handleCredentialResponse(response) {
+        $.ajax({
+            url: "/contribute/google-signin/",
+            type: "POST",
+            data: {
+                credential: response.credential,
+                csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+            },
+            success: () => location.reload(),
+            error: () => alert("Google Sign-In failed."),
+        });
+    }
+
+    if (window.google) {
+        google.accounts.id.initialize({
+            client_id: "YOUR_CLIENT_ID",
+            callback: handleCredentialResponse,
+        });
+
+        google.accounts.id.renderButton(
+            document.getElementById("g_id_signin"),
+            { theme: "outline", size: "large" }
+        );
+    }
+});
+</script>

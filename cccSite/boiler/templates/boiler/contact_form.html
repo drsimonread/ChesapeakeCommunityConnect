@@ -1,0 +1,67 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+
+    <!-- External stylesheet -->
+    <link rel="stylesheet" href="{% static 'boiler/contact_formstyle.css' %}">
+</head>
+
+<body>
+
+    <main class="contact-container" role="main" aria-labelledby="contact-title">
+
+        <h1 id="contact-title" class="contact-heading">Contact Us</h1>
+
+        <form 
+            id="contact-form"
+            action="{% url 'boiler:help' %}"
+            method="post"
+            role="form"
+            class="contact-form"
+        >
+            {% csrf_token %}
+
+            <!-- Left Column -->
+            <div class="contact-left">
+
+                <div class="field">
+                    {{ form.sender.label_tag }}
+                    {{ form.sender }}
+                </div>
+
+                <div class="field">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                </div>
+
+                <div class="field">
+                    {{ form.subject.label_tag }}
+                    {{ form.subject }}
+                </div>
+
+            </div>
+
+            <!-- Right Column -->
+            <div class="contact-right">
+                <div class="field">
+                    {{ form.message.label_tag }}
+                    {{ form.message }}
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="field submit-wrapper">
+                <button type="submit" class="button_CCC">Submit</button>
+            </div>
+
+        </form>
+
+    </main>
+
+</body>
+</html>

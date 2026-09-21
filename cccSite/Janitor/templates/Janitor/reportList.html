@@ -1,0 +1,44 @@
+{%extends "Janitor/AdminBase.html"%}
+
+{% block adminFunc %}
+{{msg}}<br>
+Post Reports <br>
+{%if pList%}
+{%for entry in pList %}
+<button class="accordion">{{entry.0.title}} - {{entry.0.num_reports}} Reports <form action="{%url 'Janitor:reportList' %}" method="post">{%csrf_token%}
+    <input type="hidden" name= "type" value="post">
+    <input type="hidden" name= "pk" value="{{entry.0.pk}}">
+    <input type="submit" value="Clear Reports">
+</form></button>
+<div class="panel">
+    {%for item in entry.1%}
+    <p>{{item.reason}}</p>
+    {%endfor%}
+    <button>Manage Post</button>
+</div>
+{%endfor%}
+{%else%}
+No reports!
+{%endif%}
+<br>User Reports <br>
+{%if uList%}
+{%for entry in uList %}
+<button class="accordion">{{entry.0.name}} - {{entry.0.num_reports}} Reports <form action="{%url 'Janitor:reportList' %}" method="post">{%csrf_token%}
+    <input type="hidden" name= "type" value="user">
+    <input type="hidden" name= "pk" value="{{entry.0.pk}}">
+    <input type="submit" value="Clear Reports">
+</form></button> 
+
+<div class="panel">
+    {%for item in entry.1%}
+        <p>{{item.reason}}</p>
+    {%endfor%}
+    <button>Manage User</button>
+    </div>
+</div>
+{%endfor%}
+{%else%}
+No reports!
+{%endif%}
+
+{% endblock adminFunc %}

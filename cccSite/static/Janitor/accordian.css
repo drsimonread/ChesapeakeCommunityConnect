@@ -1,0 +1,52 @@
+.accordion {
+    background-color: #c2c2c2;
+    /* Yellow background */
+    color: #00205c;
+    /* Dark blue text */
+    border-bottom: 2px solid;
+    padding: 10px 20px;
+    display: block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    /* Smooth background color transition on hover */
+    width: 1000%;
+    /* Take up half the screen width */
+    /*margin: 0 auto;*/
+    /* Centered on the screen */
+    text-align: left;
+    /* Center the text */
+    outline: none;
+    /* Remove outline */
+}
+
+/* Style the active class (and arrow icon) */
+.accordion.active,
+.accordion:hover {
+    background-color: orange;
+    /* Change background color on hover */
+}
+
+/* Style the panel class */
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    width: 100%;
+    /* Take up half the screen width */
+}
+
+.subcontainerL {
+    width: 40%;
+    margin-left: 3%;
+}
+
+.subcontainerR{
+    margin-left: auto;
+    margin-top: 2%;
+    float: right;
+    width: 50%;
+    margin-right: 3%;
+    transform: (-50%,-50%);
+}

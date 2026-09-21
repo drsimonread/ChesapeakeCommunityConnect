@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}SMCM Capstone Website{% endblock %}</title>
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+    <!-- Custom Global Styles -->
+    <link rel="stylesheet" href="{% static 'base/basestyle.css' %}">
+
+    <!-- Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async></script>
+
+    <!-- jQuery -->
+    <script src="{% static 'base/jquery-3.7.1.min.js' %}"></script>
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+
+{% with rank=request.session.rank|default:0 name=request.session.name|default:"Account" %}
+
+<!-- ============================
+     HEADER / NAVIGATION
+============================ -->
+<header class="headerCCC" role="banner">
+    <nav class="navbar is-spaced" role="navigation" aria-label="Primary navigation">
+
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'mapViewer:default' %}">
+                <img src="{% static 'base/assets/smcm-seal.png' %}" alt="SMCM Logo" id="smcm-logo">
+            </a>
+
+            <!-- Mobile burger -->
+            <a role="button" class="navbar-burger" data-target="mainNav" aria-label="menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </a>
+        </div>
+
+        <div id="mainNav" class="navbar-menu">
+
+            <div class="navbar-start">
+
+                <!-- Map -->
+                <a class="navbar-item {% if request.path == '/' %}is-active{% endif %}"
+                   href="{% url 'mapViewer:default' %}">
+                    Map
+                </a>
+
+                <!-- About -->
+                <a class="navbar-item {% if '/about/' in request.path %}is-active{% endif %}"
+                   href="{% url 'boiler:about' %}">
+                    About Us
+                </a>
+
+                <!-- Help -->
+                <a class="navbar-item {% if '/help/' in request.path %}is-active{% endif %}"
+                   href="{% url 'boiler:help' %}">
+                    Help / FAQs
+                </a>
+
+                <!-- Contributors -->
+                <a class="navbar-item {% if '/contribute/' in request.path %}is-active{% endif %}"
+                   href="{% url 'account:default' %}">
+                    Contributors
+                </a>
+
+                <!-- Admin -->
+                {% if rank > 2 %}
+                <a class="navbar-item {% if '/admin/' in request.path %}is-active{% endif %}"
+                   href="{% url 'Janitor:default' %}">
+                    Admin
+                </a>
+                {% endif %}
+            </div>
+
+            <div class="navbar-end">
+
+                {% if rank == 0 %}
+                    <!-- Sign Up / Sign In -->
+                    <div class="navbar-item">{% include "account/signup.html" %}</div>
+                    <div class="navbar-item">{% include "account/signin.html" %}</div>
+
+                {% else %}
+                    <!-- Logged-in user -->
+                    <a class="navbar-item {% if request.path == '/contribute/' %}is-active{% endif %}"
+                       href="{% url 'account:default' %}">
+                        {{ name }}
+                    </a>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </nav>
+</header>
+
+<!-- ============================
+     GOOGLE SIGN-IN (only if logged out)
+============================ -->
+{% if rank == 0 %}
+<div id="g_id_onload"
+     data-client_id="YOUR_CLIENT_ID"
+     data-callback="handleCredentialResponse"
+     data-auto_prompt="false">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard"
+     data-size="large"
+     data-theme="outline"
+     data-text="sign_in_with"
+     data-shape="rectangular">
+</div>
+
+<script>
+function handleCredentialResponse(response) {
+    $.ajax({
+        url: "/contribute/google-signin/",
+        type: "POST",
+        data: {
+            credential: response.credential,
+            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+        },
+        success: () => location.reload(),
+        error: err => console.error("Google Sign-In failed:", err)
+    });
+}
+</script>
+{% endif %}
+
+<!-- CSRF Token -->
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+<!-- ============================
+     MAIN CONTENT
+============================ -->
+<main role="main">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- ============================
+     FOOTER
+============================ -->
+<footer class="footer has-text-centered" role="contentinfo">
+    <div class="content">
+        <img src="{% static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" class="footer-logo">
+        <p>&copy; 2026 SMCM Capstone Website</p>
+    </div>
+</footer>
+
+{% endwith %}
+
+<!-- Mobile Navbar Script -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const burger = document.querySelector(".navbar-burger");
+    const menu = document.getElementById("mainNav");
+
+    burger?.addEventListener("click", () => {
+        burger.classList.toggle("is-active");
+        menu.classList.toggle("is-active");
+    });
+});
+</script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

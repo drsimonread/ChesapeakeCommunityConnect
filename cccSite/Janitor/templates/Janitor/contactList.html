@@ -1,0 +1,10 @@
+{%extends "Janitor/AdminBase.html"%}
+
+{% block adminFunc %}
+{%for item in messages %}
+<button class="accordion">{{item.created}} - {{item.subject}} from {{item.sender}} | {{item.email}}</button>
+<div class="panel">
+    <p>{{item.message}}</p>
+</div>
+{%endfor%}
+{% endblock adminFunc %}

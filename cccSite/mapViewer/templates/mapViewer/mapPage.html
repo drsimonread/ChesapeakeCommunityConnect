@@ -1,0 +1,65 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'mapViewer/mappagestyle.css' %}">
+<title>Chesapeake Community Connect - Map</title>
+
+<!--the defer guarantees that TEST
+    a) the HTML loads pre JS execution so elements referenced in the script exist
+    b) the API script is executed AFTER our script file is loaded and so the callback function works
+    c) the widgets are rendered such that our script file can access them
+-->
+<script src="{% static 'mapViewer/map-script.js' %}" defer></script>
+{{widgets|json_script}}
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj3EQIl_hA8iLBAUjDQ8UJOlGYlOl0iog&libraries=places&callback=initMap" defer></script>
+
+{% endblock head %}
+
+{% block content %}
+<div style="text-align: center; width: 100%; margin-bottom: 10px;">
+    <p style="display: inline-block; max-width: 1000px; margin: 0 auto;">
+        Use the interactive map below to explore community organizations and services in the Chesapeake area. 
+        Zoom in or out to browse locations, and click any marker to view details about that organization. 
+        You can also use the search panel on the right to filter results by name or category.
+    </p>
+</div>
+    <!-- Map Section -->
+    <div id="left">
+        <div id="map"></div>
+    </div>
+
+    <div id="search">
+        <form action="{% url 'mapViewer:default' %}" id="contact-form" method="get">
+            {{ searchForm.q }}
+            <div id="scroll-box">
+                <div id="id_t">
+                    {% for mTag in searchForm.t %}
+                        <div>
+                            <label for="{{ mTag.id_for_label }}">
+                                {{ mTag.tag }}
+                                <span>{{ mTag.choice_label }}</span>
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <input type="submit" id="search-btn" class="button_CCC" value="Submit">
+        </form>
+    </div>
+
+      <!-- Tutorial Section -->
+    <div id="help-section" style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 8px;">
+        <li> </li>
+        <h2>How to Use the Map:</h2>
+        <ol style="line-height: 1.6; list-style-type: none; padding-left: 20px;">
+            <li>Move your mouse with two fingers or touchscreen to move around the map.</li>
+            <li>Click on a marker to see more details about that location.</li>
+            <li>Use the search bar to find organizations or resources nearby.</li>
+            <li>Use the checkboxes to filter pinned locations on the map and narrow what's displayed</li>
+            <li>Click the “Reset View” button to return to the default map view.</li>
+        </ol>
+    </div>
+  
+{% endblock content %}

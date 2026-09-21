@@ -1,0 +1,2309 @@
+[
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "migrations",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "account.models",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "account.models",
+        "description": "account.models",
+        "detail": "account.models",
+        "documentation": {}
+    },
+    {
+        "label": "Member",
+        "importPath": "account.models",
+        "description": "account.models",
+        "isExtraImport": true,
+        "detail": "account.models",
+        "documentation": {}
+    },
+    {
+        "label": "Member",
+        "importPath": "account.models",
+        "description": "account.models",
+        "isExtraImport": true,
+        "detail": "account.models",
+        "documentation": {}
+    },
+    {
+        "label": "Member",
+        "importPath": "account.models",
+        "description": "account.models",
+        "isExtraImport": true,
+        "detail": "account.models",
+        "documentation": {}
+    },
+    {
+        "label": "Member",
+        "importPath": "account.models",
+        "description": "account.models",
+        "isExtraImport": true,
+        "detail": "account.models",
+        "documentation": {}
+    },
+    {
+        "label": "Member",
+        "importPath": "account.models",
+        "description": "account.models",
+        "isExtraImport": true,
+        "detail": "account.models",
+        "documentation": {}
+    },
+    {
+        "label": "account.storage",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "account.storage",
+        "description": "account.storage",
+        "detail": "account.storage",
+        "documentation": {}
+    },
+    {
+        "label": "django.db.models.deletion",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "django.db.models.deletion",
+        "description": "django.db.models.deletion",
+        "detail": "django.db.models.deletion",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "forms",
+        "importPath": "django",
+        "description": "django",
+        "isExtraImport": true,
+        "detail": "django",
+        "documentation": {}
+    },
+    {
+        "label": "forms",
+        "importPath": "django",
+        "description": "django",
+        "isExtraImport": true,
+        "detail": "django",
+        "documentation": {}
+    },
+    {
+        "label": "forms",
+        "importPath": "django",
+        "description": "django",
+        "isExtraImport": true,
+        "detail": "django",
+        "documentation": {}
+    },
+    {
+        "label": "ModelForm",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "TextInput",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "EmailInput",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "PasswordInput",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "Textarea",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "ModelForm",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "TextInput",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "EmailInput",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "Textarea",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "Form",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "ModelForm",
+        "importPath": "django.forms",
+        "description": "django.forms",
+        "isExtraImport": true,
+        "detail": "django.forms",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "reverse",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "gettext_lazy",
+        "importPath": "django.utils.translation",
+        "description": "django.utils.translation",
+        "isExtraImport": true,
+        "detail": "django.utils.translation",
+        "documentation": {}
+    },
+    {
+        "label": "gettext_lazy",
+        "importPath": "django.utils.translation",
+        "description": "django.utils.translation",
+        "isExtraImport": true,
+        "detail": "django.utils.translation",
+        "documentation": {}
+    },
+    {
+        "label": "gettext_lazy",
+        "importPath": "django.utils.translation",
+        "description": "django.utils.translation",
+        "isExtraImport": true,
+        "detail": "django.utils.translation",
+        "documentation": {}
+    },
+    {
+        "label": "FileSystemStorage",
+        "importPath": "django.core.files.storage",
+        "description": "django.core.files.storage",
+        "isExtraImport": true,
+        "detail": "django.core.files.storage",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "django.conf",
+        "description": "django.conf",
+        "isExtraImport": true,
+        "detail": "django.conf",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "id_token",
+        "importPath": "google.oauth2",
+        "description": "google.oauth2",
+        "isExtraImport": true,
+        "detail": "google.oauth2",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "importPath": "google.auth.transport",
+        "description": "google.auth.transport",
+        "isExtraImport": true,
+        "detail": "google.auth.transport",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "render",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "django.shortcuts",
+        "description": "django.shortcuts",
+        "isExtraImport": true,
+        "detail": "django.shortcuts",
+        "documentation": {}
+    },
+    {
+        "label": "HttpResponse",
+        "importPath": "django.http",
+        "description": "django.http",
+        "isExtraImport": true,
+        "detail": "django.http",
+        "documentation": {}
+    },
+    {
+        "label": "HttpResponse",
+        "importPath": "django.http",
+        "description": "django.http",
+        "isExtraImport": true,
+        "detail": "django.http",
+        "documentation": {}
+    },
+    {
+        "label": "HttpResponse",
+        "importPath": "django.http",
+        "description": "django.http",
+        "isExtraImport": true,
+        "detail": "django.http",
+        "documentation": {}
+    },
+    {
+        "label": "JsonResponse",
+        "importPath": "django.http",
+        "description": "django.http",
+        "isExtraImport": true,
+        "detail": "django.http",
+        "documentation": {}
+    },
+    {
+        "label": "csrf_exempt",
+        "importPath": "django.views.decorators.csrf",
+        "description": "django.views.decorators.csrf",
+        "isExtraImport": true,
+        "detail": "django.views.decorators.csrf",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "SECURE_CROSS_ORIGIN_OPENER_POLICY",
+        "importPath": "django.conf.global_settings",
+        "description": "django.conf.global_settings",
+        "isExtraImport": true,
+        "detail": "django.conf.global_settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECURE_REFERRER_POLICY",
+        "importPath": "django.conf.global_settings",
+        "description": "django.conf.global_settings",
+        "isExtraImport": true,
+        "detail": "django.conf.global_settings",
+        "documentation": {}
+    },
+    {
+        "label": "static",
+        "importPath": "django.conf.urls.static",
+        "description": "django.conf.urls.static",
+        "isExtraImport": true,
+        "detail": "django.conf.urls.static",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "MapTag",
+        "importPath": "mapViewer.models",
+        "description": "mapViewer.models",
+        "isExtraImport": true,
+        "detail": "mapViewer.models",
+        "documentation": {}
+    },
+    {
+        "label": "MapPost",
+        "importPath": "mapViewer.models",
+        "description": "mapViewer.models",
+        "isExtraImport": true,
+        "detail": "mapViewer.models",
+        "documentation": {}
+    },
+    {
+        "label": "MapPost",
+        "importPath": "mapViewer.models",
+        "description": "mapViewer.models",
+        "isExtraImport": true,
+        "detail": "mapViewer.models",
+        "documentation": {}
+    },
+    {
+        "label": "MapTag",
+        "importPath": "mapViewer.models",
+        "description": "mapViewer.models",
+        "isExtraImport": true,
+        "detail": "mapViewer.models",
+        "documentation": {}
+    },
+    {
+        "label": "Message",
+        "importPath": "boiler.models",
+        "description": "boiler.models",
+        "isExtraImport": true,
+        "detail": "boiler.models",
+        "documentation": {}
+    },
+    {
+        "label": "Count",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "Q",
+        "importPath": "django.db.models",
+        "description": "django.db.models",
+        "isExtraImport": true,
+        "detail": "django.db.models",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "django.core.exceptions",
+        "description": "django.core.exceptions",
+        "isExtraImport": true,
+        "detail": "django.core.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "googlemaps",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "googlemaps",
+        "description": "googlemaps",
+        "detail": "googlemaps",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "serializers",
+        "importPath": "django.core",
+        "description": "django.core",
+        "isExtraImport": true,
+        "detail": "django.core",
+        "documentation": {}
+    },
+    {
+        "label": "PostRepForm",
+        "importPath": "Janitor.forms",
+        "description": "Janitor.forms",
+        "isExtraImport": true,
+        "detail": "Janitor.forms",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "importPath": "cccSite.wsgi",
+        "description": "cccSite.wsgi",
+        "isExtraImport": true,
+        "detail": "cccSite.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0001_initial",
+        "description": "cccSite.account.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='member',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('userID', models.CharField(max_length=255)),",
+        "detail": "cccSite.account.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0002_rename_first_member_name_remove_member_last_and_more",
+        "description": "cccSite.account.migrations.0002_rename_first_member_name_remove_member_last_and_more",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0001_initial'),\n    ]\n    operations = [\n        migrations.RenameField(\n            model_name='member',\n            old_name='first',\n            new_name='name',\n        ),",
+        "detail": "cccSite.account.migrations.0002_rename_first_member_name_remove_member_last_and_more",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0003_alter_member_about_alter_member_pic",
+        "description": "cccSite.account.migrations.0003_alter_member_about_alter_member_pic",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0002_rename_first_member_name_remove_member_last_and_more'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='about',\n            field=models.TextField(blank=True, default=''),\n        ),",
+        "detail": "cccSite.account.migrations.0003_alter_member_about_alter_member_pic",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0004_remove_member_origin_glogin",
+        "description": "cccSite.account.migrations.0004_remove_member_origin_glogin",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0003_alter_member_about_alter_member_pic'),\n    ]\n    operations = [\n        migrations.RemoveField(\n            model_name='member',\n            name='origin',\n        ),\n        migrations.CreateModel(",
+        "detail": "cccSite.account.migrations.0004_remove_member_origin_glogin",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0005_remove_member_userid",
+        "description": "cccSite.account.migrations.0005_remove_member_userid",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0004_remove_member_origin_glogin'),\n    ]\n    operations = [\n        migrations.RemoveField(\n            model_name='member',\n            name='userID',\n        ),\n    ]",
+        "detail": "cccSite.account.migrations.0005_remove_member_userid",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0006_rename_pointto_glogin_referto_alter_member_ranking",
+        "description": "cccSite.account.migrations.0006_rename_pointto_glogin_referto_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0005_remove_member_userid'),\n    ]\n    operations = [\n        migrations.RenameField(\n            model_name='glogin',\n            old_name='pointTo',\n            new_name='referTo',\n        ),",
+        "detail": "cccSite.account.migrations.0006_rename_pointto_glogin_referto_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0007_alter_member_ranking",
+        "description": "cccSite.account.migrations.0007_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0006_rename_pointto_glogin_referto_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(2, 'trusted member'), (1, 'member'), (99, 'admin'), (98, 'moderator')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0007_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0008_alter_member_ranking",
+        "description": "cccSite.account.migrations.0008_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0007_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(2, 'trusted member'), (98, 'moderator'), (99, 'admin'), (1, 'member')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0008_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0009_alter_member_ranking",
+        "description": "cccSite.account.migrations.0009_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0008_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(98, 'moderator'), (2, 'trusted member'), (99, 'admin'), (1, 'member')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0009_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0010_alter_member_ranking",
+        "description": "cccSite.account.migrations.0010_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0009_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(98, 'moderator'), (99, 'admin'), (1, 'member'), (2, 'trusted member')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0010_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0011_alter_member_ranking",
+        "description": "cccSite.account.migrations.0011_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0010_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(99, 'admin'), (2, 'trusted member'), (98, 'moderator'), (1, 'member')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0011_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0012_alter_member_ranking",
+        "description": "cccSite.account.migrations.0012_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0011_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(2, 'trusted member'), (98, 'moderator'), (99, 'admin'), (1, 'member')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0012_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0013_alter_member_ranking",
+        "description": "cccSite.account.migrations.0013_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0012_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(1, 'member'), (2, 'trusted member'), (99, 'admin'), (98, 'moderator')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0013_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0014_alter_member_ranking",
+        "description": "cccSite.account.migrations.0014_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0013_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(2, 'trusted member'), (99, 'admin'), (1, 'member'), (98, 'moderator')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0014_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0015_alter_member_ranking",
+        "description": "cccSite.account.migrations.0015_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0014_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(99, 'admin'), (2, 'trusted member'), (1, 'member'), (98, 'moderator')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0015_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0016_accountcreation_alter_member_ranking",
+        "description": "cccSite.account.migrations.0016_accountcreation_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0015_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='AccountCreation',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('email', models.EmailField(max_length=254)),",
+        "detail": "cccSite.account.migrations.0016_accountcreation_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0017_alter_member_ranking",
+        "description": "cccSite.account.migrations.0017_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0016_accountcreation_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(1, 'member'), (98, 'moderator'), (99, 'admin'), (2, 'trusted member')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0017_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0018_alter_member_ranking",
+        "description": "cccSite.account.migrations.0018_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0017_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(2, 'trusted member'), (1, 'member'), (98, 'moderator'), (99, 'admin')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0018_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0019_alter_member_ranking",
+        "description": "cccSite.account.migrations.0019_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0018_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(2, 'trusted member'), (1, 'member'), (-1, 'banned'), (98, 'moderator'), (99, 'admin')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0019_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0020_alter_member_ranking",
+        "description": "cccSite.account.migrations.0020_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0019_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(98, 'moderator'), (1, 'member'), (99, 'admin'), (-1, 'banned'), (2, 'trusted member')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0020_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0021_alter_member_ranking",
+        "description": "cccSite.account.migrations.0021_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0020_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(-1, 'banned'), (2, 'trusted member'), (98, 'moderator'), (99, 'admin'), (1, 'member')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0021_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0022_alter_member_ranking",
+        "description": "cccSite.account.migrations.0022_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0021_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(2, 'trusted member'), (1, 'member'), (-1, 'banned'), (99, 'admin'), (98, 'moderator')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0022_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.account.migrations.0023_alter_member_ranking",
+        "description": "cccSite.account.migrations.0023_alter_member_ranking",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0022_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='member',\n            name='ranking',\n            field=models.SmallIntegerField(choices=[(1, 'member'), (-1, 'banned'), (99, 'admin'), (98, 'moderator'), (2, 'trusted member')], default=1),\n        ),",
+        "detail": "cccSite.account.migrations.0023_alter_member_ranking",
+        "documentation": {}
+    },
+    {
+        "label": "AccountConfig",
+        "kind": 6,
+        "importPath": "cccSite.account.apps",
+        "description": "cccSite.account.apps",
+        "peekOfCode": "class AccountConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'account'",
+        "detail": "cccSite.account.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Member",
+        "kind": 6,
+        "importPath": "cccSite.account.models",
+        "description": "cccSite.account.models",
+        "peekOfCode": "class Member(models.Model):\n    name = models.CharField(max_length=35, )\n    ranking_options = { \n        (-1,\"banned\"),\n        (1 , \"member\"),\n        (2 , \"trusted member\"),\n        (98 , \"moderator\"),\n        (99 , \"admin\"),\n    }\n    ranking = models.SmallIntegerField(default=1, choices=ranking_options)",
+        "detail": "cccSite.account.models",
+        "documentation": {}
+    },
+    {
+        "label": "GLogIn",
+        "kind": 6,
+        "importPath": "cccSite.account.models",
+        "description": "cccSite.account.models",
+        "peekOfCode": "class GLogIn(models.Model):\n    googleID = models.CharField(max_length=255, unique=True)\n    referTo = models.ForeignKey(Member, on_delete = models.CASCADE)\n    def __str__(self):\n        return self.googleID + \"|\" + str(self.referTo)\nclass ManageForm(ModelForm):\n    class Meta:\n        model = Member\n        fields = [\"pic\", \"name\", \"email\", \"about\"]\n        widgets = {",
+        "detail": "cccSite.account.models",
+        "documentation": {}
+    },
+    {
+        "label": "ManageForm",
+        "kind": 6,
+        "importPath": "cccSite.account.models",
+        "description": "cccSite.account.models",
+        "peekOfCode": "class ManageForm(ModelForm):\n    class Meta:\n        model = Member\n        fields = [\"pic\", \"name\", \"email\", \"about\"]\n        widgets = {\n            'name': forms.TextInput(attrs={'class':'nameField'}),\n            'email':forms.EmailInput(attrs={'class':'emailField'}),\n            'about': forms.TextInput(attrs={'class':'aboutField'})\n        }\nclass AccountCreation(models.Model):    ",
+        "detail": "cccSite.account.models",
+        "documentation": {}
+    },
+    {
+        "label": "AccountCreation",
+        "kind": 6,
+        "importPath": "cccSite.account.models",
+        "description": "cccSite.account.models",
+        "peekOfCode": "class AccountCreation(models.Model):    \n    email = models.EmailField()\n    username = models.CharField(max_length=75)\n    displayname = models.CharField(max_length=75)\n    password = models.CharField(max_length=50)\n    confirmpassword = models.CharField(max_length=50)\n    def __str__(self):\n        return self.email + \" | \" + self.username + \" | \" + self.displayname\nclass MessageForm(ModelForm):\n    class Meta:",
+        "detail": "cccSite.account.models",
+        "documentation": {}
+    },
+    {
+        "label": "MessageForm",
+        "kind": 6,
+        "importPath": "cccSite.account.models",
+        "description": "cccSite.account.models",
+        "peekOfCode": "class MessageForm(ModelForm):\n    class Meta:\n        model = AccountCreation\n        fields = ['email', 'username', 'displayname', 'password', 'confirmpassword']\n        labels = {\n            \"email\": _(\"Email\"),\n            \"username\": _(\"Username\"),\n            \"displayname\": _(\"Displayname\"),\n        }\n        widgets = {",
+        "detail": "cccSite.account.models",
+        "documentation": {}
+    },
+    {
+        "label": "user_directory_profile",
+        "kind": 2,
+        "importPath": "cccSite.account.models",
+        "description": "cccSite.account.models",
+        "peekOfCode": "def user_directory_profile(instance, filename): \n    # file will be uploaded to MEDIA_ROOT / users / <pk> / profile.<ext>\n    ext = filename.split('.')[-1]\n    filename=\"profile.\"+ext\n    return 'users/{0}/{1}'.format(instance.pk, filename) \n# user model. self explanitory\nclass Member(models.Model):\n    name = models.CharField(max_length=35, )\n    ranking_options = { \n        (-1,\"banned\"),",
+        "detail": "cccSite.account.models",
+        "documentation": {}
+    },
+    {
+        "label": "OverwriteStorage",
+        "kind": 6,
+        "importPath": "cccSite.account.storage",
+        "description": "cccSite.account.storage",
+        "peekOfCode": "class OverwriteStorage(FileSystemStorage):\n    def get_available_name(self, name, max_length=None):\n        self.delete(name)\n        return name",
+        "detail": "cccSite.account.storage",
+        "documentation": {}
+    },
+    {
+        "label": "app_name",
+        "kind": 5,
+        "importPath": "cccSite.account.urls",
+        "description": "cccSite.account.urls",
+        "peekOfCode": "app_name = \"account\"\nurlpatterns = [\n    path(\"\", views.default, name=\"default\"),\n    path(\"signin/\", views.signin, name=\"signin\"),\n    path(\"authG/\", views.authG, name=\"authG\"),\n    path(\"signout/\", views.signout, name=\"signout\"),\n    path(\"manage/\", views.manage, name='manage'),\n    path(\"view/\", views.account_all, name='all_account'),\n    path(\"view/<want>\", views.account_view, name='account_view'),\n]",
+        "detail": "cccSite.account.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "cccSite.account.urls",
+        "description": "cccSite.account.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"\", views.default, name=\"default\"),\n    path(\"signin/\", views.signin, name=\"signin\"),\n    path(\"authG/\", views.authG, name=\"authG\"),\n    path(\"signout/\", views.signout, name=\"signout\"),\n    path(\"manage/\", views.manage, name='manage'),\n    path(\"view/\", views.account_all, name='all_account'),\n    path(\"view/<want>\", views.account_view, name='account_view'),\n]",
+        "detail": "cccSite.account.urls",
+        "documentation": {}
+    },
+    {
+        "label": "signin",
+        "kind": 2,
+        "importPath": "cccSite.account.views",
+        "description": "cccSite.account.views",
+        "peekOfCode": "def signin(request):\n    if request.session.get('rank', 0)==0:\n        return render(request, 'account/signin.html')\n    else:\n        return redirect(\"/account/\")\n# if a user tries to sign out by URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to confirmation\ndef signout(request):\n    if request.method == \"POST\":\n        request.session.flush()\n    return redirect(reverse(\"account:default\"))",
+        "detail": "cccSite.account.views",
+        "documentation": {}
+    },
+    {
+        "label": "signout",
+        "kind": 2,
+        "importPath": "cccSite.account.views",
+        "description": "cccSite.account.views",
+        "peekOfCode": "def signout(request):\n    if request.method == \"POST\":\n        request.session.flush()\n    return redirect(reverse(\"account:default\"))\n # default account page. send to sign in if not signed in, otherwise displays user info\ndef default(request):\n    if request.session.get('rank',0)==0:\n        return redirect(reverse(\"account:signin\"))\n    else:\n        userInz=Member.objects.get(pk=request.session['user']) #get user from session",
+        "detail": "cccSite.account.views",
+        "documentation": {}
+    },
+    {
+        "label": "default",
+        "kind": 2,
+        "importPath": "cccSite.account.views",
+        "description": "cccSite.account.views",
+        "peekOfCode": "def default(request):\n    if request.session.get('rank',0)==0:\n        return redirect(reverse(\"account:signin\"))\n    else:\n        userInz=Member.objects.get(pk=request.session['user']) #get user from session\n        return render(request, 'account/myaccount.html', {\n            'name': userInz.name,\n            'email' : userInz.email,\n            'image' : userInz.pic,\n            'about' : userInz.about,",
+        "detail": "cccSite.account.views",
+        "documentation": {}
+    },
+    {
+        "label": "account_all",
+        "kind": 2,
+        "importPath": "cccSite.account.views",
+        "description": "cccSite.account.views",
+        "peekOfCode": "def account_all(request):\n    return HttpResponse(\"insert account view list here\")\ndef account_view(request, want):\n    if not want:\n        return HttpResponse(\"Insert list view here\")\n    if not Member.objects.get(pk=want):\n        return redirect(reverse(\"account:default\"))\n    viewInz=Member.objects.get(pk=want)\n    if request.session.get('rank',0) != 0:\n        userInz=Member.objects.get(request.session['user'])",
+        "detail": "cccSite.account.views",
+        "documentation": {}
+    },
+    {
+        "label": "account_view",
+        "kind": 2,
+        "importPath": "cccSite.account.views",
+        "description": "cccSite.account.views",
+        "peekOfCode": "def account_view(request, want):\n    if not want:\n        return HttpResponse(\"Insert list view here\")\n    if not Member.objects.get(pk=want):\n        return redirect(reverse(\"account:default\"))\n    viewInz=Member.objects.get(pk=want)\n    if request.session.get('rank',0) != 0:\n        userInz=Member.objects.get(request.session['user'])\n    else:\n        userInz= Member.objects.none()",
+        "detail": "cccSite.account.views",
+        "documentation": {}
+    },
+    {
+        "label": "manage",
+        "kind": 2,
+        "importPath": "cccSite.account.views",
+        "description": "cccSite.account.views",
+        "peekOfCode": "def manage(request):\n    if request.session.get('rank',0)==0:\n        return redirect('/account/signin/')\n    if request.method == \"POST\":\n        userInz=Member.objects.get(pk=request.session['user']) \n        form = ManageForm(request.POST, request.FILES, instance=userInz)\n        if form.is_valid():\n            form.save()\n            request.session['name']=userInz.name\n            return redirect(\"/account/\")",
+        "detail": "cccSite.account.views",
+        "documentation": {}
+    },
+    {
+        "label": "authG",
+        "kind": 2,
+        "importPath": "cccSite.account.views",
+        "description": "cccSite.account.views",
+        "peekOfCode": "def authG(request):\n    if request.method == \"GET\":\n       return redirect(\"/account/\")\n    elif request.method == \"POST\":\n        csrf_tok_cookie = request.COOKIES.get('g_csrf_token')\n        # check valid csrf token\n        if not csrf_tok_cookie:\n            return HttpResponse(\"Something went wrong, no csrf cookie\")\n        csrf_tok_body = request.POST.get('g_csrf_token')\n        if not csrf_tok_body:",
+        "detail": "cccSite.account.views",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.boiler.migrations.0001_initial",
+        "description": "cccSite.boiler.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='message',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('sender', models.CharField(max_length=75)),",
+        "detail": "cccSite.boiler.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.boiler.migrations.0002_message_subject",
+        "description": "cccSite.boiler.migrations.0002_message_subject",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('boiler', '0001_initial'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='message',\n            name='subject',\n            field=models.CharField(default='no subject', max_length=75),\n            preserve_default=False,",
+        "detail": "cccSite.boiler.migrations.0002_message_subject",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.boiler.migrations.0003_message_acknowledged",
+        "description": "cccSite.boiler.migrations.0003_message_acknowledged",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('boiler', '0002_message_subject'),\n    ]\n    operations = [\n        migrations.AddField(\n            model_name='message',\n            name='acknowledged',\n            field=models.BooleanField(default=False),\n        ),",
+        "detail": "cccSite.boiler.migrations.0003_message_acknowledged",
+        "documentation": {}
+    },
+    {
+        "label": "BoilerConfig",
+        "kind": 6,
+        "importPath": "cccSite.boiler.apps",
+        "description": "cccSite.boiler.apps",
+        "peekOfCode": "class BoilerConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'boiler'",
+        "detail": "cccSite.boiler.apps",
+        "documentation": {}
+    },
+    {
+        "label": "Message",
+        "kind": 6,
+        "importPath": "cccSite.boiler.models",
+        "description": "cccSite.boiler.models",
+        "peekOfCode": "class Message(models.Model):\n    sender = models.CharField(max_length=75)\n    email = models.EmailField()\n    subject = models.CharField(max_length=75)\n    message = models.CharField(max_length=300)\n    created = models.DateTimeField(auto_now=False, auto_now_add=True)\n    acknowledged = models.BooleanField(default=False)\n    def __str__(self):\n        return self.sender + \" | \" + self.email + \" | \" + self.subject\nclass MessageForm(ModelForm):",
+        "detail": "cccSite.boiler.models",
+        "documentation": {}
+    },
+    {
+        "label": "MessageForm",
+        "kind": 6,
+        "importPath": "cccSite.boiler.models",
+        "description": "cccSite.boiler.models",
+        "peekOfCode": "class MessageForm(ModelForm):\n    class Meta:\n        model = Message\n        fields = ['sender', 'email', 'subject', 'message']\n        labels = {\n            \"sender\": _(\"Name\"),\n            \"email\": _(\"Email\"),\n            \"message\": _(\"Message\"),\n        }\n        widgets = {",
+        "detail": "cccSite.boiler.models",
+        "documentation": {}
+    },
+    {
+        "label": "app_name",
+        "kind": 5,
+        "importPath": "cccSite.boiler.urls",
+        "description": "cccSite.boiler.urls",
+        "peekOfCode": "app_name = \"boiler\"\nurlpatterns = [\n   # path(\"\", viewMap, name=\"viewMap\"),\n    path(\"about/\", views.about, name=\"about\"),\n    path('help/', views.help, name='help'),\n]",
+        "detail": "cccSite.boiler.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "cccSite.boiler.urls",
+        "description": "cccSite.boiler.urls",
+        "peekOfCode": "urlpatterns = [\n   # path(\"\", viewMap, name=\"viewMap\"),\n    path(\"about/\", views.about, name=\"about\"),\n    path('help/', views.help, name='help'),\n]",
+        "detail": "cccSite.boiler.urls",
+        "documentation": {}
+    },
+    {
+        "label": "about",
+        "kind": 2,
+        "importPath": "cccSite.boiler.views",
+        "description": "cccSite.boiler.views",
+        "peekOfCode": "def about(request):\n    return render(request, \"boiler/about.html\")\ndef help(request):\n    if request.method == \"POST\":\n        form = models.MessageForm(request.POST)\n        if form.is_valid():\n            form.save()\n            return render(request, \"boiler/thxcontact.html\")\n    else:\n        form=models.MessageForm()",
+        "detail": "cccSite.boiler.views",
+        "documentation": {}
+    },
+    {
+        "label": "help",
+        "kind": 2,
+        "importPath": "cccSite.boiler.views",
+        "description": "cccSite.boiler.views",
+        "peekOfCode": "def help(request):\n    if request.method == \"POST\":\n        form = models.MessageForm(request.POST)\n        if form.is_valid():\n            form.save()\n            return render(request, \"boiler/thxcontact.html\")\n    else:\n        form=models.MessageForm()\n    return render(request, \"boiler/help.html\", {'form' : form})\ndef contact(request):",
+        "detail": "cccSite.boiler.views",
+        "documentation": {}
+    },
+    {
+        "label": "contact",
+        "kind": 2,
+        "importPath": "cccSite.boiler.views",
+        "description": "cccSite.boiler.views",
+        "peekOfCode": "def contact(request):\n    if request.method == \"POST\":\n        form = models.MessageForm(request.POST)\n        if form.is_valid():\n            form.save()\n            return render(request, \"boiler/thxcontact.html\")\n    else:\n        form=models.MessageForm()\n    return render(request, \"boiler/help.html\", {'form' : form})",
+        "detail": "cccSite.boiler.views",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.asgi",
+        "description": "cccSite.cccSite.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "cccSite.cccSite.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n# Add or modify the STATIC_URL setting to specify the URL for static files\nSTATIC_URL = '/static/'\nSTATIC_ROOT = 'static'\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static'),\n]\nSECURE_CROSS_ORIGIN_OPENER_POLICY = \"same-origin-allow-popups\" \nSECURE_REFERRER_POLICY = \"same-origin-no-downgrade\" # this\n# Build paths inside the project like this: BASE_DIR / 'subdir'.",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "STATIC_URL = '/static/'\nSTATIC_ROOT = 'static'\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static'),\n]\nSECURE_CROSS_ORIGIN_OPENER_POLICY = \"same-origin-allow-popups\" \nSECURE_REFERRER_POLICY = \"same-origin-no-downgrade\" # this\n# Build paths inside the project like this: BASE_DIR / 'subdir'.\nBASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_ROOT",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "STATIC_ROOT = 'static'\nSTATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static'),\n]\nSECURE_CROSS_ORIGIN_OPENER_POLICY = \"same-origin-allow-popups\" \nSECURE_REFERRER_POLICY = \"same-origin-no-downgrade\" # this\n# Build paths inside the project like this: BASE_DIR / 'subdir'.\nBASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATICFILES_DIRS",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "STATICFILES_DIRS = [\n    os.path.join(BASE_DIR, 'static'),\n]\nSECURE_CROSS_ORIGIN_OPENER_POLICY = \"same-origin-allow-popups\" \nSECURE_REFERRER_POLICY = \"same-origin-no-downgrade\" # this\n# Build paths inside the project like this: BASE_DIR / 'subdir'.\nBASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECURE_CROSS_ORIGIN_OPENER_POLICY",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "SECURE_CROSS_ORIGIN_OPENER_POLICY = \"same-origin-allow-popups\" \nSECURE_REFERRER_POLICY = \"same-origin-no-downgrade\" # this\n# Build paths inside the project like this: BASE_DIR / 'subdir'.\nBASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-rak*1&oe)cu7moh&u+(bq62$&taj$7gdx9-^48-4zs)v*v#_1f'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECURE_REFERRER_POLICY",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "SECURE_REFERRER_POLICY = \"same-origin-no-downgrade\" # this\n# Build paths inside the project like this: BASE_DIR / 'subdir'.\nBASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-rak*1&oe)cu7moh&u+(bq62$&taj$7gdx9-^48-4zs)v*v#_1f'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-rak*1&oe)cu7moh&u+(bq62$&taj$7gdx9-^48-4zs)v*v#_1f'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']\n# Application definition\nINSTALLED_APPS = [",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-rak*1&oe)cu7moh&u+(bq62$&taj$7gdx9-^48-4zs)v*v#_1f'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "ALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'account.apps.AccountConfig',",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'account.apps.AccountConfig',\n    'mapViewer.apps.MapviewerConfig',\n    'boiler.apps.BoilerConfig', ",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]\nROOT_URLCONF = 'cccSite.urls'",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "ROOT_URLCONF = 'cccSite.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [BASE_DIR/'cccSite'/'templates'],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [BASE_DIR/'cccSite'/'templates'],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "GOOGLE_API_KEY",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "GOOGLE_API_KEY = 'AIzaSyDObg89VOn66Pt_0l03pHwKWBdGmPdTX9A'\nWSGI_APPLICATION = 'cccSite.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/4.2/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'cccSite.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/4.2/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATICFILES_DIRS = [BASE_DIR/'cccSite'/'static']\nSTATIC_URL = 'static/'\n# media files (user uploaded images and files)\nMEDIA_ROOT = BASE_DIR/'cccSite'/'media'",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATICFILES_DIRS = [BASE_DIR/'cccSite'/'static']\nSTATIC_URL = 'static/'\n# media files (user uploaded images and files)\nMEDIA_ROOT = BASE_DIR/'cccSite'/'media'\nMEDIA_URL = 'media/'",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATICFILES_DIRS = [BASE_DIR/'cccSite'/'static']\nSTATIC_URL = 'static/'\n# media files (user uploaded images and files)\nMEDIA_ROOT = BASE_DIR/'cccSite'/'media'\nMEDIA_URL = 'media/'\n# Default primary key field type",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.2/howto/static-files/\nSTATICFILES_DIRS = [BASE_DIR/'cccSite'/'static']\nSTATIC_URL = 'static/'\n# media files (user uploaded images and files)\nMEDIA_ROOT = BASE_DIR/'cccSite'/'media'\nMEDIA_URL = 'media/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATICFILES_DIRS",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "STATICFILES_DIRS = [BASE_DIR/'cccSite'/'static']\nSTATIC_URL = 'static/'\n# media files (user uploaded images and files)\nMEDIA_ROOT = BASE_DIR/'cccSite'/'media'\nMEDIA_URL = 'media/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# media files (user uploaded images and files)\nMEDIA_ROOT = BASE_DIR/'cccSite'/'media'\nMEDIA_URL = 'media/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MEDIA_ROOT",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "MEDIA_ROOT = BASE_DIR/'cccSite'/'media'\nMEDIA_URL = 'media/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MEDIA_URL",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "MEDIA_URL = 'media/'\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field\nDEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_AUTO_FIELD",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.settings",
+        "description": "cccSite.cccSite.settings",
+        "peekOfCode": "DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'",
+        "detail": "cccSite.cccSite.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.urls",
+        "description": "cccSite.cccSite.urls",
+        "peekOfCode": "urlpatterns = [\n    #path(\"map/\", include(\"mapViewer.urls\")),\n    path(\"account/\", include(\"account.urls\")),\n    path('DJadmin/', admin.site.urls),\n    path(\"\", include(\"mapViewer.urls\")),\n    path(\"\", include(\"boiler.urls\")),\n    path(\"admin/\", include(\"Janitor.urls\")),\n] \nurlpatterns += static(settings.MEDIA_URL,\n                      document_root=settings.MEDIA_ROOT)",
+        "detail": "cccSite.cccSite.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "cccSite.cccSite.wsgi",
+        "description": "cccSite.cccSite.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "cccSite.cccSite.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.migrations.0001_initial",
+        "description": "cccSite.Janitor.migrations.0001_initial",
+        "peekOfCode": "class Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n        ('mapViewer', '0001_0007_squash_migration'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='UserReport',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),",
+        "detail": "cccSite.Janitor.migrations.0001_initial",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.migrations.0002_remove_userreport_user_userreport_account",
+        "description": "cccSite.Janitor.migrations.0002_remove_userreport_user_userreport_account",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('account', '0014_alter_member_ranking'),\n        ('Janitor', '0001_initial'),\n    ]\n    operations = [\n        migrations.RemoveField(\n            model_name='userreport',\n            name='user',\n        ),",
+        "detail": "cccSite.Janitor.migrations.0002_remove_userreport_user_userreport_account",
+        "documentation": {}
+    },
+    {
+        "label": "JanitorConfig",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.apps",
+        "description": "cccSite.Janitor.apps",
+        "peekOfCode": "class JanitorConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'Janitor'",
+        "detail": "cccSite.Janitor.apps",
+        "documentation": {}
+    },
+    {
+        "label": "TagRemover",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.forms",
+        "description": "cccSite.Janitor.forms",
+        "peekOfCode": "class TagRemover(Form):\n    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label=\"Tags\")\nclass TagAdder(ModelForm):\n    class Meta:\n        model = MapTag\n        fields = ['name']\nclass UserRepForm(ModelForm):\n    class Meta:\n        model = UserReport\n        fields = ['reason', 'account']",
+        "detail": "cccSite.Janitor.forms",
+        "documentation": {}
+    },
+    {
+        "label": "TagAdder",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.forms",
+        "description": "cccSite.Janitor.forms",
+        "peekOfCode": "class TagAdder(ModelForm):\n    class Meta:\n        model = MapTag\n        fields = ['name']\nclass UserRepForm(ModelForm):\n    class Meta:\n        model = UserReport\n        fields = ['reason', 'account']\n        widgets = {\n            'account' : forms.HiddenInput,",
+        "detail": "cccSite.Janitor.forms",
+        "documentation": {}
+    },
+    {
+        "label": "UserRepForm",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.forms",
+        "description": "cccSite.Janitor.forms",
+        "peekOfCode": "class UserRepForm(ModelForm):\n    class Meta:\n        model = UserReport\n        fields = ['reason', 'account']\n        widgets = {\n            'account' : forms.HiddenInput,\n        }\nclass PostRepForm(ModelForm):\n    class Meta:\n        model = PostReport",
+        "detail": "cccSite.Janitor.forms",
+        "documentation": {}
+    },
+    {
+        "label": "PostRepForm",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.forms",
+        "description": "cccSite.Janitor.forms",
+        "peekOfCode": "class PostRepForm(ModelForm):\n    class Meta:\n        model = PostReport\n        fields = ['reason', 'post']\n        widgets = {\n            'post' : forms.HiddenInput,\n        }\nclass MemberManager(ModelForm):\n    class Meta:\n        model = Member",
+        "detail": "cccSite.Janitor.forms",
+        "documentation": {}
+    },
+    {
+        "label": "MemberManager",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.forms",
+        "description": "cccSite.Janitor.forms",
+        "peekOfCode": "class MemberManager(ModelForm):\n    class Meta:\n        model = Member\n        fields = ['name', 'ranking', 'email','pic','about']",
+        "detail": "cccSite.Janitor.forms",
+        "documentation": {}
+    },
+    {
+        "label": "PostReport",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.models",
+        "description": "cccSite.Janitor.models",
+        "peekOfCode": "class PostReport(models.Model):\n    post = models.ForeignKey(MapPost, on_delete=models.CASCADE)\n    reason = models.TextField()\nclass UserReport(models.Model):\n    account = models.ForeignKey(Member, on_delete=models.CASCADE)\n    reason = models.TextField()",
+        "detail": "cccSite.Janitor.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserReport",
+        "kind": 6,
+        "importPath": "cccSite.Janitor.models",
+        "description": "cccSite.Janitor.models",
+        "peekOfCode": "class UserReport(models.Model):\n    account = models.ForeignKey(Member, on_delete=models.CASCADE)\n    reason = models.TextField()",
+        "detail": "cccSite.Janitor.models",
+        "documentation": {}
+    },
+    {
+        "label": "app_name",
+        "kind": 5,
+        "importPath": "cccSite.Janitor.urls",
+        "description": "cccSite.Janitor.urls",
+        "peekOfCode": "app_name = \"Janitor\"\nurlpatterns = [\n    path(\"\", views.default, name=\"default\"),\n    path(\"messages/\", views.contactList, name=\"messageList\"),\n    path(\"member/\", views.memberList, name=\"memberList\"),\n    path(\"member/<int:want>\", views.member_manage, name=\"manage_user\"),\n    path('reports/', views.reportList, name=\"reportList\"),\n    path('tags/', views.tagList, name = \"tagList\"),\n]",
+        "detail": "cccSite.Janitor.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "cccSite.Janitor.urls",
+        "description": "cccSite.Janitor.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"\", views.default, name=\"default\"),\n    path(\"messages/\", views.contactList, name=\"messageList\"),\n    path(\"member/\", views.memberList, name=\"memberList\"),\n    path(\"member/<int:want>\", views.member_manage, name=\"manage_user\"),\n    path('reports/', views.reportList, name=\"reportList\"),\n    path('tags/', views.tagList, name = \"tagList\"),\n]",
+        "detail": "cccSite.Janitor.urls",
+        "documentation": {}
+    },
+    {
+        "label": "default",
+        "kind": 2,
+        "importPath": "cccSite.Janitor.views",
+        "description": "cccSite.Janitor.views",
+        "peekOfCode": "def default(request):\n    return render(request, \"Janitor/AdminBase.html\")\ndef contactList(request):\n    messages = Message.objects.all()\n    return render(request, \"Janitor/contactList.html\", {'messages' : messages,})\ndef memberList(request):\n    members = Member.objects.exclude(pk=request.session.get('user',-1))\n    memberStats = []\n    for user in members:\n        visibleposts = MapPost.objects.filter(author=user, isVisible=True).count()",
+        "detail": "cccSite.Janitor.views",
+        "documentation": {}
+    },
+    {
+        "label": "contactList",
+        "kind": 2,
+        "importPath": "cccSite.Janitor.views",
+        "description": "cccSite.Janitor.views",
+        "peekOfCode": "def contactList(request):\n    messages = Message.objects.all()\n    return render(request, \"Janitor/contactList.html\", {'messages' : messages,})\ndef memberList(request):\n    members = Member.objects.exclude(pk=request.session.get('user',-1))\n    memberStats = []\n    for user in members:\n        visibleposts = MapPost.objects.filter(author=user, isVisible=True).count()\n        reports = PostReport.objects.filter(post__author=user).count()+UserReport.objects.filter(account=user).count()\n        memberStats.append({'user' : user, 'goodposts': visibleposts, 'reports':reports})",
+        "detail": "cccSite.Janitor.views",
+        "documentation": {}
+    },
+    {
+        "label": "memberList",
+        "kind": 2,
+        "importPath": "cccSite.Janitor.views",
+        "description": "cccSite.Janitor.views",
+        "peekOfCode": "def memberList(request):\n    members = Member.objects.exclude(pk=request.session.get('user',-1))\n    memberStats = []\n    for user in members:\n        visibleposts = MapPost.objects.filter(author=user, isVisible=True).count()\n        reports = PostReport.objects.filter(post__author=user).count()+UserReport.objects.filter(account=user).count()\n        memberStats.append({'user' : user, 'goodposts': visibleposts, 'reports':reports})\n    return render(request, \"Janitor/memberList.html\", {'members' : memberStats,})\ndef member_manage(request, want):\n    if Member.objects.filter(pk=want).exists():",
+        "detail": "cccSite.Janitor.views",
+        "documentation": {}
+    },
+    {
+        "label": "member_manage",
+        "kind": 2,
+        "importPath": "cccSite.Janitor.views",
+        "description": "cccSite.Janitor.views",
+        "peekOfCode": "def member_manage(request, want):\n    if Member.objects.filter(pk=want).exists():\n        userInz=Member.objects.get(pk=want)\n    else:\n        return redirect(memberList)\n    if request.method == 'POST':\n        form = MemberManager(request.POST)\n        if form.is_valid:\n            form.save()\n    else:",
+        "detail": "cccSite.Janitor.views",
+        "documentation": {}
+    },
+    {
+        "label": "pendingPostList",
+        "kind": 2,
+        "importPath": "cccSite.Janitor.views",
+        "description": "cccSite.Janitor.views",
+        "peekOfCode": "def pendingPostList(request):\n    pending_posts= MapPost.objects.filter(isVisible=False)\n    return HttpResponse(\"hey\")\ndef tagList(request):\n    msg = \"\"\n    if request.method == \"POST\":\n        if 'addTag' in request.POST:\n            addForm = TagAdder(request.POST)\n            delForm = TagRemover()\n            if addForm.is_valid():",
+        "detail": "cccSite.Janitor.views",
+        "documentation": {}
+    },
+    {
+        "label": "tagList",
+        "kind": 2,
+        "importPath": "cccSite.Janitor.views",
+        "description": "cccSite.Janitor.views",
+        "peekOfCode": "def tagList(request):\n    msg = \"\"\n    if request.method == \"POST\":\n        if 'addTag' in request.POST:\n            addForm = TagAdder(request.POST)\n            delForm = TagRemover()\n            if addForm.is_valid():\n                addForm.save()\n                msg = addForm.cleaned_data['name'] + \" has been successfully added.\"\n                addForm = TagAdder()",
+        "detail": "cccSite.Janitor.views",
+        "documentation": {}
+    },
+    {
+        "label": "exportData",
+        "kind": 2,
+        "importPath": "cccSite.Janitor.views",
+        "description": "cccSite.Janitor.views",
+        "peekOfCode": "def exportData(request):\n    #https://docs.djangoproject.com/en/5.0/howto/outputting-csv/\n    return HttpResponse(\"Not implemented yet\")\ndef reportList(request):\n    msg=\"\"\n    if request.method == \"POST\":\n        if request.POST.get('type') == 'user':\n            userInz = Member.objects.get(pk=request.POST.get('pk'))\n            msg=userInz.name + \"'s reports have been cleared.\"\n            UserReport.objects.filter(account=userInz).delete()",
+        "detail": "cccSite.Janitor.views",
+        "documentation": {}
+    },
+    {
+        "label": "reportList",
+        "kind": 2,
+        "importPath": "cccSite.Janitor.views",
+        "description": "cccSite.Janitor.views",
+        "peekOfCode": "def reportList(request):\n    msg=\"\"\n    if request.method == \"POST\":\n        if request.POST.get('type') == 'user':\n            userInz = Member.objects.get(pk=request.POST.get('pk'))\n            msg=userInz.name + \"'s reports have been cleared.\"\n            UserReport.objects.filter(account=userInz).delete()\n        else:\n            postInz = MapPost.objects.get(pk=request.POST.get('pk'))\n            msg=postInz.title + \"'s reports have been cleared.\"",
+        "detail": "cccSite.Janitor.views",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.mapViewer.migrations.0001_0007_squash_migration",
+        "description": "cccSite.mapViewer.migrations.0001_0007_squash_migration",
+        "peekOfCode": "class Migration(migrations.Migration):\n    #replaces = [('mapViewer', '0001_initial'), ('mapViewer', '0002_maptag_mappost'), ('mapViewer', '0003_rename_tagname_maptag_name_alter_mappost_tags'), ('mapViewer', '0004_alter_maptag_name'), ('mapViewer', '0005_mappost_geocode'), ('mapViewer', '0006_remove_mappost_latitude_remove_mappost_longitude'), ('mapViewer', '0007_delete_mapwidget_remove_mappost_isvisible_and_more')]\n    initial = True\n    dependencies = [\n        ('account', '0010_alter_member_ranking'),\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='MapTag',\n            fields=[",
+        "detail": "cccSite.mapViewer.migrations.0001_0007_squash_migration",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.mapViewer.migrations.0008_alter_mappost_geocode_alter_mappost_visibility",
+        "description": "cccSite.mapViewer.migrations.0008_alter_mappost_geocode_alter_mappost_visibility",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mapViewer', '0001_0007_squash_migration'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='mappost',\n            name='geoCode',\n            field=models.JSONField(),\n        ),",
+        "detail": "cccSite.mapViewer.migrations.0008_alter_mappost_geocode_alter_mappost_visibility",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.mapViewer.migrations.0009_alter_mappost_visibility",
+        "description": "cccSite.mapViewer.migrations.0009_alter_mappost_visibility",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mapViewer', '0008_alter_mappost_geocode_alter_mappost_visibility'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='mappost',\n            name='visibility',\n            field=models.SmallIntegerField(choices=[(-1, 'denied'), (0, 'pending'), (1, 'visible')], default=0),\n        ),",
+        "detail": "cccSite.mapViewer.migrations.0009_alter_mappost_visibility",
+        "documentation": {}
+    },
+    {
+        "label": "Migration",
+        "kind": 6,
+        "importPath": "cccSite.mapViewer.migrations.0010_alter_mappost_visibility",
+        "description": "cccSite.mapViewer.migrations.0010_alter_mappost_visibility",
+        "peekOfCode": "class Migration(migrations.Migration):\n    dependencies = [\n        ('mapViewer', '0009_alter_mappost_visibility'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='mappost',\n            name='visibility',\n            field=models.SmallIntegerField(choices=[(1, 'visible'), (0, 'pending'), (-1, 'denied')], default=0),\n        ),",
+        "detail": "cccSite.mapViewer.migrations.0010_alter_mappost_visibility",
+        "documentation": {}
+    },
+    {
+        "label": "MapviewerConfig",
+        "kind": 6,
+        "importPath": "cccSite.mapViewer.apps",
+        "description": "cccSite.mapViewer.apps",
+        "peekOfCode": "class MapviewerConfig(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = 'mapViewer'",
+        "detail": "cccSite.mapViewer.apps",
+        "documentation": {}
+    },
+    {
+        "label": "SearchPostsForm",
+        "kind": 6,
+        "importPath": "cccSite.mapViewer.forms",
+        "description": "cccSite.mapViewer.forms",
+        "peekOfCode": "class SearchPostsForm(forms.Form):\n    q = forms.CharField(max_length=100, required=False, widget=forms.TextInput({\"Placeholder\": \"Search...\"}))\n    t = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)\n    class Meta:\n        labels = {\n                'q': _('Search'),\n                't': _('Tags')\n            }\nclass MakePostForm(forms.Form):\n    title = forms.CharField(max_length=100, label=\"Title\")",
+        "detail": "cccSite.mapViewer.forms",
+        "documentation": {}
+    },
+    {
+        "label": "MakePostForm",
+        "kind": 6,
+        "importPath": "cccSite.mapViewer.forms",
+        "description": "cccSite.mapViewer.forms",
+        "peekOfCode": "class MakePostForm(forms.Form):\n    title = forms.CharField(max_length=100, label=\"Title\")\n    location = forms.CharField(max_length=200, label=\"Address\", widget=forms.TextInput)\n    content = forms.CharField(label=\"Content\", widget=forms.Textarea)\n    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label=\"Tags\", required = False)\n    geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)\n    media_file = models.ImageField(upload_to='cccSite/media', blank=True, null=True)\n    #to minimize API calls, we don't want to geocode a provided address more than once. \n    #so if an address is correct, we want to use one geocode call to get the lat/long, but we can't just pass this to the model,\n    #because if the provided address doesn't result in a valid geocode, we can't try to access said geocode. this stores a valid geocode",
+        "detail": "cccSite.mapViewer.forms",
+        "documentation": {}
+    },
+    {
+        "label": "MapTag",
+        "kind": 6,
+        "importPath": "cccSite.mapViewer.models",
+        "description": "cccSite.mapViewer.models",
+        "peekOfCode": "class MapTag(models.Model):\n    name = models.CharField(max_length=25, unique=True)\n    def __str__(self):\n        return self.name\n# this will be the ideal post model. we would serialize this to widgets using djangos JSON serialize functionality on the specific fields\nclass MapPost(models.Model):\n    title = models.CharField(max_length=100)\n    content = models.TextField()\n    author = models.ForeignKey(Member, on_delete=models.CASCADE)\n    description = models.TextField() #will be derived from content. whenever this stuff gets working.",
+        "detail": "cccSite.mapViewer.models",
+        "documentation": {}
+    },
+    {
+        "label": "MapPost",
+        "kind": 6,
+        "importPath": "cccSite.mapViewer.models",
+        "description": "cccSite.mapViewer.models",
+        "peekOfCode": "class MapPost(models.Model):\n    title = models.CharField(max_length=100)\n    content = models.TextField()\n    author = models.ForeignKey(Member, on_delete=models.CASCADE)\n    description = models.TextField() #will be derived from content. whenever this stuff gets working.\n    geoCode = models.JSONField()\n    tags = models.ManyToManyField(MapTag, related_name=\"posts\", blank=True)\n    visible_options = { \n        (-1,\"denied\"),\n        (0, \"pending\"),",
+        "detail": "cccSite.mapViewer.models",
+        "documentation": {}
+    },
+    {
+        "label": "app_name",
+        "kind": 5,
+        "importPath": "cccSite.mapViewer.urls",
+        "description": "cccSite.mapViewer.urls",
+        "peekOfCode": "app_name = \"mapViewer\"\nurlpatterns = [\n    path(\"\", views.viewMap, name=\"default\"),\n    path(\"search/\", views.post_list, name=\"post_list\"),\n    path(\"post/<int:want>\", views.post_detail, name=\"post_detail\"),\n    # Add other URL patterns here\n]",
+        "detail": "cccSite.mapViewer.urls",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "cccSite.mapViewer.urls",
+        "description": "cccSite.mapViewer.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"\", views.viewMap, name=\"default\"),\n    path(\"search/\", views.post_list, name=\"post_list\"),\n    path(\"post/<int:want>\", views.post_detail, name=\"post_detail\"),\n    # Add other URL patterns here\n]",
+        "detail": "cccSite.mapViewer.urls",
+        "documentation": {}
+    },
+    {
+        "label": "viewMap",
+        "kind": 2,
+        "importPath": "cccSite.mapViewer.views",
+        "description": "cccSite.mapViewer.views",
+        "peekOfCode": "def viewMap(request):\n    posts = MapPost.objects.filter(visibility=1) #begin by fetching visible posts from database\n    madePostSuccess = False #assume the user did not just post\n    if(request.method==\"POST\"): #if the request was a post, it is an attempt to create a post\n        postingForm= MakePostForm(request.POST) #create the posting form instance and populate it with the data in the POST request\n        madePostSuccess = postingForm.is_valid() #if the data is valid (more info on this in mapViewer/forms.py)\n        if madePostSuccess: #if the post is good to go\n            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\\\n            if len(postingForm.cleaned_data['content']) > 35: #if content overflows the preview length\n                disc = postingForm.cleaned_data['content'][slice(0,35)] + \"...\" #create description to act as a preview",
+        "detail": "cccSite.mapViewer.views",
+        "documentation": {}
+    },
+    {
+        "label": "post_list",
+        "kind": 2,
+        "importPath": "cccSite.mapViewer.views",
+        "description": "cccSite.mapViewer.views",
+        "peekOfCode": "def post_list(request):\n    contQuery = request.GET.get(\"q\")\n    tagQuery = request.GET.getlist(\"t\")\n    form = SearchPostsForm(request.GET)\n    posts = MapPost.objects.filter(visibility=1)\n    if contQuery:\n        posts = posts.filter(Q(title__icontains=contQuery) | Q(content__icontains=contQuery) )\n    if tagQuery:\n        for tag in tagQuery:\n            posts=posts.filter(tags__pk=tag)",
+        "detail": "cccSite.mapViewer.views",
+        "documentation": {}
+    },
+    {
+        "label": "post_detail",
+        "kind": 2,
+        "importPath": "cccSite.mapViewer.views",
+        "description": "cccSite.mapViewer.views",
+        "peekOfCode": "def post_detail(request, want):\n    hasReported=False\n    if MapPost.objects.filter(pk=want).exists():\n        lookAt= MapPost.objects.get(pk=want)\n        if request.method == 'POST':\n            reporter = PostRepForm(request.POST)\n            hasReported = reporter.is_valid()\n            if hasReported:\n                reporter.save()\n        else:",
+        "detail": "cccSite.mapViewer.views",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "cccSite.main",
+        "description": "cccSite.main",
+        "peekOfCode": "app = application",
+        "detail": "cccSite.main",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "cccSite.manage",
+        "description": "cccSite.manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cccSite.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "cccSite.manage",
+        "documentation": {}
+    }
+]

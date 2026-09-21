@@ -1,0 +1,181 @@
+/* ============================
+   GLOBAL RESET & VARIABLES
+============================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --gold: #f3c10d;
+  --gold-dark: #d4a50b;
+  --blue: #00205c;
+  --gray-light: #f4f4f4;
+  --gray-border: #ddd;
+  --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-hover: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* ============================
+   BANNER
+============================ */
+.banner {
+  text-align: center;
+  background-color: var(--gray-light);
+  padding: 15px 0;
+  margin-bottom: 25px;
+  border-bottom: 2px solid var(--gray-border);
+  letter-spacing: 12px;
+  font-weight: bold;
+  color: var(--blue);
+  font-size: 20px;
+}
+
+.banner-letter {
+  display: inline-block;
+  margin: 0 6px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ============================
+   FORM ELEMENTS
+============================ */
+.testy {
+  box-shadow: var(--shadow-soft);
+  border-radius: 6px;
+  padding: 8px;
+  border: 1px solid var(--gray-border);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.testy:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 4px var(--gold);
+  outline: none;
+}
+
+form textarea {
+  height: 160px;
+  resize: vertical;
+}
+
+/* ============================
+   FLEX LAYOUTS
+============================ */
+.half {
+  display: flex;
+  flex: 1 1 48%;
+  gap: 2%;
+  margin-bottom: 1em;
+}
+
+.left, .right {
+  width: 50%;
+}
+
+.left {
+  margin-right: 2%;
+}
+
+/* Clearfix (legacy support) */
+.cf::before,
+.cf::after {
+  content: "";
+  display: table;
+}
+.cf::after {
+  clear: both;
+}
+
+/* ============================
+   HEADINGS
+============================ */
+.heading {
+  text-align: center;
+  background-color: var(--gold);
+  color: var(--blue);
+  border-radius: 12px;
+  padding: 15px;
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* ============================
+   CONTAINERS
+============================ */
+.create_an_account,
+.containerS1,
+.containerS2 {
+  width: 90%;
+  max-width: 650px;
+  margin: 25px auto;
+  padding: 15px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--gray-border);
+}
+
+/* Specific containers */
+.containerS1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 25px;
+}
+
+.containerS2 {
+  border-radius: 8px;
+}
+
+/* Wrappers */
+.wrapperS1,
+.wrapperS2 {
+  padding: 12px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* ============================
+   BUTTONS
+============================ */
+#account-button {
+  width: 70%;
+  margin: 25px auto;
+  padding: 12px;
+  text-align: center;
+  display: block;
+  background-color: var(--gold);
+  color: var(--blue);
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.15s ease;
+}
+
+#account-button:hover {
+  background-color: var(--gold-dark);
+  transform: translateY(-2px);
+}
+
+/* ============================
+   RESPONSIVE DESIGN
+============================ */
+@media(max-width: 600px) {
+  .half {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  #account-button {
+    width: 100%;
+  }
+
+  .banner {
+    letter-spacing: 6px;
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,84 @@
+/* ============================
+   ACCORDION BUTTON
+============================ */
+.accordion {
+    background-color: #e6e6e6; /* Softer gray */
+    color: var(--blue);
+    border: none;
+    border-bottom: 2px solid var(--gray-border);
+    padding: 12px 20px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.15s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+/* Hover + active */
+.accordion:hover,
+.accordion.active {
+    background-color: var(--hover-gold);
+    color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ============================
+   PANEL CONTENT
+============================ */
+.panel {
+    background-color: #fff;
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    border-left: 2px solid var(--gray-border);
+    border-right: 2px solid var(--gray-border);
+    border-bottom: 2px solid var(--gray-border);
+    border-radius: 0 0 8px 8px;
+    transition: max-height 0.25s ease-out,
+                padding 0.25s ease-out;
+}
+
+/* When expanded */
+.panel.show {
+    padding: 15px 18px;
+    max-height: 500px; /* Enough for content */
+    background-color: var(--gray-light);
+}
+
+/* ============================
+   SUBCONTAINERS
+============================ */
+.subcontainerL {
+    width: 40%;
+    margin-left: 3%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.subcontainerR {
+    width: 50%;
+    margin-right: 3%;
+    margin-top: 2%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 768px) {
+    .subcontainerL,
+    .subcontainerR {
+        width: 100%;
+        margin: 0;
+        margin-top: 1em;
+        text-align: left;
+    }
+}

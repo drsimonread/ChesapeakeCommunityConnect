@@ -1,0 +1,53 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %}
+<title>Chesapeake Community Connect - Map</title>
+<<<<<<< HEAD
+=======
+<link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewforum.css' %}">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+
+
+<script src="{% static 'mapViewer/forumview.js' %}" defer></script>
+{{forum.geoCode|json_script}}
+{{ forumData|json_script:"forumData" }}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKcBxdWnx-AIYQfA-NQKUR1cRXeF9fAiI&libraries=places&callback=initMap" defer></script>
+
+>>>>>>> 2f3d9e2c95593ff95e5344f49ffce6b5f282a2d3
+{% endblock head %}
+
+{% block content %}
+
+
+<br>
+<div id="content" class="body">
+    {%if not hasReported %}
+    <form action="{{request.build_absolute_uri}}"  method="post">{% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Send Report" id="input-submit">
+    </form>
+    {%else%}
+    Your report has been received.
+    {%endif%}
+
+    <h1>{{post.title}}</h1>
+    <br>
+    By {{post.author}}
+    <br>
+    {{post.content}}
+    <br>
+    Tags:
+    <br>
+    {%for item in post.tags.all %}
+    {{item.name}}
+    <br>
+    {%endfor%}
+    
+</div>
+
+{% endblock content %}

@@ -1,0 +1,183 @@
+/* =========================
+   Base Styles
+========================= */
+.aboutBody {
+    background-color: #f3f3f3;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* =========================
+   Main Containers
+========================= */
+.container,
+.containerL,
+.containerR {
+    background: linear-gradient(135deg, #003366, #001f3f);
+    width: 40%;
+    padding: 2%;
+    border-radius: 15px;
+    margin: 30px auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.container:hover,
+.containerL:hover,
+.containerR:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    border-color: #ffd700;
+}
+
+.containerL { margin-left: 5%; }
+.containerR { margin-left: 50%; }
+
+/* =========================
+   Headings
+========================= */
+h4 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffd700;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    font-family: 'Arial Black', sans-serif;
+    position: relative;
+    padding-left: 40px;
+}
+
+h4::before {
+    content: "🚀";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+}
+
+h4::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    margin: 10px auto 0;
+    background: linear-gradient(90deg, #ffd700, #ff8c00);
+    border-radius: 2px;
+}
+
+/* =========================
+   Text Styles
+========================= */
+.container p,
+.containerL p,
+.containerR p {
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 0 10px;
+    color: #ffffff;
+    margin-top: 10px;
+}
+
+.team-description p::before {
+    content: "🌟";
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+/* =========================
+   Images (Legacy)
+========================= */
+#pic1,
+#pic2 {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    margin-top: 10px;
+}
+
+/* =========================
+   Team Portrait Grid
+========================= */
+.team-portraits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.portrait-profile {
+    width: 260px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform .2s ease;
+}
+
+.portrait-profile:hover {
+    transform: translateY(-6px);
+}
+
+.portrait-image {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.portrait-profile h3 {
+    margin-top: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.portrait-profile p {
+    font-size: 0.95rem;
+    color: #444;
+    margin-top: 6px;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 768px) {
+
+    .container,
+    .containerL,
+    .containerR {
+        width: 85%;
+        margin: 20px auto;
+    }
+
+    .containerL,
+    .containerR {
+        margin-left: auto;
+    }
+
+    .portrait-profile {
+        width: 90%;
+        height: auto;
+    }
+
+    .portrait-image {
+        height: 220px;
+    }
+
+    h4 {
+        font-size: 26px;
+        padding-left: 30px;
+    }
+
+    h4::before {
+        font-size: 20px;
+    }
+}

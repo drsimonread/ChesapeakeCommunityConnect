@@ -1,0 +1,147 @@
+#map {
+  /*Map icon styling*/
+  border-radius: 10px;
+  height: 400px;
+}
+/* Slideshow container */
+.slideshow-container {
+    max-width: 800px;
+    position: relative;
+    margin: auto;
+  }
+  
+  /* Hide the images by default */
+  .mySlides {
+    display: none;
+    max-width: 100%;
+  }
+  
+  /* Next and previous buttons */
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Position the "next button" to the right */
+  .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  /* On hover, add a black background color with a little bit see-through */
+  .prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Caption text */
+  #caption {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #f2f2f2;
+  }
+  
+  /* Number text (1/3 etc) */
+  .numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+  }
+  
+  /* Fading animation */
+  .fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  
+  @keyframes fade {
+    from {
+      opacity: 0.4;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Adjusted image size */
+  .slide-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Slideshow container */
+.slideshow-container {
+  max-width: 800px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Image container */
+.image-container {
+  width: 100%;
+  max-height: 500px; /* Adjust max height as needed */
+  overflow: hidden;
+}
+
+/* Adjusted image size */
+.slide-image {
+  width: 100%;
+  height: auto;
+}
+
+ /* Custom style for a full-width divider */
+ hr {
+  border: none;
+  height: 2px;
+  background-color: black;
+  width: 100%;
+}
+
+#report-button{
+  background-color: #00205c;
+  color: #f3c10d;
+}
+
+#report-field{
+ border-radius: 40px;
+ resize: none;
+}
+
+#input-submit{
+  background-color: #00205c;
+  color: #f3c10d;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Footer styling */
+footer {
+  display: flex; /* Sets the items to be displayed flexibly. Hard to explain, lookup CSS flexible box layout. */
+  flex-direction: column; /* Orders the items (image and text) to be ordered as columns. */
+  clear: both; /* Clears both the left and right side, placing it at the bottom of items in the webpage. */
+  justify-content: center; /* Centers the content of the footer relative to the webpage. */
+  align-items: center; /* Aligns the text to the center of the item and centers the item's box on the text. */
+  height: auto; /* Changed to auto to accommodate image size */
+  padding: 20px; /* Add padding for spacing */
+  text-align: center; /* Aligns text in the center. */
+  background-color: var(--background);
+  color: #000;
+  min-width: 100%;
+}
