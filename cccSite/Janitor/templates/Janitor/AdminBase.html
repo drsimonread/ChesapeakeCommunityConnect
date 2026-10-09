@@ -2,6 +2,7 @@
 {%block head%}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'Janitor/accordian.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
 <title>Chesapeake Community Connect - Admin</title>
 {%endblock head%}
 {% block content %}
@@ -20,12 +21,8 @@
   <div style="margin-left:15%;padding:1px 16px;">
     {%block adminFunc%} Welcome to the admin interface. {% endblock adminFunc %}
   </div>
-  {%else%}
-    You do not have permission to access this page.
-  {%endif%}
 </div>
 <script>
-  // Script for smooth accordions
   var acc = document.getElementsByClassName("accordion");
   var i;
   for (i = 0; i < acc.length; i++) {

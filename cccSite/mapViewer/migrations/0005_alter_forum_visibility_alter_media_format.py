@@ -13,11 +13,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='forum',
             name='visibility',
-            field=models.SmallIntegerField(choices=[(-1, 'denied'), (1, 'visible'), (0, 'pending')], default=0),
+            field=models.SmallIntegerField(choices=[(-1, 'denied'), (0, 'pending'), (1, 'visible')], default=0),
         ),
         migrations.AlterField(
             model_name='media',
             name='format',
-            field=models.SmallIntegerField(choices=[(2, 'audio'), (1, 'video'), (0, 'image')], default=0),
+            field=models.SmallIntegerField(choices=[(0, 'image'), (1, 'video'), (2, 'audio')], default=0),
         ),
     ]

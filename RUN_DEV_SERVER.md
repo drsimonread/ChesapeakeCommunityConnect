@@ -14,12 +14,12 @@ This guide shows the exact steps to start the local development server for this 
 
 ### macOS
 ```bash
-cd /Users/kellyseanbyrne/Documents/ChesapeakeCommunityConnect-1/cccSite
+cd /ChesapeakeCommunityConnect/cccSite
 ```
 
 ### Windows (PowerShell)
 ```powershell
-cd C:\path\to\ChesapeakeCommunityConnect-1\cccSite
+cd C:\path\to\ChesapeakeCommunityConnect\cccSite
 ```
 
 ---
@@ -115,14 +115,14 @@ In the terminal where it is running, press:
 
 ### macOS
 ```bash
-cd /Users/kellyseanbyrne/Documents/ChesapeakeCommunityConnect-1/cccSite
+cd ChesapeakeCommunityConnect/cccSite
 source venv/bin/activate
 python manage.py runserver 8080
 ```
 
 ### Windows (PowerShell)
 ```powershell
-cd C:\path\to\ChesapeakeCommunityConnect-1\cccSite
+cd C:\path\to\ChesapeakeCommunityConnect\cccSite
 .\venv\Scripts\Activate.ps1
 python manage.py runserver 8080
 ```
@@ -150,4 +150,28 @@ which python
 Get-Command python
 ```
 
-It should point to your project `venv` path.
+##### It should point to your project `venv` path.
+---
+
+## Notes for Windows
+
+### Install Git (Windows only, if not already installed)
+
+```powershell
+# Install Git using winget
+winget install --id Git.Git -e
+```
+
+
+
+### If `git` is not recognized
+
+```powershell
+# If Git is not recognized, add it to PATH manually
+
+# Path to add:
+C:\Program Files\Git\cmd
+
+# Verify Git works
+git --version
+```

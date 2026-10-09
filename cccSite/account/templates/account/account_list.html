@@ -1,160 +1,133 @@
 {% extends "account/accountBase.html" %}
 {% load static %}
 
+{% block accHead %}
+<title>Search contributors — Chesapeake Community Connect</title>
+{% endblock accHead %}
+
 {% block accountFunc %}
-<div id="content" class="body" role="main" aria-labelledby="page-title">
-    <h1 id="page-title">Chesapeake Community Connect</h1>
+<div class="contrib-page contrib-page--search dir-search" role="main" aria-labelledby="dir-search-title">
+  <div class="dir-search__shell">
+    <header class="dir-search__hero">
+      <h1 id="dir-search-title" class="dir-search__title">Contributors</h1>
+      <p class="dir-search__subtitle">People who host at least one <em>visible</em> forum. Search by username or change sort to explore the list.</p>
+    </header>
 
-    <!-- Search Form -->
-    <form action="{% url 'account:account_list' %}" method="GET" role="search" aria-label="User search form" class="search-form">
-        <label for="search-input" class="visually-hidden">Search Users</label>
-        {{ search.as_p }}
-        <button type="submit" id="search-btn" class="button_CCC" aria-label="Submit search">Search</button>
-    </form>
+    {% if search_query %}
+    <div class="dir-search__filter-note" role="status">
+      <span class="dir-search__filter-icon" aria-hidden="true"><i class="bx bx-filter-alt"></i></span>
+      <span class="dir-search__filter-body">
+        Showing results for <strong>“{{ search_query }}”</strong>.
+        <span class="dir-search__filter-actions">
+          <a href="{% url 'account:account_list' %}{{ qs_clear_search }}">Clear search</a>
+          <span class="dir-search__sep" aria-hidden="true">·</span>
+          <a href="{% url 'account:account_list' %}{{ qs_reset }}">Reset directory</a>
+        </span>
+      </span>
+    </div>
+    {% endif %}
 
-    <!-- Users List -->
-    <section aria-labelledby="users-list-heading" class="users-section">
-        <h2 id="users-list-heading" class="visually-hidden">User List</h2>
-        {% if users %}
-            <ul role="list" class="user-list">
-                {% for item in users %}
-                <li role="listitem" class="user-item">
-                    <a href="{{ item.get_absolute_url }}" class="user-link" aria-label="View profile of {{ item.user.username }}">
-                        {{ item.user.username }}
-                    </a>
-                    <span class="forum-count">{{ item.num_forums }} Forums</span>
-                </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No users found.</p>
+    <div class="dir-search__panel">
+      <form class="dir-search__bar" method="get" action="{% url 'account:account_list' %}" role="search" aria-label="Search contributors by username">
+        <div class="dir-search__field-block">
+          <label class="dir-search__label" for="id_q">Username</label>
+          <div class="dir-search__field">
+            <i class="bx bx-search dir-search__field-icon" aria-hidden="true"></i>
+            {{ search.q }}
+            <input type="hidden" name="s" value="{{ sort_value }}">
+            <input type="hidden" name="page" value="1">
+          </div>
+          {% if search.q.errors %}
+          <div class="dir-search__field-errors">{{ search.q.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="dir-search__submit-wrap">
+          <button type="submit" class="dir-search__submit">
+            <span>Search</span>
+            <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+          </button>
+        </div>
+      </form>
+
+      <div class="dir-search__panel-divider" aria-hidden="true"></div>
+
+      <nav class="dir-search__sort" aria-label="Sort order">
+        <span class="dir-search__sort-head">
+          <i class="bx bx-sort" aria-hidden="true"></i>
+          <span class="dir-search__sort-label">Sort by</span>
+        </span>
+        <div class="dir-search__sort-links">
+          <a href="{% url 'account:account_list' %}{{ qs_sort_az }}" class="dir-search__sort-link{% if sort_value == '0' %} is-active{% endif %}">A–Z</a>
+          <a href="{% url 'account:account_list' %}{{ qs_sort_za }}" class="dir-search__sort-link{% if sort_value == '1' %} is-active{% endif %}">Z–A</a>
+          <a href="{% url 'account:account_list' %}{{ qs_sort_forums_hi }}" class="dir-search__sort-link{% if sort_value == '2' %} is-active{% endif %}">Most forums</a>
+          <a href="{% url 'account:account_list' %}{{ qs_sort_forums_lo }}" class="dir-search__sort-link{% if sort_value == '3' %} is-active{% endif %}">Fewest forums</a>
+        </div>
+      </nav>
+    </div>
+
+    <section class="dir-search__results" aria-labelledby="dir-results-heading">
+      <div class="dir-search__results-card">
+        <div class="dir-search__results-head">
+          <h2 id="dir-results-heading" class="dir-search__results-title">Members</h2>
+          <p class="dir-search__results-meta">
+            <span class="dir-search__results-stat">{{ page_obj.paginator.count }} member{{ page_obj.paginator.count|pluralize }}</span>
+            {% if page_obj.paginator.count and page_obj.paginator.num_pages > 1 %}
+            <span class="dir-search__results-meta-sep" aria-hidden="true">·</span>
+            <span>Rows {{ page_obj.start_index }}–{{ page_obj.end_index }}</span>
+            {% endif %}
+          </p>
+        </div>
+
+        {% if page_obj.paginator.count %}
+        <div class="dir-search__list-head" aria-hidden="true">
+          <span class="dir-search__list-head-col dir-search__list-head-col--user">Member</span>
+          <span class="dir-search__list-head-col dir-search__list-head-col--meta">Forums</span>
+        </div>
+
+        <ul class="dir-search__list" role="list">
+          {% for item in page_obj %}
+          <li>
+            <a class="dir-search__row" href="{{ item.get_absolute_url }}">
+              <span class="dir-search__avatar" aria-hidden="true">{{ item.user.username|slice:"0:1"|upper }}</span>
+              <span class="dir-search__name">{{ item.user.username }}</span>
+              <span class="dir-search__count">{{ item.num_forums }} forum{{ item.num_forums|pluralize }}</span>
+              <span class="dir-search__row-go" aria-hidden="true"><i class="bx bx-chevron-right"></i></span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav class="dir-search__pager" aria-label="Pages">
+          {% if page_obj.has_previous %}
+          <a class="dir-search__pager-link" href="{% url 'account:account_list' %}{{ qs_prev }}"><i class="bx bx-chevron-left" aria-hidden="true"></i> Previous</a>
+          {% else %}
+          <span class="dir-search__pager-link is-disabled"><i class="bx bx-chevron-left" aria-hidden="true"></i> Previous</span>
+          {% endif %}
+          <span class="dir-search__pager-pos">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+          {% if page_obj.has_next %}
+          <a class="dir-search__pager-link" href="{% url 'account:account_list' %}{{ qs_next }}">Next <i class="bx bx-chevron-right" aria-hidden="true"></i></a>
+          {% else %}
+          <span class="dir-search__pager-link is-disabled">Next <i class="bx bx-chevron-right" aria-hidden="true"></i></span>
+          {% endif %}
+        </nav>
         {% endif %}
+
+        {% else %}
+        <div class="dir-search__empty" role="status">
+          {% if search_query %}
+          <span class="dir-search__empty-icon" aria-hidden="true"><i class="bx bx-search-alt"></i></span>
+          <p class="dir-search__empty-title">No usernames contain “{{ search_query }}”.</p>
+          <p class="dir-search__empty-text"><a href="{% url 'account:account_list' %}{{ qs_clear_search }}">Remove the filter</a> or try different letters.</p>
+          {% else %}
+          <span class="dir-search__empty-icon" aria-hidden="true"><i class="bx bx-group"></i></span>
+          <p class="dir-search__empty-title">No one is listed yet.</p>
+          <p class="dir-search__empty-text">When forums are approved and visible, their authors appear here.</p>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
     </section>
+  </div>
 </div>
-
-<!-- Optional: Add styles for better appearance -->
-<style>
-/* ============================
-   ACCESSIBILITY HELPERS
-============================ */
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* ============================
-   SEARCH FORM
-============================ */
-.search-form {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 25px;
-    padding: 15px;
-    background: #fff;
-    border-radius: 10px;
-    border: 1px solid var(--gray-border);
-    box-shadow: var(--shadow-soft);
-}
-
-/* Style Django form fields */
-.search-form input,
-.search-form select {
-    padding: 0.7em;
-    border-radius: 8px;
-    border: 1px solid var(--gray-border);
-    width: 100%;
-    font-size: 15px;
-}
-
-/* Search button */
-#search-btn {
-    background-color: var(--gold);
-    color: var(--blue);
-    padding: 0.7em 1.2em;
-    border-radius: 8px;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.25s ease,
-                transform 0.15s ease,
-                box-shadow 0.2s ease;
-    box-shadow: var(--shadow-soft);
-}
-
-#search-btn:hover {
-    background-color: var(--gold-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-}
-
-/* ============================
-   USER LIST
-============================ */
-.user-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.user-item {
-    padding: 15px 12px;
-    border-bottom: 1px solid var(--gray-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fff;
-    transition: background-color 0.25s ease;
-}
-
-.user-item:hover {
-    background-color: var(--gray-light);
-}
-
-/* Username link */
-.user-link {
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--blue);
-    transition: color 0.25s ease;
-}
-
-.user-link:hover {
-    color: var(--gold-hover);
-}
-
-/* Forum count badge */
-.forum-count {
-    font-size: 14px;
-    color: #555;
-    background: var(--gray-light);
-    padding: 4px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--gray-border);
-}
-
-/* ============================
-   RESPONSIVE DESIGN
-============================ */
-@media(max-width: 600px) {
-    .search-form {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .user-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-    }
-}
-</style>
-
 {% endblock accountFunc %}

@@ -11,15 +11,24 @@ class SearchAccountForm(forms.Form):
         ('3','# of forums, low-high'),
     )
     q = forms.CharField(
-        label='Search',
+        label='Search by name',
         max_length=100,
         required=False,
-        widget=forms.TextInput({"Placeholder": "Search..."})
+        widget=forms.TextInput(
+            attrs={
+                "class": "contrib-search-input cc-field-input",
+                "placeholder": "Type part of a username…",
+                "autocomplete": "off",
+                "inputmode": "search",
+                "enterkeyhint": "search",
+            }
+        ),
     )
-    s = forms.CharField(
-        label='Sort By',
-        widget=forms.Select(choices=CHOICES),
-        required=False
+    s = forms.ChoiceField(
+        label='Sort by',
+        choices=CHOICES,
+        required=False,
+        widget=forms.Select(attrs={"class": "contrib-search-select cc-field-input cc-field-input--select"}),
     )
 
 class CreateAccountForm(UserCreationForm):
