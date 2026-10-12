@@ -103,7 +103,6 @@
 
 [2.1.7   Logo Display	10](#217---logo-display-217-logo-display)
 
-**CHECK THIS LINK**
 [2.1.7.1 Logo on Every Page	10](#2171-logo-on-every-page-2171-logo-on-every-page)
 
 [2.2  Website Functionality	11](#22--website-functionality-22-website-functionality)
