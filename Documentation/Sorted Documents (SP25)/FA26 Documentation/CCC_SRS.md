@@ -7,197 +7,205 @@
 
 [1\.  Introduction	5](#1--introduction-1-introduction)
 
-[1.1 Purpose	5](#1.1-purpose)
+[1.1 Purpose	5](#11-purpose-11-purpose)
 
-[1.2 Scope	5](#1.2-scope)
+[1.2 Scope	5](#12-scope-12-scope)
 
-[1.3 Definitions, Acronyms, and Abbreviations	6](#1.3-definitions,-acronyms,-and-abbreviations)
+[1.3 Definitions, Acronyms, and Abbreviations	6](#13-definitions-acronyms-and-abbreviations-13-definitions-acronyms-and-abbreviations)
 
-[1.4 Document References	6](#1.4-document-references)
+[1.4 Document References	6](#14-document-references-14-document-references)
 
-[1.5 System Overview	6](#1.5-system-overview)
+[1.5 System Overview	6](#15-system-overview-15-system-overview)
 
-[2\. Functional Description	7](#2.-functional-description)
+[2\. Functional Description	7](#2-functional-description-2-functional-description)
 
-[2.1 Website Display	7](#2.1-website-display)
+[2.1 Website Display	7](#21website-display-21-website-display)
 
-[2.1.1   Homepage	7](#2.1.1-homepage)
+[2.1.1   Homepage	7](#211---homepage--211-homepage)
 
-[2.1.1.1  World Map Outline	7](#2.1.1.1-world-map-outline)
+[2.1.1.1  World Map Outline	7](#2111--world-map-outline-2111-world-map-outline)
 
-[2.1.1.2  World Map Filter	7](#2.1.1.2-world-map-filter)
+[2.1.1.2  World Map Filter	7](2112--world-map-filter-2112-world-map-filter)
 
-[2.1.1.3  World Map Scope	7](#2.1.1.3-world-map-scope)
+[2.1.1.3  World Map Scope	7](#2113--world-map-scope-2113-world-map-scope)
 
-[2.1.1.4  Map Pins	7](#2.1.1.4-map-pins)
+[2.1.1.4  Map Pins	7](#2114--map-pins-2114-map-pins)
 
-[2.1.1.5  Map Pin Color	7](#2.1.1.5-map-pin-color)
+[2.1.1.5  Map Pin Color	7](#2115--map-pin-color-2115-map-pin-color)
 
-[2.1.1.6  Descriptive Info	7](#2.1.1.6-descriptive-info)
+[2.1.1.6  Descriptive Info	7](#2116--descriptive-info-2116-descriptive-info)
 
-[2.1.1.7  Full Screen Option	7](#2.1.1.7-full-screen-option)
+[2.1.1.7  Full Screen Option	7](#2117--full-screen-option-2117-full-screen-option)
 
-[2.1.1.8   Logo Display	7](#2.1.1.8-logo-display)
+[2.1.1.8   Logo Display	7](#2118---logo-display-2118-logo-display)
 
-[2.1.2    Contributor Page Display	7](#2.1.2-contributor-page-display)
+[2.1.2    Contributor Page Display	7](#212----contributor-page-display-212-contributor-page-display)
 
-[2.1.2.1  Contributor Login Button	7](#2.1.2.1-contributor-login-button)
+[2.1.2.1  Contributor Login Button	7](#2121--contributor-login-button-2121-contributor-login-button)
 
-[2.1.2.2  Contributor Sign up Button	8](#2.1.2.2-contributor-sign-up-button)
+[2.1.2.2  Contributor Sign up Button	8](#2122--contributor-sign-up-button-2122-contributor-sign-up-button)
 
-[2.1.2.3  Contributor Search Alphabet Display	8](#2.1.2.3-contributor-search-alphabet-display)
+[2.1.2.3  Contributor Search Alphabet Display	8](#2123--contributor-search-alphabet-display-2123-contributor-search-alphabet-display)
 
-[2.1.2.4  Contributor Search Bar Display	8](#2.1.2.4-contributor-search-bar-display)
+[2.1.2.4  Contributor Search Bar Display	8](#2124--contributor-search-bar-display-2124-contributor-search-bar-display)
 
-[2.1.2.5  Contributor List	8](#2.1.2.5-contributor-list)
+[2.1.2.5  Contributor List	8](#2125--contributor-list-2125-contributor-list)
 
-[2.1.2.6 View More Button	8](#2.1.2.6-view-more-button)
+[2.1.2.6 View More Button	8](#2126-view-more-button-2126-view-more-button)
 
-[2.1.3    Help/Tutorial Page	8](#2.1.3-help/tutorial-page)
+[2.1.3    Help/Tutorial Page	8](#213----helptutorial-page-213-helptutorial-page)
 
-[2.1.3.1 Frequently Asked Questions	8](#2.1.3.1-frequently-asked-questions)
+[2.1.3.1 Frequently Asked Questions	8](#2131-frequently-asked-questions-2131-frequently-asked-questions)
 
-[2.1.3.2 Map Animation	8](#2.1.3.2-map-animation)
+[2.1.3.2 Map Animation	8](#2132-map-animation-2132-map-animation)
 
-[2.1.3.3 Tutorial Explaining how to use website	8](#2.1.3.3-tutorial-explaining-how-to-use-website)
+[2.1.3.3 Tutorial Explaining how to use website	8](#2133-tutorial-explaining-how-to-use-website-2133-tutorial-explaining-how-to-use-website)
 
-[2.1.3.4   Logo Display	8](#2.1.3.4-logo-display)
+[2.1.3.4   Logo Display	8](#2134---logo-display-2134-logo-display)
 
-[2.1.4    About Page Display	9](#2.1.4-about-page-display)
+[2.1.4    About Page Display	9](#214----about-page-display-214-about-page-display)
 
-[2.1.4.1 Mission Statement	9](#2.1.4.1-mission-statement)
+[2.1.4.1 Mission Statement	9](#2141-mission-statement-2141-mission-statement)
 
-[2.1.4.2 Outline Company Story	9](#2.1.4.2-outline-company-story)
+[2.1.4.2 Outline Company Story	9](#2142-outline-company-story-2142-outline-company-story)
 
-[2.1.4.3 Explain who is involved in the project	9](#2.1.4.3-explain-who-is-involved-in-the-project)
+[2.1.4.3 Explain who is involved in the project	9](#2143-explain-who-is-involved-in-the-project-2143-explain-who-is-involved-in-the-project)
 
-[2.1.4.4 Explain whom you serve	9](#2.1.4.4-explain-whom-you-serve)
+[2.1.4.4 Explain whom you serve	9](#2144-explain-whom-you-serve-2144-explain-whom-you-serve)
 
-[2.1.4.5   Logo Display	9](#2.1.4.5-logo-display)
+[2.1.4.5   Logo Display	9](#2145---logo-display-2145-logo-display)
 
-[2.1.5    Admin Page	9](#2.1.5-admin-page)
+[2.1.5    Admin Page	9](#215----admin-page-215-admin-page)
 
-[2.1.5.1 Admin Account Requests	9](#2.1.5.1-admin-account-requests)
+[2.1.5.1 Admin Account Requests	9](#2151-admin-account-requests-2151-admin-account-requests)
 
-[2.2.5.2  Admin User Request Page	9](#2.2.5.2-admin-user-request-page)
+[2.2.5.2  Admin User Request Page	9](#2252--admin-user-request-page-2252-admin-user-request-page)
 
-[2.1.5.3 Upload Requests	9](#2.1.5.3-upload-requests)
+[2.1.5.3 Upload Requests	9](#2153-upload-requests-2153-upload-requests)
 
-[2.1.5.4 Current Users	10](#2.1.5.4-current-users)
+[2.1.5.4 Pending Users	10](#2154-pending-users-2154-pending-users)
 
-[2.1.5.5 Current Users	10](#2.1.5.5-current-users)
+[2.1.5.5 Current Users	10](#2155-current-users-2155-current-users)
 
-[2.2.5.6  Account Deletion	10](#2.2.5.6-account-deletion)
+[2.2.5.6  Account Deletion	10](#2256--account-deletion-2256-account-deletion)
 
-[2.2.5.7  Account Edit	10](#2.2.5.7-account-edit)
+[2.2.5.7  Account Edit	10](#2257--account-edit-2257-account-edit)
 
-[2.1.5.8 Admin Add a Filter	10](#2.1.5.8-admin-add-a-filter)
+[2.1.5.8 Admin Add a Filter	10](#2158-admin-add-a-filter-2158-admin-add-a-filter)
 
-[2.1.6 Contact Us Page	10](#2.1.6-contact-us-page)
+[2.1.6 Contact Us Page	10](#216contact-us-page-216-contact-us-page)
 
-[2.1.6.1 Name Field	10](#2.1.6.1-name-field)
+[2.1.6.1 Name Field	10](#2161-name-field-2161-name-field)
 
-[2.1.6.2 Email Field	10](#2.1.6.2-email-field)
+[2.1.6.2 Email Field	10](#2162-email-field-2162-email-field)
 
-[2.1.7   Logo Display	10](#2.1.7-logo-display)
+**THIS NEEDS PROPER LINK**
+[2.1.6.3 Message Field 10](#2163-message-field-2163-message-field)
 
-[2.1.7.1 Name Field	10](#2.1.7.1-name-field)
+[2.1.7   Logo Display	10](#217---logo-display-217-logo-display)
 
-[2.2  Website Functionality	11](#2.2-website-functionality)
+[2.1.7.1 Name Field	10](#2171-name-field-2171-name-field)
 
-[2.2.1  User Upload Submission	11](#2.2.1-user-upload-submission)
+[2.2  Website Functionality	11](#22--website-functionality-22-website-functionality)
 
-[2.2.1.1  Title	11](#2.2.1.1-title)
+[2.2.1  User Upload Submission	11](##221--user-upload-submission--221-user-upload-submission)
 
-[2.2.1.2 Name	11](#2.2.1.2-name)
+[2.2.1.1  Title	11](#2211--title-2211-title)
 
-[2.2.1.3  Location	11](#2.2.1.3-location)
+[2.2.1.2 Name	11](#2212-name-2212-name)
 
-[2.2.1.4 Content Description	11](#2.2.1.4-content-description)
+[2.2.1.3  Location	11](#2213--location-2213-location)
 
-[2.2.1.5  Audio/Visual Content	11](#2.2.1.5-audio/visual-content)
+[2.2.1.4 Content Description	11](#2214-content-description--2214-content-description)
 
-[2.2.2  Map Functionality	11](#2.2.2-map-functionality)
+[2.2.1.5  Audio/Visual Content	11](#2215--audiovisual-content-2215-audiovisual-content)
 
-[2.2.2.1  Submission Filter	11](#2.2.2.1-submission-filter)
+[2.2.2  Map Functionality	11](#222--map-functionality-222-map-functionality)
 
-[2.2.2.2  Filter Tab	11](#2.2.2.2-filter-tab)
+[2.2.2.1  Submission Filter	11](#2221--submission-filter-2221-submission-filter)
 
-[2.2.3  Administrator Features	11](#2.2.3-administrator-features)
+[2.2.2.2  Filter Tab	11](#2222--filter-tab-2222-filter-tab)
 
-[2.2.3.1  Upload Approval Process	11](#2.2.3.1-upload-approval-process)
+[2.2.3  Administrator Features	11](#223--administrator-features-223-administrator-features)
 
-[2.2.3.2  Upload Approval Process Notification	11](#2.2.3.2-upload-approval-process-notification)
+[2.2.3.1  Upload Approval Process	11](#2231--upload-approval-process-2231-upload-approval-process)
 
-[2.2.3.3  Upload Rejection Process	11](#2.2.3.3-upload-rejection-process)
+[2.2.3.2  Upload Approval Process Notification	11](#2232--upload-approval-process-notification-2232-upload-approval-process-notification)
 
-[2.2.3.4  Upload Rejection Process Notification	12](#2.2.3.4-upload-rejection-process-notification)
+[2.2.3.3  Upload Rejection Process	11](#2233--upload-rejection-process-2233-upload-rejection-process)
 
-[2.2.3.5  Account Search	12](#2.2.3.5-account-search)
+[2.2.3.4  Upload Rejection Process Notification	12](#2234--upload-rejection-process-notification-2234-upload-rejection-process-notification)
 
-[2.2.3.6  Account Deletion	12](#2.2.3.6-account-deletion)
+[2.2.3.5  Account Search	12](#2235--account-search-2235-account-search)
 
-[2.2.4  Contributor Features	12](#2.2.4-contributor-features)
+[2.2.3.6  Account Deletion	12](#2236--account-deletion-2236-account-deletion)
 
-[2.2.4.1  Contributor Login Button	12](#2.2.4.1-contributor-login-button)
+[2.2.4  Contributor Features	12](#224--contributor-features-224-contributor-features)
 
-[2.2.4.2  Contributor Sign up Button	12](#2.2.4.2-contributor-sign-up-button)
+[2.2.4.1  Contributor Login Button	12](#2241--contributor-login-button-2241-contributor-login-button)
 
-[2.2.4.3  Contributor Search Alphabet Display	12](#2.2.4.3-contributor-search-alphabet-display)
+[2.2.4.2  Contributor Sign up Button	12](#2242--contributor-sign-up-button-2242-contributor-sign-up-button)
 
-[2.2.4.4  Contributor Search Bar Display	12](#2.2.4.4-contributor-search-bar-display)
+[2.2.4.3  Contributor Search Alphabet Display	12](#2243--contributor-search-alphabet-display-2243-contributor-search-alphabet-display)
 
-[2.2.4.5  Contributor List	12](#2.2.4.5-contributor-list)
+[2.2.4.4  Contributor Search Bar Display	12](#2244--contributor-search-bar-display-2244-contributor-search-bar-display)
 
-[2.2.4.6  User Accessibility	12](#2.2.4.6-user-accessibility)
+[2.2.4.5  Contributor List	12](#2245--contributor-list-2245-contributor-list)
 
-[2.2.4.7  User Submissions	12](#2.2.4.7-user-submissions)
+[2.2.4.6  User Accessibility	12](#2246--user-accessibility-2246-user-accessibility)
 
-[2.2.5  Integration Features	13](#2.2.5-integration-features)
+[2.2.4.7  User Submissions	12](#2247--user-submissions-2247-user-submissions)
 
-[2.2.5.1  Integration with External Systems	13](#2.2.5.1-integration-with-external-systems)
+[2.2.5  Integration Features	13](#225--integration-features-225-integration-features)
 
-[2.2.6  Website Menu Taskbar	13](#2.2.6-website-menu-taskbar)
+[2.2.5.1  Integration with External Systems	13](#2251--integration-with-external-systems-2251-integration-with-external-systems)
 
-[2.2.6.1  Homepage Menu Display	13](#2.2.6.1-homepage-menu-display)
+[2.2.6  Website Menu Taskbar	13](#226--website-menu-taskbar-226-website-menu-taskbar)
 
-[2.2.7  Project Display	13](#2.2.7-project-display)
+[2.2.6.1  Homepage Menu Display	13](#2261--homepage-menu-display-2261-homepage-menu-display)
 
-[2.2.7.1 Project Selection	13](#2.2.7.1-project-selection)
+[2.2.7  Project Display	13](#227--project-display-227-project-display)
 
-[2.2.8 Contact us Page	13](#2.2.8-contact-us-page)
+[2.2.7.1 Project Selection	13](#2271-project-selection-2271-project-selection)
 
-[2.2.8.1 Name Field	13](#2.2.8.1-name-field)
+[2.2.8 Contact us Page	13](#228-contact-us-page-228-contact-us-page)
 
-[2.2.8.2 Email Field	13](#2.2.8.2-email-field)
+[2.2.8.1 Name Field	13](#2281-name-field-2281-name-field)
 
-[3\.  System Requirements	13](#3.-system-requirements)
+[2.2.8.2 Email Field	13](#2282-email-field-2282-email-field)
 
-[3.1  Hardware Requirements	13](#3.1-hardware-requirements)
+**FOLLOWING TWO NEED LINKS**
+[2.2.8.3 Message Field	13](#2283-message-field-2283-message-field)
+[2.2.8.4 Send	13](#2284-send-2284-send)
+**MAKE SURE YOU LOOK AT THESE TWO**
 
-[3.1.1  Compatibility With Computer Hardware	13](#3.1.1-compatibility-with-computer-hardware)
+[3\.  System Requirements	13](#3--system-requirements-3-system-requirements)
 
-[3.1.2  Compatibility With Mobile Hardware	14](#3.1.2-compatibility-with-mobile-hardware)
+[3.1  Hardware Requirements	13](#31--hardware-requirements-31-hardware-requirements)
 
-[3.1.3  Required Hardware for User Input	14](#3.1.3-required-hardware-for-user-input)
+[3.1.1  Compatibility With Computer Hardware	13](#311--compatibility-with-computer-hardware-311-compatibility-with-computer-hardware)
 
-[3.2  Software Requirements	14](#3.2-software-requirements)
+[3.1.2  Compatibility With Mobile Hardware	14](#312--compatibility-with-mobile-hardware-312-compatibility-with-mobile-hardware)
 
-[3.2.1  Computer Software Compatibility	14](#3.2.1-computer-software-compatibility)
+[3.1.3  Required Hardware for User Input	14](#313--required-hardware-for-user-input-313-required-hardware-for-user-input)
 
-[3.2.2  Mobile Software Compatibility	14](#3.2.2-mobile-software-compatibility)
+[3.2  Software Requirements	14](#32--software-requirements-32-software-requirements)
 
-[4\. Interfaces	14](#4.-interfaces)
+[3.2.1  Computer Software Compatibility	14](#321--computer-software-compatibility-321-computer-software-compatibility)
 
-[4.1  Standalone Program	14](#4.1-standalone-program)
+[3.2.2  Mobile Software Compatibility	14](#322--mobile-software-compatibility-322-mobile-software-compatibility)
 
-[5\. Performance	14](#5.-performance)
+[4\. Interfaces	14](#4-interfaces-4-interfaces)
 
-[6\. Delivery	14](#6.-delivery)
+[4.1  Standalone Program	14](#41--standalone-program-41-standalone-program)
 
-[6.1 Website Delivery	14](#6.1-website-delivery)
+[5\. Performance	14](#5-performance-5-performance)
 
-[7\.  Miscellaneous	14](#7.-miscellaneous)
+[6\. Delivery	14](#6-delivery-6-delivery)
+
+[6.1 Website Delivery	14](#61-website-delivery--61-website-delivery)
+
+[7\.  Miscellaneous	14](#7--miscellaneous-7-miscellaneous)
 
 **Revision History**
 
@@ -262,7 +270,7 @@ The website map shall feature basic markers to show uploaded projects.
 
 ##### 2.1.1.5  Map Pin Color {#2.1.1.5-map-pin-color}
 
-		The website map shall give each pin a specific color to represent the project type. 
+The website map shall give each pin a specific color to represent the project type. 
 
 ##### 2.1.1.6  **Descriptive I**n**fo** {#2.1.1.6-descriptive-info}
 
@@ -280,13 +288,13 @@ There shall be a logo provided either by the Research & Development team that is
 
 #### 2.1.2.1  Contributor Login Button {#2.1.2.1-contributor-login-button}
 
-		There shall be a login button labeled “Contributor Login” at the top of the page.
+There shall be a login button labeled “Contributor Login” at the top of the page.
 
 #### 2.1.2.2  Contributor Sign up Button {#2.1.2.2-contributor-sign-up-button}
 
 There shall be a sign up button labeled “Contributor Sign Up” at the top of the page accompanied by a description about what it means to be a contributor (“Do you want to contribute?”)
 
-#### **2.1.**2.3  **Contributor Search Alphabet Display** {#2.1.2.3-contributor-search-alphabet-display}
+#### **2.1.2.3  Contributor Search Alphabet Display** {#2.1.2.3-contributor-search-alphabet-display}
 
 There shall be a navigator function at the top of the page listing the alphabet to navigate to the contributors starting with that letter. 
 
@@ -360,7 +368,7 @@ The “User Requests” section shall have an option to “accept” or “rejec
 
 There shall be a section labeled “Upload Requests” which will list the current pending upload requests to the map.
 
-#### 2.1.5.4 Current Users {#2.1.5.4-current-users}
+#### 2.1.5.4 Pending Users {#2.1.5.4-pending-users}
 
 There shall be a section labeled “Current Users” which will list the current pending users requesting access to a contributor account.
 
@@ -378,7 +386,7 @@ For each account listed within the section “Current Users”, there shall be a
 
 #### 2.1.5.8 Admin Add a Filter {#2.1.5.8-admin-add-a-filter}
 
-		There shall be a button on the admin page labeled “Add a Filter”. Which will allow admins to   
+There shall be a button on the admin page labeled “Add a Filter”. Which will allow admins to   
 add a new filter option that organizations can apply to content that they upload.     
 		
 
@@ -386,14 +394,14 @@ add a new filter option that organizations can apply to content that they upload
 
 #### 	**2.1.6.1** Name Field {#2.1.6.1-name-field}
 
-		The website page shall have a section that allows users to add their names.
+The website page shall have a section that allows users to add their names.
 
 #### 2.1.6.2 Email Field {#2.1.6.2-email-field}
 
-		The website page shall feature a field that allows the user to add their email address.
+The website page shall feature a field that allows the user to add their email address.
 
-		**2.1.6.3 Message Field**  
-		The website page shall feature a field that allows users to submit messages.
+#### **2.1.6.3 Message Field**  {#2.1.6.3-message-field}
+The website page shall feature a field that allows users to submit messages.
 
 ### 2.1.7   Logo Display {#2.1.7-logo-display}
 
@@ -478,7 +486,7 @@ After clicking on the “Alphabet Display” function, the user shall be able to
 
 #### 2.2.4.4  Contributor Search Bar Display {#2.2.4.4-contributor-search-bar-display}
 
-		The user shall be able to navigate specific contributors by clicking on the search bar feature.
+The user shall be able to navigate specific contributors by clicking on the search bar feature.
 
 #### 
 
@@ -524,11 +532,11 @@ The user shall be able to add their names to the featured section after clicking
 
 The user shall be allowed to enter their email address to the featured field.
 
-**2.2.8.3 Message Field**  
-The user shall be allowed to send messages on the message field. 
+#### **2.2.8.3 Message Field**  {#2.2.8.3-message-field}
+The user shall be allowed to type messages on the message field. 
 
-**2.2.8.4 Send**   
-The user shall be allowed left-click on the “send” button to send the message to the admin.  
+#### **2.2.8.4 Send**   {#2.2.8.4-send}
+The user shall be allowed to left-click on the “send” button to send the message to the admin.  
                   
 
 # **3\.  System Requirements** {#3.-system-requirements}
