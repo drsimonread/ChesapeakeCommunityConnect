@@ -5,7 +5,7 @@
 
 **Table of Contents**
 
-[1\.  Introduction	5](#1.-introduction)
+[1\.  Introduction	5]
 
 [1.1 Purpose	5](#1.1-purpose)
 
