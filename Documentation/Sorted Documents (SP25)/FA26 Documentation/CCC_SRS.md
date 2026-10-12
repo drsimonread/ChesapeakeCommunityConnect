@@ -25,7 +25,7 @@
 
 [2.1.1.1  World Map Outline	7](#2111--world-map-outline-2111-world-map-outline)
 
-[2.1.1.2  World Map Filter	7](2112--world-map-filter-2112-world-map-filter)
+[2.1.1.2  World Map Filter	7](#2112--world-map-filter-2112-world-map-filter)
 
 [2.1.1.3  World Map Scope	7](#2113--world-map-scope-2113-world-map-scope)
 
@@ -99,16 +99,16 @@
 
 [2.1.6.2 Email Field	10](#2162-email-field-2162-email-field)
 
-**THIS NEEDS PROPER LINK**
-[2.1.6.3 Message Field 10](#2163-message-field-2163-message-field)
+[2.1.6.3 Message Field 10](#2163-message-field--2163-message-field)
 
 [2.1.7   Logo Display	10](#217---logo-display-217-logo-display)
 
-[2.1.7.1 Name Field	10](#2171-name-field-2171-name-field)
+**CHECK THIS LINK**
+[2.1.7.1 Logo on Every Page	10](#2171-logo-on-every-page-2171-logo-on-every-page)
 
 [2.2  Website Functionality	11](#22--website-functionality-22-website-functionality)
 
-[2.2.1  User Upload Submission	11](##221--user-upload-submission--221-user-upload-submission)
+[2.2.1  User Upload Submission	11](#221--user-upload-submission--221-user-upload-submission)
 
 [2.2.1.1  Title	11](#2211--title-2211-title)
 
@@ -174,10 +174,9 @@
 
 [2.2.8.2 Email Field	13](#2282-email-field-2282-email-field)
 
-**FOLLOWING TWO NEED LINKS**
-[2.2.8.3 Message Field	13](#2283-message-field-2283-message-field)
-[2.2.8.4 Send	13](#2284-send-2284-send)
-**MAKE SURE YOU LOOK AT THESE TWO**
+[2.2.8.3 Message Field	13](#2283-message-field--2283-message-field)
+
+[2.2.8.4 Send	13](#2284-send---2284-send)
 
 [3\.  System Requirements	13](#3--system-requirements-3-system-requirements)
 
@@ -405,7 +404,7 @@ The website page shall feature a field that allows users to submit messages.
 
 ### 2.1.7   Logo Display {#2.1.7-logo-display}
 
-#### 2.1.7.1 Name Field {#2.1.7.1-name-field}
+#### 2.1.7.1 Logo on Every Page {#2.1.7.1-logo-on-every-page}
 
 There shall be a St. Mary’s College of MD  logo provided by the Research & Development team that is displayed on the bottom right side of every page.
 
@@ -425,7 +424,7 @@ The submission form shall require the user to enter a first name and last name f
 
 The submission form shall require the user to enter an address to be associated with the uploaded content. 
 
-##### **2.2.1.**4 **Content Description**  {#2.2.1.4-content-description}
+##### 2.2.1.4 **Content Description**  {#2.2.1.4-content-description}
 
 The submission form shall require the user to describe the content that is being submitted. 
 
