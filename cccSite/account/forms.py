@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Member  # make sure this import is here
+from .models import MapTag
 
 class SearchAccountForm(forms.Form):
     CHOICES = (

@@ -1,0 +1,8 @@
+
+# Python virtual environments
+venv/
+venv_old/
+
+# Python generated files
+__pycache__/
+*.py[cod]

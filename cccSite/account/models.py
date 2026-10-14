@@ -1,107 +1,142 @@
+
 from django import forms
 from django.db import models
 from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Textarea
 from django.urls import reverse
-from .storage import OverwriteStorage
 from django.utils.translation import gettext_lazy as _
 
+from .storage import OverwriteStorage
 
-#function used for saving images
-def user_directory_profile(instance, filename): 
-    # file will be uploaded to MEDIA_ROOT / users / <pk> / profile.<ext>
-    ext = filename.split('.')[-1]
-    filename="profile."+ext
-    return 'users/{0}/{1}'.format(instance.pk, filename) 
 
-# user model. self explanitory
+def user_directory_profile(instance, filename):
+    """Store profile images under users/<member-id>/profile.<extension>."""
+    ext = filename.rsplit(".", 1)[-1] if "." in filename else "png"
+    return f"users/{instance.pk}/profile.{ext}"
+
+
 class Member(models.Model):
-    name = models.CharField(max_length=35, )
-    ranking_options = { 
-        (-1,"banned"),
-        (1 , "member"),
-        (2 , "trusted member"),
-        (98 , "moderator"),
-        (99 , "admin"),
-    }
-    ranking = models.SmallIntegerField(default=1, choices=ranking_options)
-    # created = models.DateTimeField(auto_now=False, auto_now_add=True)
-    # email = models.EmailField()
-    pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
-    about = models.TextField(blank=True, default="")
-    
-    class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+    RANKING_CHOICES = (
+        (-1, "banned"),
+        (1, "member"),
+        (2, "trusted member"),
+        (98, "moderator"),
+        (99, "admin"),
+    )
 
-   #location
+    name = models.CharField(max_length=35)
+    ranking = models.SmallIntegerField(
+        default=1,
+        choices=RANKING_CHOICES,
+    )
+    pic = models.ImageField(
+        upload_to=user_directory_profile,
+        storage=OverwriteStorage(),
+        default="default/blankprof.png",
+    )
+    about = models.TextField(blank=True, default="")
+
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
+
     def __str__(self):
         return self.name
-    @property
+
     def get_absolute_url(self):
         return reverse("account:account_view", args=[str(self.pk)])
-    @property
+
     def get_admin_url(self):
         return reverse("Janitor:manage_user", args=[str(self.pk)])
-    #https://stackoverflow.com/questions/3715103/password-field-in-django-model/3715382#3715382 for making own password
 
 
-# when user logs in with google, check the given google ID against this and then authenticate as user that is pointed to
-# same pattern can be used to implement other log in methods
 class GLogIn(models.Model):
     googleID = models.CharField(max_length=255, unique=True)
-    referTo = models.ForeignKey(Member, on_delete = models.CASCADE)
+    referTo = models.ForeignKey(Member, on_delete=models.CASCADE)
+
     def __str__(self):
-        return self.googleID + "|" + str(self.referTo)
+        return f"{self.googleID}|{self.referTo}"
+
 
 class ManageForm(ModelForm):
     class Meta:
         model = Member
-        fields = ["pic", "name", "email", "about"]
-
+        fields = ["pic", "name", "about"]
         widgets = {
-            
-            'name': forms.TextInput(attrs={'class':'nameField'}),
-            'email':forms.EmailInput(attrs={'class':'emailField'}),
-            'about': forms.TextInput(attrs={'class':'aboutField'})
+            "name": TextInput(attrs={"class": "nameField"}),
+            "about": Textarea(attrs={"class": "aboutField"}),
         }
-        
 
 
 class UPLogIn(models.Model):
-    # MEMBER_DELETE
-    referTo = models.ForeignKey(Member, on_delete = models.CASCADE)
+    referTo = models.ForeignKey(Member, on_delete=models.CASCADE)
     username = models.CharField(max_length=35, unique=True)
     salt = models.CharField(max_length=22)
     password = models.CharField(max_length=50)
-    
+
     def __str__(self):
-        return self.username + " | " + self.referTo.name
+        return f"{self.username} | {self.referTo.name}"
 
 
-class AccountCreation(models.Model):    
+class AccountCreation(models.Model):
     email = models.EmailField()
     username = models.CharField(max_length=75)
     displayname = models.CharField(max_length=75)
     password = models.CharField(max_length=50)
     confirmpassword = models.CharField(max_length=50)
-    
+
     def __str__(self):
-        return self.email + " | " + self.username + " | " + self.displayname
-    
+        return f"{self.email} | {self.username} | {self.displayname}"
+
+
 class MessageForm(ModelForm):
     class Meta:
         model = AccountCreation
-        fields = ['email', 'username', 'displayname', 'password', 'confirmpassword']
+        fields = [
+            "email",
+            "username",
+            "displayname",
+            "password",
+            "confirmpassword",
+        ]
         labels = {
             "email": _("Email"),
             "username": _("Username"),
-            "displayname": _("Displayname"),
-            
+            "displayname": _("Display name"),
         }
         widgets = {
-            'email': EmailInput(attrs={'placeholder': 'Email address', 'class': 'input-text'}),
-            'username': TextInput(attrs={'placeholder': 'Username', 'class': 'input-text'}),
-            'displayname': TextInput(attrs={'placeholder': 'Displayname', 'class': 'input-text'}),
-            'password': PasswordInput(attrs={'placeholder': 'Password', 'class': 'input-text'}),
-            'confirmpassword': PasswordInput(attrs={'placeholder': 'Password', 'class': 'input-text'}),
+            "email": EmailInput(attrs={
+                "placeholder": "Email address",
+                "class": "input-text",
+            }),
+            "username": TextInput(attrs={
+                "placeholder": "Username",
+                "class": "input-text",
+            }),
+            "displayname": TextInput(attrs={
+                "placeholder": "Display name",
+                "class": "input-text",
+            }),
+            "password": PasswordInput(attrs={
+                "placeholder": "Password",
+                "class": "input-text",
+                "autocomplete": "new-password",
+            }),
+            "confirmpassword": PasswordInput(attrs={
+                "placeholder": "Confirm password",
+                "class": "input-text",
+                "autocomplete": "new-password",
+            }),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm = cleaned_data.get("confirmpassword")
+
+        if password and confirm and password != confirm:
+            self.add_error(
+                "confirmpassword",
+                _("Passwords do not match."),
+            )
+
+        return cleaned_data
