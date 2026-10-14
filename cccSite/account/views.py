@@ -10,6 +10,8 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.db import transaction
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_http_methods
 
 from .models import (
     Member,
@@ -276,6 +278,7 @@ def default(request):
 # LIST ACCOUNTS
 # ---------------------------------------------------------
 
+@require_http_methods(["GET"])
 def account_list(request):
     members = Member.objects.all().order_by("name")
 
@@ -416,4 +419,27 @@ def make_forum(request):
         request,
         "account/create_forum.html",
         {"form": content_form},
+    )
+
+    @require_http_methods(["GET"])
+def my_forums(request):
+    if request.session.get("rank", 0) == 0:
+        return redirect("account:signin")
+
+    member_id = request.session.get("user")
+
+    if not member_id:
+        request.session.flush()
+        return redirect("account:signin")
+
+    member = get_object_or_404(Member, pk=member_id)
+    posts = MapPost.objects.filter(author=member).order_by("-created")
+
+    return render(
+        request,
+        "account/myforums.html",
+        {
+            "member": member,
+            "posts": posts,
+        },
     )
