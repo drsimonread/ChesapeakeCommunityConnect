@@ -6,7 +6,7 @@ The Chesapeake Community Connection website serves as a hub for improving connec
 
 ## Training Documents
 
-Some [training documents](docs/index.md) for developers are available.
+Some [training documents](docs/00-start-here.md) for developers are available.
 
 ## Important Links
 
