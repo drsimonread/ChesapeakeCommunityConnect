@@ -1,3 +1,4 @@
+
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 
@@ -10,8 +11,6 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.db import transaction
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.http import require_http_methods
 
 from .models import (
     Member,
@@ -19,6 +18,7 @@ from .models import (
     ManageForm,
     MessageForm,
     UPLogIn,
+    AccountCreation,
 )
 
 from mapViewer.forms import MakePostForm
@@ -100,7 +100,7 @@ def google_signin(request):
                     )
             else:
                 # Do not automatically link an existing account
-                # just because its email matches Google's email.
+                # merely because its email matches Google's email.
                 user = User.objects.filter(username=email).first()
 
                 if user is None:
@@ -121,7 +121,10 @@ def google_signin(request):
 
             if member.ranking == -1:
                 return JsonResponse(
-                    {"success": False, "message": "This account is banned"},
+                    {
+                        "success": False,
+                        "message": "This account is banned",
+                    },
                     status=403,
                 )
 
@@ -134,7 +137,10 @@ def google_signin(request):
     except Exception:
         # Log the exception server-side when deploying.
         return JsonResponse(
-            {"success": False, "message": "Unable to complete sign-in"},
+            {
+                "success": False,
+                "message": "Unable to complete sign-in",
+            },
             status=500,
         )
 
@@ -289,7 +295,6 @@ def account_list(request):
     )
 
 
-
 # ---------------------------------------------------------
 # VIEW ONE ACCOUNT
 # ---------------------------------------------------------
@@ -421,7 +426,12 @@ def make_forum(request):
         {"form": content_form},
     )
 
-    @require_http_methods(["GET"])
+
+# ---------------------------------------------------------
+# VIEW MY FORUM POSTS
+# ---------------------------------------------------------
+
+@require_http_methods(["GET"])
 def my_forums(request):
     if request.session.get("rank", 0) == 0:
         return redirect("account:signin")
@@ -433,7 +443,10 @@ def my_forums(request):
         return redirect("account:signin")
 
     member = get_object_or_404(Member, pk=member_id)
-    posts = MapPost.objects.filter(author=member).order_by("-created")
+
+    posts = MapPost.objects.filter(
+        author=member
+    ).order_by("-created")
 
     return render(
         request,
@@ -443,3 +456,56 @@ def my_forums(request):
             "posts": posts,
         },
     )
+
+
+# ---------------------------------------------------------
+# AJAX USERNAME VALIDATION
+# ---------------------------------------------------------
+
+@require_http_methods(["GET"])
+def username_validation(request):
+    username = request.GET.get("username", "").strip()
+
+    if not username:
+        return JsonResponse({
+            "is_taken": False,
+            "error": "Username is required.",
+        })
+
+    if len(username) > 35:
+        return JsonResponse({
+            "is_taken": True,
+            "error": "Username must be 35 characters or fewer.",
+        })
+
+    is_taken = UPLogIn.objects.filter(
+        username=username
+    ).exists()
+
+    return JsonResponse({
+        "is_taken": is_taken,
+    })
+
+
+# ---------------------------------------------------------
+# AJAX EMAIL VALIDATION
+# ---------------------------------------------------------
+
+@require_http_methods(["GET"])
+def email_validation(request):
+    email = request.GET.get("email", "").strip().lower()
+
+    if not email:
+        return JsonResponse({
+            "is_taken": False,
+            "error": "Email is required.",
+        })
+
+    # AccountCreation stores the email used during signup.
+    is_taken = AccountCreation.objects.filter(
+        email__iexact=email
+    ).exists()
+
+    return JsonResponse({
+        "is_taken": is_taken,
+    })

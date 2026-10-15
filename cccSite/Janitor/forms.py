@@ -28,8 +28,8 @@ class PostRepForm(ModelForm):
             'post' : forms.HiddenInput,
         }
 
+
 class MemberManager(ModelForm):
     class Meta:
         model = Member
-        fields = ['name', 'ranking', 'email','pic','about']
-
+        fields = ['name', 'ranking', 'pic', 'about']
