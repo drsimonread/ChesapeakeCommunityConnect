@@ -4,6 +4,7 @@ from django.urls import reverse
 from .models import *
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.conf import settings
 from account.models import Member
 from .forms import *
 from django.db.models import Q
@@ -52,7 +53,7 @@ def viewMap(request):
     #print(widgets)  # Temporary print statement to check the output
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
                                                       'searchForm' : searchForm,
-                                                      'GOOGLE_MAPS_API_KEY': settings.GOOGLE_MAPS_API_KEY,}) #render template
+                                                                                                            'GOOGLE_MAPS_API_KEY': settings.GOOGLE_API_KEY,}) #render template
 
 
 
