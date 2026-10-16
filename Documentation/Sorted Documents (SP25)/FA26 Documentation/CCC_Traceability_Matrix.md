@@ -7,7 +7,7 @@
 
 **currently the links are all to docs that we do not have permission to access >:(**
 
-**also I am unsure about the actual traceability table rn since the table format was not preserved and so it needs to be reevaluated**
+**All values in the Traceability table need to be reevaluated**
 
 [1\. Introduction	3](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.4llmx9d5y2w4) 
 
@@ -126,8 +126,8 @@ The following table contains a list of requirement numbers and the SRS section n
 
 ### 2.3 Traceability Table 
 *The following table cross-references each requirement with each aspect, and vice versa.*    
-|A1| A2| A3| A4| A5| A6| A7| A8| A9| A10| A11| A12| A13| A14| A15| A16| A17| A18| A19| A20| A21| A22| A23| A24| A25| A26| A27| A28|
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+||A1| A2| A3| A4| A5| A6| A7| A8| A9| A10| A11| A12| A13| A14| A15| A16| A17| A18| A19| A20| A21| A22| A23| A24| A25| A26| A27| A28|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |R1| | |X| |X| | |X| | |X| | |X| | |X| | |X| |X| |X| |
 |R2| | | | | | | | | | | | | | |X| |X| |X| |X| |X| |X| |X| |X| |X| 
 |R3| | |X| |X| |X| |X| |
