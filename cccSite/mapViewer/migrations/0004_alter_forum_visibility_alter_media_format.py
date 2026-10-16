@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mapViewer', '0003_alter_forum_visibility_alter_media_format'),
+        ('mapViewer', '0001_0007_squash_migration'),
     ]
 
     operations = [
