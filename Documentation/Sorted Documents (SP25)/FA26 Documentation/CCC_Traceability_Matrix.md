@@ -6,7 +6,8 @@
 **Table of Contents** 
 
 **currently the links are all to docs that we do not have permission to access >:(**
-**also I am unsure about the actual traceability table rn since the table format was not preserved and so I'm unsure where the X's are meant to be**
+
+**also I am unsure about the actual traceability table rn since the table format was not preserved and so it needs to be reevaluated**
 
 [1\. Introduction	3](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.4llmx9d5y2w4) 
 
@@ -56,9 +57,9 @@ This Traceability Matrix is to make sure that as a project team, we follow the g
 |TM| Traceability Matrix|  
 
 ### 1.4 Document References  
-SDP: Software Development Plan; The purpose of the Software Development Plan (SDP) is to present all information necessary to control the execution of the project. It describes the approach to the development of the software and is the top-level plan generated and used by managers to direct the development effort. 
+**SDP**: Software Development Plan; The purpose of the Software Development Plan (SDP) is to present all information necessary to control the execution of the project. It describes the approach to the development of the software and is the top-level plan generated and used by managers to direct the development effort. 
 
-SRS: Software Requirements Specification; The purpose of the Software Requirements Specification (SRS) is to describe the software requirements of the Chesapeake Community Connection website. The SRS document provides detailed information of the functional and non-functional capabilities along with user interface requirements. The SRS is a guideline to attempt to create a website with a positive atmosphere involving environmental justice. 
+**SRS**: Software Requirements Specification; The purpose of the Software Requirements Specification (SRS) is to describe the software requirements of the Chesapeake Community Connection website. The SRS document provides detailed information of the functional and non-functional capabilities along with user interface requirements. The SRS is a guideline to attempt to create a website with a positive atmosphere involving environmental justice. 
 
 ### 1.5 System Overview  
 The Chesapeake Community Connection website serves as a hub for improving connections and knowledge exchange within the Chesapeake Community. Its core function is to encourage users to share their environmental stories in audiovisual formats; specifically, the website shall focus on community solutions and the current innovation involved in finding solutions to environmental conflicts. The platform features an accessible user interface accompanied with a designated page explaining the user interface and its capabilities, content submission capabilities, admin oversight for safety, a filtering system for efficient content discovery, and an interactive map system highlighting community-related locations. It ensures seamless access on both mobile and desktop devices through the Google Chrome browser, facilitating widespread community engagement and knowledge sharing.   
@@ -124,5 +125,29 @@ The following table contains a list of requirement numbers and the SRS section n
 |A28| Device Compatibility|
 
 ### 2.3 Traceability Table 
-*The following table cross-references each requirement with each aspect, and vice versa.*    A1 A2 A3 A4 A5 A6 A7 A8 A9 A10 A11 A12 A13 A14 A15 A16 A17 A18 A19 A20 A21 A22 A23 A24 A25 A26 A27 A28 R1  X X  X  X  X  X  X X X R2              X X X X X X X X X R3  X X X X R4  X X R5  X X X X X X X X X X X X R6  X R7  X R8  X R9 X X X R10  X X X R11  X X X X X X X X R12  X R13  X R14 X X R15  X R16  X R17  X R18  X R19  X 3\. Miscellaneous No miscellaneous information at this time.    
+*The following table cross-references each requirement with each aspect, and vice versa.*    
+|A1| A2| A3| A4| A5| A6| A7| A8| A9| A10| A11| A12| A13| A14| A15| A16| A17| A18| A19| A20| A21| A22| A23| A24| A25| A26| A27| A28|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|R1| | |X| |X| | |X| | |X| | |X| | |X| | |X| |X| |X| |
+|R2| | | | | | | | | | | | | | |X| |X| |X| |X| |X| |X| |X| |X| |X| 
+|R3| | |X| |X| |X| |X| |
+|R4| | |X| |X| |
+|R5| | |X| |X| |X| |X| |X| |X| |X| |X| |X| |X| |X| |X| |
+|R6| | |X| |
+|R7| | |X| |
+|R8| | |X| |
+|R9| |X| |X| |X| |
+|R10| | |X| |X||X| |
+|R11| | |X| |X| |X| |X| |X| |X| |X| |X| |
+|R12| | |X| |
+|R13| | |X| |
+|R14| |X| |X| |
+|R15| | |X| |
+|R16| | |X| |
+|R17| | |X| |
+|R18| | |X| |
+|R19| | |X| |
+
+## 3\. Miscellaneous 
+No miscellaneous information at this time.    
 
