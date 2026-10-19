@@ -1,7 +1,6 @@
 # Setting up Chesapeake Community Connect (CCC) on your Google Cloud VM
 ## CCC Installation
--	**Configuring your Virtual Machine for git, python, and other dependencies**
-	-	cd /home/shared_workspace
+-	**Configuring your Virtual Machine for git, python, and other dependencies**W
 	-	sudo apt update
 	-	sudo apt upgrade -y
 	-	sudo apt install git
@@ -29,7 +28,7 @@
 	- Only install PostgreSQL if your intended database configuration requires it: `sudo apt install -y postgresql`.
 
 -	**Creating and activating your Python virtual environment**
-	-	cd /home/shared_workspace/ChesapeakeCommunityConnect/cccSite
+	-	cd ChesapeakeCommunityConnect/cccSite
 	-	python3 -m venv .venv
 	-	source .venv/bin/activate
 	-	Your terminal prompt should now show `(.venv)`. Keep this environment active while installing requirements and running Django commands.
@@ -37,7 +36,7 @@
 	-	Create the environment only once. In each new terminal, return to the `cccSite` directory and run `source .venv/bin/activate` again.
 
 -	**Installing your CCC Requirements**
-	-	cd /home/shared_workspace/ChesapeakeCommunityConnect/cccSite
+	-	cd ChesapeakeCommunityConnect/cccSite
 	-	Make sure your virtual environment is active before running these commands. Do not use `sudo` with pip.
 	-	python -m pip install -r requirements.txt
 -	**Running the CCC Website**
