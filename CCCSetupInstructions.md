@@ -28,7 +28,7 @@
 	- Only install PostgreSQL if your intended database configuration requires it: `sudo apt install -y postgresql`.
 
 -	**Creating and activating your Python virtual environment**
-	-	cd ChesapeakeCommunityConnect/cccSite
+	-	cd cccSite
 	-	python3 -m venv .venv
 	-	source .venv/bin/activate
 	-	Your terminal prompt should now show `(.venv)`. Keep this environment active while installing requirements and running Django commands.
@@ -36,11 +36,11 @@
 	-	Create the environment only once. In each new terminal, return to the `cccSite` directory and run `source .venv/bin/activate` again.
 
 -	**Installing your CCC Requirements**
-	-	cd ChesapeakeCommunityConnect/cccSite
+	-	Make sure you are still in your cccSite directory.
 	-	Make sure your virtual environment is active before running these commands. Do not use `sudo` with pip.
 	-	python -m pip install -r requirements.txt
 -	**Running the CCC Website**
-	-	cd ChesapeakeCommunityConnect/cccSite
+	-	In the cccSite directory.
 	-	python manage.py migrate
 	-	If you have changed Django models and need new migrations, run `python manage.py makemigrations`, then run `python manage.py migrate` again.
 	-	python manage.py runserver 8080
