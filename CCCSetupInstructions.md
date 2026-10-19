@@ -40,6 +40,7 @@
 	-	Make sure your virtual environment is active before running these commands. Do not use `sudo` with pip.
 	-	python -m pip install -r requirements.txt
 -	**Running the CCC Website**
+	-	cd ChesapeakeCommunityConnect/cccSite
 	-	python manage.py migrate
 	-	If you have changed Django models and need new migrations, run `python manage.py makemigrations`, then run `python manage.py migrate` again.
 	-	python manage.py runserver 8080
