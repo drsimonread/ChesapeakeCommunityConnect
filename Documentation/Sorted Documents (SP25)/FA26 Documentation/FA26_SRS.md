@@ -14,7 +14,7 @@
 | 11/29/23 | 1.0 | Initial draft | Chesapeake Community Connect capstone team |
 | 01/24/24 | 1.1 | Revision started for 2024 | Chesapeake Community Connect team |
 | 02/24/25 | 1.2 | Revision for Spring 2025 | Sophia Lin |
-| 10/19/26 | 2.0 | Updated scope, requirements, technology stack, and delivery model for the current Django application | CDSpecCollab team |
+| 10/19/26 | 2.0 | Updated scope, requirements, technology stack, and delivery model for the current Django application | Supphat Overton |
 
 ---
 
