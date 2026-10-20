@@ -1,588 +1,285 @@
+# Chesapeake Community Connect
 
+## Software Requirements Specification
 
-|  Chesapeake Community Connection Website Software Requirements Specification Version 1.2 February 24th, 2025 St. Mary’s College of Maryland Capstone Kylie Hall John Heinig Malik Hill Naheed John Yaro Kulchyckyj Isabella Stephens Brittany Brenneman  |
-| :---: |
+**Version:** 2.0
+**Date:** October 19, 2026
+**Status:** Current project baseline
+**Project:** ChesapeakeCommunityConnect
 
-**Table of Contents**
-
-[1\.  Introduction	5](#1--introduction-1-introduction)
-
-[1.1 Purpose	5](#11-purpose-11-purpose)
-
-[1.2 Scope	5](#12-scope-12-scope)
-
-[1.3 Definitions, Acronyms, and Abbreviations	6](#13-definitions-acronyms-and-abbreviations-13-definitions-acronyms-and-abbreviations)
-
-[1.4 Document References	6](#14-document-references-14-document-references)
-
-[1.5 System Overview	6](#15-system-overview-15-system-overview)
-
-[2\. Functional Description	7](#2-functional-description-2-functional-description)
-
-[2.1 Website Display	7](#21website-display-21-website-display)
-
-[2.1.1   Homepage	7](#211---homepage--211-homepage)
-
-[2.1.1.1  World Map Outline	7](#2111--world-map-outline-2111-world-map-outline)
-
-[2.1.1.2  World Map Filter	7](#2112--world-map-filter-2112-world-map-filter)
-
-[2.1.1.3  World Map Scope	7](#2113--world-map-scope-2113-world-map-scope)
-
-[2.1.1.4  Map Pins	7](#2114--map-pins-2114-map-pins)
-
-[2.1.1.5  Map Pin Color	7](#2115--map-pin-color-2115-map-pin-color)
-
-[2.1.1.6  Descriptive Info	7](#2116--descriptive-info-2116-descriptive-info)
-
-[2.1.1.7  Full Screen Option	7](#2117--full-screen-option-2117-full-screen-option)
-
-[2.1.1.8   Logo Display	7](#2118---logo-display-2118-logo-display)
-
-[2.1.2    Contributor Page Display	7](#212----contributor-page-display-212-contributor-page-display)
-
-[2.1.2.1  Contributor Login Button	7](#2121--contributor-login-button-2121-contributor-login-button)
-
-[2.1.2.2  Contributor Sign up Button	8](#2122--contributor-sign-up-button-2122-contributor-sign-up-button)
-
-[2.1.2.3  Contributor Search Alphabet Display	8](#2123--contributor-search-alphabet-display-2123-contributor-search-alphabet-display)
-
-[2.1.2.4  Contributor Search Bar Display	8](#2124--contributor-search-bar-display-2124-contributor-search-bar-display)
-
-[2.1.2.5  Contributor List	8](#2125--contributor-list-2125-contributor-list)
-
-[2.1.2.6 View More Button	8](#2126-view-more-button-2126-view-more-button)
-
-[2.1.3    Help/Tutorial Page	8](#213----helptutorial-page-213-helptutorial-page)
-
-[2.1.3.1 Frequently Asked Questions	8](#2131-frequently-asked-questions-2131-frequently-asked-questions)
-
-[2.1.3.2 Map Animation	8](#2132-map-animation-2132-map-animation)
-
-[2.1.3.3 Tutorial Explaining how to use website	8](#2133-tutorial-explaining-how-to-use-website-2133-tutorial-explaining-how-to-use-website)
-
-[2.1.3.4   Logo Display	8](#2134---logo-display-2134-logo-display)
-
-[2.1.4    About Page Display	9](#214----about-page-display-214-about-page-display)
-
-[2.1.4.1 Mission Statement	9](#2141-mission-statement-2141-mission-statement)
-
-[2.1.4.2 Outline Company Story	9](#2142-outline-company-story-2142-outline-company-story)
-
-[2.1.4.3 Explain who is involved in the project	9](#2143-explain-who-is-involved-in-the-project-2143-explain-who-is-involved-in-the-project)
-
-[2.1.4.4 Explain whom you serve	9](#2144-explain-whom-you-serve-2144-explain-whom-you-serve)
-
-[2.1.4.5   Logo Display	9](#2145---logo-display-2145-logo-display)
-
-[2.1.5    Admin Page	9](#215----admin-page-215-admin-page)
-
-[2.1.5.1 Admin Account Requests	9](#2151-admin-account-requests-2151-admin-account-requests)
-
-[2.2.5.2  Admin User Request Page	9](#2252--admin-user-request-page-2252-admin-user-request-page)
-
-[2.1.5.3 Upload Requests	9](#2153-upload-requests-2153-upload-requests)
-
-[2.1.5.4 Pending Users	10](#2154-pending-users-2154-pending-users)
-
-[2.1.5.5 Current Users	10](#2155-current-users-2155-current-users)
-
-[2.2.5.6  Account Deletion	10](#2256--account-deletion-2256-account-deletion)
-
-[2.2.5.7  Account Edit	10](#2257--account-edit-2257-account-edit)
-
-[2.1.5.8 Admin Add a Filter	10](#2158-admin-add-a-filter-2158-admin-add-a-filter)
-
-[2.1.6 Contact Us Page	10](#216contact-us-page-216-contact-us-page)
-
-[2.1.6.1 Name Field	10](#2161-name-field-2161-name-field)
-
-[2.1.6.2 Email Field	10](#2162-email-field-2162-email-field)
-
-[2.1.6.3 Message Field 10](#2163-message-field--2163-message-field)
-
-[2.1.7   Logo Display	10](#217---logo-display-217-logo-display)
-
-[2.1.7.1 Logo on Every Page	10](#2171-logo-on-every-page-2171-logo-on-every-page)
-
-[2.2  Website Functionality	11](#22--website-functionality-22-website-functionality)
-
-[2.2.1  User Upload Submission	11](#221--user-upload-submission--221-user-upload-submission)
-
-[2.2.1.1  Title	11](#2211--title-2211-title)
-
-[2.2.1.2 Name	11](#2212-name-2212-name)
-
-[2.2.1.3  Location	11](#2213--location-2213-location)
-
-[2.2.1.4 Content Description	11](#2214-content-description--2214-content-description)
-
-[2.2.1.5  Audio/Visual Content	11](#2215--audiovisual-content-2215-audiovisual-content)
-
-[2.2.2  Map Functionality	11](#222--map-functionality-222-map-functionality)
-
-[2.2.2.1  Submission Filter	11](#2221--submission-filter-2221-submission-filter)
-
-[2.2.2.2  Filter Tab	11](#2222--filter-tab-2222-filter-tab)
-
-[2.2.3  Administrator Features	11](#223--administrator-features-223-administrator-features)
-
-[2.2.3.1  Upload Approval Process	11](#2231--upload-approval-process-2231-upload-approval-process)
-
-[2.2.3.2  Upload Approval Process Notification	11](#2232--upload-approval-process-notification-2232-upload-approval-process-notification)
-
-[2.2.3.3  Upload Rejection Process	11](#2233--upload-rejection-process-2233-upload-rejection-process)
-
-[2.2.3.4  Upload Rejection Process Notification	12](#2234--upload-rejection-process-notification-2234-upload-rejection-process-notification)
-
-[2.2.3.5  Account Search	12](#2235--account-search-2235-account-search)
-
-[2.2.3.6  Account Deletion	12](#2236--account-deletion-2236-account-deletion)
-
-[2.2.4  Contributor Features	12](#224--contributor-features-224-contributor-features)
-
-[2.2.4.1  Contributor Login Button	12](#2241--contributor-login-button-2241-contributor-login-button)
-
-[2.2.4.2  Contributor Sign up Button	12](#2242--contributor-sign-up-button-2242-contributor-sign-up-button)
-
-[2.2.4.3  Contributor Search Alphabet Display	12](#2243--contributor-search-alphabet-display-2243-contributor-search-alphabet-display)
-
-[2.2.4.4  Contributor Search Bar Display	12](#2244--contributor-search-bar-display-2244-contributor-search-bar-display)
-
-[2.2.4.5  Contributor List	12](#2245--contributor-list-2245-contributor-list)
-
-[2.2.4.6  User Accessibility	12](#2246--user-accessibility-2246-user-accessibility)
-
-[2.2.4.7  User Submissions	12](#2247--user-submissions-2247-user-submissions)
-
-[2.2.5  Integration Features	13](#225--integration-features-225-integration-features)
-
-[2.2.5.1  Integration with External Systems	13](#2251--integration-with-external-systems-2251-integration-with-external-systems)
-
-[2.2.6  Website Menu Taskbar	13](#226--website-menu-taskbar-226-website-menu-taskbar)
-
-[2.2.6.1  Homepage Menu Display	13](#2261--homepage-menu-display-2261-homepage-menu-display)
-
-[2.2.7  Project Display	13](#227--project-display-227-project-display)
-
-[2.2.7.1 Project Selection	13](#2271-project-selection-2271-project-selection)
-
-[2.2.8 Contact us Page	13](#228-contact-us-page-228-contact-us-page)
-
-[2.2.8.1 Name Field	13](#2281-name-field-2281-name-field)
-
-[2.2.8.2 Email Field	13](#2282-email-field-2282-email-field)
-
-[2.2.8.3 Message Field	13](#2283-message-field--2283-message-field)
-
-[2.2.8.4 Send	13](#2284-send---2284-send)
-
-[3\.  System Requirements	13](#3--system-requirements-3-system-requirements)
-
-[3.1  Hardware Requirements	13](#31--hardware-requirements-31-hardware-requirements)
-
-[3.1.1  Compatibility With Computer Hardware	13](#311--compatibility-with-computer-hardware-311-compatibility-with-computer-hardware)
-
-[3.1.2  Compatibility With Mobile Hardware	14](#312--compatibility-with-mobile-hardware-312-compatibility-with-mobile-hardware)
-
-[3.1.3  Required Hardware for User Input	14](#313--required-hardware-for-user-input-313-required-hardware-for-user-input)
-
-[3.2  Software Requirements	14](#32--software-requirements-32-software-requirements)
-
-[3.2.1  Computer Software Compatibility	14](#321--computer-software-compatibility-321-computer-software-compatibility)
-
-[3.2.2  Mobile Software Compatibility	14](#322--mobile-software-compatibility-322-mobile-software-compatibility)
-
-[4\. Interfaces	14](#4-interfaces-4-interfaces)
-
-[4.1  Standalone Program	14](#41--standalone-program-41-standalone-program)
-
-[5\. Performance	14](#5-performance-5-performance)
-
-[6\. Delivery	14](#6-delivery-6-delivery)
-
-[6.1 Website Delivery	14](#61-website-delivery--61-website-delivery)
-
-[7\.  Miscellaneous	14](#7--miscellaneous-7-miscellaneous)
-
-**Revision History**
+## Revision History
 
 | Date | Version | Description | Author(s) |
-| :---: | :---: | :---: | :---: |
-|  November 29th, 2023 | 1.1  | Initial Draft  | Kylie Hall John Heinig Malik Hill Naheed John Yaro Kulchyckyj Isabella Stephens  Brittany Brenneman |
-|  January 24th, 2024  |  1.1 |  Start of revisions for 2024 |  Daniel Reina Alex Ochman Gavin McDonald John Heinig Kendahl Michael Shively |
-| February  24, 2025 | 1.2 | Revision for SP2025 | Sophia Lin |
+| :---: | :---: | :--- | :--- |
+| 11/29/23 | 1.0 | Initial draft | Chesapeake Community Connect capstone team |
+| 01/24/24 | 1.1 | Revision started for 2024 | Chesapeake Community Connect team |
+| 02/24/25 | 1.2 | Revision for Spring 2025 | Sophia Lin |
+| 10/19/26 | 2.0 | Updated scope, requirements, technology stack, and delivery model for the current Django application | CDSpecCollab team |
 
-# **1\.  Introduction** {#1.-introduction}
+---
 
-## **1.1 Purpose** {#1.1-purpose}
+## 1. Introduction
 
-The purpose of the Software Requirements Specification (SRS) is to describe the software requirements of the Chesapeake Community Connection website. This document provides detailed information of the functional and non-functional capabilities along with user interface requirements. The SRS is a guideline to attempt to create a website with a positive atmosphere involving environmental justice; the development team shall focus on the following factors: positive imagery (pins and images outside of uploads must not contain negative imagery like skeletons and hazard signs), positive wording (emphasis on finding solutions to conflicts rather than finding conflicts by themselves), and fostering a sense of community (ideas for this pending). All requirements described in this document shall be used to aid the Research & Development (R\&D) and Quality Assurance (QA) teams in their development of the application. In addition, the SRS serves to establish the project schedule.
+### 1.1 Purpose
 
-## **1.2 Scope** {#1.2-scope}
+This Software Requirements Specification (SRS) defines the current scope and externally observable requirements of the Chesapeake Community Connect (CCC) website. It is the baseline for implementation, quality assurance, deployment, and future maintenance. Requirements marked **Implemented** describe behavior represented in the current repository. Requirements marked **Planned** identify work that remains in scope but is not complete in the current application.
 
-This Software Requirements Specification (SRS) establishes a thoroughly detailed overall description for the software requirements, testing, deployment, and qualifications for the website application. This SRS is organized into a total of seven sections. Excluding the first section being the introduction, the remaining six sections individually cover the software functional capabilities (Section 2), system requirements (Section 3), external interfaces (Section 4), performance specifications (Section 5), delivery method of the software (Section 6), and software delivery schedule (Section 7\) which go into detail pertaining to the information necessary to reference for the duration of development accurately. The development of the website shall focus on simplicity and ease of access to new users. The development must give careful consideration to said areas: the tag filtering system, the input information required to upload new submissions, and the map pins system. All options shall be easily seen and identified on the website with minimal exploration necessary on the user’s part. The approaches encompassed within this SRS document are contingent on the product requirements provided by the client’s description as they were comprehended at the time of writing.
+### 1.2 Scope
 
-## **1.3 Definitions, Acronyms, and Abbreviations** {#1.3-definitions,-acronyms,-and-abbreviations}
+CCC is a browser-based Django application that helps communities share environmental projects, stories, and resources connected to the Chesapeake region. The application presents approved map posts on an interactive map and searchable list, supports contributor profiles and project submissions, and provides administrative tools for moderation, reports, tags, and account requests.
 
-| Acronym | Meaning |
-| :---: | :---: |
-| QA | Quality Assurance |
-| R\&D | Research and Development |
+The current release includes:
+
+* A Django 4.2 web application served through WSGI or ASGI.
+* SQLite persistence in the current repository configuration, with Django migrations for the application models.
+* Google Identity Services sign-in using verified Google ID tokens.
+* Session-based member access and ranking values for member, trusted member, moderator, administrator, and banned states.
+* Map posts with titles, descriptions, content, geocodes, tags, authors, timestamps, and visibility states.
+* Search and tag filtering for visible map posts.
+* Contributor profile management and account-creation requests.
+* Administrative pages for messages, members, tags, reports, and moderation workflows.
+* Static and uploaded media served through Django configuration.
+
+The current release does not provide a completed public export endpoint, email approval notifications, arbitrary audio/video storage, or a production-safe externalized-secret configuration. Those items are documented as planned or operational requirements rather than claimed as completed functionality.
+
+### 1.3 Definitions, Acronyms, and Abbreviations
+
+| Term | Definition |
+| --- | --- |
+| CCC | Chesapeake Community Connect |
 | SRS | Software Requirements Specification |
+| SDD | Software Design Description |
+| STP | Software Test Plan |
+| Member | A CCC contributor profile stored by the application |
+| Map post | A community project or environmental story displayed by the application |
+| Map tag | A category associated with one or more map posts |
+| Visibility | The publication state of a map post: pending, visible, or denied |
+| Janitor | The application area containing administrative and moderation tools |
+| Geocode | Location data used to place a map post on the map |
+| Google Identity Services | The external Google service used for sign-in |
+
+### 1.4 Document References
+
+The following repository files define or support this baseline:
+
+* Project overview: `README.md`
+* Application dependencies: `cccSite/requirements.txt`
+* Django configuration: `cccSite/cccSite/settings.py`
+* Root routes: `cccSite/cccSite/urls.py`
+* Map-post model and views: `cccSite/mapViewer/models.py` and `cccSite/mapViewer/views.py`
+* Member model and account views: `cccSite/account/models.py` and `cccSite/account/views.py`
+* Moderation models and views: `cccSite/Janitor/models.py` and `cccSite/Janitor/views.py`
+* Deployment configuration: `cccSite/app.yaml`
+* Developer and deployment guides: `docs/` and the repository setup guides
+
+### 1.5 System Overview
+
+CCC has four principal application areas:
+
+1. **Map viewer:** Lists visible posts, filters them by text and tags, serializes them for the interactive map, and displays post details.
+2. **Account:** Shows member information, permits profile edits, handles sign-in and sign-out, and records Google account associations.
+3. **Boiler pages:** Provides About, Help, and Contact pages and stores submitted contact or help messages.
+4. **Janitor administration:** Provides management pages for users, tags, reports, and contact messages.
+
+The project uses Django URL routing, templates, forms, models, migrations, sessions, and the Google Maps/Google Identity integrations. The browser supplies the presentation layer; no native desktop or mobile client is required.
+
+---
+
+## 2. Functional Requirements
+
+### 2.1 Map and Project Discovery
+
+* **FR-MAP-01 — Implemented:** The system shall provide a homepage containing the map viewer.
+* **FR-MAP-02 — Implemented:** The system shall display map posts whose visibility is set to visible.
+* **FR-MAP-03 — Implemented:** Each visible map post shall provide a title, description, author, geocode, creation timestamp, and associated tags where available.
+* **FR-MAP-04 — Implemented:** The system shall provide a list view of visible map posts.
+* **FR-MAP-05 — Implemented:** Users shall be able to filter visible posts by text matching against the title or content.
+* **FR-MAP-06 — Implemented:** Users shall be able to filter visible posts by one or more map tags.
+* **FR-MAP-07 — Implemented:** The system shall provide a detail page for an individual map post.
+* **FR-MAP-08 — Implemented:** The system shall prevent a visitor from viewing a non-visible post unless the visitor is its author or has an elevated session rank.
+* **FR-MAP-09 — Planned:** The map shall provide an explicit user-facing filter panel for project type, organization or individual, and project status.
+* **FR-MAP-10 — Planned:** The map shall provide a user-facing full-screen mode and a consistent legend for tag or project-type presentation.
+
+### 2.2 Project Submission
+
+* **FR-SUBMIT-01 — Implemented:** The system shall provide a submission form for a map-post title, content, geocoded location, and optional tags.
+* **FR-SUBMIT-02 — Implemented:** A submitted post shall be associated with the currently signed-in member.
+* **FR-SUBMIT-03 — Implemented:** A post submitted by a member with rank 1 shall initially be pending.
+* **FR-SUBMIT-04 — Implemented:** A post submitted by a member with rank greater than 1 shall initially be visible.
+* **FR-SUBMIT-05 — Implemented:** The system shall store the post’s title, content, description preview, geocode, author, tags, creation time, and visibility.
+* **FR-SUBMIT-06 — Implemented:** The system shall allow contributors to submit written environmental project or community information.
+* **FR-SUBMIT-07 — Planned:** The submission form shall accept validated image, audio, or video resources with documented size, type, and storage limits.
+* **FR-SUBMIT-08 — Planned:** The application shall provide a complete contributor submission review status page.
 
-## **1.4 Document References** {#1.4-document-references}
+### 2.3 Accounts and Contributors
 
-| Document Title | Version | Date | Author(s) |
-| :---: | :---: | :---: | :---: |
-| Software Requirements Specification | 1.0 | January 24th, 2024 | Kylie Hall John Heinig Malik Hill Naheed John Yaro Kulchyckyj Isabella Stephens  Brittany Brenneman |
+* **FR-ACCOUNT-01 — Implemented:** The system shall provide sign-in, sign-out, and a member account page.
+* **FR-ACCOUNT-02 — Implemented:** The system shall support Google Identity Services sign-in and verify the returned Google ID token before creating or loading the associated member.
+* **FR-ACCOUNT-03 — Implemented:** The system shall retain the association between a verified Google identifier and a CCC member.
+* **FR-ACCOUNT-04 — Implemented:** A signed-in member shall be able to edit their profile name, email, picture, and About text through the account management form.
+* **FR-ACCOUNT-05 — Implemented:** The system shall support member ranking states for banned, member, trusted member, moderator, and administrator accounts.
+* **FR-ACCOUNT-06 — Implemented:** The system shall provide a contributor account-creation request model with pending, accepted, and rejected states.
+* **FR-ACCOUNT-07 — Planned:** The system shall provide a public contributor directory with search, alphabetical navigation, and contributor profile links.
+* **FR-ACCOUNT-08 — Planned:** Account creation requests shall validate password confirmation and shall never store raw passwords.
 
-##  **1.5 System Overview** {#1.5-system-overview}
+### 2.4 Administration and Moderation
 
-The Chesapeake Community Connection website serves as a hub for improving connections and knowledge exchange within the Chesapeake Community. Its core function is to encourage users to share their environmental stories in audiovisual formats; specifically, the website shall focus on community solutions and the current innovation involved in finding solutions to environmental conflicts. The platform features an accessible user interface accompanied with a designated page explaining the user interface and its capabilities, content submission capabilities, admin oversight for safety, a filtering system for efficient content discovery, and an interactive map system highlighting community-related locations. It ensures seamless access on both mobile and desktop devices through the Google Chrome browser, facilitating widespread community engagement and knowledge sharing.
+* **FR-ADMIN-01 — Implemented:** The system shall provide an administration area for authorized moderators or administrators.
+* **FR-ADMIN-02 — Implemented:** Administrators shall be able to view contact and help messages.
+* **FR-ADMIN-03 — Implemented:** Administrators shall be able to view member records and access member management forms.
+* **FR-ADMIN-04 — Implemented:** Administrators shall be able to add and remove map tags.
+* **FR-ADMIN-05 — Implemented:** The system shall provide post-report and user-report records.
+* **FR-ADMIN-06 — Implemented:** Administrators shall be able to review reports and clear report records.
+* **FR-ADMIN-07 — Implemented:** The system shall represent post moderation with pending, visible, and denied visibility states.
+* **FR-ADMIN-08 — Planned:** The administration area shall provide a completed pending-post queue with explicit approve and reject actions.
+* **FR-ADMIN-09 — Planned:** Administrators shall be able to search, edit, approve, reject, and delete member accounts through a completed workflow.
+* **FR-ADMIN-10 — Planned:** The system shall send a notification to a submitter when an administrator approves or rejects a post.
+* **FR-ADMIN-11 — Planned:** The administration area shall provide a working data export operation. The current export view is not implemented.
 
-# **2\. Functional Description** {#2.-functional-description}
+### 2.5 Help, About, and Contact
 
-The software requirements described in this document reflect the conditions required by the customer’s  
-description of the Chesapeake Community Connection website. The statements in this document shall include non-requirements/desirements and requirements. Desirement statements contain the phrase “should” to indicate this statement is a desired feature in the software that are not absolute requirements. Requirement statements contain the verb “shall” to indicate this statement is an absolute requirement in the software. The specific wording used for non-requirement and requirement statements will be used separately to promote a clear understanding of what is expected in the software in regards to what will be required and desired.
+* **FR-CONTENT-01 — Implemented:** The system shall provide an About page describing the project.
+* **FR-CONTENT-02 — Implemented:** The system shall provide Help and Contact pages with forms for name, email, username, display name, and message information where applicable.
+* **FR-CONTENT-03 — Implemented:** Valid contact or help form submissions shall be stored as application messages.
+* **FR-CONTENT-04 — Planned:** The Help page shall provide a complete tutorial and frequently asked questions for map browsing, filtering, account access, and submissions.
+* **FR-CONTENT-05 — Planned:** The site shall provide consistent branding and navigation on all public and authenticated pages.
 
-## **2.1	Website Display** {#2.1-website-display}
+### 2.6 External Integrations
 
-### 2.1.1   Homepage  {#2.1.1-homepage}
+* **FR-INTEGRATION-01 — Implemented:** The system shall use Google Maps-related configuration to support map presentation and geocoded locations.
+* **FR-INTEGRATION-02 — Implemented:** The system shall use Google Identity Services for the configured sign-in flow.
+* **FR-INTEGRATION-03 — Planned:** External API credentials shall be configurable per deployment and shall not be committed to source control.
+* **FR-INTEGRATION-04 — Planned:** The application shall define behavior when an external map or identity service is unavailable.
 
-##### 2.1.1.1  World Map Outline {#2.1.1.1-world-map-outline}
+---
 
-The website shall have the map on the homepage. 
+## 3. Non-Functional Requirements
 
-##### 2.1.1.2  World Map Filter {#2.1.1.2-world-map-filter}
+### 3.1 Security and Privacy
 
-The website shall have a designated section to the left of the map that displays the filters available for the optional and necessary categories.
+* **NFR-SEC-01:** Production deployments shall run with `DEBUG` disabled and a restricted `ALLOWED_HOSTS` list.
+* **NFR-SEC-02:** Production deployments shall load Django secrets, Google credentials, API keys, and database credentials from protected configuration rather than source code.
+* **NFR-SEC-03:** The application shall use Django CSRF protection for ordinary state-changing forms.
+* **NFR-SEC-04:** Google sign-in requests shall validate the Google CSRF token and verify the ID token before creating a session.
+* **NFR-SEC-05:** Administrative and moderation operations shall require an authenticated session with an appropriate rank.
+* **NFR-SEC-06:** The application shall not store raw passwords. Existing account-request fields containing password values shall be replaced or removed before production use.
+* **NFR-SEC-07:** User reports and contact submissions shall be accessible only to authorized administrative users.
 
-##### 2.1.1.3  **World Map** Scope {#2.1.1.3-world-map-scope}
+### 3.2 Compatibility and Usability
 
-The system shall display a map of the Chesapeake area. 
+* **NFR-USE-01:** The application shall be usable in a current desktop or mobile browser with JavaScript enabled.
+* **NFR-USE-02:** The interface shall support responsive layouts for desktop and mobile screens.
+* **NFR-USE-03:** Forms shall display validation feedback when submitted data is invalid.
+* **NFR-USE-04:** Public users shall be able to browse visible map content without creating an account.
+* **NFR-USE-05:** The interface shall use accessible labels, meaningful link text, keyboard navigation, and sufficient contrast for core workflows.
 
-##### 2.1.1.4  **Map** Pins {#2.1.1.4-map-pins}
+### 3.3 Maintainability
 
-The website map shall feature basic markers to show uploaded projects.
+* **NFR-MAINT-01:** The application shall target Python dependencies declared in `cccSite/requirements.txt`, including Django 4.2.6.
+* **NFR-MAINT-02:** Database schema changes shall be represented by Django migrations.
+* **NFR-MAINT-03:** New behavior shall include automated tests for affected views, forms, models, permissions, and integrations where practical.
+* **NFR-MAINT-04:** Requirements, design, test, deployment, and training documents shall identify the same current scope and technology stack.
 
-##### 2.1.1.5  Map Pin Color {#2.1.1.5-map-pin-color}
+### 3.4 Reliability and Performance
 
-The website map shall give each pin a specific color to represent the project type. 
+* **NFR-PERF-01:** The application shall return an explicit response when a requested post, member, report, or external service is unavailable.
+* **NFR-PERF-02:** Map and list views shall query only visible posts for public discovery.
+* **NFR-PERF-03 — Planned:** Production deployment shall define supported post counts, media-size limits, and response-time targets for homepage, list, detail, and submission workflows.
+* **NFR-PERF-04 — Planned:** Operators shall define database backup, restore, migration, and media-file retention procedures.
 
-##### 2.1.1.6  **Descriptive I**n**fo** {#2.1.1.6-descriptive-info}
+---
 
-The website map shall show a description of the upload (which is obtained through upload submission by the user) located below the map plugin.
+## 4. External Interfaces
 
-##### 2.1.1.7  **Full Screen Option** {#2.1.1.7-full-screen-option}
+### 4.1 User Interface
 
-The website map shall allow the user to view the map in the full screen if desired and see resources linked to it.
+The application shall provide:
 
-##### 2.1.1.8   Logo Display {#2.1.1.8-logo-display}
+* The public map homepage and visible-post list.
+* A map-post detail view.
+* Account sign-in, sign-out, profile, and profile-management pages.
+* About, Help, and Contact pages.
+* Contributor submission and account-request forms.
+* Administrative pages for members, tags, reports, contact messages, and moderation.
 
-There shall be a logo provided either by the Research & Development team that is displayed in the top left corner of this page.
+### 4.2 Map and Geolocation Interface
 
-### 2.1.2    Contributor Page Display {#2.1.2-contributor-page-display}
+Map posts store a JSON geocode and are serialized for map rendering. The application uses Google Maps-related configuration for the map interface and location presentation. The exact provider limits, key restrictions, and failure behavior must be documented for each production deployment.
 
-#### 2.1.2.1  Contributor Login Button {#2.1.2.1-contributor-login-button}
+### 4.3 Authentication Interface
 
-There shall be a login button labeled “Contributor Login” at the top of the page.
+Google Identity Services posts a credential to the account authentication endpoint. The application validates the Google CSRF cookie and request value, verifies the ID token, associates the verified Google identifier with a `Member`, and stores the member identity and rank in the session.
 
-#### 2.1.2.2  Contributor Sign up Button {#2.1.2.2-contributor-sign-up-button}
+### 4.4 Database and Media Interface
 
-There shall be a sign up button labeled “Contributor Sign Up” at the top of the page accompanied by a description about what it means to be a contributor (“Do you want to contribute?”)
+The application uses Django’s ORM, models, and migrations. The current repository configuration uses SQLite at `cccSite/db.sqlite3`. Member profile images are stored under the configured media root using an overwrite storage helper. Production deployments shall select a persistent database and media-storage strategy appropriate for the deployment.
 
-#### **2.1.2.3  Contributor Search Alphabet Display** {#2.1.2.3-contributor-search-alphabet-display}
+### 4.5 Administrative Interface
 
-There shall be a navigator function at the top of the page listing the alphabet to navigate to the contributors starting with that letter. 
+Administrative routes are exposed under the project’s configured administration paths. Access to these routes shall be restricted by authentication and rank checks before production release.
 
-#### 2.1.2.4  Contributor Search Bar Display {#2.1.2.4-contributor-search-bar-display}
+---
 
-There shall be a search bar at the top of the page to navigate to specific contributors.
+## 5. System and Deployment Requirements
 
-#### 2.1.2.5  Contributor List {#2.1.2.5-contributor-list}
+### 5.1 Server
 
-There shall be a list of all of the contributors that are registered to the site which will include the name and mission statement of the contributor.
+The deployment shall provide:
 
-#### 2.1.2.6 View More Button {#2.1.2.6-view-more-button}
+* A supported Python runtime and the pinned packages in `cccSite/requirements.txt`.
+* A WSGI- or ASGI-compatible application server.
+* Persistent database storage.
+* Persistent media storage for member images and future post media.
+* HTTPS and a configured production hostname.
+* Restricted Google Maps and Google Identity credentials.
 
-There shall be a View More button located on the bottom of the contributon’s descriptive box that when interacted with, will show both that contribution and all other contributions within that same area and/or on that same pin.  
-		
+### 5.2 Client
 
-### 2.1.3    Help/Tutorial Page {#2.1.3-help/tutorial-page}
+The client shall provide:
 
-#### 	2.1.3.1 Frequently Asked Questions {#2.1.3.1-frequently-asked-questions}
+* A current desktop or mobile browser.
+* JavaScript enabled for map and Google sign-in features.
+* Network access to the deployed application and configured external services.
 
-There shall be a frequently asked question (FAQ) section that lists FAQs in the form of a dropdown option to open each question’s answer which is decided by the QA team and the customer.
+The project is a web application and does not require a locally installed desktop client or database for ordinary user access.
 
-#### 2.1.3.2 Map Animation {#2.1.3.2-map-animation}
+### 5.3 Configuration
 
-There shall be a GIF animation demonstrating the use of filters and opening pin descriptions.  
-		
+Before production release, operators shall configure the Django secret key, debug setting, allowed hosts, database, media and static-file serving, Google Maps API key, Google OAuth client identifier, HTTPS settings, and backup policy without exposing secrets in the repository.
 
-#### 	2.1.3.3 Tutorial Explaining how to use website {#2.1.3.3-tutorial-explaining-how-to-use-website}
+---
 
-There shall be a text description of the steps on how to use the map.
+## 6. Delivery and Acceptance
 
-#### 2.1.3.4   Logo Display {#2.1.3.4-logo-display}
+An iteration satisfies this SRS baseline when:
 
-There shall be a logo provided either by the customer or suggested by either the Research & Development or Quality Assurance teams that is displayed in the top left corner of this page.
+1. Implemented requirements remain available through the documented routes.
+2. Public discovery shows only visible map posts.
+3. A signed-in member can submit a map post with a title, content, location, and tags.
+4. The map and list views support text and tag filtering.
+5. Google sign-in validates the identity token before establishing a member session.
+6. Administrative users can review the implemented messages, tags, reports, and member workflows.
+7. Automated tests pass for changed behavior.
+8. Deployment documentation identifies all required services and configuration values.
+9. Any unimplemented or changed requirement is labeled Planned or updated in this document before release.
 
-### 2.1.4    About Page Display {#2.1.4-about-page-display}
+---
 
-#### 2.1.4.1 Mission Statement {#2.1.4.1-mission-statement}
+## 7. Out of Scope for the Current Baseline
 
-This section shall include the mission statement of this website: “To showcase the resilience of the Chesapeake region through a user-friendly platform, where community members can share information on a spectrum of initiatives, each contributing to our collective ability to thrive amidst change. From ecological restoration to placemaking and racial healing, our platform serves as a dynamic hub for collaborative learning. We aim to inspire innovation and cultivate a deeper understanding of the diverse resilience work contributed within our communities.”
+The following are not completed requirements of the current implementation:
 
-#### 2.1.4.2 Outline Company Story {#2.1.4.2-outline-company-story}
+* A native Windows, macOS, Linux, iOS, or Android application.
+* Direct control of environmental sensors or other field equipment.
+* Automatic scientific or environmental analysis of submitted content.
+* A completed public audio/video hosting and transcoding service.
+* Email approval or rejection notifications.
+* A completed public contributor directory and alphabetical search.
+* A completed administrator data-export workflow.
+* Unrestricted public access to pending, denied, or private records.
 
-This section shall describe the story behind the website and how it will contribute to the community.  
-		
+---
 
-#### 2.1.4.3 Explain who is involved in the project {#2.1.4.3-explain-who-is-involved-in-the-project}
+## 8. Related Documentation
 
-This section shall recognize St. Mary’s College as the creators of this site on behalf of Parisa Rinaldi’s vision.  
-		
-
-#### 2.1.4.4 Explain whom you serve {#2.1.4.4-explain-whom-you-serve}
-
-This section shall describe the values of the website and how it serves all contributors to the community.
-
-#### 2.1.4.5   Logo Display {#2.1.4.5-logo-display}
-
-There shall be a logo provided either by the Research & Development team that is displayed in the top left corner of this page.
-
-### 2.1.5    Admin Page {#2.1.5-admin-page}
-
-#### 	**2.1.5.1 Admin Account Requests** {#2.1.5.1-admin-account-requests}
-
-The “User Requests” section shall list the account requests in order from oldest to newest.
-
-#### 2.2.5.2  Admin User Request Page {#2.2.5.2-admin-user-request-page}
-
-The “User Requests” section shall have an option to “accept” or “reject” each account request.
-
-#### 2.1.5.3 Upload Requests {#2.1.5.3-upload-requests}
-
-There shall be a section labeled “Upload Requests” which will list the current pending upload requests to the map.
-
-#### 2.1.5.4 Pending Users {#2.1.5.4-pending-users}
-
-There shall be a section labeled “Current Users” which will list the current pending users requesting access to a contributor account.
-
-#### 2.1.5.5 Current Users {#2.1.5.5-current-users}
-
-There shall be a search bar option within the “Current Users” page.
-
-#### 2.2.5.6  Account Deletion {#2.2.5.6-account-deletion}
-
-For each account listed within the section “Current Users”, there shall be a button labeled “Delete”.
-
-#### 2.2.5.7  Account Edit {#2.2.5.7-account-edit}
-
-For each account listed within the section “Current Users”, there shall be a button labeled “Edit” which will allow the admin to edit the name, email, phone number, or other information.
-
-#### 2.1.5.8 Admin Add a Filter {#2.1.5.8-admin-add-a-filter}
-
-There shall be a button on the admin page labeled “Add a Filter”. Which will allow admins to   
-add a new filter option that organizations can apply to content that they upload.     
-		
-
-### 2.1.6	Contact Us Page {#2.1.6-contact-us-page}
-
-#### 	**2.1.6.1** Name Field {#2.1.6.1-name-field}
-
-The website page shall have a section that allows users to add their names.
-
-#### 2.1.6.2 Email Field {#2.1.6.2-email-field}
-
-The website page shall feature a field that allows the user to add their email address.
-
-#### **2.1.6.3 Message Field**  {#2.1.6.3-message-field}
-The website page shall feature a field that allows users to submit messages.
-
-### 2.1.7   Logo Display {#2.1.7-logo-display}
-
-#### 2.1.7.1 Logo on Every Page {#2.1.7.1-logo-on-every-page}
-
-There shall be a St. Mary’s College of MD  logo provided by the Research & Development team that is displayed on the bottom right side of every page.
-
-## **2.2  Website Functionality** {#2.2-website-functionality}
-
-### **2.2.1**  **User Upload Submission**  {#2.2.1-user-upload-submission}
-
-##### 2.2.1.1  Title {#2.2.1.1-title}
-
-The submission form shall require the user to enter a title.
-
-##### 2.2.1.2 **Name** {#2.2.1.2-name}
-
-The submission form shall require the user to enter a first name and last name for the person uploading. 
-
-##### 2.2.1.3  **Location** {#2.2.1.3-location}
-
-The submission form shall require the user to enter an address to be associated with the uploaded content. 
-
-##### 2.2.1.4 **Content Description**  {#2.2.1.4-content-description}
-
-The submission form shall require the user to describe the content that is being submitted. 
-
-##### 2.2.1.5  Audio/Visual Content {#2.2.1.5-audio/visual-content}
-
-The submission shall allow the user to upload any audio visual content.
-
-### 2.2.2  Map Functionality {#2.2.2-map-functionality}
-
-#### 2.2.2.1  Submission Filter {#2.2.2.1-submission-filter}
-
-Content on the website shall be organized by different tags/categories that allows the user to filter the pins shown on the map based on tags/categories chosen by the user.
-
-
-#### 2.2.2.2  Filter Tab {#2.2.2.2-filter-tab}
-
-The website shall filter projects by main project types which have the ability to filter by individual, organization projects, active projects, inactive projects, and finished projects. 
-
-### 2.2.3  Administrator Features {#2.2.3-administrator-features}
-
-#### 2.2.3.1  Upload Approval Process {#2.2.3.1-upload-approval-process}
-
-The admin shall be able to approve the content to be uploaded to the map which will publish it to the site.
-
-#### 2.2.3.2  Upload Approval Process Notification {#2.2.3.2-upload-approval-process-notification}
-
-After an upload request is accepted, the person who attempted to upload the post shall receive an email that the post was approved. 
-
-#### 2.2.3.3  Upload Rejection Process {#2.2.3.3-upload-rejection-process}
-
-The admin shall be able to reject the content to be uploaded to the map which will not publish it to the site.
-
-#### 2.2.3.4  Upload Rejection Process Notification {#2.2.3.4-upload-rejection-process-notification}
-
-After an upload request is rejected, the person who attempted to upload the post shall receive an email that the post was rejected. 
-
-#### 2.2.3.5  Account Search {#2.2.3.5-account-search}
-
-Within the section “Current Users”, there shall be the option to search for a specific user by email or username.
-
-#### 2.2.3.6  Account Deletion {#2.2.3.6-account-deletion}
-
-The Admin shall double-click on the “delete” button to remove an account from the database.
-
-### 2.2.4  Contributor Features {#2.2.4-contributor-features}
-
-#### 2.2.4.1  Contributor Login Button {#2.2.4.1-contributor-login-button}
-
-After double-clicking “Contributor Login” the user shall enter their username and password to log into the Contributor Account. 
-
-#### 2.2.4.2  Contributor Sign up Button {#2.2.4.2-contributor-sign-up-button}
-
-The user shall enter their username and password accompanied by a description of what it means to be a contributor after double clicking “Contributor Sign up”.
-
-#### 2.2.4.3  Contributor Search Alphabet Display {#2.2.4.3-contributor-search-alphabet-display}
-
-After clicking on the “Alphabet Display” function, the user shall be able to alphabetically navigate through the contributors of the page starting with the beginning letter of the contributor’s name.
-
-#### 2.2.4.4  Contributor Search Bar Display {#2.2.4.4-contributor-search-bar-display}
-
-The user shall be able to navigate specific contributors by clicking on the search bar feature.
-
-#### 
-
-#### 2.2.4.5  Contributor List {#2.2.4.5-contributor-list}
-
-The list of all contributors registered with the site including the name and mission statement shall be displayed to the user after searching.
-
-#### 2.2.4.6  User Accessibility {#2.2.4.6-user-accessibility}
-
-Users shall be able to access the platform from QR codes that could give them easier access to the site as well as access to upload information.
-
-#### 2.2.4.7  User Submissions {#2.2.4.7-user-submissions}
-
-Users shall be able to share information on the website that will aid in providing knowledge on environmental issues and concerns and other updates. Submission requirements would include the location, resource links, and written words that describe the message the user wants to share.
-
-### 2.2.5  Integration Features {#2.2.5-integration-features}
-
-#### 2.2.5.1  Integration with External Systems {#2.2.5.1-integration-with-external-systems}
-
-The website shall be able to interact  and integrate with external systems or APIs.
-
-### 2.2.6  Website Menu Taskbar {#2.2.6-website-menu-taskbar}
-
-#### 2.2.6.1  Homepage Menu Display {#2.2.6.1-homepage-menu-display}
-
-The system shall display a menu taskbar on the homepage including each of the pages: Home, About, Contributors, Help/Tutorial.
-
-### 2.2.7  Project Display {#2.2.7-project-display}
-
-#### 2.2.7.1 Project Selection {#2.2.7.1-project-selection}
-
-The website shall display a box with a list of projects on the map with a map marker in the area in which the project exists when the user makes a selection.
-
-### 2.2.8 Contact us Page {#2.2.8-contact-us-page}
-
-#### 
-
-#### 2.2.8.1 Name Field {#2.2.8.1-name-field}
-
-The user shall be able to add their names to the featured section after clicking on the name field. 
-
-#### 2.2.8.2 Email Field {#2.2.8.2-email-field}
-
-The user shall be allowed to enter their email address to the featured field.
-
-#### **2.2.8.3 Message Field**  {#2.2.8.3-message-field}
-The user shall be allowed to type messages on the message field. 
-
-#### **2.2.8.4 Send**   {#2.2.8.4-send}
-The user shall be allowed to left-click on the “send” button to send the message to the admin.  
-                  
-
-# **3\.  System Requirements** {#3.-system-requirements}
-
-This section describes the required hardware and software necessary to run the website.
-
-## **3.1  Hardware Requirements** {#3.1-hardware-requirements}
-
-### 3.1.1  Compatibility With Computer Hardware {#3.1.1-compatibility-with-computer-hardware}
-
-The software shall be compatible with standard laptop and desktop computers.
-
-### 3.1.2  Compatibility With Mobile Hardware {#3.1.2-compatibility-with-mobile-hardware}
-
-The software shall be compatible with standard smartphone devices.
-
-### 3.1.3  Required Hardware for User Input {#3.1.3-required-hardware-for-user-input}
-
-The software shall require a keyboard to submit the student and community comments, a mouse to navigate around the website and select options within it, and a monitor to view the website on a screen.
-
-## **3.2  Software Requirements** {#3.2-software-requirements}
-
-### 3.2.1  Computer Software Compatibility {#3.2.1-computer-software-compatibility}
-
-The website must be compatible with Windows 10 and MacOS 14.0 for optimal user experience.
-
-### 3.2.2  Mobile Software Compatibility {#3.2.2-mobile-software-compatibility}
-
-The website must be compatible with Android 11 and Apple iOS 16 for optimal user experience.
-
-# **4\. Interfaces** {#4.-interfaces}
-
-## **4.1  Standalone Program** {#4.1-standalone-program}
-
-The program shall run standalone, not interacting with a network in any manner.
-
-# **5\. Performance** {#5.-performance}
-
-The following requirements address the performance requirements of the Chesapeake Community Connection Website Software Application. 
-
-# **6\. Delivery** {#6.-delivery}
-
-The following requirements address the delivery of the Chesapeake Community Website.
-
-## **6.1 Website Delivery**  {#6.1-website-delivery}
-
-The Chesapeake Community Website shall be delivered by demonstration and use on Google Chrome. 
-
-# **7\.  Miscellaneous** {#7.-miscellaneous}
-
-No miscellaneous information at this time.
+This SRS should remain synchronized with the Software Design Description, Software Test Plan, traceability matrix, README, deployment guides, and training documents. When implementation changes affect routes, permissions, data fields, dependencies, external services, or deployment configuration, the corresponding documentation and requirement status shall be reviewed in the same change.
