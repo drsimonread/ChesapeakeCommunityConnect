@@ -1,5 +1,5 @@
-/* Help page layout improvements */
 
+/* Help page layout */
 .help-page {
     width: 100%;
     max-width: 1200px;
@@ -9,17 +9,22 @@
 
 .center-title {
     margin: 0 0 12px;
-    text-align: center;
     color: #174a70;
+    text-align: center;
     font-size: 2rem;
 }
 
-.section-subtitle {
-    margin: 0 auto 28px;
-    max-width: 700px;
-    text-align: center;
+.section-subtitle,
+.help-page .subtitle,
+.contact-intro {
     color: #5d6b78;
     line-height: 1.7;
+}
+
+.section-subtitle {
+    max-width: 700px;
+    margin: 0 auto 28px;
+    text-align: center;
 }
 
 .faq-card,
@@ -53,16 +58,13 @@
     cursor: pointer;
 }
 
-.accordion:last-of-type {
-    border-bottom: 0;
-}
+.accordion:last-of-type { border-bottom: 0; }
 
 .accordion:hover,
-.accordion.active {
-    color: #174a70;
-}
+.accordion.active { color: #174a70; }
 
-.accordion:focus-visible {
+.accordion:focus-visible,
+.contact-toggle:focus-visible {
     outline: 3px solid #4389b5;
     outline-offset: 3px;
 }
@@ -93,26 +95,18 @@
     margin-top: 36px;
 }
 
-.help-page .card {
-    min-width: 0;
-    padding: 28px;
-}
+.help-page .card { min-width: 0; padding: 28px; }
 
 .help-page .card h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px;
     color: #174a70;
 }
 
-.help-page .subtitle {
-    margin: 0 0 22px;
-    color: #5d6b78;
-    line-height: 1.7;
-}
+.help-page .subtitle { margin: 0 0 22px; }
 
 .video-wrapper {
-    width: 100%;
     overflow: hidden;
+    width: 100%;
     border-radius: 8px;
     background: #17212b;
 }
@@ -137,14 +131,7 @@
     cursor: pointer;
 }
 
-.contact-toggle:hover {
-    background: #103650;
-}
-
-.contact-toggle:focus-visible {
-    outline: 3px solid #4389b5;
-    outline-offset: 3px;
-}
+.contact-toggle:hover { background: #103650; }
 
 .contact-form-container {
     margin-top: 28px;
@@ -153,47 +140,27 @@
 }
 
 .contact-form-container[hidden],
-.contact-toggle[hidden] {
-    display: none !important;
-}
+.contact-toggle[hidden] { display: none !important; }
 
 .contact-form-container h3 {
     margin: 0 0 8px;
     color: #174a70;
 }
 
-.contact-intro {
-    margin: 0 0 22px;
-    color: #5d6b78;
-    line-height: 1.6;
-}
+.contact-intro { margin: 0 0 22px; }
 
 @media (max-width: 760px) {
-    .help-page {
-        padding: 24px 16px 40px;
-    }
-
+    .help-page { padding: 24px 16px 40px; }
     .help-grid {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: 1fr;
         gap: 20px;
         margin-top: 28px;
     }
-
-    .help-page .card {
-        padding: 22px;
-    }
-
-    .faq-card {
-        padding: 8px 16px;
-    }
-
-    .center-title {
-        font-size: 1.7rem;
-    }
+    .help-page .card { padding: 22px; }
+    .faq-card { padding: 8px 16px; }
+    .center-title { font-size: 1.7rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .panel {
-        transition: none;
-    }
+    .panel { transition: none; }
 }

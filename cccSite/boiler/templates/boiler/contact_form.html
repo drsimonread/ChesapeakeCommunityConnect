@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <form
@@ -5,34 +6,76 @@
     id="contact-form"
     class="contact-form contact-form--help"
     method="post"
+    aria-labelledby="contact-form-title"
 >
     {% csrf_token %}
 
+    <div class="contact-form-heading">
+        <h3 id="contact-form-title">Send Us a Message</h3>
+        <p>Have a question or need help? Fill out the form below and we'll get back to you.</p>
+        <p class="required-note">Fields marked with * are required.</p>
+    </div>
+
+    {% if form.non_field_errors %}
+        <div class="form-errors" role="alert">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+
     <div class="form-field">
-        <label for="{{ form.sender.id_for_label }}">Your Name</label>
+        <label for="{{ form.sender.id_for_label }}">
+            Your Name <span aria-hidden="true">*</span>
+        </label>
         {{ form.sender }}
-        {{ form.sender.errors }}
+        {% if form.sender.errors %}
+            <div class="field-error" id="sender-errors" role="alert">
+                {{ form.sender.errors }}
+            </div>
+        {% endif %}
     </div>
 
     <div class="form-field">
-        <label for="{{ form.email.id_for_label }}">Email Address</label>
+        <label for="{{ form.email.id_for_label }}">
+            Email Address <span aria-hidden="true">*</span>
+        </label>
         {{ form.email }}
-        {{ form.email.errors }}
+        {% if form.email.errors %}
+            <div class="field-error" id="email-errors" role="alert">
+                {{ form.email.errors }}
+            </div>
+        {% endif %}
     </div>
 
     <div class="form-field">
-        <label for="{{ form.subject.id_for_label }}">Subject</label>
+        <label for="{{ form.subject.id_for_label }}">
+            Subject <span aria-hidden="true">*</span>
+        </label>
         {{ form.subject }}
-        {{ form.subject.errors }}
+        {% if form.subject.errors %}
+            <div class="field-error" id="subject-errors" role="alert">
+                {{ form.subject.errors }}
+            </div>
+        {% endif %}
     </div>
 
     <div class="form-field">
-        <label for="{{ form.message.id_for_label }}">Your Message</label>
+        <label for="{{ form.message.id_for_label }}">
+            Your Message <span aria-hidden="true">*</span>
+        </label>
         {{ form.message }}
-        {{ form.message.errors }}
+        {% if form.message.errors %}
+            <div class="field-error" id="message-errors" role="alert">
+                {{ form.message.errors }}
+            </div>
+        {% endif %}
     </div>
 
-    <button type="submit" class="contact-submit">
-        Send Message
-    </button>
+    <div class="contact-form-actions">
+        <button type="submit" class="contact-submit">
+            Send Message
+        </button>
+        <p class="form-privacy-note">
+            Please don't include sensitive personal information in your message.
+        </p>
+    </div>
 </form>
