@@ -3,7 +3,7 @@
 ## Software Requirements Specification
 
 **Version:** 2.0
-**Date:** October 19, 2026
+**Date:** October 21, 2026
 **Status:** Current project baseline
 **Project:** ChesapeakeCommunityConnect
 
@@ -14,7 +14,7 @@
 | 11/29/23 | 1.0 | Initial draft | Chesapeake Community Connect capstone team |
 | 01/24/24 | 1.1 | Revision started for 2024 | Chesapeake Community Connect team |
 | 02/24/25 | 1.2 | Revision for Spring 2025 | Sophia Lin |
-| 10/19/26 | 2.0 | Updated scope, requirements, technology stack, and delivery model for the current Django application | CDSpecCollab team |
+| 10/21/26 | 2.0 | Updated scope, requirements, technology stack, and delivery model for the current Django application | Supphat Overton |
 
 ---
 
@@ -22,15 +22,15 @@
 
 ### 1.1 Purpose
 
-This Software Requirements Specification (SRS) defines the current scope and externally observable requirements of the Chesapeake Community Connect (CCC) website. It is the baseline for implementation, quality assurance, deployment, and future maintenance. Requirements marked **Implemented** describe behavior represented in the current repository. Requirements marked **Planned** identify work that remains in scope but is not complete in the current application.
+This Software Requirements Specification (SRS) defines the scope and externally observable requirements of the Chesapeake Community Connect (CCC) website. It serves as a reference for implementation, testing, deployment, and maintenance. Requirements marked **Implemented** describe completed behavior. Requirements marked **Planned** identify remaining work.
 
 ### 1.2 Scope
 
-CCC is a browser-based Django application that helps communities share environmental projects, stories, and resources connected to the Chesapeake region. The application presents approved map posts on an interactive map and searchable list, supports contributor profiles and project submissions, and provides administrative tools for moderation, reports, tags, and account requests.
+CCC is a browser-based Django application that helps communities share environmental projects, stories, and resources connected to the Chesapeake region. It provides an interactive map and searchable list of approved posts, contributor profiles and submissions, and administrative tools for reports, tags, messages, and member records.
 
 The current release includes:
 
-* A Django 4.2 web application served through WSGI or ASGI.
+* A Django 5.2.18 web application served through WSGI or ASGI.
 * SQLite persistence in the current repository configuration, with Django migrations for the application models.
 * Google Identity Services sign-in using verified Google ID tokens.
 * Session-based member access and ranking values for member, trusted member, moderator, administrator, and banned states.
@@ -40,7 +40,7 @@ The current release includes:
 * Administrative pages for messages, members, tags, reports, and moderation workflows.
 * Static and uploaded media served through Django configuration.
 
-The current release does not provide a completed public export endpoint, email approval notifications, arbitrary audio/video storage, or a production-safe externalized-secret configuration. Those items are documented as planned or operational requirements rather than claimed as completed functionality.
+The current release does not provide a completed public export endpoint, email approval notifications, arbitrary audio/video storage, a public contributor directory, or production configuration for externalized secrets. These items are identified as planned requirements.
 
 ### 1.3 Definitions, Acronyms, and Abbreviations
 
@@ -160,9 +160,9 @@ The project uses Django URL routing, templates, forms, models, migrations, sessi
 * **NFR-SEC-01:** Production deployments shall run with `DEBUG` disabled and a restricted `ALLOWED_HOSTS` list.
 * **NFR-SEC-02:** Production deployments shall load Django secrets, Google credentials, API keys, and database credentials from protected configuration rather than source code.
 * **NFR-SEC-03:** The application shall use Django CSRF protection for ordinary state-changing forms.
-* **NFR-SEC-04:** Google sign-in requests shall validate the Google CSRF token and verify the ID token before creating a session.
+* **NFR-SEC-04 — Implemented:** Google sign-in requests shall validate the Google CSRF token and verify the ID token before creating a session.
 * **NFR-SEC-05:** Administrative and moderation operations shall require an authenticated session with an appropriate rank.
-* **NFR-SEC-06:** The application shall not store raw passwords. Existing account-request fields containing password values shall be replaced or removed before production use.
+* **NFR-SEC-06:** The application shall not store raw passwords.
 * **NFR-SEC-07:** User reports and contact submissions shall be accessible only to authorized administrative users.
 
 ### 3.2 Compatibility and Usability
@@ -175,7 +175,7 @@ The project uses Django URL routing, templates, forms, models, migrations, sessi
 
 ### 3.3 Maintainability
 
-* **NFR-MAINT-01:** The application shall target Python dependencies declared in `cccSite/requirements.txt`, including Django 4.2.6.
+* **NFR-MAINT-01:** The application shall target Python dependencies declared in `cccSite/requirements.txt`, including Django 5.2.18.
 * **NFR-MAINT-02:** Database schema changes shall be represented by Django migrations.
 * **NFR-MAINT-03:** New behavior shall include automated tests for affected views, forms, models, permissions, and integrations where practical.
 * **NFR-MAINT-04:** Requirements, design, test, deployment, and training documents shall identify the same current scope and technology stack.
