@@ -74,7 +74,7 @@ trap cleanup EXIT
 
 echo "[1/6] Creating/activating QA virtualenv..."
 if [ ! -d "${VENV_DIR}" ]; then
-  python3.10 -m venv "${VENV_DIR}"
+  python3 -m venv "${VENV_DIR}" # CHANGE: changed from python3.10 to python3
 fi
 # shellcheck disable=SC1091
 source "${VENV_DIR}/bin/activate"
@@ -84,7 +84,7 @@ python -m pip install --upgrade pip >/dev/null
 pip install -r "${SITE_DIR}/requirements.txt" >/dev/null
 
 echo "[3/6] Installing QA dependencies..."
-pip install -r "${QA_DIR}/requirements.txt" >/dev/null
+pip install -r "${SITE_DIR}/requirements.txt" >/dev/null # CHANGE: changed QA_DIR to SITE_DIR
 
 echo "[4/6] Running Django migrations..."
 cd "${SITE_DIR}"
