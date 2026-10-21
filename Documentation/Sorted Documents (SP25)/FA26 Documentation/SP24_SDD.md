@@ -8,59 +8,59 @@
 
 **Table of Contents**
 
-[**1\. Introduction	3**](#1.-introduction)
+[**1\. Introduction	3**](#1-introduction-1-introduction)
 
-[1.1 Purpose	3](#1.1-purpose)
+[1.1 Purpose	3](#11-purpose-11-purpose)
 
-[1.2 Scope	3](#1.2-scope)
+[1.2 Scope	3](#12-scope-12-scope)
 
-[1.3 Definitions, Acronyms, and Abbreviations	3](#1.3-definitions,-acronyms,-and-abbreviations)
+[1.3 Definitions, Acronyms, and Abbreviations	3](#13-definitions-acronyms-and-abbreviations-13-definitions-acronyms-and-abbreviations)
 
-[1.4 Document References	4](#1.4-document-references)
+[1.4 Document References	4](#14-document-references-14-document-references)
 
-[1.5 System Overview	4](#1.5-system-overview)
+[1.5 System Overview	4](#15-system-overview-15-system-overview)
 
-[**2\. Data Design	4**](#2.-data-design)
+[**2\. Data Design	4**](#2-data-design-2-data-design)
 
-[2.1 Internal Data Structures	5](#2.1-internal-data-structures)
+[2.1 Internal Data Structures	5](#21-internal-data-structures-21-internal-data-structures)
 
-[2.2 Data Flow Diagram	5](#2.2-data-flow-diagram)
+[2.2 Data Flow Diagram	5](#22-data-flow-diagram-22-data-flow-diagram)
 
-[**3\. Architecture Design	5**](#3.-architecture-design)
+[**3\. Architecture Design	5**](#3-architecture-design-3-architecture-design)
 
-[3.1 Program Structure	6](#3.1-program-structure)
+[3.1 Program Structure	6](#31-program-structure-31-program-structure))
 
-[**4\. Interface Design	6**](#4.-interface-design)
+[**4\. Interface Design	6**](#4-interface-design-4-interface-design))
 
-[4.1 Internal System Interfaces	6](#4.1-internal-system-interfaces)
+[4.1 Internal System Interfaces	6](#41-internal-system-interfaces-41-internal-system-interfaces)
 
-[4.2 External System Interfaces	6](#4.2-external-system-interfaces)
+[4.2 External System Interfaces	6](#42-external-system-interfaces-42-external-system-interfaces)
 
-[4.3 User Interfaces	6](#4.3-user-interfaces)
+[4.3 User Interfaces	6](#43-user-interfaces-43-user-interfaces)
 
-[4.3.1 Home Screen Display	6](#4.3.1-home-screen-display)
+[4.3.1 Home Screen Display	6](#431-home-screen-display-431-home-screen-display)
 
-[4.3.2 Contributor Page	7](#4.3.2-contributor-page)
+[4.3.2 Contributor Page	7](#432-contributor-page-432-contributor-page)
 
-[4.3.3 Login Display	9](#4.3.3-login-display)
+[4.3.3 Login Display	9](#433-login-display-433-login-display)
 
-[4.3.4 Sign Up Display	10](#4.3.4-sign-up-display)
+[4.3.4 Sign Up Display	10](#434-sign-up-display--434-sign-up-display)
 
-[4.3.5 Upload Submission Display	11](#4.3.5-upload-submission-display)
+[4.3.5 Upload Submission Display	11](#435-upload-submission-display-435-upload-submission-display)
 
-[4.3.6 Profile Management Display	12](#4.3.6-profile-management-display)
+[4.3.6 Profile Management Display	12](#436-profile-management-display-436-profile-management-display)
 
-[4.3.7 About Display	13](#4.3.7-about-display)
+[4.3.7 About Display	13](#437-about-display-437-about-display)
 
-[4.3.8 Help & Tutorial Display	13](#4.3.8-help-&-tutorial-display)
+[4.3.8 Help & Tutorial Display	13](#438-help--tutorial-display-438-help--tutorial-display)
 
-[4.3.9 Admin Page	14](#4.3.9-admin-page)
+[4.3.9 Admin Page	14](#439-admin-page-439-admin-page)
 
-[**5\. Procedural Design	15**](#5.-procedural-design)
+[**5\. Procedural Design	15**](#5-procedural-design-5-procedural-design)
 
-[5.1 Flowchart Reference Key	15](#5.1-flowchart-reference-key)
+[5.1 Flowchart Reference Key	15](#51-flowchart-reference-key-51-flowchart-reference-key)
 
-[**6\. Miscellaneous	16**](#6.-miscellaneous)
+[**6\. Miscellaneous	16**](#6-miscellaneous-6-miscellaneous)
 
 **Revision History**
 
