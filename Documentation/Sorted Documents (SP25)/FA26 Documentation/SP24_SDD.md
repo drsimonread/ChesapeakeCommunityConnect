@@ -28,9 +28,9 @@
 
 [**3\. Architecture Design	5**](#3-architecture-design-3-architecture-design)
 
-[3.1 Program Structure	6](#31-program-structure-31-program-structure))
+[3.1 Program Structure	6](#31-program-structure-31-program-structure)
 
-[**4\. Interface Design	6**](#4-interface-design-4-interface-design))
+[**4\. Interface Design	6**](#4-interface-design-4-interface-design)
 
 [4.1 Internal System Interfaces	6](#41-internal-system-interfaces-41-internal-system-interfaces)
 
