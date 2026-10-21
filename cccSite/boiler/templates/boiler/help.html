@@ -2,157 +2,101 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'boiler/helpstyle.css' %}?v=4">
-<link rel="stylesheet" href="{% static 'boiler/contact_formstyle.css' %}?v=4">
+<link rel="stylesheet" href="{% static 'boiler/helpstyle.css' %}?v=3">
 <title>Chesapeake Community Connect - Help/FAQs</title>
 {% endblock head %}
 
-{% block content %}
-<div id="content" class="help-page">
 
-    <!-- Frequently Asked Questions -->
-    <section id="FAQ" class="section">
-        <h2 class="center-title">Frequently Asked Questions</h2>
-        <p class="section-subtitle">
-            Find answers to common questions about Chesapeake Community Connect.
-        </p>
+{% block content %}
+<div id="content">
+
+    <!-- FAQ -->
+    <div id="FAQ" class="section">
+        <h2 class="center-title">Frequently Asked Questions (FAQ)</h2>
 
         <div class="faq-card">
 
-            <button type="button" class="accordion" aria-expanded="false">
+            <button class="accordion">
                 What is this website?
-                <span class="icon" aria-hidden="true">+</span>
+                <span class="icon">+</span>
             </button>
             <div class="panel">
-                <p>
-                    Chesapeake Community Connect is an interactive map webapp
-                    that highlights resilience initiatives across the Chesapeake region.
-                </p>
+                <p>Chesapeake Community Connect is an interactive map webapp that highlights resilience initiatives across the Chesapeake region.</p>
             </div>
 
-            <button type="button" class="accordion" aria-expanded="false">
+            <button class="accordion">
                 How do I contribute?
-                <span class="icon" aria-hidden="true">+</span>
+                <span class="icon">+</span>
             </button>
             <div class="panel">
-                <p>
-                    Go to the map tab and click "Create a Post" to add your contribution.
-                </p>
+                <p>Go to the map tab and click "Create a Post" to add your contribution.</p>
             </div>
 
-            <button type="button" class="accordion" aria-expanded="false">
+            <button class="accordion">
                 Why does this exist?
-                <span class="icon" aria-hidden="true">+</span>
+                <span class="icon">+</span>
             </button>
             <div class="panel">
-                <p>
-                    This project was developed with St. Mary's College of Maryland
-                    to promote environmental justice and collaboration.
-                </p>
+                <p>This project was developed with St. Mary's College of Maryland to promote environmental justice and collaboration.</p>
             </div>
 
         </div>
-    </section>
+      </section>
 
-    <!-- Tutorial and Contact Section -->
-    <section class="section help-grid">
+    <!-- VIDEO + CONTACT -->
+    <div class="section split">
 
-        <!-- Map Tutorial -->
+        <!-- VIDEO -->
         <div class="card">
             <h2>Map Tutorial</h2>
-            <p class="subtitle">
-                Learn how to use filters and explore map pins.
-            </p>
+            <p class="subtitle">Learn how to use filters and explore map pins.</p>
 
             <div class="video-wrapper">
-                <video controls preload="metadata">
-                    <source
-                        src="{% static 'base/assets/tutorial-video.mp4' %}"
-                        type="video/mp4"
-                    >
-                    Your browser does not support HTML video.
+                <video controls>
+                    <source src="{% static 'base/assets/tutorial-video.mp4' %}" type="video/mp4">
                 </video>
             </div>
         </div>
 
-        <!-- Contact Us -->
-        <div class="card contact-card">
+        <!-- CONTACT -->
+        <div class="card center-card">
             <h2>Need Help?</h2>
-            <p class="subtitle">
-                Have questions, feedback, or suggestions? We'd love to hear from you.
-            </p>
+            <p class="subtitle">Have questions or want to contribute?</p>
 
-            <button
-                type="button"
-                class="button contact-toggle"
-                id="show-contact-form-button"
-                aria-expanded="false"
-                aria-controls="contact-form-container"
-            >
+            <div class="button" id="show-contact-form-button" onclick="showContactForm()">
                 Contact Us
-            </button>
+            </div>
 
-            <div
-                id="contact-form-container"
-                class="contact-form-container"
-                hidden
-            >
-                <h3>Send Us a Message</h3>
-                <p class="contact-intro">
-                    Fill out the form below and send us your message.
-                </p>
-
+            <div id="contact-form" style="display:none; margin-top:15px;">
                 {% include 'boiler/contact_form.html' %}
             </div>
         </div>
 
-    </section>
+    </div>
+
 </div>
 
+
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Show and hide the contact form.
-    const contactButton = document.getElementById("show-contact-form-button");
-    const contactContainer = document.getElementById("contact-form-container");
+function showContactForm() {
+    document.getElementById("contact-form").style.display = "block";
+    document.getElementById("show-contact-form-button").style.display = "none";
+}
 
-    if (contactButton && contactContainer) {
-        contactButton.addEventListener("click", function () {
-            contactContainer.hidden = false;
-            contactButton.hidden = true;
-            contactButton.setAttribute("aria-expanded", "true");
+var acc = document.getElementsByClassName("accordion");
 
-            const firstField = contactContainer.querySelector(
-                "input:not([type='hidden']), textarea, select"
-            );
+for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
 
-            if (firstField) {
-                firstField.focus();
-            }
-        });
-    }
+        this.classList.toggle("active");
 
-    // FAQ accordion behavior.
-    const accordions = document.querySelectorAll(".accordion");
+        let icon = this.querySelector(".icon");
+        icon.textContent = icon.textContent === "+" ? "−" : "+";
 
-    accordions.forEach(function (accordion) {
-        accordion.addEventListener("click", function () {
-            const panel = this.nextElementSibling;
-            const icon = this.querySelector(".icon");
-            const isOpen = this.classList.toggle("active");
-
-            this.setAttribute("aria-expanded", String(isOpen));
-
-            if (icon) {
-                icon.textContent = isOpen ? "−" : "+";
-            }
-
-            if (panel) {
-                panel.style.maxHeight = isOpen
-                    ? panel.scrollHeight + "px"
-                    : null;
-            }
-        });
+        let panel = this.nextElementSibling;
+        panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
     });
-});
+}
 </script>
-{% endblock content %}  
+
+{% endblock content %}
