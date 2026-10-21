@@ -16,6 +16,57 @@ def signin(request):
     else:
         return redirect("/account/")
 
+def signin_form(request):
+    if request.method == "GET":
+        return render(request, "account/signin_form.html")
+
+    username = request.POST.get("username", "").strip()
+    password = request.POST.get("password", "")
+    account = AccountCreation.objects.filter(
+        username__iexact=username, status="accepted"
+    ).first()
+    if account is None or account.password != password:
+        return render(request, "account/signin_form.html", {
+            "error": "The username or password is incorrect.",
+        })
+
+    member, _ = Member.objects.get_or_create(
+        email=account.email,
+        defaults={"name": account.displayname},
+    )
+    request.session["rank"] = member.ranking
+    request.session["user"] = member.pk
+    request.session["name"] = member.name
+    return redirect(reverse("account:default"))
+
+def signup(request):
+    if request.method == "GET":
+        return render(request, "account/signup.html")
+
+    values = {
+        field: request.POST.get(field, "").strip()
+        for field in ("email", "username", "displayname", "password", "confirmpassword")
+    }
+    if not all(values.values()):
+        return render(request, "account/signup.html", {
+            "error": "All fields are required.",
+        })
+    if values["password"] != values["confirmpassword"]:
+        return render(request, "account/signup.html", {
+            "error": "The passwords do not match.",
+        })
+    if AccountCreation.objects.filter(
+        email__iexact=values["email"], status="pending"
+    ).exists() or AccountCreation.objects.filter(
+        username__iexact=values["username"], status="pending"
+    ).exists():
+        return render(request, "account/signup.html", {
+            "error": "An account request with that email or username is already pending.",
+        })
+
+    AccountCreation.objects.create(**values)
+    return redirect(reverse("account:signin"))
+
 # if a user tries to sign out by URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to confirmation
 def signout(request):
     if request.method == "POST":

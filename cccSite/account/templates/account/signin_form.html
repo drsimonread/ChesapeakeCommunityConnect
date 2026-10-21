@@ -1,19 +1,26 @@
-{% load static %}
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'boiler/contact_formstyle.css' %}">
-</head>
+{% extends "account/accountBase.html" %}
+{% block accHead %}
+<title>Chesapeake Community Connect - Sign In</title>
+{% endblock accHead %}
 
-<body>
-    <form action="{% url 'account:signin_form'%}" id="signin-form" style="display: none;" method="post">
-        {% csrf_token %}
-        <div class="half left cf">
-            {{ form.sender }}
-            {{ form.email }}
-            {{ form.subject }}
-        </div>
-        <div class="half right cf">
-            {{ form.message }}
-        </div>
-        <input type="submit" value="Submit" id="input-submit">
-    </form>
-</body>
+{% block accountFunc %}
+<div class="containerS1">
+    <div class="wrapperS1">
+        <h1 class="heading">Sign In</h1>
+        {% if error %}
+            <p class="help is-danger">{{ error }}</p>
+        {% endif %}
+        <form action="{% url 'account:signin_form' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <label for="signin-username">Username</label>
+            <input class="input" type="text" id="signin-username" name="username"
+                   autocomplete="off" required>
+            <label for="signin-password">Password</label>
+            <input class="input" type="password" id="signin-password" name="password"
+                   autocomplete="new-password" required>
+            <input class="button is-primary" type="submit" value="Sign In">
+        </form>
+        <a class="button" href="{% url 'account:signin' %}">Cancel</a>
+    </div>
+</div>
+{% endblock accountFunc %}

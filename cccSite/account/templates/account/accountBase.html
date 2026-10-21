@@ -10,7 +10,7 @@
 {% block content %}
 <div class="body">  
     <ul style="position:fixed;width: 15%;">
-        <li><a class="button" href="">Search Contributors</a></li>
+        <!-- <li><a class="button" href="">Search Contributors</a></li> -->
         {%if rank > 0%}
         <li><a class="button" href="{%url 'account:default' %}">My Account</a></li>
         <li><a class="button" href="{%url 'account:manage' %}">Edit Account</a></li>
@@ -19,7 +19,13 @@
             <input type="submit" value="Sign Out">
         </form></li>
         {%else%}
-        <li><a class="button" href="{% url 'account:signin' %}">Sign In</a></li>
+        <li>
+            {% if request.resolver_match.url_name == 'signin' %}
+                <span class="button" aria-current="page">Sign In</span>
+            {% else %}
+                <a class="button" href="{% url 'account:signin' %}">Sign In</a>
+            {% endif %}
+        </li>
         {%endif%}
     </ul>
 

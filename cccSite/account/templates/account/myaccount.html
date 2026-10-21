@@ -79,7 +79,7 @@
         </div>
 
         <div class="buttonHolder">
-            <button class="editPro" id="edit-account" onclick="window.location.href='{%url 'account:manage'%}';">
+            <button class="editPro" id="edit-account" data-url="{% url 'account:manage' %}" onclick="window.location.href=this.dataset.url">
                 Edit Account Details</button>
         </div>
 

@@ -257,7 +257,7 @@
 
 {% block account_extra_js %}
 <script>
-  window.CF_EDIT_FORUM_ID = {% if editing_forum %}{{ editing_forum.pk }}{% else %}null{% endif %};
+  window.CF_EDIT_FORUM_ID = "{% if editing_forum %}{{ editing_forum.pk }}{% endif %}";
   let autocomplete;
   async function initAutocomplete() {
     const el = document.getElementById("id_location");

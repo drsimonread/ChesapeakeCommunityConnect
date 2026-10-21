@@ -22,7 +22,8 @@
                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
                     data-text="signin" data-size="large" data-logo_alignment="left">
                </div>
-               <div class = "button" id = "create-an-account"  onclick="showAccountCreation()" style="display: block;">Create an Account</div>
+               <a class="button" id="create-an-account" href="{% url 'account:signup' %}">Create an Account</a>
+               <a class="button" id="Signin" href="{% url 'account:signin_form' %}">Sign In</a>
                
           </div>
      </div>
@@ -47,12 +48,4 @@
      </div>
 </div>
 
-<script>
-     function showAccountCreation() {
-         const contactForm = document.getElementById("contact-form");
-         contactForm.style.display = "block";
-         const contactButton = document.getElementById("show-create-an-account-button");
-         contactButton.style.display = "none";
-     }
-</script>
 {% endblock accountFunc %}
