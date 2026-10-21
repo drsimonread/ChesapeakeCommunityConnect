@@ -14,7 +14,7 @@ Some [training documents](docs/00-start-here.md) for developers are available.
 
 [CCC Traceability Matrix](Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_Traceability_Matrix.md)
 
-[CCC SRS](Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_SRS.md) 
+[CCC SRS](Documentation/Sorted%20Documents%20(SP25)/FA26%20Documentation/FA26_SRS.md)
 
 [CCC Test Tracker](Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_Test_Tracker.md)
 
