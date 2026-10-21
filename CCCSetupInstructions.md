@@ -1,7 +1,6 @@
 # Setting up Chesapeake Community Connect (CCC) on your Google Cloud VM
 ## CCC Installation
--	**Configuring your Virtual Machine for git, python, and other dependencies**
-	-	cd /home/shared_workspace
+-	**Configuring your Virtual Machine for git, python, and other dependencies**W
 	-	sudo apt update
 	-	sudo apt upgrade -y
 	-	sudo apt install git
@@ -11,34 +10,40 @@
 		-	Put in your GitHub email
 	-	git init
 	-	git clone https://github.com/drsimonread/ChesapeakeCommunityConnect 
-	-	sudo apt install python3-ensurepip
-	-	sudo apt install pip
-	-	python3.10 -m pip install --upgrade pip 
+	-	sudo apt install python3 python3-venv python3-pip libmagic1
 	-	sudo apt install libapache2-mod-wsgi-py3
 		-	Y to Continue
+	-	**Optional database setup:** The project's current Django settings use SQLite, so MariaDB and PostgreSQL are not required to run the development server. Follow the MariaDB steps only if you need a separate MariaDB installation; these steps do not switch Django to MariaDB.
 	-	sudo apt install mariadb-server
 		-	Y to Continue
-	-	sudo mysql_secure_installation
-		-	No for current password
-		-	N for switch to unix-socket
-		-	Y to set new root password
-		- Set root password to `software_startup_simulator`
+	-	sudo mariadb-secure-installation
+		-	This is the current MariaDB command; the older `mysql_secure_installation` name may not be installed.
+		-	For the current database root password, press **Enter** on a fresh installation if no password has been set. Do not type `No`. If you previously set a database root password, enter it.
+		-	Y to switch to unix_socket authentication, if prompted. This allows local database root access through `sudo mariadb`.
+		-	N to change the root password when using unix_socket authentication. If you choose to enable password authentication instead, use your own strong password.
 		- Y to remove anonymous users
 		- Y to disallow remote root login
 		- Y to remove test database
 		- Y to reload data table privileges
-	- sudo apt install -y postgresql
+	- Only install PostgreSQL if your intended database configuration requires it: `sudo apt install -y postgresql`.
+
+-	**Creating and activating your Python virtual environment**
+	-	cd cccSite
+	-	python3 -m venv .venv
+	-	source .venv/bin/activate
+	-	Your terminal prompt should now show `(.venv)`. Keep this environment active while installing requirements and running Django commands.
+	-	python -m pip install --upgrade pip
+	-	Create the environment only once. In each new terminal, return to the `cccSite` directory and run `source .venv/bin/activate` again.
 
 -	**Installing your CCC Requirements**
-	-	cd /home/shared_workspace/ChesapeakeCommunityConnect/cccSite
-	-	git pull origin main
-	-	git pull origin development
-	-	python3 -m pip install -r requirements.txt
-	-	python3 -m pip install python-magic
-	-	python3 -m pip install googlemaps
+	-	Make sure you are still in your cccSite directory.
+	-	Make sure your virtual environment is active before running these commands. Do not use `sudo` with pip.
+	-	python -m pip install -r requirements.txt
 -	**Running the CCC Website**
-	-	python3 manage.py makemigrations
-	-	python3 manage.py migrate
-	-	python3 manage.py runserver 8080
+	-	In the cccSite directory.
+	-	python manage.py migrate
+	-	If you have changed Django models and need new migrations, run `python manage.py makemigrations`, then run `python manage.py migrate` again.
+	-	python manage.py runserver 8080
 		-	If you’re using Visual Studio Code, this should give you a prompt that says “Your application running on port 8080 is available”. Click on “Open in Browser”
 		-	Alternatively, enter “http://127.0.0.1:8080/” in your browser
+	-	Press **Ctrl+C** to stop the server. Run `deactivate` when you are finished using the virtual environment.
