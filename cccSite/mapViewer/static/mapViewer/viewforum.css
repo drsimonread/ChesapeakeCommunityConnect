@@ -117,6 +117,31 @@
 #report-button{
   background-color: #00205c;
   color: #f3c10d;
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+  list-style: none;
+}
+
+#report-button::-webkit-details-marker {
+  display: none;
+}
+
+#report-button::before {
+  content: "+ ";
+}
+
+.report-panel[open] #report-button::before {
+  content: "- ";
+}
+
+.report-panel form {
+  margin-top: 12px;
+}
+
+.report-success {
+  color: #155724;
 }
 
 #report-field{

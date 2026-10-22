@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'mapViewer/viewforum.css' %}">
 <title>Chesapeake Community Connect - Map</title>
 {% endblock head %}
 
@@ -10,15 +11,6 @@
 
 <br>
 <div id="content" class="body">
-    {%if not hasReported %}
-    <form action="{{request.build_absolute_uri}}"  method="post">{% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Send Report" id="input-submit">
-    </form>
-    {%else%}
-    Your report has been received.
-    {%endif%}
-
     <h1>{{post.title}}</h1>
     <br>
     By {{post.author}}
@@ -31,6 +23,19 @@
     {{item.name}}
     <br>
     {%endfor%}
+
+    {%if hasReported %}
+    <p class="report-success" role="status">Your report has been received.</p>
+    {%else%}
+    <details class="report-panel">
+        <summary id="report-button">Report this post</summary>
+        <form action="{{request.build_absolute_uri}}" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Send Report" id="input-submit">
+        </form>
+    </details>
+    {%endif%}
     
 </div>
 

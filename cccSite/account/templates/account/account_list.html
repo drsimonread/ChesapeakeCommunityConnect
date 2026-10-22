@@ -88,8 +88,8 @@
           {% for item in page_obj %}
           <li>
             <a class="dir-search__row" href="{{ item.get_absolute_url }}">
-              <span class="dir-search__avatar" aria-hidden="true">{{ item.user.username|slice:"0:1"|upper }}</span>
-              <span class="dir-search__name">{{ item.user.username }}</span>
+              <span class="dir-search__avatar" aria-hidden="true">{{ item.name|slice:"0:1"|upper }}</span>
+              <span class="dir-search__name">{{ item.name }}</span>
               <span class="dir-search__count">{{ item.num_forums }} forum{{ item.num_forums|pluralize }}</span>
               <span class="dir-search__row-go" aria-hidden="true"><i class="bx bx-chevron-right"></i></span>
             </a>

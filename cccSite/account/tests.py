@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from .models import Member, GLogIn
+from mapViewer.models import MapPost
 
 class AccountViewsTest(TestCase):
     def setUp(self):
@@ -21,6 +22,72 @@ class AccountViewsTest(TestCase):
         response = self.client.get(reverse("account:default"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test User")
+        self.assertContains(response, reverse("account:create_forum"))
+
+    def test_signed_out_contributor_page_has_only_menu_sign_in(self):
+        self.session.flush()
+        response = self.client.get(reverse("account:signin"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "nav-auth__link")
+        self.assertNotContains(response, 'id="Signin"')
+
+    def test_account_search_lists_visible_forum_authors(self):
+        MapPost.objects.create(
+            title="Visible forum",
+            content="A visible forum",
+            author=self.user,
+            description="A visible forum",
+            geoCode={"lat": 38.98, "lng": -76.49},
+            visibility=1,
+        )
+
+        response = self.client.get(reverse("account:account_list"), {"q": "Test"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Test User")
+        self.assertContains(response, "1 forum")
+
+    def test_create_forum_page_uses_existing_template(self):
+        response = self.client.get(reverse("account:create_forum"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Create a forum")
+
+    def test_create_forum_submission_creates_pending_post(self):
+        response = self.client.post(reverse("account:create_forum"), {
+            "title": "Community forum",
+            "firstName": "Test",
+            "lastName": "User",
+            "location": "123 Main Street",
+            "content": "A community forum description",
+            "associated": "yes",
+            "private_public": "public",
+            "geoResult": '{"lat": 38.98, "lng": -76.49}',
+        })
+        self.assertRedirects(response, reverse("account:my_forums") + "?success=1")
+        self.assertTrue(MapPost.objects.filter(
+            author=self.user, title="Community forum", visibility=0,
+        ).exists())
+
+    def test_my_forums_shows_member_posts(self):
+        MapPost.objects.create(
+            title="Pending forum",
+            content="A forum awaiting review",
+            author=self.user,
+            description="A forum awaiting review",
+            geoCode={"lat": 38.98, "lng": -76.49},
+            visibility=0,
+        )
+
+        response = self.client.get(reverse("account:my_forums"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Pending forum")
+        self.assertContains(response, "Pending review")
+
+    def test_my_forums_redirects_if_not_signed_in(self):
+        self.session.flush()
+        response = self.client.get(reverse("account:my_forums"))
+        self.assertRedirects(response, reverse("account:signin"))
 
     def test_manage_view_redirects_if_not_signed_in(self):
         self.session.flush()

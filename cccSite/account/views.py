@@ -4,10 +4,15 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.core.paginator import Paginator
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from PIL import Image
+from mapViewer.models import MapPost
+from .forms import CreateForumForm, SearchAccountForm
+from urllib.parse import urlencode
 
 # if user not signed in, sends them to log in 
 def signin(request):
@@ -88,7 +93,50 @@ def default(request):
         })
     
 def account_all(request):
-    return HttpResponse("insert account view list here")
+    search = SearchAccountForm(request.GET)
+    query = request.GET.get("q", "").strip()
+    sort = request.GET.get("s", "0")
+    page_number = request.GET.get("page", "1")
+
+    members = Member.objects.annotate(
+        num_forums=Count(
+            "mappost",
+            filter=Q(mappost__visibility=1),
+        ),
+    ).filter(num_forums__gt=0)
+    if query:
+        members = members.filter(name__icontains=query)
+
+    sort_fields = {
+        "0": ("name",),
+        "1": ("-name",),
+        "2": ("-num_forums", "name"),
+        "3": ("num_forums", "name"),
+    }
+    sort = sort if sort in sort_fields else "0"
+    members = members.order_by(*sort_fields[sort])
+    page_obj = Paginator(members, 20).get_page(page_number)
+
+    def query_string(**updates):
+        values = {"q": query, "s": sort, "page": page_obj.number}
+        values.update(updates)
+        return "?" + urlencode({key: value for key, value in values.items() if value not in ("", None)}
+                               )
+
+    return render(request, "account/account_list.html", {
+        "search": search,
+        "search_query": query,
+        "sort_value": sort,
+        "page_obj": page_obj,
+        "qs_clear_search": query_string(q="", page=1),
+        "qs_reset": query_string(q="", s="0", page=1),
+        "qs_sort_az": query_string(s="0", page=1),
+        "qs_sort_za": query_string(s="1", page=1),
+        "qs_sort_forums_hi": query_string(s="2", page=1),
+        "qs_sort_forums_lo": query_string(s="3", page=1),
+        "qs_prev": query_string(page=page_obj.previous_page_number() if page_obj.has_previous() else 1),
+        "qs_next": query_string(page=page_obj.next_page_number() if page_obj.has_next() else page_obj.number),
+    })
     
 def account_view(request, want):
     if not want:
@@ -117,6 +165,40 @@ def manage(request):
         userInz=Member.objects.get(pk=request.session['user'])
         form = ManageForm(instance=userInz)
     return render(request, "account/manage.html", {'form' : form})
+
+
+def my_forums(request):
+    if request.session.get("rank", 0) == 0:
+        return redirect(reverse("account:signin"))
+
+    posts = MapPost.objects.filter(
+        author_id=request.session["user"],
+    ).order_by("-created")
+    return render(request, "account/myForums.html", {
+        "vis": posts.filter(visibility=1),
+        "pend": posts.filter(visibility=0),
+        "den": posts.filter(visibility=-1),
+    })
+
+
+def create_forum(request):
+    if request.session.get("rank", 0) == 0:
+        return redirect(reverse("account:signin"))
+
+    form = CreateForumForm(request.POST or None, request.FILES or None)
+    if request.method == "POST" and form.is_valid():
+        content = form.cleaned_data["content"]
+        MapPost.objects.create(
+            title=form.cleaned_data["title"],
+            content=content,
+            author_id=request.session["user"],
+            description=content[:35] + ("..." if len(content) > 35 else ""),
+            geoCode=form.cleaned_data["geoResult"] or {},
+            visibility=0,
+        ).tags.set(form.cleaned_data["tags"])
+        return redirect(f"{reverse('account:my_forums')}?success=1")
+
+    return render(request, "account/create_forum.html", {"form": form})
 
 # a lot of this code is from google btw
 @csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
