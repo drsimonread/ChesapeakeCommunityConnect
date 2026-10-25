@@ -3,7 +3,6 @@
 |Chesapeake Community Connection Website - Software Design Description Version 1.1 - January 24th, 2024 - St. Mary’s College of Maryland Capstone |
 |:---:|
 
-_all images should be in except for the last diagram since it needs to be reuploaded since the original had no background and was very hard to read_
 
 **Table of Contents**
 
@@ -67,7 +66,7 @@ _all images should be in except for the last diagram since it needs to be reuplo
 | :---: | :---: | :---: | :---: |
 | October 11th, 2023 | 1.1  | Initial Draft  | Kylie Hall John Heinig Malik Hill Naheed John Yaro Kulchyckyj Isabella Stephens  Brittany Brenneman |
 | January 24th, 2024 | 1.1 | Start of revisions for 2024 | Daniel Reina Alex Ochman Gavin McDonald John Heinig Kendahl Michael Shively  |
-
+| October 25th, 2026 | | Start of revisions for 2026 | Claudia Woodbury |
 ---
 
 # **1\. Introduction** {#1.-introduction}
