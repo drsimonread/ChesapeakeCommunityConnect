@@ -1,9 +1,4 @@
-**![Image of Map Pin Logo][image1]**
-
-![](/assets%202/smcm-seal.png)
-
-now i have to just put the images in a folder and just link with relative
-
+![Image of Map Pin Logo](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Map-Pin-Icon.png)
 |Chesapeake Community Connection Website - Software Design Description Version 1.1 - January 24th, 2024 - St. Mary’s College of Maryland Capstone |
 |:---:|
 
