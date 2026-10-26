@@ -12,9 +12,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 from django.conf.global_settings import SECURE_CROSS_ORIGIN_OPENER_POLICY, SECURE_REFERRER_POLICY
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Load private environment variables from the local .env file
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 # Add or modify the STATIC_URL setting to specify the URL for static files
 STATIC_URL = '/static/'
@@ -86,7 +90,21 @@ TEMPLATES = [
     },
 ]
 
-GOOGLE_API_KEY = 'AIzaSyDObg89VOn66Pt_0l03pHwKWBdGmPdTX9A'
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+
+VALID_UPLOAD_TYPES = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/webp',
+    'audio/mpeg',
+    'audio/ogg',
+    'audio/wav',
+    'audio/x-wav',
+    'video/mp4',
+    'video/webm',
+    'video/quicktime',
+]
 
 
 WSGI_APPLICATION = 'cccSite.wsgi.application'

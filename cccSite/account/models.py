@@ -56,12 +56,12 @@ class GLogIn(models.Model):
 class ManageForm(ModelForm):
     class Meta:
         model = Member
-        fields = ["pic", "name", "email", "about"]
+        fields = ["pic", "name", "about"]
 
         widgets = {
             
             'name': forms.TextInput(attrs={'class':'nameField'}),
-            'email':forms.EmailInput(attrs={'class':'emailField'}),
+           #'email':forms.EmailInput(attrs={'class':'emailField'}),
             'about': forms.TextInput(attrs={'class':'aboutField'})
         }
         
@@ -84,6 +84,16 @@ class AccountCreation(models.Model):
     displayname = models.CharField(max_length=75)
     password = models.CharField(max_length=50)
     confirmpassword = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[
+            ('pending', 'Pending'),
+            ('accepted', 'Accepted'),
+            ('rejected', 'Rejected'),
+        ],
+        default='pending',
+    )
     
     def __str__(self):
         return self.email + " | " + self.username + " | " + self.displayname

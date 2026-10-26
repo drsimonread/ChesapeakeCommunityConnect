@@ -72,6 +72,23 @@ def post_list(request):
                                                         "form" : form})
 
 
+def get_posts_and_tags(request):
+    posts = MapPost.objects.filter(visibility=1)
+    post_data = [
+        {
+            "id": post.id,
+            "title": post.title,
+            "description": post.description,
+            "geoCode": post.geoCode,
+            "tags": [tag.name for tag in post.tags.all()],
+        }
+        for post in posts
+        if post.geoCode
+    ]
+    tag_data = list(MapTag.objects.values_list("name", flat=True))
+    return JsonResponse({"posts": post_data, "tags": tag_data})
+
+
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
     hasReported=False
@@ -137,18 +154,3 @@ def post_detail(request, want, wants):
                                                             "Post" : lookAtPost,
                                                             "forumData": forumData,
                                                             "comments" : comments,})
-
-    post_data = []
-    for post in posts:
-        if post.geoCode:
-            post_data.append({
-                "id": post.id,
-                "title": post.title,
-                "description": post.description,
-                "geoCode": post.geoCode,
-                "tags": [tag.name for tag in post.tags.all()]
-            })
-    
-    tag_data = [tag.name for tag in tags]
-
-    return JsonResponse({"posts": post_data, "tags": tag_data})

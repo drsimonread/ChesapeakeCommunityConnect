@@ -7,11 +7,12 @@ import googlemaps
 from django.db import models
 from datetime import datetime
 import magic
+from django.conf import settings
 
 
 class SearchForumsForm(forms.Form):
     q = forms.CharField(max_length=100, required=False, widget=forms.TextInput({"Placeholder": "Search..."}))
-    t = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
+    t = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
     class Meta:
         labels = {
                 'q': _('Search'),
@@ -37,7 +38,7 @@ class MakeForumForm(forms.Form):
     lastName = forms.CharField(max_length=100, label="Last", widget=forms.TextInput({"Placeholder": "Last"})) #last name of author of forum
     location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of forum as an address
     content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
+    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
     
     associated_choices = [
@@ -130,7 +131,7 @@ class MakePostForm(forms.Form):
     lastName = forms.CharField(max_length=100, label="Last", widget=forms.TextInput({"Placeholder": "Last"})) #last name of author of forum
     location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of forum as an address
     content = forms.CharField(label="Content", widget=forms.Textarea({"Placeholder": "Content"})) #content of the forum
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
+    tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)#tags of forum
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)#hidden field for converting from user provided address to google's geocode
     
     associated_choices = [
@@ -147,10 +148,10 @@ class MakePostForm(forms.Form):
     
     
     #the file upload fields. validated using the custom validator above, if left empty or if a bad file is submitted, these fields have nothing in them
-    file1 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
-    file2 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
-    file3 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
-    file4 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':get_upload_attrs()}), required=False, validators=[validate_file])
+    file1 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':MakeForumForm.get_upload_attrs()}), required=False, validators=[MakeForumForm.validate_file])
+    file2 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':MakeForumForm.get_upload_attrs()}), required=False, validators=[MakeForumForm.validate_file])
+    file3 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':MakeForumForm.get_upload_attrs()}), required=False, validators=[MakeForumForm.validate_file])
+    file4 = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept':MakeForumForm.get_upload_attrs()}), required=False, validators=[MakeForumForm.validate_file])
     
 
     
@@ -185,5 +186,3 @@ class MakePostForm(forms.Form):
         else:
             if cleaned_data is not None:
                 self.cleaned_data = cleaned_data #if successful, store in cleaned_data
-
-
