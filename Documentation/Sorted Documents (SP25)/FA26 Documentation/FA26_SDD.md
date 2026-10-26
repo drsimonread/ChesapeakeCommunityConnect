@@ -29,36 +29,31 @@
 * [3.1 Program Structure	6](#31-program-structure)
 
 [**4\. Interface Design	6**](#4-interface-design)
+<!-- turn of Markdown All In One's auto table of contents which breaks the toc- no clue why it only triggers halfway through the toc-->
+<!-- no toc -->
+* [4.1 Internal System Interfaces	6](#41-internal-system-interfaces)
 
-- [**1. Introduction**](#1-introduction)
-  - [**1.1 Purpose**](#11-purpose)
-  - [**1.2 Scope**](#12-scope)
-  - [**1.3 Definitions, Acronyms, and Abbreviations**](#13-definitions-acronyms-and-abbreviations)
-  - [](#)
-  - [**1.4 Document References**](#14-document-references)
-  - [](#-1)
-  - [**1.5 System Overview**](#15-system-overview)
-- [**2. Data Design**](#2-data-design)
-  - [**2.1 Internal Data Structures**](#21-internal-data-structures)
-  - [**2.2 Data Flow Diagram**](#22-data-flow-diagram)
-- [**3. Architecture Design**](#3-architecture-design)
-  - [**3.1 Program Structure**](#31-program-structure)
-- [**4. Interface Design**](#4-interface-design)
-  - [**4.1 Internal System Interfaces**](#41-internal-system-interfaces)
-  - [**4.2 External System Interfaces**](#42-external-system-interfaces)
-  - [**4.3 User Interfaces**](#43-user-interfaces)
-    - [**4.3.1 Home Screen Display**](#431-home-screen-display)
-    - [**4.3.2 Contributor Page**](#432-contributor-page)
-    - [**4.3.3 Login Display**](#433-login-display)
-    - [**4.3.4 Sign Up Display**](#434-sign-up-display)
-    - [**4.3.5 Upload Submission Display**](#435-upload-submission-display)
-    - [**4.3.6 Profile Management Display**](#436-profile-management-display)
-    - [**4.3.7 About Display**](#437-about-display)
-    - [**4.3.8 Help \& Tutorial Display**](#438-help--tutorial-display)
-    - [**4.3.9 Admin Page**](#439-admin-page)
-- [**5. Procedural Design**](#5-procedural-design)
-  - [**5.1 Flowchart Reference Key**](#51-flowchart-reference-key)
-- [**6. Miscellaneous**](#6-miscellaneous)
+* [4.2 External System Interfaces	6](#42-external-system-interfaces)
+
+* [4.3 User Interfaces	6](#43-user-interfaces)
+
+  * [4.3.1 Home Screen Display	6](#431-home-screen-display)
+
+  * [4.3.2 Contributor Page	7](#432-contributor-page)
+
+  * [4.3.3 Login Display	9](#433-login-display)
+
+  * [4.3.4 Sign Up Display	10](#434-sign-up-display)
+
+  * [4.3.5 Upload Submission Display	11](#435-upload-submission-display)
+
+  * [4.3.6 Profile Management Display	12](#436-profile-management-display)
+
+  * [4.3.7 About Display	13](#437-about-display)
+
+  * [4.3.8 Help & Tutorial Display	13](#438-help--tutorial-display)
+
+  * [4.3.9 Admin Page	14](#439-admin-page)
 
 [**5\. Procedural Design	15**](#5-procedural-design)
 

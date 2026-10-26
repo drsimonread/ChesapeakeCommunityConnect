@@ -36,40 +36,33 @@
 * [3.3 Roles and Responsibilities	7](#33-roles-and-responsibilities)
 
 [**4\. Management Process	8**](#4-management-process)
+<!-- turn of Markdown All In One's auto table of contents which breaks the toc-->
+<!-- no toc -->
+* [4.1 Project Estimates	8](#41-project-estimates)
 
-- [**1. Introduction**](#1-introduction)
-  - [**1.1 Purpose**](#11-purpose)
-  - [**1.2 Scope**](#12-scope)
-  - [**1.3 Definitions, Acronyms, and Abbreviations**](#13-definitions-acronyms-and-abbreviations)
-  - [](#)
-  - [**1.4 Document References**](#14-document-references)
-  - [](#-1)
-  - [**1.5 System Overview**](#15-system-overview)
-- [](#-2)
-- [**2. Project Overview**](#2-project-overview)
-  - [**2.1 Project Purpose, Scope, and Objectives**](#21-project-purpose-scope-and-objectives)
-  - [**2.2 Assumptions and Constraints**](#22-assumptions-and-constraints)
-  - [**2.3 Project Deliverables**](#23-project-deliverables)
-  - [**2.4 Evolution of the Software Development Plan**](#24-evolution-of-the-software-development-plan)
-- [**3. Project Organization**](#3-project-organization)
-  - [**3.1 Organizational Structure**](#31-organizational-structure)
-  - [**3.2 External Interfaces**](#32-external-interfaces)
-  - [**3.3 Roles and Responsibilities**](#33-roles-and-responsibilities)
-- [**4. Management Process**](#4-management-process)
-  - [**4.1 Project Estimates**](#41-project-estimates)
-  - [**4.2 Project Plan**](#42-project-plan)
-    - [**4.2.1 Phase Plan**](#421-phase-plan)
-    - [**4.2.2 Iteration Objectives**](#422-iteration-objectives)
-    - [**4.2.3 Releases**](#423-releases)
-    - [**4.2.4 Project Schedule**](#424-project-schedule)
-    - [**4.2.5 Project Resourcing**](#425-project-resourcing)
-  - [**4.3 Project Monitoring and Control**](#43-project-monitoring-and-control)
-    - [**4.3.1 Requirements Management**](#431-requirements-management)
-    - [**4.3.2 Quality Control**](#432-quality-control)
-    - [**4.3.3 Reporting and Measurement**](#433-reporting-and-measurement)
-    - [**4.3.4 Risk Management**](#434-risk-management)
-    - [**4.3.5 Configuration Management**](#435-configuration-management)
-- [**5. Miscellaneous**](#5-miscellaneous)
+* [4.2 Project Plan	8](#42-project-plan)
+
+  * [4.2.1 Phase Plan	8](#421-phase-plan)
+
+  * [4.2.2 Iteration Objectives	8](#422-iteration-objectives)
+
+  * [4.2.3 Releases	8](#423-releases)
+
+  * [4.2.4 Project Schedule	9](#424-project-schedule)
+
+  * [4.2.5 Project Resourcing	9](#425-project-resourcing)
+
+* [4.3 Project Monitoring and Control	9](#43-project-monitoring-and-control)
+
+  * [4.3.1 Requirements Management	9](#431-requirements-management)
+
+  * [4.3.2 Quality Control	9](#432-quality-control)
+
+  * [4.3.3 Reporting and Measurement	10](#433-reporting-and-measurement)
+
+  * [4.3.4 Risk Management	10](#434-risk-management)
+
+  * [4.3.5 Configuration Management	10](#435-configuration-management)
 
 [**5\. Miscellaneous	10**](#5-miscellaneous)
 
