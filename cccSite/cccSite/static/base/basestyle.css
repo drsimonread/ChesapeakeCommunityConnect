@@ -38,6 +38,7 @@ nav ul {
     margin-right: 48px;
     width: calc(100% - 78px);
     box-sizing: border-box;
+    position: relative;
 
 }
 
@@ -55,6 +56,61 @@ nav ul {
 .nav-auth__link:hover {
     background-color: #e67e22 !important;
     color: #00205c !important;
+}
+
+.nav-account-form {
+    margin: 0;
+}
+
+.nav-account-menu details {
+    position: relative;
+}
+
+.nav-account-menu {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.nav-account-menu summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.nav-account-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+.nav-account-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+    padding: 8px;
+    background-color: #00205c;
+    border: 1px solid #f3c10d;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.nav-account-dropdown .nav-link {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.nav-account__button {
+    border: 0;
+    cursor: pointer;
+    font-size: inherit;
+    color: #f3c10d;
+    background: transparent;
 }
 
 nav a {

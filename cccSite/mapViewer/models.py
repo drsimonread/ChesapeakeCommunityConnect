@@ -29,6 +29,22 @@ class MapPost(models.Model):
     @property
     def get_absolute_url(self):
         return reverse("mapViewer:post_detail", args=[str(self.pk)])
-    
+
+
+class PostComment(models.Model):
+    post = models.ForeignKey(MapPost, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="post_comments")
+    parent = models.ForeignKey(
+        "self", on_delete=models.CASCADE, related_name="replies",
+        null=True, blank=True,
+    )
+    content = models.TextField(max_length=10000)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("created",)
+
+    def __str__(self):
+        return f"Comment by {self.author} on {self.post}"
     #https://forum.djangoproject.com/t/url-template-tag-get-absolute-url-and-views/21249
     #https://levelup.gitconnected.com/django-quick-tips-get-absolute-url-1c22321f806b

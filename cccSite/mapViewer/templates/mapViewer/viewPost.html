@@ -24,19 +24,53 @@
     <br>
     {%endfor%}
 
-    {%if hasReported %}
-    <p class="report-success" role="status">Your report has been received.</p>
-    {%else%}
-    <details class="report-panel">
-        <summary id="report-button">Report this post</summary>
-        <form action="{{request.build_absolute_uri}}" method="post">
-            {% csrf_token %}
-            {{form.as_p}}
-            <input type="submit" value="Send Report" id="input-submit">
-        </form>
-    </details>
-    {%endif%}
-    
+    <div class="post-actions">
+        {% if request.session.user %}
+        <details class="comment-composer">
+            <summary id="comment-button" class="post-action-button">Comment</summary>
+            <form class="comment-form" action="{{ request.path }}#comments" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="comment">
+                {{ comment_form.as_p }}
+                <button type="submit" class="post-action-button">Post comment</button>
+            </form>
+        </details>
+        {% endif %}
+
+        {%if hasReported %}
+        <p class="report-success" role="status">Your report has been received.</p>
+        {%else%}
+        <details class="report-panel">
+            <summary id="report-button">Report this post</summary>
+            <form action="{{request.build_absolute_uri}}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="report">
+                {{form.as_p}}
+                <input type="submit" value="Send Report" id="input-submit">
+            </form>
+        </details>
+        {%endif%}
+    </div>
+
 </div>
+
+<section id="comments" class="comments-section" aria-labelledby="comments-title">
+    <h2 id="comments-title">Comments ({{ comment_count }})</h2>
+
+    {% if not request.session.user %}
+    <p class="comments-signin">
+        <a href="{% url 'account:signin' %}?next={{ request.path|urlencode }}">Sign in</a>
+        to join the discussion.
+    </p>
+    {% endif %}
+
+    <div class="comment-thread">
+        {% for comment in comments %}
+            {% include "mapViewer/comment.html" with comment=comment %}
+        {% empty %}
+            <p class="comments-empty">No comments yet. Be the first to comment.</p>
+        {% endfor %}
+    </div>
+</section>
 
 {% endblock content %}

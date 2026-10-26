@@ -21,11 +21,28 @@
                 <li><a class="nav-link" href="{% url 'boiler:help'%}" {%if '/help/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Help/FAQs</a></li>
                 <li><a class="nav-link" href="{%url 'account:default'%}" {%if '/account/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Contributors</a></li>
                 {%if rank > 1 %}<li><a class="nav-link" href="{%url 'Janitor:default'%}" {%if '/admin/' in request.path%}style="background-color: #f3c10d; color: #00205c;" {%endif%}>Admin</a></li> {%endif%}
+                {%if rank > 0 %}
+                <li class="nav-auth nav-account-menu">
+                    <details>
+                        <summary class="nav-link nav-auth__link">Account</summary>
+                        <div class="nav-account-dropdown">
+                            <a class="nav-link" href="{% url 'account:default' %}">My Account</a>
+                            <a class="nav-link" href="{% url 'account:manage' %}">Edit Account</a>
+                            <a class="nav-link" href="{% url 'account:create_forum' %}">Create Post</a>
+                            <a class="nav-link" href="{% url 'account:my_forums' %}">My Forums</a>
+                            <form class="nav-account-form" action="{% url 'account:signout' %}" method="post">
+                                {% csrf_token %}
+                                <button class="nav-link nav-account__button" type="submit">Sign Out</button>
+                            </form>
+                        </div>
+                    </details>
+                </li>
+                {%endif%}
                 {%if rank == 0 %}
                 <li class="nav-auth" style="margin-left: auto; margin-right: 48px;"><a class="nav-link nav-auth__link" href="{% url 'account:signin' %}" style="background-color: #f3c10d; color: #00205c;">Sign In</a></li>
                 {%endif%}
             </ul>
-        </nav> 
+        </nav>
     </header>
 
    {% block content %} {%endblock content%}

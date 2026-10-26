@@ -156,6 +156,114 @@
   border-radius: 5px;
 }
 
+.post-action-button{
+  background-color: #00205c;
+  border: 0;
+  color: #f3c10d;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.post-action-button:hover,
+.post-action-button:focus-visible{
+  background-color: #f3c10d;
+  color: #00205c;
+}
+
+.post-actions {
+  align-items: flex-start;
+  display: flex;
+  gap: 8px;
+}
+
+.comment-composer {
+  margin-bottom: 24px;
+}
+
+.comment-composer summary {
+  display: inline-block;
+  list-style: none;
+}
+
+.comment-composer summary::-webkit-details-marker {
+  display: none;
+}
+
+.comment-composer summary::marker {
+  display: none;
+}
+
+.comments-section {
+  margin-top: 32px;
+  border-top: 2px solid #00205c;
+  padding-top: 20px;
+}
+
+.comments-section h2 {
+  color: #00205c;
+}
+
+.comment-form {
+  margin: 16px 0 24px;
+}
+
+.comment-form textarea {
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+  min-width: min(100%, 620px);
+  padding: 10px;
+}
+
+.comment-thread {
+  max-width: 900px;
+}
+
+.comment {
+  border-left: 3px solid #d5dbea;
+  margin: 18px 0;
+  padding-left: 14px;
+}
+
+.comment__meta {
+  color: #5f6573;
+  font-size: 0.9rem;
+}
+
+.comment__meta a {
+  color: #00205c;
+  font-weight: 700;
+}
+
+.comment__meta time {
+  margin-left: 8px;
+}
+
+.comment__content {
+  white-space: pre-wrap;
+}
+
+.comment__reply summary {
+  color: #00205c;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.comment-form--reply {
+  margin-bottom: 12px;
+}
+
+.comment__replies {
+  margin-left: 18px;
+}
+
+.comments-empty,
+.comments-signin {
+  color: #5f6573;
+}
+
 /* Footer styling */
 footer {
   display: flex; /* Sets the items to be displayed flexibly. Hard to explain, lookup CSS flexible box layout. */

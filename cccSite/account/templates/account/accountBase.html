@@ -9,20 +9,6 @@
 
 {% block content %}
 <div class="body">  
-    <ul style="position:fixed;width: 15%;">
-         
-        {%if rank > 0%}
-        <li><a class="button" href="{% url 'account:account_list' %}">Search Contributors</a></li>
-        <li><a class="button" href="{%url 'account:default' %}">My Account</a></li>
-        <li><a class="button" href="{%url 'account:manage' %}">Edit Account</a></li>
-        <li><a class="button" href="{% url 'account:create_forum' %}">Create Post</a></li>
-        <li><a class="button" href="{% url 'account:my_forums' %}">My Forums</a></li>
-        <li><form action= "{% url 'account:signout'%}" method = "post">{%csrf_token%}
-            <input type="submit" value="Sign Out">
-        </form></li>
-        {%endif%}
-    </ul>
-
     {%block accountFunc%} Welcome to the account interface. {% endblock accountFunc %}
 
 </div>

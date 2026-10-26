@@ -29,7 +29,24 @@ class AccountViewsTest(TestCase):
         response = self.client.get(reverse("account:signin"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "nav-auth__link")
+        self.assertNotContains(response, ">Account<")
         self.assertNotContains(response, 'id="Signin"')
+
+    def test_signed_in_pages_include_account_in_main_menu(self):
+        response = self.client.get(reverse("account:default"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '>Account<')
+        self.assertContains(response, 'class="nav-account-dropdown"')
+        self.assertContains(response, 'class="nav-auth nav-account-menu"')
+        for url_name in (
+            "default",
+            "create_forum",
+            "my_forums",
+        ):
+            self.assertContains(response, reverse("account:" + url_name))
+        self.assertContains(response, reverse("account:manage"))
+        self.assertContains(response, "Sign Out")
+        self.assertNotContains(response, 'position:fixed;width: 15%')
 
     def test_account_search_lists_visible_forum_authors(self):
         MapPost.objects.create(
