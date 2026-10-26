@@ -5,65 +5,65 @@
 
 **Table of Contents**
 
-[**1\. Introduction	3**](#1.-introduction)
+[**1\. Introduction	3**](#1-introduction-1-introduction)
 
-[1.1 Purpose	3](#1.1-purpose)
+[1.1 Purpose	3](#11-purpose-11-purpose)
 
-[1.2 Scope	3](#1.2-scope)
+[1.2 Scope	3](#12-scope-12-scope)
 
-[1.3 Definitions, Acronyms, and Abbreviations	4](#1.3-definitions,-acronyms,-and-abbreviations)
+[1.3 Definitions, Acronyms, and Abbreviations	4](#13-definitions-acronyms-and-abbreviations-13-definitions-acronyms-and-abbreviations)
 
-[1.4 Document References	4](#1.4-document-references)
+[1.4 Document References	4](#14-document-references-14-document-references)
 
-[1.5 System Overview	4](#1.5-system-overview)
+[1.5 System Overview	4](#15-system-overview-15-system-overview)
 
-[**2\. Project Overview	5**](#2.-project-overview)
+[**2\. Project Overview	5**](#2-project-overview-2-project-overview)
 
-[2.1 Project Purpose, Scope, and Objectives	5](#2.1-project-purpose,-scope,-and-objectives)
+[2.1 Project Purpose, Scope, and Objectives	5](#21-project-purpose-scope-and-objectives-21-project-purpose-scope-and-objectives)
 
-[2.2 Assumptions and Constraints	5](#2.2-assumptions-and-constraints)
+[2.2 Assumptions and Constraints	5](#22-assumptions-and-constraints-22-assumptions-and-constraints)
 
-[2.3 Project Deliverables	5](#2.3-project-deliverables)
+[2.3 Project Deliverables	5](#23-project-deliverables-23-project-deliverables)
 
-[2.4 Evolution of the Software Development Plan	6](#2.4-evolution-of-the-software-development-plan)
+[2.4 Evolution of the Software Development Plan	6](#24-evolution-of-the-software-development-plan-24-evolution-of-the-software-development-plan)
 
-[**3\. Project Organization	6**](#3.-project-organization)
+[**3\. Project Organization	6**](#3-project-organization-3-project-organization)
 
-[3.1 Organizational Structure	6](#3.1-organizational-structure)
+[3.1 Organizational Structure	6](#31-organizational-structure-31-organizational-structure)
 
-[3.2 External Interfaces	7](#3.2-external-interfaces)
+[3.2 External Interfaces	7](#32-external-interfaces-32-external-interfaces)
 
-[3.3 Roles and Responsibilities	7](#3.3-roles-and-responsibilities)
+[3.3 Roles and Responsibilities	7](#33-roles-and-responsibilities-33-roles-and-responsibilities)
 
-[**4\. Management Process	8**](#4.-management-process)
+[**4\. Management Process	8**](#4-management-process-4-management-process)
 
-[4.1 Project Estimates	8](#4.1-project-estimates)
+[4.1 Project Estimates	8](#41-project-estimates-41-project-estimates)
 
-[4.2 Project Plan	8](#4.2-project-plan)
+[4.2 Project Plan	8](#42-project-plan-42-project-plan)
 
-[4.2.1 Phase Plan	8](#4.2.1-phase-plan)
+[4.2.1 Phase Plan	8](#421-phase-plan-421-phase-plan)
 
-[4.2.2 Iteration Objectives	8](#4.2.2-iteration-objectives)
+[4.2.2 Iteration Objectives	8](#422-iteration-objectives-422-iteration-objectives)
 
-[4.2.3 Releases	8](#4.2.3-releases)
+[4.2.3 Releases	8](#423-releases-423-releases)
 
-[4.2.4 Project Schedule	9](#4.2.4-project-schedule)
+[4.2.4 Project Schedule	9](#424-project-schedule-424-project-schedule)
 
-[4.2.5 Project Resourcing	9](#4.2.5-project-resourcing)
+[4.2.5 Project Resourcing	9](#425-project-resourcing-425-project-resourcing)
 
-[4.3 Project Monitoring and Control	9](#4.3-project-monitoring-and-control)
+[4.3 Project Monitoring and Control	9](#43-project-monitoring-and-control-43-project-monitoring-and-control)
 
-[4.3.1 Requirements Management	9](#4.3.1-requirements-management)
+[4.3.1 Requirements Management	9](#431-requirements-management-431-requirements-management)
 
-[4.3.2 Quality Control	9](#4.3.2-quality-control)
+[4.3.2 Quality Control	9](#432-quality-control-432-quality-control)
 
-[4.3.3 Reporting and Measurement	10](#4.3.3-reporting-and-measurement)
+[4.3.3 Reporting and Measurement	10](#433-reporting-and-measurement-433-reporting-and-measurement)
 
-[4.3.4 Risk Management	10](#4.3.4-risk-management)
+[4.3.4 Risk Management	10](#434-risk-management-434-risk-management)
 
-[4.3.5 Configuration Management	10](#4.3.5-configuration-management)
+[4.3.5 Configuration Management	10](#435-configuration-management-435-configuration-management)
 
-[**5\. Miscellaneous	10**](#5.-miscellaneous)
+[**5\. Miscellaneous	10**](#5-miscellaneous-5-miscellaneous)
 
 **Revision History**
 
@@ -87,8 +87,7 @@ The following people use the Software Development Plan:
 
 ## **1.2 Scope** {#1.2-scope}
 
-This Software Development Plan (SDP) establishes a thoroughly detailed overall plan for the software implementations, testing, deployment, and qualifications for the Environmental Justice (EJ) Atlas website.This SDP is broken into a total of five sections. Excluding the first section being the introduction, the remaining four sections individually cover the project overview (Section 2), project organization (Section 3\) and management process (Section 4), which go into detail pertaining to the information necessary to reference for the duration of development accurately. The approaches encompassed within this document are contingent on the product requirements provided by the client’s description as they were comprehended at the time of writing. The complete statement of the product requirements will soon officially be documented in the  
-Software Requirements Specification (SRS). 
+This Software Development Plan (SDP) establishes a thoroughly detailed overall plan for the software implementations, testing, deployment, and qualifications for the Environmental Justice (EJ) Atlas website.This SDP is broken into a total of five sections. Excluding the first section being the introduction, the remaining four sections individually cover the project overview (Section 2), project organization (Section 3\) and management process (Section 4), which go into detail pertaining to the information necessary to reference for the duration of development accurately. The approaches encompassed within this document are contingent on the product requirements provided by the client’s description as they were comprehended at the time of writing. The complete statement of the product requirements will soon officially be documented in the Software Requirements Specification (SRS). 
 
 ## **1.3 Definitions, Acronyms, and Abbreviations** {#1.3-definitions,-acronyms,-and-abbreviations}
 
@@ -207,7 +206,7 @@ There is no applicable cost to this project; The cost of the software shall be f
 
 ### **4.2.1 Phase Plan** {#4.2.1-phase-plan}
 
-Project phases shall be implemented sequentially using the waterfall model with some instances of iteration.Communication shall occur between the customer in both meetings throughout the development process as well as asking questions regularly through emails. Modeling shall not happen concurrently with coding and constructing the software, instead it shall be in sequential order.
+Project phases shall be implemented sequentially using the waterfall model with some instances of iteration. Communication shall occur between the customer in both meetings throughout the development process as well as asking questions regularly through emails. Modeling shall not happen concurrently with coding and constructing the software, instead it shall be in sequential order.
 
 ### **4.2.2 Iteration Objectives** {#4.2.2-iteration-objectives}
 
@@ -251,8 +250,7 @@ Appropriate tools will be selected which provide a database of Change Requests a
 
 All source code, test scripts, and data files are included in baselines. Documentation related to the source code is also included in the baseline, such as design documentation. All customer deliverable artifacts are included in the final baseline of the iteration, including executables.
 
-The Change Requests are reviewed and approved by one member of the project, the Change Control Manager role.  
----
+The Change Requests are reviewed and approved by one member of the project, the Change Control Manager role.   
 
 # **5\. Miscellaneous** {#5.-miscellaneous}
 
