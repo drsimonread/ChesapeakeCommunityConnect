@@ -2,8 +2,8 @@
 
 ## Software Requirements Specification
 
-**Version:** 2.0
-**Date:** October 21, 2026
+**Version:** 2.1
+**Date:** October 28, 2026
 **Status:** Current project baseline
 **Project:** ChesapeakeCommunityConnect
 
@@ -73,10 +73,10 @@
 
 | Date | Version | Description | Author(s) |
 | :---: | :---: | :--- | :--- |
-| 11/29/23 | 1.0 | Initial draft | Chesapeake Community Connect capstone team |
-| 01/24/24 | 1.1 | Revision started for 2024 | Chesapeake Community Connect team |
+| 11/29/23 | 1.0 | Initial draft | Kylie Hall, John Heinig Malik Hill Naheed John Yaro Kulchyckyj Isabella Stephens Brittany Brenneman |
+| 01/24/24 | 1.1 | Revision started for 2024 | Daniel Reina Alex Ochman Gavin McDonald John Heinig Kendahl Michael Shively |
 | 02/24/25 | 1.2 | Revision for Spring 2025 | Sophia Lin |
-| 10/21/26 | 2.0 | Updated scope, requirements, technology stack, and delivery model for the current Django application | Supphat Overton |
+| 10/21/26 | 2.1 | Revision for Fall 2026 | Supphat Overton, Claudia Jane Woodbury |
 
 ---
 
