@@ -1,136 +1,141 @@
-{% extends "account/accountBase.html" %}
-{% load static %}
+from google.oauth2 import id_token
+from google.auth.transport import requests
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import *
+from PIL import Image
 
-{% block accHead %}
-<link rel="stylesheet" type="text/css" href="{% static 'account/signinstyle.css' %}">
-<title>Chesapeake Community Connect - Sign In</title>
-{% endblock accHead %}
 
-{% block accountFunc %}
+# if user not signed in, sends them to log in
 
-<div class="columns is-centered">
-    <div class="column is-half has-text-centered">
-        <h3 class="title is-3">Contributor access</h3>
-        <div class="buttons is-centered">
-            <button type="button" class="button is-primary signin-modal-trigger" data-target="signin-modal">
-                Sign In
-            </button>
-            <button type="button" class="button is-light signup-modal-trigger" data-target="signup-modal">
-                Create an Account
-            </button>
-        </div>
-    </div>
-</div>
+def signin(request):
+    if request.session.get('rank', 0) == 0:
+        return render(request, 'account/signin.html')
+    else:
+        return redirect('/account/')
 
-<div class="banner">
-    {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
-        <span class="banner-letter">{{ letter }}</span>
-    {% endfor %}
-</div>
 
-<div id="signin-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signin-modal-title">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p id="signin-modal-title" class="modal-card-title">Sign In</p>
-            <button type="button" class="delete modal-close" aria-label="Close"></button>
-        </header>
-        <section class="modal-card-body">
-            <form method="post" action="{% url 'account:signin' %}" autocomplete="on">
-                {% csrf_token %}
-                <div class="field">
-                    <label class="label" for="signin_username">Username</label>
-                    <div class="control">
-                        <input class="input" type="text" id="signin_username" name="username" placeholder="Username" required>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label" for="signin_password">Password</label>
-                    <div class="control">
-                        <input class="input" type="password" id="signin_password" name="password" placeholder="Password" required>
-                    </div>
-                </div>
-            </form>
-        </section>
-        <footer class="modal-card-foot">
-            <button type="submit" form="signin-form" class="button is-primary">Sign In</button>
-            <button type="button" class="button sign-in-up-cancel">Cancel</button>
-        </footer>
-    </div>
-</div>
+# if a user tries to sign out by URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to confirmation
 
-<div id="signup-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signup-modal-title">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p id="signup-modal-title" class="modal-card-title">Create an Account</p>
-            <button type="button" class="delete modal-close" aria-label="Close"></button>
-        </header>
-        <section class="modal-card-body">
-            <form method="post" action="{% url 'account:signup' %}" id="signup-form">
-                {% csrf_token %}
-                <div class="field">
-                    <label class="label" for="signup_username">Username</label>
-                    <div class="control">
-                        <input class="input" type="text" id="signup_username" name="username" placeholder="Username" required>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label" for="signup_email">Email</label>
-                    <div class="control">
-                        <input class="input" type="email" id="signup_email" name="email" placeholder="Email" required>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label" for="signup_password">Password</label>
-                    <div class="control">
-                        <input class="input" type="password" id="signup_password" name="password1" placeholder="Password" required>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label" for="signup_confirm_password">Confirm Password</label>
-                    <div class="control">
-                        <input class="input" type="password" id="signup_confirm_password" name="password2" placeholder="Confirm Password" required>
-                    </div>
-                </div>
-            </form>
-        </section>
-        <footer class="modal-card-foot">
-            <button type="submit" form="signup-form" class="button is-primary">Create Account</button>
-            <button type="button" class="button sign-in-up-cancel">Cancel</button>
-        </footer>
-    </div>
-</div>
+def signout(request):
+    if request.method == "POST":
+        request.session.flush()
+    return redirect(reverse("account:default"))
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.signin-modal-trigger').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            const modal = document.getElementById(btn.dataset.target);
-            if (modal) modal.classList.add('is-active');
-        });
-    });
 
-    document.querySelectorAll('.signup-modal-trigger').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            const modal = document.getElementById(btn.dataset.target);
-            if (modal) modal.classList.add('is-active');
-        });
-    });
+# default account page. send to sign in if not signed in, otherwise displays user info
 
-    document.querySelectorAll('.modal-background, .modal-close, .sign-in-up-cancel').forEach((element) => {
-        element.addEventListener('click', () => {
-            const modal = element.closest('.modal');
-            if (modal) modal.classList.remove('is-active');
-        });
-    });
+def default(request):
+    if request.session.get('rank', 0) == 0:
+        return redirect(reverse("account:signin"))
+    else:
+        userInz = Member.objects.get(pk=request.session['user'])
+        return render(request, 'account/myaccount.html', {
+            'name': userInz.name,
+            'email': userInz.email,
+            'image': userInz.pic,
+            'about': userInz.about,
+        })
 
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            document.querySelectorAll('.modal').forEach((modal) => modal.classList.remove('is-active'));
-        }
-    });
-});
-</script>
 
-{% endblock accountFunc %}
+def account_all(request):
+    return HttpResponse("insert account view list here")
+
+
+def account_view(request, want):
+    if not want:
+        return HttpResponse("Insert list view here")
+    if not Member.objects.get(pk=want):
+        return redirect(reverse("account:default"))
+    viewInz = Member.objects.get(pk=want)
+    if request.session.get('rank', 0) != 0:
+        userInz = Member.objects.get(request.session['user'])
+    else:
+        userInz = Member.objects.none()
+
+
+# lets members edit their info
+
+def manage(request):
+    if request.session.get('rank', 0) == 0:
+        return redirect('/account/signin/')
+    if request.method == "POST":
+        userInz = Member.objects.get(pk=request.session['user'])
+        form = ManageForm(request.POST, request.FILES, instance=userInz)
+        if form.is_valid():
+            form.save()
+            request.session['name'] = userInz.name
+            return redirect('/account/')
+    else:
+        userInz = Member.objects.get(pk=request.session['user'])
+        form = ManageForm(instance=userInz)
+    return render(request, "account/manage.html", {'form': form})
+
+
+# a lot of this code is from google btw
+@csrf_exempt
+
+def authG(request):
+    if request.method == "GET":
+        return redirect('/account/')
+    elif request.method == "POST":
+        csrf_tok_cookie = request.COOKIES.get('g_csrf_token')
+        if not csrf_tok_cookie:
+            return HttpResponse("Something went wrong, no csrf cookie")
+        csrf_tok_body = request.POST.get('g_csrf_token')
+        if not csrf_tok_body:
+            return HttpResponse("Something went wrong, no csrf cookie from google")
+        if csrf_tok_cookie != csrf_tok_body:
+            return HttpResponse("Could not verify csrf")
+
+        tok = request.POST.get('credential')
+        try:
+            idinfo = id_token.verify_oauth2_token(
+                tok,
+                requests.Request(),
+                "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
+            )
+            if not GLogIn.objects.filter(googleID=idinfo['sub']).exists():
+                userInz = Member.objects.create(name=idinfo['given_name'], email=idinfo['email'])
+                GLogIn.objects.create(googleID=idinfo['sub'], referTo=userInz)
+            else:
+                gLogInz = GLogIn.objects.get(googleID=idinfo['sub'])
+                userInz = gLogInz.referTo
+
+            request.session['rank'] = userInz.ranking
+            request.session['user'] = userInz.pk
+            request.session['name'] = userInz.name
+        except ValueError:
+            return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
+
+        return redirect('/account/')
+
+
+def signup(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        email = request.POST.get('email', '').strip()
+        password = request.POST.get('password1', '')
+
+        if username and email and password:
+            member = Member.objects.create(name=username, email=email)
+            request.session['rank'] = member.ranking
+            request.session['user'] = member.pk
+            request.session['name'] = username
+            return redirect('/account/')
+
+    return render(request, 'account/signedout.html')
+
+
+def username_validation(request):
+    username = request.GET.get('username', '').strip()
+    is_taken = bool(Member.objects.filter(name=username).exists())
+    return JsonResponse({'is_taken': is_taken})
+
+
+def email_validation(request):
+    email = request.GET.get('email', '').strip()
+    is_taken = bool(Member.objects.filter(email=email).exists())
+    return JsonResponse({'is_taken': is_taken})
