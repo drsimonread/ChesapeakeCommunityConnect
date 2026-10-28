@@ -1,4 +1,33 @@
 # Setting up Chesapeake Community Connect (CCC) on your Google Cloud VM
+## Automated first-time setup
+
+After cloning the repository, run this from the repository root as your normal user:
+
+```bash
+bash setup.sh
+```
+
+The script targets Ubuntu/Debian VMs. It installs the required system packages
+(using `sudo`, which may prompt for your password), creates `cccSite/.venv`, installs
+the Python requirements, and applies the existing migrations to SQLite. Python 3.10+
+is required. It reuses the virtual environment and preserves existing database data
+on subsequent runs. Internet access is needed to download packages.
+
+To also start the development server on port 8080:
+
+```bash
+bash setup.sh --runserver
+```
+
+If the system packages are already installed, use `bash setup.sh --skip-system-packages`.
+The script prints commands for activating the environment and starting the server
+in future terminals; it cannot activate the environment in your current shell.
+
+Optional MariaDB/PostgreSQL installation is skipped. Git identity configuration
+and system-wide upgrades remain manual. The script does not generate migrations
+or configure Apache hosting; the Apache WSGI package is installed as listed below.
+The manual setup steps follow for reference.
+
 ## CCC Installation
 -	**Configuring your Virtual Machine for git, python, and other dependencies**W
 	-	sudo apt update
