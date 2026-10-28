@@ -9,6 +9,8 @@ The Chesapeake Community Connection website serves as a hub for improving connec
 For first-time setup on an Ubuntu/Debian VM, run `bash setup.sh` from the repository
 root. Add `--runserver` to start the site on port 8080 after setup. See
 [CCC setup instructions](CCCSetupInstructions.md) for prerequisites and details.
+After setup, run `bash runserver.sh` from the repository root to start the
+development server on port 8080.
 
 Some [training documents](docs/00-start-here.md) for developers are available.
 
