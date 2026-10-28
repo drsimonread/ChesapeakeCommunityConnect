@@ -5,65 +5,66 @@
 
 **Table of Contents**
 
-[**1\. Introduction	3**](#1.-introduction)
+[**1\. Introduction	3**](#1-introduction)
 
-[1.1 Purpose	3](#1.1-purpose)
+* [1.1 Purpose	3](#11-purpose)
 
-[1.2 Scope	3](#1.2-scope)
+* [1.2 Scope	3](#12-scope)
 
-[1.3 Definitions, Acronyms, and Abbreviations	4](#1.3-definitions,-acronyms,-and-abbreviations)
+* [1.3 Definitions, Acronyms, and Abbreviations	4](#13-definitions-acronyms-and-abbreviations)
 
-[1.4 Document References	4](#1.4-document-references)
+* [1.4 Document References	4](#14-document-references)
 
-[1.5 System Overview	4](#1.5-system-overview)
+* [1.5 System Overview	4](#15-system-overview)
 
-[**2\. Project Overview	5**](#2.-project-overview)
+[**2\. Project Overview	5**](#2-project-overview)
 
-[2.1 Project Purpose, Scope, and Objectives	5](#2.1-project-purpose,-scope,-and-objectives)
+* [2.1 Project Purpose, Scope, and Objectives	5](#21-project-purpose-scope-and-objectives)
 
-[2.2 Assumptions and Constraints	5](#2.2-assumptions-and-constraints)
+* [2.2 Assumptions and Constraints	5](#22-assumptions-and-constraints)
 
-[2.3 Project Deliverables	5](#2.3-project-deliverables)
+* [2.3 Project Deliverables	5](#23-project-deliverables)
 
-[2.4 Evolution of the Software Development Plan	6](#2.4-evolution-of-the-software-development-plan)
+* [2.4 Evolution of the Software Development Plan	6](#24-evolution-of-the-software-development-plan)
 
-[**3\. Project Organization	6**](#3.-project-organization)
+[**3\. Project Organization	6**](#3-project-organization)
 
-[3.1 Organizational Structure	6](#3.1-organizational-structure)
+* [3.1 Organizational Structure	6](#31-organizational-structure)
 
-[3.2 External Interfaces	7](#3.2-external-interfaces)
+* [3.2 External Interfaces	7](#32-external-interfaces)
 
-[3.3 Roles and Responsibilities	7](#3.3-roles-and-responsibilities)
+* [3.3 Roles and Responsibilities	7](#33-roles-and-responsibilities)
 
-[**4\. Management Process	8**](#4.-management-process)
+[**4\. Management Process	8**](#4-management-process)
+<!-- turn of Markdown All In One's auto table of contents which breaks the toc-->
+<!-- no toc -->
+* [4.1 Project Estimates	8](#41-project-estimates)
 
-[4.1 Project Estimates	8](#4.1-project-estimates)
+* [4.2 Project Plan	8](#42-project-plan)
 
-[4.2 Project Plan	8](#4.2-project-plan)
+  * [4.2.1 Phase Plan	8](#421-phase-plan)
 
-[4.2.1 Phase Plan	8](#4.2.1-phase-plan)
+  * [4.2.2 Iteration Objectives	8](#422-iteration-objectives)
 
-[4.2.2 Iteration Objectives	8](#4.2.2-iteration-objectives)
+  * [4.2.3 Releases	8](#423-releases)
 
-[4.2.3 Releases	8](#4.2.3-releases)
+  * [4.2.4 Project Schedule	9](#424-project-schedule)
 
-[4.2.4 Project Schedule	9](#4.2.4-project-schedule)
+  * [4.2.5 Project Resourcing	9](#425-project-resourcing)
 
-[4.2.5 Project Resourcing	9](#4.2.5-project-resourcing)
+* [4.3 Project Monitoring and Control	9](#43-project-monitoring-and-control)
 
-[4.3 Project Monitoring and Control	9](#4.3-project-monitoring-and-control)
+  * [4.3.1 Requirements Management	9](#431-requirements-management)
 
-[4.3.1 Requirements Management	9](#4.3.1-requirements-management)
+  * [4.3.2 Quality Control	9](#432-quality-control)
 
-[4.3.2 Quality Control	9](#4.3.2-quality-control)
+  * [4.3.3 Reporting and Measurement	10](#433-reporting-and-measurement)
 
-[4.3.3 Reporting and Measurement	10](#4.3.3-reporting-and-measurement)
+  * [4.3.4 Risk Management	10](#434-risk-management)
 
-[4.3.4 Risk Management	10](#4.3.4-risk-management)
+  * [4.3.5 Configuration Management	10](#435-configuration-management)
 
-[4.3.5 Configuration Management	10](#4.3.5-configuration-management)
-
-[**5\. Miscellaneous	10**](#5.-miscellaneous)
+[**5\. Miscellaneous	10**](#5-miscellaneous)
 
 **Revision History**
 
@@ -74,9 +75,9 @@
 
 ---
 
-# **1\. Introduction** {#1.-introduction}
+# **1\. Introduction** 
 
-## **1.1 Purpose** {#1.1-purpose}
+## **1.1 Purpose** 
 
 The purpose of the Software Development Plan (SDP) is to present all information necessary to control the execution of the project. It describes the approach to the development of the software and is the top-level plan generated and used by managers to direct the development effort.
 
@@ -85,12 +86,11 @@ The following people use the Software Development Plan:
 * The project manager uses it to plan the project schedule and resource needs, and to track progress against the schedule.  
 * Project team members use it to understand what they need to do, when they need to do it, and what other activities they are dependent upon.
 
-## **1.2 Scope** {#1.2-scope}
+## **1.2 Scope**
 
-This Software Development Plan (SDP) establishes a thoroughly detailed overall plan for the software implementations, testing, deployment, and qualifications for the Environmental Justice (EJ) Atlas website.This SDP is broken into a total of five sections. Excluding the first section being the introduction, the remaining four sections individually cover the project overview (Section 2), project organization (Section 3\) and management process (Section 4), which go into detail pertaining to the information necessary to reference for the duration of development accurately. The approaches encompassed within this document are contingent on the product requirements provided by the client’s description as they were comprehended at the time of writing. The complete statement of the product requirements will soon officially be documented in the  
-Software Requirements Specification (SRS). 
+This Software Development Plan (SDP) establishes a thoroughly detailed overall plan for the software implementations, testing, deployment, and qualifications for the Environmental Justice (EJ) Atlas website.This SDP is broken into a total of five sections. Excluding the first section being the introduction, the remaining four sections individually cover the project overview (Section 2), project organization (Section 3\) and management process (Section 4), which go into detail pertaining to the information necessary to reference for the duration of development accurately. The approaches encompassed within this document are contingent on the product requirements provided by the client’s description as they were comprehended at the time of writing. The complete statement of the product requirements will soon officially be documented in the Software Requirements Specification (SRS). 
 
-## **1.3 Definitions, Acronyms, and Abbreviations** {#1.3-definitions,-acronyms,-and-abbreviations}
+## **1.3 Definitions, Acronyms, and Abbreviations** 
 
 | Acronym | Meaning |
 | :---: | :---: |
@@ -102,7 +102,7 @@ Software Requirements Specification (SRS).
 
 ## 
 
-## **1.4 Document References** {#1.4-document-references}
+## **1.4 Document References** 
 
 | Document Title | Version | Date | Author(s) |
 | :---: | :---: | :---: | :---: |
@@ -110,26 +110,26 @@ Software Requirements Specification (SRS).
 
 ## 
 
-## **1.5 System Overview** {#1.5-system-overview}
+## **1.5 System Overview** 
 
 The Chesapeake Community Connection website serves as a hub for improving connections and knowledge exchange within the Chesapeake Community. Its core function is to encourage users to share their environmental stories in audiovisual formats. The platform features an accessible user interface accompanied with a designated page explaining the user interface and its capabilities, content submission capabilities, admin oversight for safety, a filtering system for efficient content discovery, and an interactive map system highlighting community-related locations. It ensures seamless access on both mobile and desktop devices through the Google Chrome browser, facilitating widespread community engagement and knowledge sharing.
 
 # 
 
-# **2\. Project Overview** {#2.-project-overview}
+# **2\. Project Overview** 
 
-## **2.1 Project Purpose, Scope, and Objectives** {#2.1-project-purpose,-scope,-and-objectives}
+## **2.1 Project Purpose, Scope, and Objectives** 
 
 The purpose of this project is to create a working website to the specifications given by the client. The website software will have a working delivery date as more information is gathered and the scope of the project is better understood.  Tentatively, A website prototype and Version 1 of all project documents will have an end target delivery date of December 15, 2023\. Before that final date the following documents are expected to be created and delivered. This includes this document, the Software Development Plan. It also includes the Software Requirements Specification document, the Traceability Matrix, the Software Design Document, and the Software Test Plan.
 
-## **2.2 Assumptions and Constraints** {#2.2-assumptions-and-constraints}
+## **2.2 Assumptions and Constraints** 
 
 * Website must be finished by December 15th, 2023  
 * There are seventeen project team members: Lillian Greenburg, Kylie Hall, Daniel Reina ,Brittany Brenneman, Isabella Stephens, John Heinig, Malik Hill, Naheed John, Yaropolk Kulchyckyj, Shameer Rao, Ariat Ojulu, Alexander Stoyanov-roberts, Dexter Mueller, Jordan Golden, Marjon Ward, Matthew Grimelli, Samuel Albanese  
 * The equipment needed to produce the website includes personal computers, personal mobile devices,and free downloadable software that can be used for the construction phase. In Addition, a text editor compatible with Python, HTML, Java, and JavaScript language as well as the use of GitHub to track progress and changes to the website application.
 
 
-## **2.3 Project Deliverables** {#2.3-project-deliverables}
+## **2.3 Project Deliverables** 
 
 * Software Development Plan (SDP)  
   * Target delivery date:  
@@ -158,7 +158,7 @@ The purpose of this project is to create a working website to the specifications
 * Source code  
   * Target delivery date: 12/15/2023
 
-## **2.4 Evolution of the Software Development Plan** {#2.4-evolution-of-the-software-development-plan}
+## **2.4 Evolution of the Software Development Plan** 
 
 | Expected Release Date | Version Number | Remarks |
 | :---: | :---: | :---: |
@@ -168,13 +168,13 @@ The purpose of this project is to create a working website to the specifications
 
 ---
 
-# **3\. Project Organization** {#3.-project-organization}
+# **3\. Project Organization** 
 
-## **3.1 Organizational Structure** {#3.1-organizational-structure}
+## **3.1 Organizational Structure** 
 
 The structure of this project consists of a 17-person team divided into 4 main roles: Project Lead, Research & Development (R\&D), Quality Assurance and Documentation (QA), and Systems Operations (SysOps). 
 
-## **3.2 External Interfaces** {#3.2-external-interfaces}
+## **3.2 External Interfaces** 
 
 The project will include the following external interface(s):
 
@@ -184,7 +184,7 @@ Professor Parisa Nourani Rinaldi
 * Email: pnrinaldi@smcm.edu 
 
 
-## **3.3 Roles and Responsibilities** {#3.3-roles-and-responsibilities}
+## **3.3 Roles and Responsibilities** 
 
 | Person | Project Role(s) |
 | :---: | :---: |
@@ -197,39 +197,39 @@ Professor Parisa Nourani Rinaldi
 
 ---
 
-# **4\. Management Process** {#4.-management-process}
+# **4\. Management Process** 
 
-## **4.1 Project Estimates** {#4.1-project-estimates}
+## **4.1 Project Estimates** 
 
 There is no applicable cost to this project; The cost of the software shall be free. The application shall cost 15 weeks of time for the first iteration and may continue progress over the following year. 
 
-## **4.2 Project Plan** {#4.2-project-plan}
+## **4.2 Project Plan** 
 
-### **4.2.1 Phase Plan** {#4.2.1-phase-plan}
+### **4.2.1 Phase Plan** 
 
-Project phases shall be implemented sequentially using the waterfall model with some instances of iteration.Communication shall occur between the customer in both meetings throughout the development process as well as asking questions regularly through emails. Modeling shall not happen concurrently with coding and constructing the software, instead it shall be in sequential order.
+Project phases shall be implemented sequentially using the waterfall model with some instances of iteration. Communication shall occur between the customer in both meetings throughout the development process as well as asking questions regularly through emails. Modeling shall not happen concurrently with coding and constructing the software, instead it shall be in sequential order.
 
-### **4.2.2 Iteration Objectives** {#4.2.2-iteration-objectives}
+### **4.2.2 Iteration Objectives** 
 
 The website application project will utilize the incremental framework activity from the Agile Method for completion; where iterations happen when necessary to complete tasks within sprints. Sprints will typically be two weeks long and may include overlapping objectives if necessary.
 
-### **4.2.3 Releases** {#4.2.3-releases}
+### **4.2.3 Releases** 
 
 The outcome of this project will yield one website release over the entire project duration.
 
-### **4.2.4 Project Schedule** {#4.2.4-project-schedule}
+### **4.2.4 Project Schedule** 
 
-### **4.2.5 Project Resourcing** {#4.2.5-project-resourcing}
+### **4.2.5 Project Resourcing** 
 
 The type of staff required for this project include a project manager, research development team, and quality assurance team. The QA team consists of 6 members and one lead, and the RD team consists of 7 members and one team lead. 
 
-## **4.3 Project Monitoring and Control** {#4.3-project-monitoring-and-control}
+## **4.3 Project Monitoring and Control** 
 
-### **4.3.1 Requirements Management** {#4.3.1-requirements-management}
+### **4.3.1 Requirements Management** 
 
 Changes made to the product requirements will be kept on an updated version of the SRS document that shall be shared with the client for their approval.
 
-### **4.3.2 Quality Control** {#4.3.2-quality-control}
+### **4.3.2 Quality Control** 
 
 Defects will be recorded and tracked as Change Requests, and defect metrics will be gathered (see Reporting and Measurement below).
 
@@ -237,23 +237,22 @@ All deliverables are required to go through the appropriate review process, as d
 
 Any defects found during review which are not corrected prior to releasing for integration must be captured as Change Requests so that they are not forgotten.
 
-### **4.3.3 Reporting and Measurement** {#4.3.3-reporting-and-measurement}
+### **4.3.3 Reporting and Measurement** 
 
 Updated schedule estimates, and metrics summary reports, will be generated at the end of each iteration.
 
-### **4.3.4 Risk Management** {#4.3.4-risk-management}
+### **4.3.4 Risk Management** 
 
 Risks will be identified in the Inception Phase and throughout the lifecycle of the project. Project risk is evaluated at least once per iteration and documented by the Team Lead. All risks will identify and rank risk likelihood and risk consequence, as well as mitigation steps.
 
-### **4.3.5 Configuration Management** {#4.3.5-configuration-management}
+### **4.3.5 Configuration Management** 
 
 Appropriate tools will be selected which provide a database of Change Requests and a controlled versioned repository of project artifacts.
 
 All source code, test scripts, and data files are included in baselines. Documentation related to the source code is also included in the baseline, such as design documentation. All customer deliverable artifacts are included in the final baseline of the iteration, including executables.
 
-The Change Requests are reviewed and approved by one member of the project, the Change Control Manager role.  
----
+The Change Requests are reviewed and approved by one member of the project, the Change Control Manager role.   
 
-# **5\. Miscellaneous** {#5.-miscellaneous}
+# **5\. Miscellaneous** 
 
 There are no miscellaneous items at this time.   
