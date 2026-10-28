@@ -14,3 +14,4 @@ requests==2.31.0
 rsa==4.9
 sqlparse==0.5.3
 urllib3==2.2.3
+python-dotenv

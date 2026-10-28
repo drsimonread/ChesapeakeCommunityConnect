@@ -76,3 +76,15 @@ The manual setup steps follow for reference.
 		-	If you’re using Visual Studio Code, this should give you a prompt that says “Your application running on port 8080 is available”. Click on “Open in Browser”
 		-	Alternatively, enter “http://127.0.0.1:8080/” in your browser
 	-	Press **Ctrl+C** to stop the server. Run `deactivate` when you are finished using the virtual environment.
+-	**Setup for MapPage**
+	- Go to your Google Cloud, and click the 3 lines on the upper left corner
+	- Click APIs & Services, and click enable APIs & Services
+	- Search for and enable
+		- Maps JavaScript API	
+		- Places API	
+		- Geocoding API
+	- Save the key for API (should all have the same key)
+	- Double click the cccSite and create a new file called .env 
+	- Open .env.example and copy the line where we initalize the Google API key
+	- Paste it into your own .env and for the place holder put your API key from earlier
+	- This file should automatically be ignored when commiting as it is in the .gitignore file, keeping your key safe
