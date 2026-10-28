@@ -1,108 +1,136 @@
-from google.oauth2 import id_token
-from google.auth.transport import requests
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.shortcuts import get_object_or_404
-from django.urls import reverse
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import *
-from PIL import Image
+{% extends "account/accountBase.html" %}
+{% load static %}
 
-# if user not signed in, sends them to log in 
-def signin(request):
-    if request.session.get('rank', 0)==0:
-        return render(request, 'account/signin.html')
-    else:
-        return redirect("/account/")
+{% block accHead %}
+<link rel="stylesheet" type="text/css" href="{% static 'account/signinstyle.css' %}">
+<title>Chesapeake Community Connect - Sign In</title>
+{% endblock accHead %}
 
-# if a user tries to sign out by URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to confirmation
-def signout(request):
-    if request.method == "POST":
-        request.session.flush()
-    return redirect(reverse("account:default"))
+{% block accountFunc %}
 
- 
- # default account page. send to sign in if not signed in, otherwise displays user info
-def default(request):
-    if request.session.get('rank',0)==0:
-        return redirect(reverse("account:signin"))
-    else:
-        userInz=Member.objects.get(pk=request.session['user']) #get user from session
-        return render(request, 'account/myaccount.html', {
-            'name': userInz.name,
-            'email' : userInz.email,
-            'image' : userInz.pic,
-            'about' : userInz.about,
-        })
-    
-def account_all(request):
-    return HttpResponse("insert account view list here")
-    
-def account_view(request, want):
-    if not want:
-        return HttpResponse("Insert list view here")
-    if not Member.objects.get(pk=want):
-        return redirect(reverse("account:default"))
-    viewInz=Member.objects.get(pk=want)
-    if request.session.get('rank',0) != 0:
-        userInz=Member.objects.get(request.session['user'])
-    else:
-        userInz= Member.objects.none()
-    
+<div class="columns is-centered">
+    <div class="column is-half has-text-centered">
+        <h3 class="title is-3">Contributor access</h3>
+        <div class="buttons is-centered">
+            <button type="button" class="button is-primary signin-modal-trigger" data-target="signin-modal">
+                Sign In
+            </button>
+            <button type="button" class="button is-light signup-modal-trigger" data-target="signup-modal">
+                Create an Account
+            </button>
+        </div>
+    </div>
+</div>
 
-# lets members edit their info
-def manage(request):
-    if request.session.get('rank',0)==0:
-        return redirect('/account/signin/')
-    if request.method == "POST":
-        userInz=Member.objects.get(pk=request.session['user']) 
-        form = ManageForm(request.POST, request.FILES, instance=userInz)
-        if form.is_valid():
-            form.save()
-            request.session['name']=userInz.name
-            return redirect("/account/")
-    else:
-        userInz=Member.objects.get(pk=request.session['user'])
-        form = ManageForm(instance=userInz)
-    return render(request, "account/manage.html", {'form' : form})
+<div class="banner">
+    {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+        <span class="banner-letter">{{ letter }}</span>
+    {% endfor %}
+</div>
 
-# a lot of this code is from google btw
-@csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
-def authG(request):
-    if request.method == "GET":
-       return redirect("/account/")
-    elif request.method == "POST":
+<div id="signin-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signin-modal-title">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p id="signin-modal-title" class="modal-card-title">Sign In</p>
+            <button type="button" class="delete modal-close" aria-label="Close"></button>
+        </header>
+        <section class="modal-card-body">
+            <form method="post" action="{% url 'account:signin' %}" autocomplete="on">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label" for="signin_username">Username</label>
+                    <div class="control">
+                        <input class="input" type="text" id="signin_username" name="username" placeholder="Username" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="signin_password">Password</label>
+                    <div class="control">
+                        <input class="input" type="password" id="signin_password" name="password" placeholder="Password" required>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot">
+            <button type="submit" form="signin-form" class="button is-primary">Sign In</button>
+            <button type="button" class="button sign-in-up-cancel">Cancel</button>
+        </footer>
+    </div>
+</div>
 
-        csrf_tok_cookie = request.COOKIES.get('g_csrf_token')
-        # check valid csrf token
-        if not csrf_tok_cookie:
-            return HttpResponse("Something went wrong, no csrf cookie")
-        csrf_tok_body = request.POST.get('g_csrf_token')
-        if not csrf_tok_body:
-            return HttpResponse("Something went wrong, no csrf cookie from google")
-        if csrf_tok_cookie != csrf_tok_body:
-            return HttpResponse("Could not verify csrf")
-        #get token from google
-        tok = request.POST.get("credential")  
-        try:
-            # logs user in via their google ID, or makes an entry in member if they do not have an account yet.
-            idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
-            if not(GLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
-                #when we implement other sign in methods, we will need to ask the user if they already have an account
-                #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
-                
-                userInz = Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
-                gLogInz = GLogIn.objects.create(googleID=idinfo['sub'], referTo=userInz) # stores the google ID and the member it is associated with
-            else: #if the user has logged in with google before
-                gLogInz=GLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
-                userInz=gLogInz.referTo #get the object that the google ID is associated with
+<div id="signup-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signup-modal-title">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p id="signup-modal-title" class="modal-card-title">Create an Account</p>
+            <button type="button" class="delete modal-close" aria-label="Close"></button>
+        </header>
+        <section class="modal-card-body">
+            <form method="post" action="{% url 'account:signup' %}" id="signup-form">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label" for="signup_username">Username</label>
+                    <div class="control">
+                        <input class="input" type="text" id="signup_username" name="username" placeholder="Username" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="signup_email">Email</label>
+                    <div class="control">
+                        <input class="input" type="email" id="signup_email" name="email" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="signup_password">Password</label>
+                    <div class="control">
+                        <input class="input" type="password" id="signup_password" name="password1" placeholder="Password" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="signup_confirm_password">Confirm Password</label>
+                    <div class="control">
+                        <input class="input" type="password" id="signup_confirm_password" name="password2" placeholder="Confirm Password" required>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot">
+            <button type="submit" form="signup-form" class="button is-primary">Create Account</button>
+            <button type="button" class="button sign-in-up-cancel">Cancel</button>
+        </footer>
+    </div>
+</div>
 
-            #store information about the user in the session
-            request.session['rank']=userInz.ranking
-            request.session['user']=userInz.pk 
-            request.session['name']=userInz.name
-        except ValueError:
-            return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
-            pass
-        return redirect("/account/")
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.signin-modal-trigger').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const modal = document.getElementById(btn.dataset.target);
+            if (modal) modal.classList.add('is-active');
+        });
+    });
+
+    document.querySelectorAll('.signup-modal-trigger').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const modal = document.getElementById(btn.dataset.target);
+            if (modal) modal.classList.add('is-active');
+        });
+    });
+
+    document.querySelectorAll('.modal-background, .modal-close, .sign-in-up-cancel').forEach((element) => {
+        element.addEventListener('click', () => {
+            const modal = element.closest('.modal');
+            if (modal) modal.classList.remove('is-active');
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            document.querySelectorAll('.modal').forEach((modal) => modal.classList.remove('is-active'));
+        }
+    });
+});
+</script>
+
+{% endblock accountFunc %}

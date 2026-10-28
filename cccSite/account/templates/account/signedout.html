@@ -1,81 +1,152 @@
 {% extends "account/accountBase.html" %}
-{% block accHead %}
 {% load static %}
-{% csrf_token %}
+
+{% block accHead %}
 <link rel="stylesheet" type="text/css" href="{% static 'account/signinstyle.css' %}">
 <title>Chesapeake Community Connect - Sign In</title>
 {% endblock accHead %}
 
 {% block accountFunc %}
 
-{% if user.is_authenticated %}
-
-{% comment %}
-<!-- Google API block (disabled) -->
-<div class="body">
-     <div id="g_id_onload"
-          data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
-          data-context="signin"
-          data-ux_mode="popup"
-          data-login_uri="{% url 'account:authG' %}"
-          data-auto_prompt="false">
-     </div>
+<div class="columns is-centered">
+    <div class="column is-half has-text-centered">
+        <h3 class="title is-3">Contributor access</h3>
+        <div class="buttons is-centered">
+            <button type="button" class="button is-primary signin-modal-trigger" data-target="signin-modal">
+                Sign In
+            </button>
+            <button type="button" class="button is-light signup-modal-trigger" data-target="signup-modal">
+                Create an Account
+            </button>
+        </div>
+    </div>
 </div>
-{% endcomment %}
 
 <div class="containerS2">
-     <div class="wrapperS1">
-          <h1 class="heading">What it means to be a Contributor</h1>
-          <p>
-               Labore vel odit sint est omnis ea esse esse. Et voluptate occaecati sequi. Et sed cum explicabo quaerat
-               aut. Atque qui placeat vitae delectus eaque similique. Eum quis quia ut delectus est earum sint ex. Qui
-               cumque corrupti et et ullam dolorum ea. Minima ut iste ut. Similique explicabo amet repellat. Ipsa
-               deserunt in similique animi aperiam consectetur. Unde itaque sint cumque incidunt nihil optio ea.
-               Molestiae aut quam quasi omnis. Molestiae delectus doloribus reprehenderit aut suscipit. Quae inventore
-               enim quod non non est. Recusandae vel omnis maiores. Debitis autem hic ipsam illo dicta quis. Rerum dolor
-               quidem eos alias est quia deleniti. Recusandae doloremque eaque id ab suscipit exercitationem ducimus
-               dignissimos. Quos consequuntur molestiae aperiam distinctio consequatur cupiditate incidunt est. Ducimus
-               qui sunt a. Quae sunt odio soluta reiciendis.
-          </p>
-     </div>
+    <div class="wrapperS1">
+        <h1 class="heading">What it means to be a Contributor</h1>
+        <p>
+            Contributors are essential to the Chesapeake Community Connect mission. By creating an account,
+            contributors gain the ability to create and share forums and posts, as well as comment on other
+            contributors' content. Contributors can share stories, projects, and efforts that are building
+            resilience across the Chesapeake region.
+        </p>
+    </div>
 </div>
 
-<!-- Alphabet banner -->
 <div class="banner">
-     {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
-          <span class="banner-letter">{{ letter }} </span>
-     {% endfor %}
+    {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+        <span class="banner-letter">{{ letter }}</span>
+    {% endfor %}
 </div>
 
-<div class="columns is-centered">
-     <div class="column is-three-quarters">
-          <h3 class="title is-3">What does it mean to be a Contributor?</h3>
-          Contributors are essential to the Chesapeake Community Connect mission. By creating an account, Contributors gain the 
-          ability to create and share forums and posts, as well as comment on other Contributors’ content. Contributors can share 
-          stories, projects and efforts that are building resilience across the Chesapeake region. As a Contributor, you can aid in 
-          providing knowledge to this community on environmental issues and concerns, as well as other updates. Contributors are 
-          encouraged to include a location, resource links, and a written description to help others understand and engage with their 
-          project. Every contribution helps this community expand the network of learning and action that keeps this platform thriving. 
-     </div>
+<div id="signin-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signin-modal-title">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p id="signin-modal-title" class="modal-card-title">Sign In</p>
+            <button type="button" class="delete modal-close" aria-label="Close"></button>
+        </header>
+        <section class="modal-card-body">
+            <form method="post" action="{% url 'account:signin' %}" autocomplete="on">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label" for="signin_username">Username</label>
+                    <div class="control">
+                        <input class="input" type="text" id="signin_username" name="username" placeholder="Username" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="signin_password">Password</label>
+                    <div class="control">
+                        <input class="input" type="password" id="signin_password" name="password" placeholder="Password" required>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot">
+            <button type="submit" form="signin-form" class="button is-primary">Sign In</button>
+            <button type="button" class="button sign-in-up-cancel">Cancel</button>
+        </footer>
+    </div>
 </div>
 
-<div class="columns is-centered">
-     <div class="column is-three-quarters">
-          <h3 class="title is-3">List of Contributors</h3>
-          Here is where the list will go.
-     </div>
+<div id="signup-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="signup-modal-title">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p id="signup-modal-title" class="modal-card-title">Create an Account</p>
+            <button type="button" class="delete modal-close" aria-label="Close"></button>
+        </header>
+        <section class="modal-card-body">
+            <form method="post" action="{% url 'account:signup' %}" id="signup-form">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label" for="signup_username">Username</label>
+                    <div class="control">
+                        <input class="input" type="text" id="signup_username" name="username" placeholder="Username" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="signup_email">Email</label>
+                    <div class="control">
+                        <input class="input" type="email" id="signup_email" name="email" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="signup_password">Password</label>
+                    <div class="control">
+                        <input class="input" type="password" id="signup_password" name="password1" placeholder="Password" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="signup_confirm_password">Confirm Password</label>
+                    <div class="control">
+                        <input class="input" type="password" id="signup_confirm_password" name="password2" placeholder="Confirm Password" required>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot">
+            <button type="submit" form="signup-form" class="button is-primary">Create Account</button>
+            <button type="button" class="button sign-in-up-cancel">Cancel</button>
+        </footer>
+    </div>
 </div>
 
-{% else %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const openModal = (modalId) => {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.add('is-active');
+    };
 
-<div class="columns is-centered">
-     <div class="column is-half has-text-centered">
-          <h3 class="title is-3">Sign in to become a Contributor</h3>
-          <p>You must be logged in to view contributor information.</p>
-          <button type="button" class="button is-primary signin-modal-trigger" data-target="signin-modal">Sign In</button>
-     </div>
-</div>
+    const closeModal = (modalId) => {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.remove('is-active');
+    };
 
-{% endif %}
+    document.querySelectorAll('.signin-modal-trigger').forEach((btn) => {
+        btn.addEventListener('click', () => openModal(btn.dataset.target));
+    });
+
+    document.querySelectorAll('.signup-modal-trigger').forEach((btn) => {
+        btn.addEventListener('click', () => openModal(btn.dataset.target));
+    });
+
+    document.querySelectorAll('.modal-background, .modal-close, .sign-in-up-cancel').forEach((element) => {
+        element.addEventListener('click', () => {
+            const modal = element.closest('.modal');
+            if (modal) modal.classList.remove('is-active');
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            document.querySelectorAll('.modal').forEach((modal) => modal.classList.remove('is-active'));
+        }
+    });
+});
+</script>
 
 {% endblock accountFunc %}
