@@ -1,7 +1,8 @@
+
 {% extends "base/base.html" %}
-{% block head %}
 {% load static %}
 
+{% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'boiler/aboutstyle.css' %}">
 <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
 <title>Chesapeake Community Connect - About</title>
@@ -9,52 +10,71 @@
 
 {% block content %}
 
-<!-- Banner image under nav bar -->
+<!-- Banner image under navigation -->
 <div>
-    <img src="{% static 'base/assets/about_smcm.png' %}" alt="smcmPic" id="pic1">
+    <img
+        src="{% static 'base/assets/about_smcm.png' %}"
+        alt="St. Mary's College of Maryland banner"
+        id="pic1"
+    >
 </div>
 
-<body class="aboutBody">
+<div class="aboutBody">
     <div class="header"></div>
 
     <div id="content">
 
         <!-- Research Team Section -->
-        <div class="container">
-            <h4>
-                <div class="wrapper">
-                    <img src="{% static 'base/assets/research_team.jpg' %}" alt="researchTeam" id="pic2">
-                </div>
-                Research Team
-            </h4>
+        <section class="container">
+            <div class="wrapper">
+                <img
+                    src="{% static 'base/assets/rndpic.jpeg' %}"
+                    alt="Research and development illustration"
+                    id="pic2"
+                >
+            </div>
+
+            <h4>Research Team</h4>
+
             <div class="wrapper">
                 <p>
-                    Our research team focuses on coastal community resilience, working to understand and address environmental 
-                    and societal challenges facing coastal regions. Through collaboration, data analysis, and community engagement, 
-                    the team develops insights and solutions that support sustainable and resilient coastal communities.
+                    Our research team focuses on coastal community resilience,
+                    working to understand and address environmental and societal
+                    challenges facing coastal regions. Through collaboration,
+                    data analysis, and community engagement, the team develops
+                    insights and solutions that support sustainable and resilient
+                    coastal communities.
                 </p>
             </div>
-        </div>
+        </section>
 
         <!-- R&D / QA / Capstone Section -->
-        <div class="containerL">
-            <h4>
-                <div class="wrapper">
-                    <img src="{% static 'base/assets/group_photo.jpg' %}" alt="groupPhoto" id="pic2">
-                </div>
-                R&D, QA, and Capstone Teams
-            </h4>
+        <section class="containerL">
+            <div class="wrapper">
+                <img
+                    src="{% static 'base/assets/capstonestockpic.png' %}"
+                    alt="Capstone illustration"
+                    id="pic2"
+                >
+            </div>
+
+            <h4>R&amp;D, QA, and Capstone Teams</h4>
+
             <div class="wrapper">
                 <p>
-                    The Software Startup Simulator Capstone brings together students in Research & Development, Quality Assurance, 
-                    and project teams to collaborate on real-world software projects. The R&D team focuses on building and enhancing 
-                    application features, while QA ensures quality through testing and documentation. Together, these teams simulate 
-                    a professional development environment, delivering meaningful solutions for real clients.
+                    The Software Startup Simulator Capstone brings together
+                    students in Research &amp; Development, Quality Assurance,
+                    and project teams to collaborate on real-world software
+                    projects. The R&amp;D team focuses on building and enhancing
+                    application features, while QA ensures quality through
+                    testing and documentation. Together, these teams simulate
+                    a professional development environment, delivering
+                    meaningful solutions for real clients.
                 </p>
             </div>
-        </div>
+        </section>
 
     </div>
-</body>
+</div>
 
 {% endblock content %}

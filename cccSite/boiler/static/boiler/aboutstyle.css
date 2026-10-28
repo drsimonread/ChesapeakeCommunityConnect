@@ -1,42 +1,44 @@
+
 .aboutBody {
     color: #f3c10d;
     background: linear-gradient(to bottom, #f3f3f3, #e9ecef);
     margin: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
 }
 
-/* Layout */
+/* Main layout */
 #content {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    gap: 50px;
-    padding: 60px 40px;
+    align-items: stretch;
+    gap: 40px;
+    padding: 50px 24px;
     flex-wrap: wrap;
+    box-sizing: border-box;
 }
 
-/* Card styling */
+/* Section cards */
 .container,
 .containerL {
     background: linear-gradient(145deg, #00205c, #001a4d);
-    width: 480px;
-    min-height: 650px;
-
+    width: 100%;
+    max-width: 480px;
+    min-height: 0;
+    box-sizing: border-box;
     border-radius: 20px;
-    padding: 30px;
-
+    padding: 28px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-
     text-align: center;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
 }
 
 /* Subtle hover effect */
 .container:hover,
 .containerL:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
 }
 
 /* Gold accent line */
@@ -52,13 +54,14 @@
     border-radius: 10px;
 }
 
-/* Remove old layout */
+/* Hide the old layout */
 .containerR {
     display: none;
 }
 
-/* Image styling */
+/* Section images */
 #pic2 {
+    display: block;
     width: 100%;
     height: 260px;
     object-fit: cover;
@@ -66,26 +69,29 @@
     margin-bottom: 20px;
 }
 
-/* Banner */
+/* Top banner */
 #pic1 {
     width: 100%;
     height: auto;
     display: block;
 }
 
-/* Header text */
-h4 {
+/* Section headings */
+.container h4,
+.containerL h4 {
     font-size: 26px;
-    margin-bottom: 15px;
+    margin: 0 0 15px;
     color: #f3c10d;
     letter-spacing: 0.5px;
 }
 
-/* Paragraph text */
-p {
+/* Section descriptions */
+.container p,
+.containerL p {
     font-size: 17px;
     line-height: 1.7;
     color: #e6e6e6;
+    margin: 0;
 }
 
 /* Wrapper spacing */
@@ -93,15 +99,45 @@ p {
     margin: 10px 0;
 }
 
-/* Responsive */
+/* Tablet and smaller screens */
 @media (max-width: 1100px) {
     #content {
         flex-direction: column;
         align-items: center;
+        gap: 28px;
+        padding: 35px 20px;
     }
 
     .container,
     .containerL {
-        width: 90%;
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+    #content {
+        padding: 24px 14px;
+    }
+
+    .container,
+    .containerL {
+        padding: 22px 18px;
+        border-radius: 16px;
+    }
+
+    #pic2 {
+        height: 210px;
+    }
+
+    .container h4,
+    .containerL h4 {
+        font-size: 23px;
+    }
+
+    .container p,
+    .containerL p {
+        font-size: 16px;
     }
 }
