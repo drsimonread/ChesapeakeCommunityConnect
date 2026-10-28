@@ -1,29 +1,28 @@
+
 {% extends "base/base.html" %}
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'boiler/helpstyle.css' %}?v=4">
-<link rel="stylesheet" href="{% static 'boiler/contact_formstyle.css' %}?v=4">
+<link rel="stylesheet" href="{% static 'boiler/helpstyle.css' %}?v=5">
+<link rel="stylesheet" href="{% static 'boiler/contact_formstyle.css' %}?v=5">
 <title>Chesapeake Community Connect - Help/FAQs</title>
 {% endblock head %}
 
 {% block content %}
-<div id="content" class="help-page">
+<main id="content" class="help-page">
 
-    <!-- Frequently Asked Questions -->
-    <section id="FAQ" class="section">
+    <section id="FAQ">
         <h2 class="center-title">Frequently Asked Questions</h2>
         <p class="section-subtitle">
             Find answers to common questions about Chesapeake Community Connect.
         </p>
 
         <div class="faq-card">
-
             <button type="button" class="accordion" aria-expanded="false">
                 What is this website?
                 <span class="icon" aria-hidden="true">+</span>
             </button>
-            <div class="panel">
+            <div class="panel" aria-hidden="true">
                 <p>
                     Chesapeake Community Connect is an interactive map webapp
                     that highlights resilience initiatives across the Chesapeake region.
@@ -34,7 +33,7 @@
                 How do I contribute?
                 <span class="icon" aria-hidden="true">+</span>
             </button>
-            <div class="panel">
+            <div class="panel" aria-hidden="true">
                 <p>
                     Go to the map tab and click "Create a Post" to add your contribution.
                 </p>
@@ -44,20 +43,16 @@
                 Why does this exist?
                 <span class="icon" aria-hidden="true">+</span>
             </button>
-            <div class="panel">
+            <div class="panel" aria-hidden="true">
                 <p>
                     This project was developed with St. Mary's College of Maryland
                     to promote environmental justice and collaboration.
                 </p>
             </div>
-
         </div>
     </section>
 
-    <!-- Tutorial and Contact Section -->
-    <section class="section help-grid">
-
-        <!-- Map Tutorial -->
+    <section class="help-grid">
         <div class="card">
             <h2>Map Tutorial</h2>
             <p class="subtitle">
@@ -75,7 +70,6 @@
             </div>
         </div>
 
-        <!-- Contact Us -->
         <div class="card contact-card">
             <h2>Need Help?</h2>
             <p class="subtitle">
@@ -84,7 +78,7 @@
 
             <button
                 type="button"
-                class="button contact-toggle"
+                class="contact-toggle"
                 id="show-contact-form-button"
                 aria-expanded="false"
                 aria-controls="contact-form-container"
@@ -92,26 +86,15 @@
                 Contact Us
             </button>
 
-            <div
-                id="contact-form-container"
-                class="contact-form-container"
-                hidden
-            >
-                <h3>Send Us a Message</h3>
-                <p class="contact-intro">
-                    Fill out the form below and send us your message.
-                </p>
-
+            <div id="contact-form-container" class="contact-form-container" hidden>
                 {% include 'boiler/contact_form.html' %}
             </div>
         </div>
-
     </section>
-</div>
+</main>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // Show and hide the contact form.
     const contactButton = document.getElementById("show-contact-form-button");
     const contactContainer = document.getElementById("contact-form-container");
 
@@ -131,28 +114,27 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // FAQ accordion behavior.
-    const accordions = document.querySelectorAll(".accordion");
+    document.querySelectorAll(".accordion").forEach(function (button) {
+        button.addEventListener("click", function () {
+            const panel = button.nextElementSibling;
+            const icon = button.querySelector(".icon");
+            const isOpen = button.getAttribute("aria-expanded") !== "true";
 
-    accordions.forEach(function (accordion) {
-        accordion.addEventListener("click", function () {
-            const panel = this.nextElementSibling;
-            const icon = this.querySelector(".icon");
-            const isOpen = this.classList.toggle("active");
-
-            this.setAttribute("aria-expanded", String(isOpen));
-
-            if (icon) {
-                icon.textContent = isOpen ? "−" : "+";
-            }
+            button.setAttribute("aria-expanded", String(isOpen));
+            button.classList.toggle("active", isOpen);
 
             if (panel) {
+                panel.setAttribute("aria-hidden", String(!isOpen));
                 panel.style.maxHeight = isOpen
                     ? panel.scrollHeight + "px"
                     : null;
+            }
+
+            if (icon) {
+                icon.textContent = isOpen ? "−" : "+";
             }
         });
     });
 });
 </script>
-{% endblock content %}  
+{% endblock content %}

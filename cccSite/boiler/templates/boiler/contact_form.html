@@ -1,6 +1,3 @@
-
-{% load static %}
-
 <form
     action="{% url 'boiler:help' %}"
     id="contact-form"
@@ -28,7 +25,7 @@
         </label>
         {{ form.sender }}
         {% if form.sender.errors %}
-            <div class="field-error" id="sender-errors" role="alert">
+            <div class="field-error" role="alert">
                 {{ form.sender.errors }}
             </div>
         {% endif %}
@@ -40,7 +37,7 @@
         </label>
         {{ form.email }}
         {% if form.email.errors %}
-            <div class="field-error" id="email-errors" role="alert">
+            <div class="field-error" role="alert">
                 {{ form.email.errors }}
             </div>
         {% endif %}
@@ -52,7 +49,7 @@
         </label>
         {{ form.subject }}
         {% if form.subject.errors %}
-            <div class="field-error" id="subject-errors" role="alert">
+            <div class="field-error" role="alert">
                 {{ form.subject.errors }}
             </div>
         {% endif %}
@@ -64,7 +61,7 @@
         </label>
         {{ form.message }}
         {% if form.message.errors %}
-            <div class="field-error" id="message-errors" role="alert">
+            <div class="field-error" role="alert">
                 {{ form.message.errors }}
             </div>
         {% endif %}
