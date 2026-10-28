@@ -18,11 +18,11 @@ class MapPost(models.Model):
     geoCode = models.JSONField()
     tags = models.ManyToManyField(MapTag, related_name="posts", blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    visible_options = { 
+    visible_options = (
         (-1,"denied"),
         (0, "pending"),
         (1 , "visible"),
-    }
+    )
     visibility = models.SmallIntegerField(default=0, choices=visible_options)
     def __str__(self):
         return self.title + " by " + str(self.author)

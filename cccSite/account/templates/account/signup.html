@@ -1,6 +1,78 @@
 {% extends "account/accountBase.html" %}
 {% block accHead %}
+{% load static %}
 <title>Chesapeake Community Connect - Create an Account</title>
+<link rel="stylesheet" type="text/css" href="{% static 'base/signinStyling.css' %}">
+<style>
+        #cancel{
+            display: block;
+            box-sizing: border-box;
+            width: 150px !important;
+            margin: 10px 0 !important;
+            padding: 10px !important;
+            border: none !important;
+            border-radius: 3px !important;
+            background-color: #e0e0e0 !important;
+            color: #00205c;
+            font-size: 15px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    
+        .signin-submit {
+            display: block;
+            box-sizing: border-box;
+            width: 150px !important;
+            margin: 10px 0 !important;
+            padding: 10px !important;
+            border: none !important;
+            border-radius: 3px !important;
+            background-color: #f3c10d;
+            color: #00205c;
+            font-size: 15px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .signin-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            width: 70%;
+            margin: 1rem auto;
+        }
+    
+        .signin-actions .signin-submit,
+        .signin-actions #cancel {
+            margin: 0 !important;
+        }
+
+        .signup-form {
+            text-align: center;
+        }
+
+        .signup-form .field {
+            width: 70%;
+            margin: 0 auto 1rem;
+            text-align: left;
+        }
+
+        .signup-form .input {
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .signup-form .signin-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            width: 70%;
+            margin: 1rem auto;
+        }
+</style>
 {% endblock accHead %}
 
 {% block accountFunc %}
@@ -10,35 +82,37 @@
         {% if error %}
             <p class="help is-danger">{{ error }}</p>
         {% endif %}
-        <form method="post" action="{% url 'account:signup' %}" autocomplete="off">
+        <form class="signup-form" method="post" action="{% url 'account:signup' %}" autocomplete="off">
             {% csrf_token %}
             <div class="field">
-                <label class="label" for="email">Email</label>
+                <label class="label" for="email">Email:</label>
                 <input class="input" type="email" id="email" name="email"
                        autocomplete="off" required>
             </div>
             <div class="field">
-                <label class="label" for="username">Username</label>
+                <label class="label" for="username">Username:</label>
                 <input class="input" type="text" id="username" name="username"
                        maxlength="75" autocomplete="off" required>
             </div>
             <div class="field">
-                <label class="label" for="displayname">Display name</label>
+                <label class="label" for="displayname">Display name:</label>
                 <input class="input" type="text" id="displayname" name="displayname"
                        maxlength="75" autocomplete="off" required>
             </div>
             <div class="field">
-                <label class="label" for="password">Password</label>
+                <label class="label" for="password">Password:</label>
                 <input class="input" type="password" id="password" name="password"
                        autocomplete="new-password" required>
             </div>
             <div class="field">
-                <label class="label" for="confirmpassword">Confirm password</label>
+                <label class="label" for="confirmpassword">Confirm password:</label>
                 <input class="input" type="password" id="confirmpassword" name="confirmpassword"
                        autocomplete="new-password" required>
             </div>
-            <button class="button is-link" type="submit">Create Account</button>
-            <a class="button" href="{% url 'account:signin' %}">Cancel</a>
+            <div class="signin-actions">
+                <button class="signin-submit" type="submit">Create Account</button>
+                <a class="button" id="cancel" href="{% url 'account:signin' %}">Cancel</a>
+            </div>
         </form>
     </div>
 </div>

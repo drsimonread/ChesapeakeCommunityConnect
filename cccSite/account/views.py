@@ -19,7 +19,7 @@ def signin(request):
     if request.session.get('rank', 0)==0:
         return render(request, 'account/signin.html')
     else:
-        return redirect("/account/")
+        return redirect(reverse("account:default"))
 
 def signin_form(request):
     if request.method == "GET":
@@ -124,6 +124,7 @@ def account_all(request):
                                )
 
     return render(request, "account/account_list.html", {
+        "is_signed_in": request.session.get("rank", 0) > 0,
         "search": search,
         "search_query": query,
         "sort_value": sort,
@@ -164,7 +165,10 @@ def manage(request):
     else:
         userInz=Member.objects.get(pk=request.session['user'])
         form = ManageForm(instance=userInz)
-    return render(request, "account/manage.html", {'form' : form})
+    return render(request, "account/manage.html", {
+        'form': form,
+        'current_profile_image': userInz.pic,
+    })
 
 
 def my_forums(request):
@@ -204,7 +208,7 @@ def create_forum(request):
 @csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
 def authG(request):
     if request.method == "GET":
-       return redirect("/account/")
+       return redirect(reverse("account:account_list"))
     elif request.method == "POST":
 
         csrf_tok_cookie = request.COOKIES.get('g_csrf_token')
@@ -238,4 +242,4 @@ def authG(request):
         except ValueError:
             return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
             pass
-        return redirect("/account/")
+        return redirect(reverse("account:default"))

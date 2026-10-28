@@ -4,6 +4,47 @@
 
 <script src="https://accounts.google.com/gsi/client" async></script>
 <link rel="stylesheet" type="text/css" href="{% static 'base/signinStyling.css' %}">
+<style>
+     #create-an-account,
+     #Signin {
+          display: block;
+          box-sizing: border-box;
+          flex: 1 1 0;
+          width: auto;
+          margin: 0;
+          padding: 10px 20px;
+          border: 0;
+          border-radius: 8px;
+          background-color: #f3c10d;
+          color: #00205c;
+          font-weight: 700;
+          text-align: center;
+          text-decoration: none;
+          cursor: pointer;
+     }
+
+     .signin-actions {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          width: 70%;
+          margin: 1rem auto;
+     }
+
+     .google-signin-widget {
+          display: flex !important;
+          justify-content: center !important;
+          width: 100% !important;
+          margin: 1rem auto !important;
+     }
+
+     #create-an-account:hover,
+     #Signin:hover {
+          background-color: #e67e22;
+          color: #00205c;
+          text-decoration: none;
+     }
+</style>
 <title>Chesapeake Community Connect - Sign In</title>
 {%endblock accHead%}
 {% block accountFunc %}
@@ -19,11 +60,14 @@
                     Sign in with Google
                </h1>
                <!--google sign in button is rendered here-->
-               <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+               <div class="g_id_signin google-signin-widget" data-type="standard" data-shape="rectangular" data-theme="outline"
                     data-text="signin" data-size="large" data-logo_alignment="left">
                </div>
-               <a class="button" id="create-an-account" href="{% url 'account:signup' %}">Create an Account</a>
-               <a class="button" id="Signin" href="{% url 'account:signin_form' %}">Sign In</a>
+               <div class="signin-actions">
+                    <a class="button" id="Signin" href="{% url 'account:signin_form' %}">Sign In</a>
+                    <a class="button" id="create-an-account" href="{% url 'account:signup' %}">Create an Account</a>
+                    
+               </div>
                
           </div>
      </div>

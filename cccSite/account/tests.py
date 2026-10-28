@@ -24,6 +24,16 @@ class AccountViewsTest(TestCase):
         self.assertContains(response, "Test User")
         self.assertContains(response, reverse("account:create_forum"))
 
+    def test_manage_view_shows_current_profile_image(self):
+        response = self.client.get(reverse("account:manage"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Current profile image:")
+        self.assertContains(response, self.user.pic.url)
+
+    def test_signin_redirects_signed_in_user_to_account_page(self):
+        response = self.client.get(reverse("account:signin"))
+        self.assertRedirects(response, reverse("account:default"))
+
     def test_signed_out_contributor_page_has_only_menu_sign_in(self):
         self.session.flush()
         response = self.client.get(reverse("account:signin"))
@@ -31,6 +41,41 @@ class AccountViewsTest(TestCase):
         self.assertContains(response, "nav-auth__link")
         self.assertNotContains(response, ">Account<")
         self.assertNotContains(response, 'id="Signin"')
+
+    def test_contributors_link_is_directory_for_signed_in_users(self):
+        response = self.client.get(reverse("account:account_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            'href="' + reverse("account:account_list") + '" style="background-color: #f3c10d; color: #00205c;"',
+        )
+        self.assertContains(response, reverse("account:account_list"))
+        self.assertContains(response, "Contributors")
+        self.assertContains(response, reverse("account:default"))
+        self.assertContains(response, "My Account")
+
+    def test_contributors_link_is_directory_for_signed_out_users(self):
+        self.session.flush()
+        response = self.client.get(reverse("account:account_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            'href="' + reverse("account:account_list") + '" style="background-color: #f3c10d; color: #00205c;"',
+        )
+        self.assertContains(response, reverse("account:account_list"))
+        self.assertContains(response, "Contributors")
+        self.assertNotContains(response, ">Account<")
+
+    def test_signed_out_contributors_page_prompts_for_sign_in(self):
+        self.session.flush()
+        response = self.client.get(reverse("account:account_list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Sign in to view contributors")
+        self.assertContains(response, "⚠️")
+        self.assertContains(response, "You need to sign in to view the contributors page.")
+        self.assertContains(response, "contributors-signin-link")
+        self.assertContains(response, "What it means to be a Contributor")
+        self.assertNotContains(response, "Search by username")
 
     def test_signed_in_pages_include_account_in_main_menu(self):
         response = self.client.get(reverse("account:default"))
@@ -46,6 +91,10 @@ class AccountViewsTest(TestCase):
             self.assertContains(response, reverse("account:" + url_name))
         self.assertContains(response, reverse("account:manage"))
         self.assertContains(response, "Sign Out")
+        self.assertNotContains(
+            response,
+            'href="' + reverse("account:account_list") + '" style="background-color: #f3c10d; color: #00205c;"',
+        )
         self.assertNotContains(response, 'position:fixed;width: 15%')
 
     def test_account_search_lists_visible_forum_authors(self):
@@ -119,7 +168,7 @@ class AccountViewsTest(TestCase):
 
     def test_authG_view_invalid_request(self):
         response = self.client.get(reverse("account:authG"))
-        self.assertRedirects(response, "/account/")
+        self.assertRedirects(response, reverse("account:account_list"))
 
     def test_authG_view_invalid_csrf(self):
         response = self.client.post(reverse("account:authG"), {'g_csrf_token': 'invalid'})

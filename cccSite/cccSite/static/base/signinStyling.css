@@ -55,3 +55,28 @@
     /*rounded edges for container*/
     border-radius: 20px;
 }
+
+#create-an-account,
+#Signin {
+    display: block;
+    box-sizing: border-box;
+    width: 70%;
+    margin: 1rem auto;
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 8px;
+    background-color: #f3c10d;
+    color: #00205c;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#create-an-account:hover,
+#Signin:hover {
+    background-color: #e67e22;
+    color: #00205c;
+    text-decoration: none;
+}
