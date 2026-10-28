@@ -2,19 +2,81 @@
 
 ## Software Requirements Specification
 
-**Version:** 2.0
-**Date:** October 21, 2026
+**Version:** 2.1
+**Date:** October 28, 2026
 **Status:** Current project baseline
 **Project:** ChesapeakeCommunityConnect
+
+**Table of Contents**
+
+[**1. Introduction**](#1-introduction)
+
+* [1.1 Purpose](#11-purpose)
+
+* [1.2 Scope](#12-scope)
+
+* [1.3 Definitions, Acronyms, and Abbreviations](#13-definitions-acronyms-and-abbreviations)
+
+* [1.5 System Overview](#15-system-overview)
+
+[**2. Functional Requirements**](#2-functional-requirements)
+
+* [2.1 Map and Project Discovery](#21-map-and-project-discovery)
+
+* [2.2 Project Submission](#22-project-submission)
+
+* [2.3 Accounts and Contributors](#23-accounts-and-contributors)
+
+* [2.4 Administration and Moderation](#24-administration-and-moderation)
+
+* [2.5 Help, About, and Contact](#25-help-about-and-contact)
+
+* [2.6 External Integrations](#26-external-integrations)
+
+[**3. Non-Functional Requirements**](#3-non-functional-requirements)
+
+* [3.1 Security and Privacy](#31-security-and-privacy)
+
+* [3.2 Compatibility and Usability](#32-compatibility-and-usability)
+
+* [3.3 Maintainability](#33-maintainability)
+
+* [3.4 Reliability and Performance](#34-reliability-and-performance)
+
+[**4. External Interfaces**](#4-external-interfaces)
+
+* [4.1 User Interface](#41-user-interface)
+
+* [4.2 Map and Geolocation Interface](#42-map-and-geolocation-interface)
+
+* [4.3 Authentication Interface](#43-authentication-interface)
+
+* [4.4 Database and Media Interface](#44-database-and-media-interface)
+
+* [4.5 Administrative Interface](#45-administrative-interface)
+
+[**5. System and Deployment Requirements**](#5-system-and-deployment-requirements)
+
+* [5.1 Server](#51-server)
+
+* [5.2 Client](#52-client)
+
+* [5.3 Configuration](#53-configuration)
+
+[**6. Delivery and Acceptance**](#6-delivery-and-acceptance)
+
+[**7. Out of Scope for the Current Baseline**](#7-out-of-scope-for-the-current-baseline)
+
+[**8. Related Documentation**](#8-related-documentation)
 
 ## Revision History
 
 | Date | Version | Description | Author(s) |
 | :---: | :---: | :--- | :--- |
-| 11/29/23 | 1.0 | Initial draft | Chesapeake Community Connect capstone team |
-| 01/24/24 | 1.1 | Revision started for 2024 | Chesapeake Community Connect team |
+| 11/29/23 | 1.0 | Initial draft | Kylie Hall, John Heinig Malik Hill Naheed John Yaro Kulchyckyj Isabella Stephens Brittany Brenneman |
+| 01/24/24 | 1.1 | Revision started for 2024 | Daniel Reina Alex Ochman Gavin McDonald John Heinig Kendahl Michael Shively |
 | 02/24/25 | 1.2 | Revision for Spring 2025 | Sophia Lin |
-| 10/21/26 | 2.0 | Updated scope, requirements, technology stack, and delivery model for the current Django application | Supphat Overton |
+| 10/21/26 | 2.1 | Revision for Fall 2026 | Supphat Overton, Claudia Jane Woodbury |
 
 ---
 

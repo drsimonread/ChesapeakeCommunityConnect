@@ -1,4 +1,33 @@
 # Setting up Chesapeake Community Connect (CCC) on your Google Cloud VM
+## Automated first-time setup
+
+After cloning the repository, run this from the repository root as your normal user:
+
+```bash
+bash setup.sh
+```
+
+The script targets Ubuntu/Debian VMs. It installs the required system packages
+(using `sudo`, which may prompt for your password), creates `cccSite/.venv`, installs
+the Python requirements, and applies the existing migrations to SQLite. Python 3.10+
+is required. It reuses the virtual environment and preserves existing database data
+on subsequent runs. Internet access is needed to download packages.
+
+To also start the development server on port 8080:
+
+```bash
+bash setup.sh --runserver
+```
+
+If the system packages are already installed, use `bash setup.sh --skip-system-packages`.
+The script prints commands for activating the environment and starting the server
+in future terminals; it cannot activate the environment in your current shell.
+
+Optional MariaDB/PostgreSQL installation is skipped. Git identity configuration
+and system-wide upgrades remain manual. The script does not generate migrations
+or configure Apache hosting; the Apache WSGI package is installed as listed below.
+The manual setup steps follow for reference.
+
 ## CCC Installation
 -	**Configuring your Virtual Machine for git, python, and other dependencies**W
 	-	sudo apt update
@@ -47,3 +76,15 @@
 		-	If you’re using Visual Studio Code, this should give you a prompt that says “Your application running on port 8080 is available”. Click on “Open in Browser”
 		-	Alternatively, enter “http://127.0.0.1:8080/” in your browser
 	-	Press **Ctrl+C** to stop the server. Run `deactivate` when you are finished using the virtual environment.
+-	**Setup for MapPage**
+	- Go to your Google Cloud, and click the 3 lines on the upper left corner
+	- Click APIs & Services, and click enable APIs & Services
+	- Search for and enable
+		- Maps JavaScript API	
+		- Places API	
+		- Geocoding API
+	- Save the key for API (should all have the same key)
+	- Double click the cccSite and create a new file called .env 
+	- Open .env.example and copy the line where we initalize the Google API key
+	- Paste it into your own .env and for the place holder put your API key from earlier
+	- This file should automatically be ignored when commiting as it is in the .gitignore file, keeping your key safe
