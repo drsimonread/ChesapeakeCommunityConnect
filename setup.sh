@@ -8,6 +8,7 @@ Usage: bash setup.sh [--skip-system-packages] [--runserver]
 
 Install required system packages, create/reuse cccSite/.venv, install Python
 requirements, and apply the existing Django migrations to the SQLite database.
+Create cccSite/.env from .env.example if it does not already exist.
 
   --skip-system-packages  Skip apt (prerequisites must already be installed).
   --runserver             Start the development server on port 8080 after setup.
@@ -39,6 +40,11 @@ VENV_PYTHON="$VENV_DIR/bin/python"
 if [[ ! -f "$SITE_DIR/manage.py" || ! -f "$SITE_DIR/requirements.txt" ]]; then
     printf 'Missing project files. Keep setup.sh in the repository root.\n' >&2
     exit 1
+fi
+
+if [[ ! -e "$SITE_DIR/.env" && ! -L "$SITE_DIR/.env" ]]; then
+    printf 'Creating %s from .env.example...\n' "$SITE_DIR/.env"
+    cp -- "$SITE_DIR/.env.example" "$SITE_DIR/.env"
 fi
 
 if [[ "$SKIP_SYSTEM_PACKAGES" == false ]]; then
