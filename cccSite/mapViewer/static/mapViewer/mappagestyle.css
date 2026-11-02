@@ -91,13 +91,6 @@ input[type=text] { /*? Maybe move to basestyles.css. */
   resize: none;
 }
 
-/* This is the ID for the search button. 
-#search-btn {
-    padding: 1em;
-    width: 60%; /* Take up half the screen width */
-    float: left;
-}
-*/
 /* -------------------------------------------------------------------------
    Map page inside contributor-style shell: flex layout + larger map area.
    (Float 70%/25% breaks inside padded .site-main; search was wrapping away.)
@@ -344,3 +337,47 @@ textarea.map-search-input {
     box-sizing: border-box;
 }
 
+.map-page-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+    gap: 1rem;
+}
+
+.map-left-column {
+    gap: 1rem;
+    min-width: 0;
+}
+
+.map-container {
+    height: clamp(320px, 42vw, 500px);
+    min-width: 0;
+}
+
+.map-right-column {
+    min-width: 0;
+    width: auto;
+}
+
+.map-page-layout #scroll-box {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.map-page-layout input[type="text"],
+.map-page-layout textarea.map-search-input {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+    .map-page-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .map-right-column {
+        width: 100%;
+        min-width: 0;
+    }
+}
