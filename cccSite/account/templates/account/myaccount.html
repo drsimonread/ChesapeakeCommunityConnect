@@ -6,100 +6,60 @@
 {% endblock accHead %}
 
 {% block accountFunc %}
-<style>
-    .wrapper {
-        float: right;
-        border: solid;
-        border-width: 2px;
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
-        min-width: 300px;
-        width: 300px;
-        min-height: 600px;
-        margin-top: 15px;
-        margin-right: 15px;
-        border-radius: 5px;
-    }
-
-    .proPic {
-        margin: 10px 15px 15px 0px;
-        width: 250px;
-        height: 250px;
-        border-radius: 4px;
-    }
-
-    .imgWrapper {
-        text-align: center;
-    }
-
-    .inWrapper {
-        text-align: left;
-        margin-left: 10px;
-    }
-
-    .editPro {
-        display: block;
-        margin: 5px 0 0 5px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 8px;
-        background-color: #f3c10d;
-        color: #00205c;
-        font-size: 16px;
-        font-weight: 700;
-        text-align: center;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .editPro:hover{
-        background-color: #e67e22;
-    }
-
-    .buttonHolder {
-        min-width: 200px;
-        min-height: 50px;
-        text-align: left;
-    }
-
-    .description{
-        margin-left: 13px;
-        margin-right: 13px;
-        text-align: left;
-    }
-
-</style>
-<!--loads user's info from provided dictionary-->
-<div id="content">
-    <div class="wrapper">
-        <div class="imgWrapper">
-            <li><img class="proPic" src="{{ image.url }}" alt="Uploaded Image" height="150" width="150"></li>
-        </div>
-        <div class="inWrapper">
-           <p>Username: {{name}}</p>
-            <br>
-            <p>Email: {{email}}</p>
-            <br>
-
-
-        </div>
-
-        <div class="buttonHolder">
-            <button class="editPro" id="edit-account" data-url="{% url 'account:manage' %}" onclick="window.location.href=this.dataset.url">
-                Edit Account Details</button>
-        </div>
-
-        <div class="description">
-            {%if about != ""%}
-            <p> About: </p>
-          
-            <p>
-                {{about}}
-                {%endif%}
-                {%if rank > 1%}
-            <p>You are a trusted user.
-                {%endif%}
-        </div>
-
+<div class="contrib-page contrib-page--account" role="main" aria-labelledby="account-page-title">
+  <header class="contrib-hero">
+    <div class="contrib-hero__inner">
+      <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-user"></i></div>
+      <div class="contrib-hero__text">
+        <span class="contrib-hero__kicker">Your account</span>
+        <h1 id="account-page-title" class="contrib-hero__title">My account</h1>
+        <p class="contrib-hero__lede">Manage your profile information and keep your contributor details up to date.</p>
+      </div>
     </div>
+  </header>
+
+  <section class="account-profile__card" aria-labelledby="account-profile-title">
+    <div class="account-profile__header">
+      <div class="account-profile__header-icon" aria-hidden="true"><i class="bx bx-id-card"></i></div>
+      <div class="account-profile__header-text">
+        <h2 id="account-profile-title" class="account-profile__card-title">Profile details</h2>
+        <p class="account-profile__header-note">This information is shown with your contributor activity.</p>
+      </div>
+    </div>
+
+    <div class="account-profile__body">
+      <div class="account-profile__avatar-wrap">
+        <div class="account-profile__avatar-ring">
+          <img class="account-profile__avatar" src="{{ image.url }}" alt="Profile image for {{ name }}">
+        </div>
+      </div>
+
+      <div class="account-profile__details">
+        <dl class="account-profile__dl">
+          <div class="account-profile__dl-row">
+            <dt>Name</dt>
+            <dd>{{ name }}</dd>
+          </div>
+          <div class="account-profile__dl-row">
+            <dt>Email</dt>
+            <dd>{{ email }}</dd>
+          </div>
+        </dl>
+
+        {% if about %}
+        <h3 class="account-profile__about-title">About</h3>
+        <p class="account-profile__about-body">{{ about }}</p>
+        {% else %}
+        <p class="account-profile__about-body account-profile__about--empty">No about information has been added yet.</p>
+        {% endif %}
+
+        <div class="account-profile__actions">
+          <a class="account-btn account-btn--primary" href="{% url 'account:manage' %}">
+            <i class="bx bx-edit-alt" aria-hidden="true"></i>&nbsp; Edit account details
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 {% endblock accountFunc %}

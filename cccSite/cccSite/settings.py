@@ -144,7 +144,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [BASE_DIR/'cccSite'/'static']
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # media files (user uploaded images and files)
 

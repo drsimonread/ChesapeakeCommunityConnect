@@ -6,82 +6,62 @@
 {% endblock accHead %}
 
 {% block accountFunc %}
-
-<style>
-
-    .container{
-        min-width: 100%;
-        margin-bottom: 20%;
-    }
-
-    .nameField,.emailField,.aboutField{
-        border: none;
-        width: 300px;
-        padding:10px;
-        margin: 10px;
-        border-radius: 5px;
-    }
-
-    .submitB {
-        background-color: #f3c10d;
-        padding: 10px;
-        border-radius: 3px;
-        border: none;
-        font-size: 15px;
-        width: 150px;
-
-    }
-
-    .submitB:hover{
-        cursor: pointer;
-        background-color: orange;
-    }
-
-    .cancelB {
-        display: inline-block;
-        box-sizing: border-box;
-        margin-left: 10px;
-        padding: 10px;
-        border-radius: 3px;
-        background-color: #e0e0e0;
-        color: #00205c;
-        font-size: 15px;
-        text-align: center;
-        text-decoration: none;
-        width: 150px;
-    }
-
-    .cancelB:hover {
-        background-color: #c0c0c0;
-    }
-
-    .current-profile-image {
-        display: block;
-        width: 150px;
-        height: 150px;
-        margin: 10px auto 20px;
-        border-radius: 4px;
-        object-fit: cover;
-    }
-
-    .current-profile-label {
-        text-align: center;
-    }
-
-</style>
-<!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
-<div id="content">
-    <div class="container">
-        <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">
-            {%csrf_token%}
-            <p class="current-profile-label">Current profile image:</p>
-            <img class="current-profile-image" src="{{ current_profile_image.url }}" alt="Current profile image">
-            {{form.as_p}}
-    
-            <input class="submitB" type="submit" value="Submit">
-            <a class="cancelB" href="{% url 'account:default' %}">Cancel</a>
-        </form>
+<div class="contrib-page contrib-page--account" role="main" aria-labelledby="edit-account-page-title">
+  <header class="contrib-hero">
+    <div class="contrib-hero__inner">
+      <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-edit-alt"></i></div>
+      <div class="contrib-hero__text">
+        <span class="contrib-hero__kicker">Your account</span>
+        <h1 id="edit-account-page-title" class="contrib-hero__title">Edit account</h1>
+        <p class="contrib-hero__lede">Update your profile information and choose the image other contributors will see.</p>
+      </div>
     </div>
-  </form>
+  </header>
+
+  <section class="account-profile__card" aria-labelledby="edit-profile-title">
+    <div class="account-profile__header">
+      <div class="account-profile__header-icon" aria-hidden="true"><i class="bx bx-user-circle"></i></div>
+      <div class="account-profile__header-text">
+        <h2 id="edit-profile-title" class="account-profile__card-title">Profile information</h2>
+        <p class="account-profile__header-note">Fields marked as required must be completed before saving.</p>
+      </div>
+    </div>
+
+    <form class="account-form" action="{% url 'account:manage' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+
+      <div class="account-form__field">
+        <p class="account-form__label">Current profile image</p>
+        <img class="account-form__current-image" src="{{ current_profile_image.url }}" alt="Current profile image">
+        <label for="{{ form.pic.id_for_label }}">Choose a new profile image</label>
+        {{ form.pic }}
+        {{ form.pic.errors }}
+      </div>
+      <div class="account-form__field">
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        {{ form.name.errors }}
+      </div>
+      <div class="account-form__field">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+        {{ form.email.errors }}
+      </div>
+      <div class="account-form__field">
+        {{ form.about.label_tag }}
+        {{ form.about }}
+        {{ form.about.errors }}
+      </div>
+
+      <div class="account-form__actions">
+        <button class="account-btn account-btn--primary" type="submit">
+          <i class="bx bx-save" aria-hidden="true"></i>&nbsp; Save changes
+        </button>
+        <a class="account-btn account-btn--secondary" href="{% url 'account:default' %}">Cancel</a>
+      </div>
+    </form>
+  </section>
 </div>
 {% endblock accountFunc %}

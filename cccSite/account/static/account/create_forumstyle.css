@@ -36,8 +36,11 @@
   outline-offset: 2px;
 }
 
-.contrib-page--create {
-  max-width: 820px;
+#create-forum-page {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  box-sizing: border-box;
 }
 
 /* Breathing room above the form card */
@@ -1160,4 +1163,27 @@
 
 #create-forum-page .cf-form-layout__main {
   margin-top: 0.25rem;
+  width: 100%;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+#create-forum-page .cf-form {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 640px) {
+  #create-forum-page {
+    width: 100%;
+  }
+
+  #create-forum-page .cf-form-layout__main {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }

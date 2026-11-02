@@ -50,15 +50,13 @@
   }
 </style>
 {% endblock accHead %}
-
 {% block accountFunc %}
 {% if not is_signed_in %}
-<div class="contrib-page contrib-page--search dir-search" role="main">
   <div class="dir-search__shell">
     <section class="dir-search__results" aria-labelledby="contributors-signin-heading">
        <div class="containerS1 contributors-signin-prompt">
           <div class="wrapperS1">
-          <span class="dir-search__empty-icon" aria-hidden="true"><i class="bx bx-lock-alt"></i></span>
+          
           <h1 class="heading">
             <span aria-hidden="true">⚠️</span> Sign in to view contributors <span aria-hidden="true">⚠️</span>
           </h1>
@@ -86,13 +84,20 @@
   </div>
 </div>
 {% else %}
-<div class="contrib-page contrib-page--search dir-search" role="main" aria-labelledby="dir-search-title">
-  <div class="dir-search__shell">
-    <header class="dir-search__hero">
-      <h1 id="dir-search-title" class="dir-search__title">Contributors</h1>
-      <p class="dir-search__subtitle">People who host at least one <em>visible</em> forum. Search by username or change sort to explore the list.</p>
-    </header>
 
+<div class="contrib-page contrib-page--search dir-search" role="main">
+  <header class="contrib-hero">
+    <div class="contrib-hero__inner">
+      <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-group"></i></div>
+      <div class="contrib-hero__text">
+        <span class="contrib-hero__kicker">Community directory</span>
+        <h1 id="dir-search-title" class="contrib-hero__title">Contributors</h1>
+        <p class="contrib-hero__lede">People who host at least one <em>visible</em> forum. Search by username or change sort to explore the list.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="dir-search__shell">
     {% if search_query %}
     <div class="dir-search__filter-note" role="status">
       <span class="dir-search__filter-icon" aria-hidden="true"><i class="bx bx-filter-alt"></i></span>
