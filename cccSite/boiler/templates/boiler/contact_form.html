@@ -1,22 +1,15 @@
 {% load static %}
+<link rel="stylesheet" href="{% static 'boiler/contact_formstyle.css' %}">
 
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'boiler/contact_formstyle.css' %}">
-</head>
-
-<body>
-
-    <div class="body">
-        <form action="{% url 'boiler:help'%}" id="contact-form" style="display:none; float: left;" method="post">
-            {% csrf_token %}
-            <div class="half left cf">
-                {{ form.sender }}
-                {{ form.email }}
-                {{ form.subject }}
-            </div>
-            <div class="half right cf">
-                {{ form.message }}
-            </div>
-            <input type="submit" value="Submit" class="button">
-        </form>
+<form action="{% url 'boiler:help' %}" id="contact-form" class="contact-form--help" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    <div class="contact-form__field">
+        {{ field.label_tag }}
+        {{ field }}
+        {{ field.errors }}
     </div>
+    {% endfor %}
+    <button type="submit" class="button">Submit</button>
+</form>

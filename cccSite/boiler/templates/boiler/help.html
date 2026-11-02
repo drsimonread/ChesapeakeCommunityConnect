@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'boiler/helpstyle.css' %}?v=3">
+<link rel="stylesheet" href="{% static 'boiler/helpstyle.css' %}?v=4">
 <title>Chesapeake Community Connect - Help/FAQs</title>
 {% endblock head %}
 
@@ -63,11 +63,11 @@
             <h2>Need Help?</h2>
             <p class="subtitle">Have questions or want to contribute?</p>
 
-            <div class="button" id="show-contact-form-button" onclick="showContactForm()">
+            <button type="button" class="button" id="show-contact-form-button" aria-controls="contact-form-container" aria-expanded="{% if form.is_bound %}true{% else %}false{% endif %}" onclick="showContactForm()">
                 Contact Us
-            </div>
+            </button>
 
-            <div id="contact-form" style="display:none; margin-top:15px;">
+            <div id="contact-form-container" {% if not form.is_bound %}hidden{% endif %}>
                 {% include 'boiler/contact_form.html' %}
             </div>
         </div>
@@ -79,8 +79,9 @@
 
 <script>
 function showContactForm() {
-    document.getElementById("contact-form").style.display = "block";
-    document.getElementById("show-contact-form-button").style.display = "none";
+    document.getElementById("contact-form-container").hidden = false;
+    document.getElementById("show-contact-form-button").setAttribute("aria-expanded", "true");
+    document.querySelector("#contact-form input:not([type=hidden])").focus();
 }
 
 // FAQ accordion: only one section is open at a time (issue #36)
