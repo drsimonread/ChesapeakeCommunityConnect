@@ -11,7 +11,7 @@ from django.db.models import Q
 import googlemaps
 from datetime import datetime
 from Janitor.forms import PostRepForm
-from .models import MapPost, MapTag
+from .models import MapPost, MapTag, PostComment
 
 
 
@@ -77,17 +77,51 @@ def post_detail(request, want):
     hasReported=False
     if MapPost.objects.filter(pk=want).exists():
         lookAt= MapPost.objects.get(pk=want)
-        if request.method == 'POST':
+        reporter = PostRepForm(initial={'post':lookAt})
+        comment_form = PostCommentForm()
+        if request.method == 'POST' and request.POST.get("action") == "report":
             reporter = PostRepForm(request.POST)
             hasReported = reporter.is_valid()
             if hasReported:
                 reporter.save()
-        else:
-            reporter = PostRepForm(initial={'post':lookAt})
+        elif request.method == "POST" and request.POST.get("action") == "comment":
+            if not request.session.get("user"):
+                return redirect(f"{reverse('account:signin')}?next={request.path}")
+            comment_form = PostCommentForm(request.POST)
+            if comment_form.is_valid():
+                parent_id = request.POST.get("parent")
+                parent = None
+                if parent_id:
+                    parent = PostComment.objects.filter(
+                        pk=parent_id, post=lookAt
+                    ).first()
+                    if parent is None:
+                        comment_form.add_error(None, "That comment is no longer available.")
+                if comment_form.is_valid():
+                    PostComment.objects.create(
+                        post=lookAt,
+                        author_id=request.session["user"],
+                        parent=parent,
+                        content=comment_form.cleaned_data["content"],
+                    )
+                    return redirect(
+                        f"{reverse('mapViewer:post_detail', args=[want])}#comments"
+                    )
         if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
+            comments = list(
+                PostComment.objects.filter(post=lookAt).select_related("author")
+            )
+            comments_by_parent = {}
+            for comment in comments:
+                comments_by_parent.setdefault(comment.parent_id, []).append(comment)
+            for comment in comments:
+                comment.thread_replies = comments_by_parent.get(comment.pk, [])
             return render(request, "mapViewer/viewPost.html", {"post" : lookAt,
                                                                "form" : reporter,
-                                                               "hasReported" : hasReported})
+                                                               "hasReported" : hasReported,
+                                                               "comment_form": comment_form,
+                                                               "comments": comments_by_parent.get(None, []),
+                                                               "comment_count": len(comments)})
     return redirect(reverse("mapViewer:default"))
 
 

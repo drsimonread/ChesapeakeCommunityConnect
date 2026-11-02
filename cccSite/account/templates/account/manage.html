@@ -37,15 +37,49 @@
         background-color: orange;
     }
 
+    .cancelB {
+        display: inline-block;
+        box-sizing: border-box;
+        margin-left: 10px;
+        padding: 10px;
+        border-radius: 3px;
+        background-color: #e0e0e0;
+        color: #00205c;
+        font-size: 15px;
+        text-align: center;
+        text-decoration: none;
+        width: 150px;
+    }
+
+    .cancelB:hover {
+        background-color: #c0c0c0;
+    }
+
+    .current-profile-image {
+        display: block;
+        width: 150px;
+        height: 150px;
+        margin: 10px auto 20px;
+        border-radius: 4px;
+        object-fit: cover;
+    }
+
+    .current-profile-label {
+        text-align: center;
+    }
+
 </style>
 <!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
 <div id="content">
     <div class="container">
         <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">
             {%csrf_token%}
+            <p class="current-profile-label">Current profile image:</p>
+            <img class="current-profile-image" src="{{ current_profile_image.url }}" alt="Current profile image">
             {{form.as_p}}
     
             <input class="submitB" type="submit" value="Submit">
+            <a class="cancelB" href="{% url 'account:default' %}">Cancel</a>
         </form>
     </div>
   </form>

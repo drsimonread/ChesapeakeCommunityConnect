@@ -70,10 +70,7 @@
               <p class="forum-row__title">{{ item.title }}</p>
               <p class="forum-row__desc">{{ item.description }}</p>
             </div>
-            <div class="forum-row__actions">
-              <a class="account-btn account-btn--secondary account-btn--compact" href="{% url 'account:edit_forum' item.pk %}">Edit</a>
-              <a class="account-btn account-btn--primary account-btn--compact" href="{{ item.get_absolute_url }}">View</a>
-            </div>
+            <a class="account-btn account-btn--primary account-btn--compact" href="{{ item.get_absolute_url }}">View</a>
           </div>
         {% endfor %}
       </div>

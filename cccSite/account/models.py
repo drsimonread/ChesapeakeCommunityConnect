@@ -16,13 +16,13 @@ def user_directory_profile(instance, filename):
 # user model. self explanitory
 class Member(models.Model):
     name = models.CharField(max_length=35, )
-    ranking_options = { 
-        (-1,"banned"),
-        (1 , "member"),
-        (2 , "trusted member"),
-        (98 , "moderator"),
-        (99 , "admin"),
-    }
+    ranking_options = (
+        (2, "trusted member"),
+        (98, "moderator"),
+        (1, "member"),
+        (99, "admin"),
+        (-1, "banned"),
+    )
     ranking = models.SmallIntegerField(default=1, choices=ranking_options)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
     email = models.EmailField()

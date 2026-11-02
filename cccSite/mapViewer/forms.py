@@ -57,3 +57,13 @@ class MakePostForm(forms.Form):
                 self.cleaned_data = cleaned_data #if successful, store in cleaned_data
 
 
+class PostCommentForm(forms.Form):
+    content = forms.CharField(
+        label="",
+        max_length=10000,
+        widget=forms.Textarea(attrs={
+            "placeholder": "Share your thoughts...",
+            "rows": 4,
+        }),
+    )
+

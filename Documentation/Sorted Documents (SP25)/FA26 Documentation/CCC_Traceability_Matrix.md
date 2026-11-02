@@ -1,35 +1,33 @@
 
 
-| **Chesapeake Community Connect Chesapeake Community Connection Website Traceability Matrix Version 1.2** February 17, 2025 St. Mary’s College of Maryland Capstone - Benjamin Roberts  | 
+| **Chesapeake Community Connect Chesapeake Community Connection Website Traceability Matrix Version 1.2** October 30, 2026 St. Mary’s College of Maryland Capstone - Claudia Woodbury  | 
 | ----- |
 
 **Table of Contents** 
 
-**currently the links are all to docs that we do not have permission to access >:(**
 
-**All values in the Traceability table need to be reevaluated**
 
-[1\. Introduction	3](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.4llmx9d5y2w4) 
+[1\. Introduction	3](#1-introduction) 
+<!-- no toc -->
+* [1.1 Purpose	3](#11-purpose) 
 
-[1.1 Purpose	3](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.lhfunsq1rwnp) 
+* [1.2 Scope	3](#12-scope) 
 
-[1.2 Scope	3](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.fn52nonwa6gd) 
+* [1.3 Definitions, Acronyms, and Abbreviations	3](#13-definitions-acronyms-and-abbreviations) 
 
-[1.3 Definitions, Acronyms, and Abbreviations	3](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.3qwmy1vikxr1) 
+* [1.4 Document References	3](#14-document-references) 
 
-[1.4 Document References	3](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.dhbfh3x1pcv1) 
+* [1.5 System Overview	4](#15-system-overview) 
 
-[1.5 System Overview	4](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.kkdebcn48kl5) 
+[2\. Traceability	4](#2-traceability) 
 
-[2\. Traceability	4](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.g2mq4cjkhad) 
+* [2.1 Requirements List	4](#21-requirements-list) 
 
-[2.1 Requirements List	4](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.ketd1l98fqrg) 
+* [2.2 Aspects List	5](#22-aspects-list) 
 
-[2.2 Aspects List	5](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.rehvblxju8di) 
+* [2.3 Traceability Table	6](#23-traceability-table) 
 
-[2.3 Traceability Table	6](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.lmm6c9lh1056) 
-
-[3\. Miscellaneous](https://docs.google.com/document/d/1Hm7tWzJlMyw98lr3hZMZ7nvr1iV2Ggv57NOr2YyLjYA/edit#heading=h.emgltnueoieo)	
+[3\. Miscellaneous](#3-miscellaneous)	
 
 ---
 ### Revision History
@@ -38,6 +36,7 @@
 | 1/13/2024  | 1.0  | Traceability Matrix   | Daniel Reina, John Heinig, Kendahl Toft, Alexander Ochman, Malik Hill, Gavin Mcdonald, Michael Shively |
 | 1/24/2024 | 1.1 | Updated version of the Traceability Matrix | Daniel Reina, John Heinig, Kendahl Toft, Alexander Ochman, Malik Hill, Gavin Mcdonald, Michael Shively |
 | 2/17/2025 | 1.2 | Updated version of the Traceability Matrix | Benjamin Roberts |
+|10/30/2026|2.0|Reformatted Traceability Matrix|Claudia Woodbury|
 
 
 ---
@@ -128,25 +127,25 @@ The following table contains a list of requirement numbers and the SRS section n
 *The following table cross-references each requirement with each aspect, and vice versa.*    
 ||A1| A2| A3| A4| A5| A6| A7| A8| A9| A10| A11| A12| A13| A14| A15| A16| A17| A18| A19| A20| A21| A22| A23| A24| A25| A26| A27| A28|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|R1| | |X| |X| | |X| | |X| | |X| | |X| | |X| |X| |X| |
-|R2| | | | | | | | | | | | | | |X| |X| |X| |X| |X| |X| |X| |X| |X| 
-|R3| | |X| |X| |X| |X| |
-|R4| | |X| |X| |
-|R5| | |X| |X| |X| |X| |X| |X| |X| |X| |X| |X| |X| |X| |
-|R6| | |X| |
-|R7| | |X| |
-|R8| | |X| |
-|R9| |X| |X| |X| |
-|R10| | |X| |X||X| |
-|R11| | |X| |X| |X| |X| |X| |X| |X| |X| |
-|R12| | |X| |
-|R13| | |X| |
-|R14| |X| |X| |
-|R15| | |X| |
-|R16| | |X| |
-|R17| | |X| |
-|R18| | |X| |
-|R19| | |X| |
+|R1|X| |X| |X|| | | | | | | | | | | | | | | | | | | | | | |
+|R2| |X| | | | | | | | |X|X| | | | | |X | | | | | | | | | | |
+|R3| | | | | | | | | | | | | | | | | | |X| | X|X |X | | | | | |
+|R4| | | | | | | | | | | | | | | | | | | | X| | | | | | | | |
+|R5| | | | |X| | | | | | | | | | | | | | | | | | | |X|X|X| |
+|R6| | | | | | | | | | | | | | | | | | | | | | | | X| | | | |
+|R7| | | | | | | | | | | | | | | | | | | | | | | | | | | | |
+|R8| | | | | | | | | |X| | | | | | | | | | | | | | | | | | |
+|R9|X| |X| |X| | | | | | | | | | | | | | | | | | | | | | | |
+|R10| | | | | | | | | | | | | | | | | | | | | | | | |X|X|X| |
+|R11| |X| | | | |X|X| | |X| | | | | | | | | | | | | | | | | |
+|R12|X|X|X| | | | | | | | | | | | | | | | | | | | | | | | | |
+|R13| | | |X| | | | | | | | | | | | | | | | | | | | | | | | |
+|R14|X| | | | | | | | | | | | | | | | | | | | | | | | | | | |
+|R15| | | | | | | | | | | | | | | | | | | | | | | | | | | | X|
+|R16| | | | | | | | | | | | | | | | | | | | | | | | | | | | X|
+|R17| | | | | | | | | | | | | | | | | | | | | | | | | | | | X|
+|R18| | | | | | | | | | | | | | | | | | | | | | | | | | | | X|
+|R19| | | | | | | | | | | | | | | | | | | | | | | | | | | |X |
 
 ## 3\. Miscellaneous 
 No miscellaneous information at this time.    
