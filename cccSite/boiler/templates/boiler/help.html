@@ -41,7 +41,7 @@
             </div>
 
         </div>
-      </section>
+    </div>
 
     <!-- VIDEO + CONTACT -->
     <div class="section split">
@@ -83,18 +83,48 @@ function showContactForm() {
     document.getElementById("show-contact-form-button").style.display = "none";
 }
 
+// FAQ accordion: only one section is open at a time (issue #36)
 var acc = document.getElementsByClassName("accordion");
 
+// closes one accordion section, and pauses and rewinds any video or audio inside it
+function closeSection(button) {
+    button.classList.remove("active");
+    button.setAttribute("aria-expanded", "false");
+
+    let icon = button.querySelector(".icon");
+    if (icon) icon.textContent = "+";
+
+    let panel = button.nextElementSibling;
+    panel.style.maxHeight = null;
+    panel.querySelectorAll("video, audio").forEach(function (media) {
+        media.pause();
+        media.currentTime = 0;
+    });
+}
+
+function openSection(button) {
+    button.classList.add("active");
+    button.setAttribute("aria-expanded", "true");
+
+    let icon = button.querySelector(".icon");
+    if (icon) icon.textContent = "−";
+
+    let panel = button.nextElementSibling;
+    panel.style.maxHeight = panel.scrollHeight + "px";
+}
+
 for (let i = 0; i < acc.length; i++) {
+    acc[i].setAttribute("aria-expanded", "false");
     acc[i].addEventListener("click", function () {
+        let wasOpen = this.classList.contains("active");
 
-        this.classList.toggle("active");
+        // close every open section first, so opening a new one closes the previous one
+        for (let j = 0; j < acc.length; j++) {
+            if (acc[j].classList.contains("active")) closeSection(acc[j]);
+        }
 
-        let icon = this.querySelector(".icon");
-        icon.textContent = icon.textContent === "+" ? "−" : "+";
-
-        let panel = this.nextElementSibling;
-        panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + "px";
+        // clicking the open section just closes it; clicking a closed one opens it
+        if (!wasOpen) openSection(this);
     });
 }
 </script>
