@@ -1,143 +1,233 @@
 
+/* =========================================
+   ABOUT US PAGE
+   Chesapeake Community Connect
+   ========================================= */
+
+/* Main page background */
+
 .aboutBody {
-    color: #f3c10d;
-    background: linear-gradient(to bottom, #f3f3f3, #e9ecef);
-    margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f3f3f3;
+    color: #00205c;
+    font-family: 'Baskerville', Georgia, serif;
     min-height: 100vh;
+    padding-bottom: 55px;
+    box-sizing: border-box;
 }
 
-/* Main layout */
+/* =========================================
+   Banner
+   ========================================= */
+
+.about-banner {
+    width: 100%;
+    overflow: hidden;
+}
+
+#pic1 {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* =========================================
+   Page Introduction
+   ========================================= */
+
+.about-intro {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 65px 24px 35px;
+    text-align: center;
+    background: transparent;
+    color: #00205c;
+    box-sizing: border-box;
+}
+
+.about-intro h1 {
+    color: #00205c;
+    font-size: 2.4rem;
+    line-height: 1.3;
+    margin: 0 0 18px;
+    padding: 0;
+}
+
+.about-intro p {
+    color: #444;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* =========================================
+   Card Layout
+   ========================================= */
+
 #content {
     display: flex;
     justify-content: center;
     align-items: stretch;
-    gap: 40px;
-    padding: 50px 24px;
     flex-wrap: wrap;
+    gap: 35px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 25px 24px;
     box-sizing: border-box;
 }
 
-/* Section cards */
-.container,
-.containerL {
-    background: linear-gradient(145deg, #00205c, #001a4d);
-    width: 100%;
-    max-width: 480px;
-    min-height: 0;
-    box-sizing: border-box;
-    border-radius: 20px;
-    padding: 28px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
+/* =========================================
+   About Cards
+   ========================================= */
+
+.about-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 420px;
+    max-width: 520px;
+    overflow: hidden;
+
+    background: linear-gradient(
+        145deg,
+        #00205c,
+        #00163f
+    );
+
+    border-radius: 16px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.16);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-/* Subtle hover effect */
-.container:hover,
-.containerL:hover {
+.about-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
 }
 
-/* Gold accent line */
-.container::before,
-.containerL::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 20px;
-    right: 20px;
-    height: 4px;
-    background: #f3c10d;
-    border-radius: 10px;
-}
+/* =========================================
+   Card Images
+   ========================================= */
 
-/* Hide the old layout */
-.containerR {
-    display: none;
-}
-
-/* Section images */
-#pic2 {
+.about-image {
     display: block;
     width: 100%;
     height: 260px;
     object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 20px;
 }
 
-/* Top banner */
-#pic1 {
-    width: 100%;
-    height: auto;
-    display: block;
+/* =========================================
+   Card Content
+   ========================================= */
+
+.about-card-content {
+    padding: 32px 28px;
+    text-align: center;
+    flex-grow: 1;
+    border-top: 4px solid #f3c10d;
+    box-sizing: border-box;
 }
 
-/* Section headings */
-.container h4,
-.containerL h4 {
-    font-size: 26px;
-    margin: 0 0 15px;
+/* Card headings */
+
+.about-card h2 {
     color: #f3c10d;
-    letter-spacing: 0.5px;
+    font-size: 1.7rem;
+    line-height: 1.3;
+    margin: 0 0 20px;
 }
 
-/* Section descriptions */
-.container p,
-.containerL p {
-    font-size: 17px;
-    line-height: 1.7;
-    color: #e6e6e6;
-    margin: 0;
+/* Card descriptions */
+
+.about-card p {
+    color: #f1f1f1;
+    font-size: 1.08rem;
+    line-height: 1.9;
+    max-width: 440px;
+    margin: 0 auto;
 }
 
-/* Wrapper spacing */
-.wrapper {
-    margin: 10px 0;
-}
+/* =========================================
+   Tablet Layout
+   ========================================= */
 
-/* Tablet and smaller screens */
-@media (max-width: 1100px) {
+@media (max-width: 900px) {
+
+    .about-intro {
+        padding: 50px 24px 25px;
+    }
+
     #content {
-        flex-direction: column;
-        align-items: center;
-        gap: 28px;
-        padding: 35px 20px;
+        gap: 25px;
     }
 
-    .container,
-    .containerL {
-        width: 100%;
-        max-width: 600px;
+    .about-card {
+        flex-basis: 100%;
+        max-width: 650px;
     }
+
 }
 
-/* Mobile screens */
-@media (max-width: 480px) {
+/* =========================================
+   Mobile Layout
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .about-intro {
+        padding: 40px 18px 20px;
+    }
+
+    .about-intro h1 {
+        font-size: 1.8rem;
+    }
+
+    .about-intro p {
+        font-size: 1.05rem;
+    }
+
     #content {
-        padding: 24px 14px;
+        padding: 20px 15px;
+        gap: 22px;
     }
 
-    .container,
-    .containerL {
-        padding: 22px 18px;
-        border-radius: 16px;
+    .about-card {
+        flex-basis: 100%;
+        border-radius: 12px;
     }
 
-    #pic2 {
+    .about-image {
         height: 210px;
     }
 
-    .container h4,
-    .containerL h4 {
-        font-size: 23px;
+    .about-card-content {
+        padding: 24px 18px;
     }
 
-    .container p,
-    .containerL p {
-        font-size: 16px;
+    .about-card h2 {
+        font-size: 1.45rem;
     }
+
+    .about-card p {
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+
+}
+
+/* =========================================
+   Accessibility
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .about-card {
+        transition: none;
+    }
+
+    .about-card:hover {
+        transform: none;
+    }
+
 }
