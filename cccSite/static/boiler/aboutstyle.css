@@ -1,7 +1,20 @@
-/* Page Styling */
+/* =========================================
+   SMCM COLOR PALETTE
+========================================= */
+
+:root {
+    --smcm-navy: #00205C;
+    --smcm-gold: #F3C10D;
+    --smcm-white: #FFFFFF;
+}
+
+/* =========================================
+   PAGE STYLING
+========================================= */
+
 .aboutBody {
-    color: #f3c10d;
-    background-color: #f3f3f3;
+    color: var(--smcm-navy);
+    background-color: var(--smcm-white);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -12,58 +25,71 @@
     margin: 0 40px 40px 40px;
 }
 
-/* side by side banners */
+/* =========================================
+   SIDE-BY-SIDE BANNERS
+========================================= */
+
 .row {
     display: flex;
     justify-content: center;
     gap: 40px;
     margin: 60px 0;
-    flex-wrap: wrap; /* makes it responsive */
+    flex-wrap: wrap;
 }
 
+/* =========================================
+   CONTENT CARDS
+========================================= */
 
 .container {
-    background-color: #00205c;
+    background-color: var(--smcm-navy);
+    color: var(--smcm-white);
     width: 40%;
     min-width: 300px;
-
-    box-shadow: 0px 15px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 15px 50px rgba(0, 32, 92, 0.25);
     border-radius: 20px;
-
     padding: 30px;
     box-sizing: border-box;
-
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover effect for polish */
+/* Hover effect */
 .container:hover {
     transform: translateY(-5px);
-    box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 20px 60px rgba(0, 32, 92, 0.35);
 }
 
-/* Banner image (top wide image) */
+/* =========================================
+   IMAGES
+========================================= */
+
 #pic1 {
     width: 100%;
     height: auto;
     border-radius: 10px;
 }
 
-/* Content image (inside card) */
 #pic2 {
     width: 100%;
     border-radius: 12px;
     margin-top: 15px;
 }
 
-/* Headings */
+/* =========================================
+   HEADINGS
+========================================= */
+
 h4 {
     font-size: 32px;
     margin-bottom: 20px;
     letter-spacing: 1px;
+    color: var(--smcm-gold);
 }
 
-/* Optional: paragraph styling for readability */
+/* =========================================
+   PARAGRAPHS
+========================================= */
+
 p {
     line-height: 1.6;
     font-size: 16px;

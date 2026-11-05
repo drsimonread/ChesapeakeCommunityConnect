@@ -1,3 +1,11 @@
+
+/* SMCM Color Palette */
+:root {
+    --smcm-navy: #00205C;
+    --smcm-gold: #F3C10D;
+    --smcm-white: #FFFFFF;
+}
+
 /* Overall Help page layout */
 .help-page {
     box-sizing: border-box;
@@ -5,20 +13,22 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 32px 24px 48px;
-    color: #243447;
+    color: var(--smcm-navy);
+    background-color: var(--smcm-white);
 }
 
 .center-title {
     margin: 0 0 12px;
-    color: #174a70;
+    color: var(--smcm-navy);
     text-align: center;
     font-size: 2rem;
 }
 
+/* Subtitles and general text */
 .section-subtitle,
 .help-page .subtitle,
 .panel p {
-    color: #5d6b78;
+    color: var(--smcm-navy);
     line-height: 1.6;
 }
 
@@ -32,10 +42,10 @@
 .faq-card,
 .help-page .card {
     box-sizing: border-box;
-    border: 1px solid #e0e7ed;
+    border: 2px solid var(--smcm-gold);
     border-radius: 10px;
-    background: #fff;
-    box-shadow: 0 3px 12px rgba(23, 74, 112, 0.08);
+    background-color: var(--smcm-white);
+    box-shadow: 0 3px 12px rgba(0, 32, 92, 0.10);
 }
 
 .faq-card {
@@ -53,9 +63,9 @@
     width: 100%;
     padding: 16px 8px;
     border: 0;
-    border-bottom: 1px solid #e0e7ed;
-    background: #fff;
-    color: #174a70;
+    border-bottom: 2px solid var(--smcm-gold);
+    background-color: var(--smcm-white);
+    color: var(--smcm-navy);
     font: inherit;
     font-weight: 600;
     text-align: left;
@@ -68,28 +78,30 @@
 
 .accordion:hover,
 .accordion.active {
-    color: #103650;
+    color: var(--smcm-navy);
 }
 
 .accordion.active {
-    border-bottom-color: #d6ad45;
+    border-bottom-color: var(--smcm-gold);
 }
 
 .accordion:focus-visible,
 .contact-toggle:focus-visible {
-    outline: 3px solid #d6ad45;
+    outline: 3px solid var(--smcm-gold);
     outline-offset: 3px;
 }
 
 .accordion .icon {
     flex-shrink: 0;
     font-size: 1.3rem;
+    color: var(--smcm-navy);
 }
 
 /* FAQ answer panels */
 .panel {
     max-height: 0;
     overflow: hidden;
+    background-color: var(--smcm-white);
     transition: max-height 0.2s ease;
 }
 
@@ -114,7 +126,7 @@
 
 .help-page .card h2 {
     margin: 0 0 10px;
-    color: #174a70;
+    color: var(--smcm-navy);
 }
 
 .help-page .subtitle {
@@ -126,7 +138,7 @@
     overflow: hidden;
     width: 100%;
     border-radius: 8px;
-    background: #17212b;
+    background-color: var(--smcm-navy);
 }
 
 .video-wrapper video {
@@ -140,10 +152,10 @@
 .contact-toggle {
     display: inline-block;
     padding: 12px 22px;
-    border: 0;
+    border: 2px solid var(--smcm-navy);
     border-radius: 6px;
-    background: #174a70;
-    color: #fff;
+    background-color: var(--smcm-navy);
+    color: var(--smcm-white);
     font: inherit;
     font-weight: 600;
     text-align: center;
@@ -151,19 +163,51 @@
 }
 
 .contact-toggle:hover {
-    background: #103650;
+    background-color: var(--smcm-gold);
+    color: var(--smcm-navy);
+    border-color: var(--smcm-gold);
 }
 
 /* Expandable contact form area */
 .contact-form-container {
     margin-top: 24px;
     padding-top: 20px;
-    border-top: 2px solid #d6ad45;
+    border-top: 3px solid var(--smcm-gold);
 }
 
 .contact-form-container[hidden],
 .contact-toggle[hidden] {
     display: none !important;
+}
+
+/* Override Bulma default styling */
+.help-page,
+.help-page section {
+    background-color: var(--smcm-white);
+    color: var(--smcm-navy);
+}
+
+.help-page .card,
+.help-page .faq-card {
+    background-color: var(--smcm-white) !important;
+    color: var(--smcm-navy);
+    border: 2px solid var(--smcm-gold);
+    box-shadow: 0 3px 12px rgba(0, 32, 92, 0.10);
+}
+
+.help-page .card h2,
+.help-page .card p,
+.help-page .faq-card p {
+    color: var(--smcm-navy);
+}
+
+.help-page .accordion {
+    background-color: var(--smcm-white);
+    color: var(--smcm-navy);
+}
+
+.help-page .panel {
+    background-color: var(--smcm-white);
 }
 
 /* Responsive layout */

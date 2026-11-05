@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
     <!-- Custom Global Styles -->
-    <link rel="stylesheet" href="{% static 'base/basestyle.css' %}">
+    <link rel="stylesheet" href="{% static 'base/basestyle.css' %}?v=6">
 
     <!-- Google Sign-In -->
     <script src="https://accounts.google.com/gsi/client" async></script>
@@ -148,7 +149,7 @@ function handleCredentialResponse(response) {
 <!-- ============================
      FOOTER
 ============================ -->
-<footer class="footer has-text-centered" role="contentinfo">
+<footer class="site-footer has-text-centered" role="contentinfo">
     <div class="content">
         <img src="{% static 'base/assets/smcm-logo.png' %}" alt="SMCM Logo" class="footer-logo">
         <p>&copy; 2026 SMCM Capstone Website</p>

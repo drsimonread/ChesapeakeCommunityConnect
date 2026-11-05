@@ -1,64 +1,173 @@
+/* =========================================
+   SMCM COLOR PALETTE
+========================================= */
+
+:root {
+    --smcm-navy: #00205C;
+    --smcm-gold: #F3C10D;
+    --smcm-white: #FFFFFF;
+}
+
+/* =========================================
+   PAGE BACKGROUND
+========================================= */
+
+html,
+body {
+    background-color: var(--smcm-white) !important;
+    color: var(--smcm-navy) !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main map page sections */
+#left,
+#search,
+#help-section {
+    background-color: var(--smcm-white) !important;
+    color: var(--smcm-navy) !important;
+}
+
+/* =========================================
+   MAP LAYOUT
+========================================= */
+
 #search {
     width: 45%;
     float: right;
     margin: 2em;
-    
 }
 
 #left {
     width: 45%;
     float: left;
     margin: 2em;
-
-
-
 }
+
+/* =========================================
+   GOOGLE MAP
+========================================= */
 
 #map {
-    /*Map icon styling*/
     border-radius: 10px;
     height: 400px;
-
+    width: 100%;
+    border: 2px solid var(--smcm-gold);
+    background-color: var(--smcm-white);
 }
+
+/* =========================================
+   SEARCH FILTER BOX
+========================================= */
 
 #scroll-box {
     height: 200px;
     width: 60%;
-    border:1px solid #ccc;
+    border: 2px solid var(--smcm-navy);
+    border-radius: 8px;
     overflow: auto;
     margin-top: 1em;
     margin-bottom: 1em;
+    background-color: var(--smcm-white);
+    color: var(--smcm-navy);
 }
 
-/* #id_t label {
-    color: red;
-    width: 100%;
-    background-color: blue;
-    text-align: center;
+#id_t label {
+    display: block;
+    color: var(--smcm-navy);
+    padding: 8px;
 }
 
-#id_t input {
-    display: none;
-    margin-right: 100px;
-} */
-
-
-input[type=text]{
-    /* text-align: center; */
-
-    border: 0;
-  outline: 0;
-  padding: 1em;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
-  display: block;
-  width: 60%;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  resize: none;
+#id_t label:hover {
+    background-color: var(--smcm-gold);
 }
+
+/* =========================================
+   SEARCH INPUT
+========================================= */
+
+input[type="text"] {
+    border: 2px solid var(--smcm-navy);
+    outline: none;
+    padding: 1em;
+    border-radius: 8px;
+    display: block;
+    width: 60%;
+    background-color: var(--smcm-white);
+    color: var(--smcm-navy);
+    box-shadow: none;
+}
+
+input[type="text"]:focus {
+    border-color: var(--smcm-gold);
+}
+
+/* =========================================
+   SEARCH BUTTON
+========================================= */
+
 #search-btn {
     padding: 1em;
-    width: 60%; /* Take up half the screen width */
+    width: 60%;
     float: left;
+    background-color: var(--smcm-navy);
+    color: var(--smcm-gold);
+    border: 2px solid var(--smcm-navy);
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#search-btn:hover {
+    background-color: var(--smcm-gold);
+    color: var(--smcm-navy);
+    border-color: var(--smcm-gold);
+}
+
+/* =========================================
+   TUTORIAL / HELP SECTION
+========================================= */
+
+#help-section {
+    clear: both;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: var(--smcm-white) !important;
+    color: var(--smcm-navy);
+    border: 2px solid var(--smcm-gold);
+    border-radius: 8px;
+}
+
+#help-section h2 {
+    color: var(--smcm-navy);
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+#help-section li {
+    color: var(--smcm-navy);
+    margin-bottom: 8px;
+}
+
+/* =========================================
+   RESPONSIVE LAYOUT
+========================================= */
+
+@media screen and (max-width: 768px) {
+    #left,
+    #search {
+        width: 90%;
+        float: none;
+        margin: 1em auto;
+    }
+
+    #map {
+        height: 350px;
+    }
+
+    #scroll-box,
+    input[type="text"],
+    #search-btn {
+        width: 100%;
+    }
 }

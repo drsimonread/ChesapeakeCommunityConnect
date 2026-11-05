@@ -1,147 +1,234 @@
-#map {
-  /*Map icon styling*/
-  border-radius: 10px;
-  height: 400px;
+/* =========================================
+   SMCM COLOR PALETTE
+========================================= */
+
+:root {
+    --smcm-navy: #00205C;
+    --smcm-gold: #F3C10D;
+    --smcm-white: #FFFFFF;
 }
-/* Slideshow container */
+
+/* =========================================
+   PAGE BACKGROUND
+========================================= */
+
+html,
+body {
+    background-color: var(--smcm-white) !important;
+    color: var(--smcm-navy);
+}
+
+#content,
+main,
+.container,
+.transparent-box {
+    background-color: var(--smcm-white);
+    color: var(--smcm-navy);
+}
+
+/* =========================================
+   MAP
+========================================= */
+
+#map {
+    border-radius: 10px;
+    height: 400px;
+    background-color: var(--smcm-white);
+    border: 2px solid var(--smcm-gold);
+}
+
+/* =========================================
+   SLIDESHOW CONTAINER
+========================================= */
+
 .slideshow-container {
     max-width: 800px;
     position: relative;
     margin: auto;
-  }
-  
-  /* Hide the images by default */
-  .mySlides {
+    background-color: var(--smcm-white);
+}
+
+/* Hide slides by default */
+.mySlides {
     display: none;
     max-width: 100%;
-  }
-  
-  /* Next and previous buttons */
-  .prev, .next {
+}
+
+/* =========================================
+   SLIDESHOW NAVIGATION
+========================================= */
+
+.prev,
+.next {
     cursor: pointer;
     position: absolute;
     top: 50%;
     width: auto;
     padding: 16px;
     margin-top: -22px;
-    color: white;
+    color: var(--smcm-gold);
     font-weight: bold;
     font-size: 18px;
     transition: 0.6s ease;
     border-radius: 0 3px 3px 0;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  /* Position the "next button" to the right */
-  .next {
+    background-color: var(--smcm-navy);
+}
+
+.next {
     right: 0;
     border-radius: 3px 0 0 3px;
-  }
-  
-  /* On hover, add a black background color with a little bit see-through */
-  .prev:hover, .next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-  
-  /* Caption text */
-  #caption {
+}
+
+.prev:hover,
+.next:hover {
+    background-color: var(--smcm-gold);
+    color: var(--smcm-navy);
+}
+
+/* =========================================
+   CAPTIONS AND NUMBER TEXT
+========================================= */
+
+#caption {
     text-align: center;
     margin-top: 10px;
     font-size: 14px;
-    color: #f2f2f2;
-  }
-  
-  /* Number text (1/3 etc) */
-  .numbertext {
-    color: #f2f2f2;
+    color: var(--smcm-navy);
+}
+
+.numbertext {
+    color: var(--smcm-navy);
     font-size: 12px;
     padding: 8px 12px;
     position: absolute;
     top: 0;
-  }
-  
-  /* Fading animation */
-  .fade {
+}
+
+/* =========================================
+   FADING ANIMATION
+========================================= */
+
+.fade {
     animation-name: fade;
     animation-duration: 1.5s;
-  }
-  
-  @keyframes fade {
+}
+
+@keyframes fade {
     from {
-      opacity: 0.4;
+        opacity: 0.4;
     }
+
     to {
-      opacity: 1;
+        opacity: 1;
     }
-  }
-  
-  /* Adjusted image size */
-  .slide-image {
+}
+
+/* =========================================
+   IMAGE AND VIDEO CONTAINERS
+========================================= */
+
+.image-container {
+    width: 100%;
+    max-height: 500px;
+    overflow: hidden;
+    background-color: var(--smcm-white);
+}
+
+.slide-image {
     width: 100%;
     height: auto;
-  }
-  
-  /* Slideshow container */
-.slideshow-container {
-  max-width: 800px;
-  position: relative;
-  margin: auto;
 }
 
-/* Hide the images by default */
-.mySlides {
-  display: none;
+/* =========================================
+   DIVIDER
+========================================= */
+
+hr {
+    border: none;
+    height: 2px;
+    background-color: var(--smcm-gold);
+    width: 100%;
 }
 
-/* Image container */
-.image-container {
-  width: 100%;
-  max-height: 500px; /* Adjust max height as needed */
-  overflow: hidden;
+/* =========================================
+   REPORT BUTTON
+========================================= */
+
+#report-button {
+    background-color: var(--smcm-navy);
+    color: var(--smcm-gold);
+    border: 2px solid var(--smcm-navy);
 }
 
-/* Adjusted image size */
-.slide-image {
-  width: 100%;
-  height: auto;
+#report-button:hover {
+    background-color: var(--smcm-gold);
+    color: var(--smcm-navy);
 }
 
- /* Custom style for a full-width divider */
- hr {
-  border: none;
-  height: 2px;
-  background-color: black;
-  width: 100%;
+/* =========================================
+   REPORT FORM
+========================================= */
+
+#report-field {
+    border-radius: 10px;
+    resize: none;
+    background-color: var(--smcm-white);
+    color: var(--smcm-navy);
 }
 
-#report-button{
-  background-color: #00205c;
-  color: #f3c10d;
+#input-submit {
+    background-color: var(--smcm-navy);
+    color: var(--smcm-gold);
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid var(--smcm-navy);
+    cursor: pointer;
 }
 
-#report-field{
- border-radius: 40px;
- resize: none;
+#input-submit:hover {
+    background-color: var(--smcm-gold);
+    color: var(--smcm-navy);
 }
 
-#input-submit{
-  background-color: #00205c;
-  color: #f3c10d;
-  padding: 10px;
-  border-radius: 5px;
+/* =========================================
+   FOOTER
+========================================= */
+
+footer,
+.site-footer {
+    display: flex;
+    flex-direction: column;
+    clear: both;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding: 20px;
+    text-align: center;
+    background-color: var(--smcm-navy) !important;
+    color: var(--smcm-white) !important;
+    min-width: 100%;
 }
 
-/* Footer styling */
-footer {
-  display: flex; /* Sets the items to be displayed flexibly. Hard to explain, lookup CSS flexible box layout. */
-  flex-direction: column; /* Orders the items (image and text) to be ordered as columns. */
-  clear: both; /* Clears both the left and right side, placing it at the bottom of items in the webpage. */
-  justify-content: center; /* Centers the content of the footer relative to the webpage. */
-  align-items: center; /* Aligns the text to the center of the item and centers the item's box on the text. */
-  height: auto; /* Changed to auto to accommodate image size */
-  padding: 20px; /* Add padding for spacing */
-  text-align: center; /* Aligns text in the center. */
-  background-color: var(--background);
-  color: #000;
-  min-width: 100%;
+footer p,
+.site-footer p {
+    color: var(--smcm-white) !important;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 760px) {
+    .slideshow-container {
+        max-width: 100%;
+    }
+
+    #map {
+        height: 350px;
+    }
+
+    .prev,
+    .next {
+        padding: 10px;
+    }
 }
