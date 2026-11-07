@@ -140,15 +140,10 @@ def account_all(request):
     })
     
 def account_view(request, want):
-    if not want:
-        return HttpResponse("Insert list view here")
-    if not Member.objects.get(pk=want):
-        return redirect(reverse("account:default"))
-    viewInz=Member.objects.get(pk=want)
-    if request.session.get('rank',0) != 0:
-        userInz=Member.objects.get(request.session['user'])
-    else:
-        userInz= Member.objects.none()
+    view_inz = get_object_or_404(Member, pk=want)
+    return render(request, "account/profile.html", {
+        "profile": view_inz,
+    })
     
 
 # lets members edit their info

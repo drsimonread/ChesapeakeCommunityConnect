@@ -155,6 +155,10 @@
 
         * [2.2.4.7  User Submissions	12](#2247-user-submissions)
 
+        * [2.2.4.8  User Comments	12](#2248-user-comments)
+
+        * [2.2.4.9  Report Post 12](#2249-report-post)
+
     * [2.2.5  Integration Features	13](#225-integration-features)
 
         * [2.2.5.1  Integration with External Systems	13](#2251-integration-with-external-systems)
@@ -212,7 +216,7 @@
 |  November 29th, 2023 | 1.1  | Initial Draft  | Kylie Hall John Heinig Malik Hill Naheed John Yaro Kulchyckyj Isabella Stephens  Brittany Brenneman |
 |  January 24th, 2024  |  1.1 |  Start of revisions for 2024 |  Daniel Reina Alex Ochman Gavin McDonald John Heinig Kendahl Michael Shively |
 | February  24, 2025 | 1.2 | Revision for SP2025 | Sophia Lin |
-| October 30, 2026| 1.3 | Start of Revisions for FA26 | Claudia Woodbury |
+| October 30, 2026| 1.3 | Start of Revisions for FA26 | Claudia Woodbury Malory Silbermann|
 
 # **1\. Introduction** 
 
@@ -499,6 +503,14 @@ Users shall be able to access the platform from QR codes that could give them ea
 #### **2.2.4.7\. User Submissions** 
 
 Users shall be able to share information on the website that will aid in providing knowledge on environmental issues and concerns and other updates. Submission requirements would include the location, resource links, and written words that describe the message the user wants to share.
+
+#### **2.2.4.8\. User comments** 
+
+Users shall be able to make comments on other user submissions and reply to the comments made by other users.
+
+#### **2.2.4.9\. Report Post** 
+
+Users shall be able report a post and provide a reason for that report.
 
 ### **2.2.5\. Integration Features**
 
