@@ -1,22 +1,51 @@
+
 {% load static %}
 
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'boiler/contact_formstyle.css' %}">
+    <title>Chesapeake Community Connect - Contact Us</title>
 </head>
 
 <body>
+    <main class="contact-page">
+        <section class="contact-intro">
+            <h1>Contact Us</h1>
+            <p>
+                Have a question or need assistance? Send us a message
+                and our team will get back to you.
+            </p>
+        </section>
 
-    <div class="body">
-        <form action="{% url 'boiler:help'%}" id="contact-form" style="display:none; float: left;" method="post">
-            {% csrf_token %}
-            <div class="half left cf">
-                {{ form.sender }}
-                {{ form.email }}
-                {{ form.subject }}
-            </div>
-            <div class="half right cf">
-                {{ form.message }}
-            </div>
-            <input type="submit" value="Submit" class="button">
-        </form>
-    </div>
+        <section class="contact-card">
+            <h2>Send Us a Message</h2>
+
+            <form action="{% url 'boiler:help' %}" id="contact-form" method="post">
+                {% csrf_token %}
+
+                <div class="contact-fields">
+                    <div class="contact-field">
+                        <label for="{{ form.sender.id_for_label }}">Your Name</label>
+                        {{ form.sender }}
+                    </div>
+
+                    <div class="contact-field">
+                        <label for="{{ form.email.id_for_label }}">Email Address</label>
+                        {{ form.email }}
+                    </div>
+
+                    <div class="contact-field">
+                        <label for="{{ form.subject.id_for_label }}">Subject</label>
+                        {{ form.subject }}
+                    </div>
+
+                    <div class="contact-field">
+                        <label for="{{ form.message.id_for_label }}">Your Message</label>
+                        {{ form.message }}
+                    </div>
+                </div>
+
+                <button type="submit" class="contact-submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</body>
