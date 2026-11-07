@@ -1,280 +1,312 @@
 
-/* =========================================
+/* =====================================================
    ABOUT US PAGE
-   Chesapeake Community Connect
-   Modern SMCM Navy and Gold Design
-   ========================================= */
+   SMCM NAVY, GOLD, AND WHITE THEME
+   ===================================================== */
 
-:root {
-    --smcm-navy: #00205C;
-    --smcm-deep-navy: #00163F;
-    --smcm-gold: #F3C10D;
-    --smcm-white: #FFFFFF;
-}
-
-/* =========================================
-   Main Page
-   ========================================= */
-
-.aboutBody {
+.about-page {
     width: 100%;
     min-height: 100vh;
-    background-color: var(--smcm-white);
-    color: var(--smcm-navy);
-    font-family: 'Baskerville', Georgia, serif;
-    padding-bottom: 70px;
-    box-sizing: border-box;
+    margin: 0;
+    padding: 0 0 35px;
+    background-color: #FFFFFF;
+    color: #00205C;
+    font-family: 'Baskerville', serif;
 }
 
-/* =========================================
-   Banner
-   ========================================= */
+.about-page *,
+.about-page *::before,
+.about-page *::after {
+    box-sizing: border-box;
+    font-family: 'Baskerville', serif;
+}
+
+/* =====================================================
+   TOP BANNER - PRESERVED
+   ===================================================== */
 
 .about-banner {
     width: 100%;
-    max-height: 420px;
+    max-height: 360px;
     overflow: hidden;
-    background-color: var(--smcm-navy);
-    border-bottom: 6px solid var(--smcm-gold);
+    background-color: #00205C;
 }
 
-#pic1 {
+.about-banner-image {
     display: block;
     width: 100%;
-    height: 420px;
+    max-height: 360px;
     object-fit: cover;
     object-position: center;
 }
 
-/* =========================================
-   Page Introduction
-   ========================================= */
+/* =====================================================
+   PAGE INTRODUCTION
+   ===================================================== */
 
 .about-intro {
-    position: relative;
     max-width: 1100px;
-    margin: 55px auto 35px;
-    padding: 45px 35px;
+    margin: 0 auto;
+    padding: 55px 30px 45px;
     text-align: center;
-    background-color: var(--smcm-navy);
-    color: var(--smcm-white);
-    border-top: 5px solid var(--smcm-gold);
-    border-bottom: 5px solid var(--smcm-gold);
-    box-sizing: border-box;
+}
+
+.about-kicker {
+    display: block;
+    margin-bottom: 12px;
+    color: #00205C;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .about-intro h1 {
-    color: var(--smcm-gold);
-    font-size: clamp(2rem, 4vw, 3rem);
-    line-height: 1.2;
-    margin: 0 0 20px;
-    font-weight: 700;
+    margin: 0;
+    color: #00205C;
+    font-size: 38px;
+    font-weight: bold;
+    line-height: 1.25;
+}
+
+.about-accent,
+.about-section-accent {
+    width: 75px;
+    height: 5px;
+    margin: 18px auto;
+    border-radius: 5px;
+    background-color: #F3C10D;
 }
 
 .about-intro p {
-    max-width: 750px;
+    max-width: 800px;
     margin: 0 auto;
-    color: var(--smcm-white);
-    font-size: 1.25rem;
+    color: #00205C;
+    font-size: 20px;
     line-height: 1.7;
 }
 
-/* =========================================
-   About Section Layout
-   ========================================= */
+/* =====================================================
+   MAIN CONTENT
+   ===================================================== */
 
-#content {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: stretch;
-    gap: 35px;
-    max-width: 1250px;
-    margin: 45px auto 0;
-    padding: 0 30px;
-    box-sizing: border-box;
-}
-
-/* =========================================
-   About Cards
-   ========================================= */
-
-.about-card {
+.about-content {
     display: flex;
     flex-direction: column;
+    gap: 35px;
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+/* =====================================================
+   TEAM SECTIONS
+   ===================================================== */
+
+.about-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    padding: 30px;
+    border: 2px solid #00205C;
+    border-radius: 14px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 32, 92, 0.10);
+}
+
+/* Keep the second section image on the right */
+.about-section-reverse {
+    grid-template-columns: 1fr 1fr;
+}
+
+.about-section-reverse .about-image-container {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.about-section-reverse .about-section-text {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+/* =====================================================
+   TEAM IMAGES
+   ===================================================== */
+
+.about-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     min-width: 0;
+    min-height: 250px;
     overflow: hidden;
-    background-color: var(--smcm-white);
-    border: 2px solid var(--smcm-navy);
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 32, 92, 0.12);
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    border-radius: 10px;
+    background-color: #FFFFFF;
 }
 
-.about-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 28px rgba(0, 32, 92, 0.2);
-}
-
-/* =========================================
-   Card Images
-   ========================================= */
-
-.about-image {
+.about-section-image {
     display: block;
     width: 100%;
-    height: 280px;
-    object-fit: cover;
+    height: 300px;
+    object-fit: contain;
     object-position: center;
-    border-bottom: 5px solid var(--smcm-gold);
+    border-radius: 10px;
 }
 
-/* =========================================
-   Card Content
-   ========================================= */
+/* =====================================================
+   TEAM TEXT
+   ===================================================== */
 
-.about-card-content {
-    position: relative;
-    flex-grow: 1;
-    padding: 32px 30px;
-    text-align: left;
-    background-color: var(--smcm-white);
-    box-sizing: border-box;
+.about-section-text {
+    width: 100%;
+    min-width: 0;
 }
 
-.about-card h2 {
-    color: var(--smcm-navy);
-    font-size: 1.8rem;
-    line-height: 1.3;
-    margin: 0 0 22px;
-    padding-bottom: 14px;
-    border-bottom: 3px solid var(--smcm-gold);
-}
-
-.about-card p {
-    color: var(--smcm-deep-navy);
-    font-size: 1.08rem;
-    line-height: 1.85;
+.about-section-text h2 {
     margin: 0;
+    color: #00205C;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1.3;
 }
 
-/* =========================================
-   Large Screens
-   ========================================= */
-
-@media (min-width: 1400px) {
-    #content {
-        max-width: 1350px;
-        gap: 45px;
-    }
-
-    .about-image {
-        height: 320px;
-    }
+.about-section-accent {
+    width: 60px;
+    height: 4px;
+    margin: 14px 0 20px;
 }
 
-/* =========================================
-   Tablet Layout
-   ========================================= */
+.about-section-text p {
+    margin: 0;
+    color: #00205C;
+    font-size: 17px;
+    line-height: 1.8;
+    text-align: left;
+}
 
-@media (max-width: 900px) {
-    .about-banner {
-        max-height: 350px;
-    }
+/* =====================================================
+   SMCM FOOTER
+   ===================================================== */
 
-    #pic1 {
-        height: 350px;
-    }
+.about-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 45px;
+    padding: 30px 20px;
+    border-top: 4px solid #F3C10D;
+    background-color: #00205C;
+    color: #FFFFFF;
+    text-align: center;
+}
 
+.about-footer-logo {
+    display: block;
+    width: 110px;
+    max-height: 90px;
+    object-fit: contain;
+}
+
+.about-footer p {
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 14px;
+}
+
+/* =====================================================
+   TABLET
+   ===================================================== */
+
+@media (max-width: 850px) {
     .about-intro {
-        margin: 40px 24px 30px;
-        padding: 38px 25px;
-    }
-
-    #content {
-        grid-template-columns: 1fr;
-        max-width: 750px;
-        gap: 30px;
-        padding: 0 24px;
-    }
-
-    .about-image {
-        height: 300px;
-    }
-}
-
-/* =========================================
-   Mobile Layout
-   ========================================= */
-
-@media (max-width: 600px) {
-    .aboutBody {
-        padding-bottom: 40px;
-    }
-
-    .about-banner {
-        max-height: 240px;
-        border-bottom-width: 4px;
-    }
-
-    #pic1 {
-        height: 240px;
-    }
-
-    .about-intro {
-        margin: 28px 15px 25px;
-        padding: 30px 18px;
+        padding: 40px 25px;
     }
 
     .about-intro h1 {
-        font-size: 1.9rem;
+        font-size: 32px;
     }
 
-    .about-intro p {
-        font-size: 1.05rem;
-        line-height: 1.6;
+    .about-section {
+        gap: 25px;
+        padding: 22px;
     }
 
-    #content {
-        padding: 0 15px;
-        gap: 24px;
-        margin-top: 25px;
+    .about-section-text h2 {
+        font-size: 24px;
     }
 
-    .about-card {
-        border-radius: 10px;
+    .about-section-text p {
+        font-size: 16px;
     }
 
-    .about-image {
-        height: 220px;
-    }
-
-    .about-card-content {
-        padding: 25px 20px;
-    }
-
-    .about-card h2 {
-        font-size: 1.5rem;
-        margin-bottom: 17px;
-    }
-
-    .about-card p {
-        font-size: 1rem;
-        line-height: 1.75;
+    .about-section-image {
+        height: 260px;
     }
 }
 
-/* =========================================
-   Accessibility
-   ========================================= */
+/* =====================================================
+   MOBILE
+   ===================================================== */
 
-@media (prefers-reduced-motion: reduce) {
-    .about-card {
-        transition: none;
+@media (max-width: 650px) {
+    .about-banner,
+    .about-banner-image {
+        max-height: 220px;
     }
 
-    .about-card:hover {
-        transform: none;
+    .about-intro {
+        padding: 35px 18px;
+    }
+
+    .about-intro h1 {
+        font-size: 27px;
+    }
+
+    .about-intro p {
+        font-size: 17px;
+    }
+
+    .about-content {
+        gap: 22px;
+        padding: 0 14px;
+    }
+
+    .about-section,
+    .about-section-reverse {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        padding: 18px;
+    }
+
+    .about-image-container {
+        width: 100%;
+        min-height: 0;
+    }
+
+    .about-section-image {
+        width: 100%;
+        height: auto;
+        max-height: 260px;
+        object-fit: contain;
+    }
+
+    .about-section-text {
+        width: 100%;
+    }
+
+    .about-section-text h2 {
+        font-size: 23px;
+    }
+
+    .about-section-text p {
+        font-size: 16px;
+        line-height: 1.7;
     }
 }

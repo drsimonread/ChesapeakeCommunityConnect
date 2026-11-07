@@ -1,23 +1,52 @@
-
 {% load static %}
 
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'boiler/contact_formstyle.css' %}">
-</head>
+<div class="contact-page">
 
-<body>
+    <section class="contact-intro">
+        <span class="contact-kicker">Chesapeake Community Connect</span>
+        <h1>Contact Us</h1>
+        <div class="contact-accent"></div>
+        <p>
+            Have a question or need assistance?
+            Send us a message using the form below.
+        </p>
+    </section>
 
-    <div class="body">
-        <form action="{% url 'boiler:help'%}" id="contact-form" style="display:none; float: left;" method="post">
+    <main class="contact-content">
+
+        <form action="{% url 'boiler:help' %}"
+              id="contact-form"
+              class="contact-form"
+              method="post">
+
             {% csrf_token %}
-            <div class="half left cf">
+
+            <div class="contact-field">
+                <label for="{{ form.sender.id_for_label }}">Your Name</label>
                 {{ form.sender }}
+            </div>
+
+            <div class="contact-field">
+                <label for="{{ form.email.id_for_label }}">Email Address</label>
                 {{ form.email }}
+            </div>
+
+            <div class="contact-field">
+                <label for="{{ form.subject.id_for_label }}">Subject</label>
                 {{ form.subject }}
             </div>
-            <div class="half right cf">
+
+            <div class="contact-field">
+                <label for="{{ form.message.id_for_label }}">Your Message</label>
                 {{ form.message }}
             </div>
-            <input type="submit" value="Submit" class="button">
+
+            <button type="submit" class="contact-submit">
+                Send Message
+            </button>
+
         </form>
-    </div>
+
+    </main>
+
+</div>

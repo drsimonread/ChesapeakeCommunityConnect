@@ -3,26 +3,27 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'boiler/aboutstyle.css' %}">
-<title>Chesapeake Community Connect - About</title>
+<link rel="stylesheet" type="text/css" href="{% static 'boiler/aboutstyle.css' %}?v=7">
 {% endblock head %}
 
 {% block content %}
 
-<!-- About Page Banner -->
-<div class="about-banner">
-    <img
-        src="{% static 'base/assets/about_smcm.png' %}"
-        alt="St. Mary's College of Maryland banner"
-        id="pic1"
-    >
-</div>
+<div class="about-page">
 
-<div class="aboutBody">
+    <!-- About Page Banner -->
+    <div class="about-banner">
+        <img
+            src="{% static 'base/assets/about_smcm.png' %}"
+            alt="St. Mary's College of Maryland"
+            class="about-banner-image"
+        >
+    </div>
 
     <!-- Page Introduction -->
     <header class="about-intro">
+        <span class="about-kicker">Chesapeake Community Connect</span>
         <h1>About Chesapeake Community Connect</h1>
+        <div class="about-accent"></div>
         <p>
             Connecting research, technology, and communities to support
             a more resilient Chesapeake region.
@@ -30,17 +31,22 @@
     </header>
 
     <!-- About Sections -->
-    <div id="content">
+    <main class="about-content">
 
-        <!-- Research Team Section -->
-        <div class="container">
-            <h4>
-                <div class="wrapper">
-                    <img src="{% static 'base/assets/research_team.jpg' %}" alt="researchTeam" id="pic2">
-                </div>
-                Research Team
-            </h4>
-            <div class="wrapper">
+        <!-- Research Team -->
+        <section class="about-section">
+            <div class="about-image-container">
+                <img
+                    src="{% static 'base/assets/qapic.webp' %}"
+                    alt="Chesapeake Community Connect research team"
+                    class="about-section-image"
+                >
+            </div>
+
+            <div class="about-section-text">
+                <h2>Research Team</h2>
+                <div class="about-section-accent"></div>
+
                 <p>
                     Our research team focuses on coastal community resilience.
                     Through research, data analysis, and community engagement,
@@ -51,15 +57,20 @@
             </div>
         </section>
 
-        <!-- R&D / QA / Capstone Section -->
-        <div class="containerL">
-            <h4>
-                <div class="wrapper">
-                    <img src="{% static 'base/assets/group_photo.jpg' %}" alt="groupPhoto" id="pic2">
-                </div>
-                R&D, QA, and Capstone Teams
-            </h4>
-            <div class="wrapper">
+        <!-- SD, QA, and Capstone Teams -->
+        <section class="about-section about-section-reverse">
+            <div class="about-image-container">
+                <img
+                    src="{% static 'base/assets/rndpic.jpeg' %}"
+                    alt="SD, QA, and Capstone teams"
+                    class="about-section-image"
+                >
+            </div>
+
+            <div class="about-section-text">
+                <h2>SD, QA, and Capstone Teams</h2>
+                <div class="about-section-accent"></div>
+
                 <p>
                     The Software Startup Simulator Capstone brings together
                     students in Software Development (SD), Quality Assurance
@@ -74,7 +85,7 @@
             </div>
         </section>
 
-    </div>
+    </main>
 
 </div>
 
