@@ -63,5 +63,150 @@
       </div>
     </form>
   </section>
+
+<style>
+
+    .container{
+        min-width: 100%;
+        margin-bottom: 20%;
+    }
+
+    .nameField,.emailField,.aboutField{
+        border: none;
+        width: 300px;
+        padding:10px;
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    .submitB {
+        background-color: #f3c10d;
+        padding: 10px;
+        border-radius: 3px;
+        border: none;
+        font-size: 15px;
+        width: 150px;
+
+    }
+
+    .submitB:hover{
+        cursor: pointer;
+        background-color: orange;
+    }
+
+    .cancelB {
+        display: inline-block;
+        box-sizing: border-box;
+        margin-left: 10px;
+        padding: 10px;
+        border-radius: 3px;
+        background-color: #e0e0e0;
+        color: #00205c;
+        font-size: 15px;
+        text-align: center;
+        text-decoration: none;
+        width: 150px;
+    }
+
+    .cancelB:hover {
+        background-color: #c0c0c0;
+    }
+
+    .current-profile-image {
+        display: block;
+        width: 150px;
+        height: 150px;
+        margin: 10px auto 20px;
+        border-radius: 4px;
+        object-fit: cover;
+    }
+
+    .current-profile-label {
+        text-align: center;
+    }
+
+    /* change password section (issue #72) */
+    .password-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #c0c0c0;
+    }
+
+    .password-section label {
+        display: block;
+        text-align: center;
+    }
+
+    .passwordField {
+        display: block;
+        box-sizing: border-box;
+        width: 300px;
+        max-width: 100%;
+        padding: 10px;
+        margin: 5px auto 15px;
+        border: 1px solid #8a8a8a;
+        border-radius: 5px;
+    }
+
+    .password-section .submitB {
+        display: block;
+        margin: 10px auto 0;
+    }
+
+    .password-message {
+        margin: 10px;
+        padding: 10px;
+        border-radius: 3px;
+    }
+
+    .password-message--error {
+        background-color: #fde2e2;
+        color: #8a1c1c;
+    }
+
+    .password-message--success {
+        background-color: #e2f5e5;
+        color: #1c5e2a;
+    }
+
+</style>
+<!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
+<div id="content">
+    <div class="container">
+        <form action="{% url 'account:manage'%}" id="contact-form" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            <p class="current-profile-label">Current profile image:</p>
+            <img class="current-profile-image" src="{{ current_profile_image.url }}" alt="Current profile image">
+            {{form.as_p}}
+    
+            <input class="submitB" type="submit" value="Submit">
+            <a class="cancelB" href="{% url 'account:default' %}">Cancel</a>
+        </form>
+
+        <!--change password form; posts to the same manage view, which tells the two forms apart by the change_password button-->
+        <section class="password-section" aria-labelledby="change-password-title">
+            <h2 id="change-password-title">Change password</h2>
+            {% if password_changed %}
+            <p class="password-message password-message--success" role="status">Your password has been changed.</p>
+            {% endif %}
+            {% if password_error %}
+            <p class="password-message password-message--error" role="alert">{{ password_error }}</p>
+            {% endif %}
+            {% if has_password %}
+            <form action="{% url 'account:manage' %}" id="password-form" method="post">
+                {% csrf_token %}
+                <label for="current_password">Current password</label>
+                <input class="passwordField" type="password" id="current_password" name="current_password" autocomplete="current-password" required>
+                <label for="new_password">New password</label>
+                <input class="passwordField" type="password" id="new_password" name="new_password" autocomplete="new-password" minlength="8" required>
+                <label for="confirm_password">Confirm new password</label>
+                <input class="passwordField" type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" minlength="8" required>
+                <input class="submitB" type="submit" name="change_password" value="Change password">
+            </form>
+            {% elif not password_error %}
+            <p>You sign in with Google, so there is no password to change here. Manage your password in your Google account.</p>
+            {% endif %}
+        </section>
+    </div>
 </div>
 {% endblock accountFunc %}

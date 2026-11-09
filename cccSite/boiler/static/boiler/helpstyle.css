@@ -124,3 +124,32 @@
 .button:hover {
     background-color: #ffd84d;
 }
+
+#contact-form-container {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.contact-form__field {
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.contact-form__field label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.contact-form__control {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.contact-form__field .errorlist {
+    color: white;
+    margin: 4px 0;
+}
