@@ -50,13 +50,13 @@ ALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'account.apps.AccountConfig',
     'mapViewer.apps.MapviewerConfig',
     'boiler.apps.BoilerConfig', 
     'Janitor.apps.JanitorConfig',
