@@ -8,7 +8,7 @@
 <title>Chesapeake Community Connect - Map</title>
 
 <script src="{% static 'mapViewer/map-script.js' %}" defer></script>
-{{widgets|json_script}}
+{{ widgets|json_script:"map-data" }}
 <script
     src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&libraries=places&callback=initMap"
     defer></script>
@@ -46,6 +46,7 @@
           <!-- MAP -->
           <div class="map-container">
             <div id="map"></div>
+            <p id="map-status" class="map-status" role="status" hidden></p>
           </div>
 
           <!-- FILTER -->

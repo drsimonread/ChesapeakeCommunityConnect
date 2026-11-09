@@ -9,29 +9,20 @@
    GLOBAL PAGE STYLING
    ------------------------- */
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-    background-color: #FFFFFF !important;
-    color: #00205C;
-    font-family: 'Baskerville', serif !important;
-}
-
-html * {
-    font-family: 'Baskerville', serif !important;
-    box-sizing: border-box;
-}
-
 .site-shell {
     position: relative;
     width: 100%;
     min-height: 100vh;
+    margin: 0;
+    padding: 2rem 0 3rem;
     overflow-x: hidden;
     background-color: #FFFFFF;
     color: #00205C;
+}
+
+.site-shell.site-font,
+.site-shell.site-font * {
+    box-sizing: border-box;
 }
 
 .site-shell__aurora,
@@ -42,9 +33,9 @@ html * {
 .site-shell__inner {
     position: relative;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1220px;
     margin: 0 auto;
-    padding: 30px;
+    padding: 0 1.25rem;
 }
 
 /* -------------------------
@@ -114,9 +105,12 @@ html * {
    ------------------------- */
 
 .site-main--map {
+    box-sizing: border-box;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 1.25rem 1.5rem 2rem;
+    overflow: visible;
 }
 
 .map-page-layout {
@@ -173,6 +167,24 @@ html * {
     min-height: 0;
     border: none;
     border-radius: 8px;
+}
+
+.map-status {
+    position: absolute;
+    inset: 20px;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 20px;
+    border: 1px solid #D9A900;
+    border-radius: 8px;
+    background: #FFF8D6;
+    color: #00205C;
+    text-align: center;
+}
+
+.map-status[hidden] {
+    display: none;
 }
 
 /* -------------------------
