@@ -249,3 +249,35 @@ class PasswordChangeTest(TestCase):
         self.client.cookies.clear()
         response = self.client.post(reverse("account:manage"), {"change_password": "1"})
         self.assertRedirects(response, "/account/signin/", fetch_redirect_response=False)
+
+
+class CreateWebsiteSuperuserTest(TestCase):
+    def test_created_admin_can_sign_in(self):
+        from unittest.mock import patch
+        from django.core.management import call_command
+
+        with patch("builtins.input", side_effect=["siteadmin", "admin@example.com", "Site Admin"]), \
+             patch("getpass.getpass", side_effect=["secure-password", "secure-password"]):
+            call_command("createsuperuser", verbosity=0)
+
+        response = self.client.post(reverse("account:signin_form"), {
+            "username": "siteadmin", "password": "secure-password",
+        })
+        self.assertRedirects(response, reverse("account:default"))
+        self.assertEqual(self.client.session["rank"], 99)
+        self.assertEqual(Member.objects.get(email="admin@example.com").ranking, 99)
+
+    def test_existing_member_is_not_promoted(self):
+        from unittest.mock import patch
+        from django.core.management import call_command
+        from django.core.management.base import CommandError
+        from .models import AccountCreation
+
+        member = Member.objects.create(name="Existing", email="admin@example.com")
+        with patch("builtins.input", side_effect=["siteadmin", "ADMIN@example.com", "Site Admin"]), \
+             patch("getpass.getpass", side_effect=["secure-password", "secure-password"]):
+            with self.assertRaises(CommandError):
+                call_command("createsuperuser", verbosity=0)
+        member.refresh_from_db()
+        self.assertEqual(member.ranking, 1)
+        self.assertFalse(AccountCreation.objects.exists())
