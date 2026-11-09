@@ -151,23 +151,69 @@ def account_view(request, want):
         userInz= Member.objects.none()
     
 
-# lets members edit their info
+# the username/password account that belongs to a signed-in member, or None if they only sign in with Google.
+# members and their password accounts are linked by email, the same way signin_form links them
+def password_account_for(member):
+    return AccountCreation.objects.filter(email__iexact=member.email, status="accepted").first()
+
+# checks the change password form and returns an error message, or None if the new password can be saved
+def password_change_error(account, current, new, confirm):
+    if not (current and new and confirm):
+        return "Fill in all three password fields."
+    if account.password != current:
+        return "Your current password is incorrect."
+    if new != confirm:
+        return "The new passwords do not match."
+    if new == current:
+        return "Your new password must be different from your current password."
+    if len(new) < 8:
+        return "Your new password must be at least 8 characters long."
+    max_length = AccountCreation._meta.get_field("password").max_length
+    if len(new) > max_length:
+        return f"Your new password must be at most {max_length} characters long."
+    return None
+
+# lets members edit their info. if user not signed in, sends them to log in
+# the page has two forms: the profile form, and a change password form for members who sign in with a password (issue #72)
 def manage(request):
     if request.session.get('rank',0)==0:
         return redirect('/account/signin/')
-    if request.method == "POST":
-        userInz=Member.objects.get(pk=request.session['user']) 
+    userInz=Member.objects.get(pk=request.session['user'])
+    account = password_account_for(userInz)
+    form = ManageForm(instance=userInz)
+    password_error = None
+    password_changed = request.GET.get("password") == "changed"
+
+    if request.method == "POST" and "change_password" in request.POST:
+        if account is None:
+            password_error = "Your account signs in with Google, so it has no password to change."
+        else:
+            new = request.POST.get("new_password", "")
+            password_error = password_change_error(
+                account,
+                request.POST.get("current_password", ""),
+                new,
+                request.POST.get("confirm_password", ""),
+            )
+            if password_error is None:
+                account.password = new
+                account.confirmpassword = new
+                account.save(update_fields=["password", "confirmpassword"])
+                # redirect so refreshing the page does not submit the passwords again
+                return redirect(reverse("account:manage") + "?password=changed")
+    elif request.method == "POST":
         form = ManageForm(request.POST, request.FILES, instance=userInz)
         if form.is_valid():
             form.save()
             request.session['name']=userInz.name
             return redirect("/account/")
-    else:
-        userInz=Member.objects.get(pk=request.session['user'])
-        form = ManageForm(instance=userInz)
+
     return render(request, "account/manage.html", {
         'form': form,
         'current_profile_image': userInz.pic,
+        'has_password': account is not None,
+        'password_error': password_error,
+        'password_changed': password_changed,
     })
 
 
