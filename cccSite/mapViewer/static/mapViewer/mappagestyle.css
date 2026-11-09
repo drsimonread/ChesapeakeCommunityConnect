@@ -1,22 +1,54 @@
-#search {
-    width: 45%;
-    float: right;
-    margin: 2em;
-    
+
+/* =========================================================
+   CHESAPEAKE COMMUNITY CONNECT - MAP PAGE
+   SMCM COLORS: NAVY, GOLD, WHITE
+   Font: Baskerville
+   ========================================================= */
+
+/* -------------------------
+   GLOBAL PAGE STYLING
+   ------------------------- */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background-color: #FFFFFF !important;
+    color: #00205C;
+    font-family: 'Baskerville', serif !important;
 }
 
-#left {
-    width: 45%;
-    float: left;
-    margin: 2em;
+html * {
+    font-family: 'Baskerville', serif !important;
+    box-sizing: border-box;
+}
 
+.site-shell {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: #FFFFFF;
+    color: #00205C;
+}
 
+.site-shell__aurora,
+.site-shell__pattern {
+    display: none;
+}
 
+.site-shell__inner {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px;
 }
 
 #upload-descriptions {
-    clear: both;
-    margin: 2em;
+    margin-top: 24px;
 }
 
 .upload-description {
@@ -31,51 +63,440 @@
     margin-top: 0;
 }
 
-#map {
-    /*Map icon styling*/
-    border-radius: 10px;
-    height: 400px;
+/* -------------------------
+   HERO HEADER
+   ------------------------- */
 
-}
-
-#scroll-box {
-    height: 200px;
-    width: 60%;
-    border:1px solid #ccc;
-    overflow: auto;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-/* #id_t label {
-    color: red;
+.site-hero--gradient {
     width: 100%;
-    background-color: blue;
-    text-align: center;
+    margin-bottom: 30px;
+    padding: 35px 40px;
+    border-radius: 14px;
+    background: #00205C;
+    color: #FFFFFF;
 }
 
-#id_t input {
-    display: none;
-    margin-right: 100px;
-} */
-
-
-input[type=text]{
-    /* text-align: center; */
-
-    border: 0;
-  outline: 0;
-  padding: 1em;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
-  display: block;
-  width: 60%;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  resize: none;
+.site-hero__inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
-#search-btn {
-    padding: 1em;
-    width: 60%; /* Take up half the screen width */
-    float: left;
+
+.site-hero__mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 65px;
+    height: 65px;
+    border-radius: 12px;
+    background-color: #F3C10D;
+    color: #00205C;
+    font-size: 34px;
+}
+
+.site-hero__text {
+    min-width: 0;
+}
+
+.site-hero__kicker {
+    display: block;
+    margin-bottom: 5px;
+    color: #F3C10D;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.site-hero__title {
+    margin: 0 0 8px;
+    color: #FFFFFF;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.site-hero__lede {
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+/* -------------------------
+   MAIN PAGE LAYOUT
+   ------------------------- */
+
+.site-main--map {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.map-page-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.85fr);
+    align-items: start;
+    gap: 24px;
+    width: 100%;
+}
+
+.map-left-column,
+.map-right-column {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Prevent legacy float rules from breaking the grid */
+
+.map-page-layout #left,
+.map-page-layout #search {
+    float: none;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    margin: 0;
+}
+
+/* -------------------------
+   MAP CONTAINER
+   ------------------------- */
+
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    min-width: 0;
+    padding: 10px;
+    overflow: hidden;
+    border: 2px solid #00205C;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    box-shadow: 0 3px 10px rgba(0, 32, 92, 0.10);
+}
+
+.map-container #map {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: none;
+    border-radius: 8px;
+}
+
+/* -------------------------
+   FILTER AND CREATE POST PANELS
+   ------------------------- */
+
+.map-search-panel {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 24px;
+    border: 2px solid #00205C;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    color: #00205C;
+    box-shadow: 0 3px 10px rgba(0, 32, 92, 0.10);
+}
+
+.map-search-panel__head {
+    margin-bottom: 22px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #F3C10D;
+}
+
+.map-search-panel__title {
+    margin: 0 0 7px;
+    color: #00205C;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.map-search-panel__intro {
+    margin: 0;
+    color: #00205C;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* -------------------------
+   FORM FIELDS
+   ------------------------- */
+
+.map-search-form,
+#post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    min-width: 0;
+}
+
+.map-search-block {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+.map-search-label {
+    display: block;
+    margin: 0;
+    color: #00205C;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.map-search-input,
+.map-search-block input[type="text"],
+.map-search-block input[type="search"],
+.map-search-block textarea,
+.map-search-form input,
+#post-form input,
+#post-form textarea {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid #00205C;
+    border-radius: 6px;
+    outline: none;
+    background-color: #FFFFFF;
+    color: #00205C;
+    font-size: 15px;
+}
+
+.map-search-block textarea,
+#post-form textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.map-search-input:focus,
+.map-search-block input:focus,
+.map-search-block textarea:focus,
+#post-form input:focus,
+#post-form textarea:focus {
+    border: 2px solid #F3C10D;
+    box-shadow: 0 0 0 3px rgba(243, 193, 13, 0.20);
+}
+
+/* -------------------------
+   TOPIC FILTERS
+   ------------------------- */
+
+.map-search-block--tags {
+    margin-top: 5px;
+}
+
+.map-tag-scroll,
+#scroll-box {
+    width: 100%;
+    max-width: 100%;
+    max-height: 200px;
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid #00205C;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+}
+
+#id_t {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 100%;
+}
+
+.map-tag-row {
+    width: 100%;
+    margin: 0;
+}
+
+.map-tag-row label,
+#id_t label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin: 0;
+    color: #00205C;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#id_t input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    accent-color: #00205C;
+    cursor: pointer;
+}
+
+.map-tag-row label span {
+    color: #00205C;
+}
+
+/* -------------------------
+   BUTTONS
+   ------------------------- */
+
+.map-search-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.map-filter-btn,
+.contact-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 46px;
+    margin: 0;
+    padding: 12px 20px;
+    border: 2px solid #00205C;
+    border-radius: 7px;
+    background-color: #F3C10D;
+    color: #00205C;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.map-filter-btn:hover {
+    background-color: #00205C;
+    color: #F3C10D;
+}
+
+.map-filter-btn__text {
+    color: inherit;
+    font-weight: bold;
+}
+
+.map-filter-clear {
+    display: inline-block;
+    color: #00205C;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.map-filter-clear:hover {
+    color: #8A6900;
+}
+
+/* -------------------------
+   CREATE POST PANEL
+   ------------------------- */
+
+.map-right-column .map-search-panel {
+    height: auto;
+}
+
+#post-form .map-filter-btn {
+    margin-top: 5px;
+}
+
+/* -------------------------
+   RESPONSIVE TABLET LAYOUT
+   ------------------------- */
+
+@media (max-width: 850px) {
+    .site-shell__inner {
+        padding: 22px;
+    }
+
+    .map-page-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+    }
+
+    .map-left-column,
+    .map-right-column {
+        width: 100%;
+    }
+
+    .map-container {
+        height: 400px;
+    }
+
+    .site-hero--gradient {
+        padding: 28px;
+    }
+}
+
+/* -------------------------
+   RESPONSIVE MOBILE LAYOUT
+   ------------------------- */
+
+@media (max-width: 550px) {
+    .site-shell__inner {
+        padding: 14px;
+    }
+
+    .site-hero--gradient {
+        padding: 22px 18px;
+    }
+
+    .site-hero__inner {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .site-hero__mark {
+        width: 45px;
+        height: 45px;
+        font-size: 25px;
+    }
+
+    .site-hero__title {
+        font-size: 27px;
+    }
+
+    .site-hero__lede {
+        font-size: 14px;
+    }
+
+    .map-container {
+        height: 320px;
+        padding: 7px;
+    }
+
+    .map-search-panel {
+        padding: 17px;
+    }
+
+    .map-search-panel__title {
+        font-size: 21px;
+    }
+
+    .map-search-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .map-filter-clear {
+        text-align: center;
+    }
 }

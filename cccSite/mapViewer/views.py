@@ -4,13 +4,14 @@ from django.urls import reverse
 from .models import *
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.conf import settings
 from account.models import Member
 from .forms import *
 from django.db.models import Q
 import googlemaps
 from datetime import datetime
 from Janitor.forms import PostRepForm
-from .models import MapPost, MapTag
+from .models import MapPost, MapTag, PostComment
 
 
 
@@ -28,7 +29,7 @@ def viewMap(request):
             postInz=MapPost.objects.create(title=postingForm.cleaned_data['title'], #actually create the post instance in the database
                                    content=postingForm.cleaned_data['content'],
                                    author=userInz,
-            description=postingForm.cleaned_data['description'],
+                                   description=postingForm.cleaned_data['description'],
                                    geoCode=postingForm.cleaned_data['geoResult'][0],
                                    visibility=vis
                                    )
@@ -47,10 +48,9 @@ def viewMap(request):
     widgets = serializers.serialize('json', posts) #serialize posts as JSON for google maps
     #print(widgets)  # Temporary print statement to check the output
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
-                                                      'postForm' : postingForm,
                                                       'searchForm' : searchForm,
-                                                      'hasPosted': madePostSuccess,
-                                                      'posts': posts}) #render template
+                                                      'posts': posts,
+                                                      'GOOGLE_MAPS_API_KEY': settings.GOOGLE_API_KEY,}) #render template
 
 
 
@@ -72,68 +72,60 @@ def post_list(request):
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
     hasReported=False
-    if Forum.objects.filter(pk=want).exists():
-        lookAt= Forum.objects.get(pk=want)
-        files = Media.objects.filter(forum=lookAt)
-        forumData = {
-            "title": lookAt.title,
-            "description": lookAt.description,
-        }
-
-        if request.method == 'POST':
+    if MapPost.objects.filter(pk=want).exists():
+        lookAt= MapPost.objects.get(pk=want)
+        reporter = PostRepForm(initial={'post':lookAt})
+        comment_form = PostCommentForm()
+        if request.method == 'POST' and request.POST.get("action") == "report":
             reporter = PostRepForm(request.POST)
             hasReported = reporter.is_valid()
             if hasReported:
                 reporter.save()
-        else:
-            reporter = PostRepForm(initial={'post':lookAt})
+        elif request.method == "POST" and request.POST.get("action") == "comment":
+            if not request.session.get("user"):
+                return redirect(f"{reverse('account:signin')}?next={request.path}")
+            comment_form = PostCommentForm(request.POST)
+            if comment_form.is_valid():
+                parent_id = request.POST.get("parent")
+                parent = None
+                if parent_id:
+                    parent = PostComment.objects.filter(
+                        pk=parent_id, post=lookAt
+                    ).first()
+                    if parent is None:
+                        comment_form.add_error(None, "That comment is no longer available.")
+                if comment_form.is_valid():
+                    PostComment.objects.create(
+                        post=lookAt,
+                        author_id=request.session["user"],
+                        parent=parent,
+                        content=comment_form.cleaned_data["content"],
+                    )
+                    return redirect(
+                        f"{reverse('mapViewer:post_detail', args=[want])}#comments"
+                    )
         if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
-            
-            if lookAt.visibility==0:
-                msg="Your forum is currently pending approval and only visible to you."
-            elif lookAt.visibility == -1:
-                msg="Your forum has been denied for the following reason: {0}.\nTo resubmit, please create a new forum.".format(lookAt.description)
-            else:
-                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                    
-                    # Render each post using the postTemplate
-                    post_html = [
-                        render_to_string('mapViewer/postTemplate.html', {'post': post, 'forum': lookAt, 'page_obj': page_obj.number})
-                        for post in page_obj.object_list
-                    ]
-                    return JsonResponse({
-                        'posts': post_html,
-                        'has_next': page_obj.has_next()
-                    })
-                
-                # Initial render for the HTML template
-                return render(request, "mapViewer/viewForum.html", {"forum" : lookAt,
-                                                                "form" : reporter,
-                                                                "forumData": forumData,
-                                                                "hasReported" : hasReported,
-                                                                "files" : files,
-                                                                "msg" : msg,
-                                                                "posts" : page_obj, 
-                                                                "page_number" : page_obj.number
-                                                                })                
+            comments = list(
+                PostComment.objects.filter(post=lookAt).select_related("author")
+            )
+            comments_by_parent = {}
+            for comment in comments:
+                comments_by_parent.setdefault(comment.parent_id, []).append(comment)
+            for comment in comments:
+                comment.thread_replies = comments_by_parent.get(comment.pk, [])
+            return render(request, "mapViewer/viewPost.html", {"post" : lookAt,
+                                                               "form" : reporter,
+                                                               "hasReported" : hasReported,
+                                                               "comment_form": comment_form,
+                                                               "comments": comments_by_parent.get(None, []),
+                                                               "comment_count": len(comments)})
     return redirect(reverse("mapViewer:default"))
 
 
 
-def post_detail(request, want, wants):
-    if Forum.objects.filter(pk=want).exists():
-        lookAt= Forum.objects.get(pk=want)
-        lookAtPost= Post.objects.get(pk=wants)
-        comments = lookAtPost.comments.all()
-        forumData = {
-            "title": lookAt.title,
-            "description": lookAt.description,
-        }
-
-        return render(request, "mapViewer/viewPost.html", {"forum" : lookAt,
-                                                            "Post" : lookAtPost,
-                                                            "forumData": forumData,
-                                                            "comments" : comments,})
+def get_posts_and_tags(request):
+    posts = MapPost.objects.filter(visiblity=1)
+    tags = MapTag.objects.all()
 
     post_data = []
     for post in posts:

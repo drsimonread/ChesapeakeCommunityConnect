@@ -12,9 +12,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 from django.conf.global_settings import SECURE_CROSS_ORIGIN_OPENER_POLICY, SECURE_REFERRER_POLICY
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR =  Path(__file__).resolve().parent.parent
+
+# Load private environment variables from the local .env file
+load_dotenv(BASE_DIR / ".env")
 
 # Add or modify the STATIC_URL setting to specify the URL for static files
 STATIC_URL = '/static/'
@@ -28,7 +32,7 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 SECURE_REFERRER_POLICY = "same-origin-no-downgrade" # this
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+#BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -86,7 +90,7 @@ TEMPLATES = [
     },
 ]
 
-GOOGLE_API_KEY = 'AIzaSyDObg89VOn66Pt_0l03pHwKWBdGmPdTX9A'
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
 
 WSGI_APPLICATION = 'cccSite.wsgi.application'

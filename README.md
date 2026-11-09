@@ -6,7 +6,7 @@ The Chesapeake Community Connection website serves as a hub for improving connec
 
 ## Training Documents
 
-Some [training documents](docs/index.md) for developers are available.
+Some [training documents](docs/00-start-here.md) for developers are available.
 
 ## Important Links
 
@@ -14,7 +14,7 @@ Some [training documents](docs/index.md) for developers are available.
 
 [CCC Traceability Matrix](Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_Traceability_Matrix.md)
 
-[CCC SRS](Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_SRS.md) 
+[CCC SRS](Documentation/Sorted%20Documents%20(SP25)/FA26%20Documentation/FA26_SRS.md)
 
 [CCC Test Tracker](Documentation/Sorted%20Documents%20(SP25)/SP25%20Documentation/CCC_Test_Tracker.md)
 
@@ -26,8 +26,5 @@ A guide for setting up CCC and running it via the VM can be found [here](Documen
 
 ## Feedback
 
-For feedback related to this project, please open a new issue on [GitHub](https://github.com/drsimonread/ChesapeakeCommunityConnect/issues).
-
-
-
-To place your own findings and  research use this link [Research Notes](DeveloperNotes.md)
+For feedback related to this project, please open a new issue on
+[GitHub](https://github.com/drsimonread/ChesapeakeCommunityConnect/issues).

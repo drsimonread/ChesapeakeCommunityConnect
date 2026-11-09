@@ -55,3 +55,51 @@
     /*rounded edges for container*/
     border-radius: 20px;
 }
+
+#create-an-account,
+#Signin {
+    display: block;
+    box-sizing: border-box;
+    width: 70%;
+    margin: 1rem auto;
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 8px;
+    background-color: #f3c10d;
+    color: #00205c;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#create-an-account:hover,
+#Signin:hover {
+    background-color: #e67e22;
+    color: #00205c;
+    text-decoration: none;
+}
+
+.contributors-signin-prompt {
+    text-align: center;
+}
+
+.contributors-signin-prompt .wrapperS1 {
+    margin: 0 auto;
+}
+
+.contributors-signin-message {
+    display: block;
+    width: 100%;
+    margin: 1rem auto;
+    font-size: 1.5rem !important;
+    line-height: 1.5;
+    text-align: center !important;
+}
+
+.contributors-signin-prompt .dir-search__submit {
+    display: flex;
+    width: fit-content;
+    margin: 1rem auto 0;
+}

@@ -16,16 +16,16 @@ def user_directory_profile(instance, filename):
 # user model. self explanitory
 class Member(models.Model):
     name = models.CharField(max_length=35, )
-    email = models.EmailField()
-    ranking_options = { 
-        (-1,"banned"),
-        (1 , "member"),
-        (2 , "trusted member"),
-        (98 , "moderator"),
-        (99 , "admin"),
-    }
+    ranking_options = (
+        (2, "trusted member"),
+        (98, "moderator"),
+        (1, "member"),
+        (99, "admin"),
+        (-1, "banned"),
+    )
     ranking = models.SmallIntegerField(default=1, choices=ranking_options)
-    # created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    created = models.DateTimeField(auto_now=False, auto_now_add=True)
+    email = models.EmailField()
     pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
     
@@ -65,25 +65,20 @@ class ManageForm(ModelForm):
             'about': forms.TextInput(attrs={'class':'aboutField'})
         }
         
-
-
-class UPLogIn(models.Model):
-    # MEMBER_DELETE
-    referTo = models.ForeignKey(Member, on_delete = models.CASCADE)
-    username = models.CharField(max_length=35, unique=True)
-    salt = models.CharField(max_length=22)
-    password = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return self.username + " | " + self.referTo.name
-
-
 class AccountCreation(models.Model):    
     email = models.EmailField()
     username = models.CharField(max_length=75)
     displayname = models.CharField(max_length=75)
     password = models.CharField(max_length=50)
     confirmpassword = models.CharField(max_length=50)
+    created = models.DateTimeField(auto_now_add=True)
+    
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    ]
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     
     def __str__(self):
         return self.email + " | " + self.username + " | " + self.displayname

@@ -1,92 +1,62 @@
 {% extends "account/accountBase.html" %}
-{% load static %}
-
 {% block accHead %}
+{% load static %}
+{% csrf_token %}
 <link rel="stylesheet" type="text/css" href="{% static 'account/signinstyle.css' %}">
 <title>Chesapeake Community Connect - Sign In</title>
 {% endblock accHead %}
 
 {% block accountFunc %}
 
-<!-- Alphabet Banner -->
+{% if user.is_authenticated %}
+
+{% comment %}
+<!-- Google API block (disabled) -->
+<div class="body">
+     <div id="g_id_onload"
+          data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
+          data-context="signin"
+          data-ux_mode="popup"
+          data-login_uri="{% url 'account:authG' %}"
+          data-auto_prompt="false">
+     </div>
+</div>
+{% endcomment %}
+
+<!-- Alphabet banner -->
 <div class="banner">
-    {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
-        <span class="banner-letter">{{ letter }}</span>
-    {% endfor %}
+     {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+          <span class="banner-letter">{{ letter }} </span>
+     {% endfor %}
 </div>
 
-<!-- Contributor Information -->
-<section class="columns is-centered">
-    <div class="column is-three-quarters">
-        <h3 class="title is-3">What does it mean to be a Contributor?</h3>
+<div class="columns is-centered">
+     <div class="column is-three-quarters">
+          <h3 class="title is-3">What does it mean to be a Contributor?</h3>
+          Contributors are essential to the Chesapeake Community Connect mission. By creating an account, contributors can share stories,
+          projects, and updates that help build resilience across the Chesapeake region. They can create forums and posts, comment on
+          other contributors' work, and help neighbors learn from one another. Every contribution strengthens community knowledge,
+          supports local action, and brings people together around environmental solutions and shared opportunities for change.
+     </div>
+</div>
 
-        <p>
-            Contributors are essential to the Chesapeake Community Connect mission. By creating an account, Contributors gain the 
-            ability to create and share forums and posts, as well as comment on other Contributors’ content. Contributors can share 
-            stories, projects, and efforts that are building resilience across the Chesapeake region.
-        </p>
+<div class="columns is-centered">
+     <div class="column is-three-quarters">
+          <h3 class="title is-3">List of Contributors</h3>
+          Here is where the list will go.
+     </div>
+</div>
 
-        <p>
-            As a Contributor, you can aid in providing knowledge to this community on environmental issues and concerns, as well as 
-            other updates. Contributors are encouraged to include a location, resource links, and a written description to help others 
-            understand and engage with their project. Every contribution helps this community expand the network of learning and action 
-            that keeps this platform thriving.
-        </p>
-    </div>
-</section>
+{% else %}
 
-<!-- Sign-In Form -->
-<section class="columns is-centered" style="margin-top: 40px;">
-    <div class="column is-half">
-        <h3 class="title is-4">Sign In</h3>
+<div class="columns is-centered">
+     <div class="column is-half has-text-centered">
+          <h3 class="title is-3">Sign in to become a Contributor</h3>
+          <p>You must be logged in to view contributor information.</p>
+          <a class="button is-primary" href="{% url 'account:signin' %}">Sign In</a>
+     </div>
+</div>
 
-        <form method="post" action="{% url 'account:signin' %}">
-            {% csrf_token %}
+{% endif %}
 
-            <!-- Username -->
-            <div class="field">
-                <label class="label" for="id_username">Username</label>
-                <div class="control">
-                    <input 
-                        class="input" 
-                        type="text" 
-                        name="username" 
-                        id="id_username" 
-                        required
-                    >
-                </div>
-            </div>
-
-            <!-- Password -->
-            <div class="field">
-                <label class="label" for="id_password">Password</label>
-                <div class="control">
-                    <input 
-                        class="input" 
-                        type="password" 
-                        name="password" 
-                        id="id_password" 
-                        required
-                    >
-                </div>
-            </div>
-
-            <!-- Submit -->
-            <div class="field">
-                <div class="control">
-                    <button class="button is-primary" type="submit">Sign In</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
-
-<!-- Contributor List Placeholder -->
-<section class="columns is-centered" style="margin-top: 40px;">
-    <div class="column is-three-quarters">
-        <h3 class="title is-4">List of Contributors</h3>
-        <p>Here is where the list will go.</p>
-    </div>
-</section>
-
-{% endblock %}
+{% endblock accountFunc %}

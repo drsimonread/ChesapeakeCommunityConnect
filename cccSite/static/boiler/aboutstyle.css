@@ -1,70 +1,143 @@
-/* Page Styling */
+
 .aboutBody {
     color: #f3c10d;
-    background-color: #f3f3f3;
-    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #f3f3f3, #e9ecef);
     margin: 0;
-    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
 }
 
-/* Wrapper for spacing */
-.wrapper {
-    margin: 0 40px 40px 40px;
-}
-
-/* side by side banners */
-.row {
+/* Main layout */
+#content {
     display: flex;
     justify-content: center;
+    align-items: stretch;
     gap: 40px;
-    margin: 60px 0;
-    flex-wrap: wrap; /* makes it responsive */
-}
-
-
-.container {
-    background-color: #00205c;
-    width: 40%;
-    min-width: 300px;
-
-    box-shadow: 0px 15px 50px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-
-    padding: 30px;
+    padding: 50px 24px;
+    flex-wrap: wrap;
     box-sizing: border-box;
-
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover effect for polish */
-.container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.6);
-}
-
-/* Banner image (top wide image) */
-#pic1 {
+/* Section cards */
+.container,
+.containerL {
+    background: linear-gradient(145deg, #00205c, #001a4d);
     width: 100%;
-    height: auto;
+    max-width: 480px;
+    min-height: 0;
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+/* Subtle hover effect */
+.container:hover,
+.containerL:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+/* Gold accent line */
+.container::before,
+.containerL::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    height: 4px;
+    background: #f3c10d;
     border-radius: 10px;
 }
 
-/* Content image (inside card) */
+/* Hide the old layout */
+.containerR {
+    display: none;
+}
+
+/* Section images */
 #pic2 {
+    display: block;
     width: 100%;
+    height: 260px;
+    object-fit: cover;
     border-radius: 12px;
-    margin-top: 15px;
-}
-
-/* Headings */
-h4 {
-    font-size: 32px;
     margin-bottom: 20px;
-    letter-spacing: 1px;
 }
 
-/* Optional: paragraph styling for readability */
-p {
-    line-height: 1.6;
-    font-size: 16px;
+/* Top banner */
+#pic1 {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Section headings */
+.container h4,
+.containerL h4 {
+    font-size: 26px;
+    margin: 0 0 15px;
+    color: #f3c10d;
+    letter-spacing: 0.5px;
+}
+
+/* Section descriptions */
+.container p,
+.containerL p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #e6e6e6;
+    margin: 0;
+}
+
+/* Wrapper spacing */
+.wrapper {
+    margin: 10px 0;
+}
+
+/* Tablet and smaller screens */
+@media (max-width: 1100px) {
+    #content {
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        padding: 35px 20px;
+    }
+
+    .container,
+    .containerL {
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+    #content {
+        padding: 24px 14px;
+    }
+
+    .container,
+    .containerL {
+        padding: 22px 18px;
+        border-radius: 16px;
+    }
+
+    #pic2 {
+        height: 210px;
+    }
+
+    .container h4,
+    .containerL h4 {
+        font-size: 23px;
+    }
+
+    .container p,
+    .containerL p {
+        font-size: 16px;
+    }
 }

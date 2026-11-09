@@ -1,0 +1,28 @@
+<article class="comment" id="comment-{{ comment.pk }}">
+    <div class="comment__meta">
+        <a href="{{ comment.author.get_absolute_url }}">{{ comment.author }}</a>
+        <time datetime="{{ comment.created|date:'c' }}">{{ comment.created|timesince }} ago</time>
+    </div>
+    <p class="comment__content">{{ comment.content }}</p>
+
+    {% if request.session.user %}
+    <details class="comment__reply">
+        <summary>Reply</summary>
+        <form class="comment-form comment-form--reply" action="{{ request.path }}#comment-{{ comment.pk }}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="comment">
+            <input type="hidden" name="parent" value="{{ comment.pk }}">
+            {{ comment_form.as_p }}
+            <button type="submit" class="post-action-button">Post reply</button>
+        </form>
+    </details>
+    {% endif %}
+
+    {% if comment.thread_replies %}
+    <div class="comment__replies">
+        {% for reply in comment.thread_replies %}
+            {% include "mapViewer/comment.html" with comment=reply %}
+        {% endfor %}
+    </div>
+    {% endif %}
+</article>

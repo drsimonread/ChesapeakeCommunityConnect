@@ -7,6 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('account', '0036_merge_20260406_1626'),
+        ('account', '0036_alter_member_ranking'),
     ]
 
     operations = [

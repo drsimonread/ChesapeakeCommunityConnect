@@ -1,183 +1,312 @@
-/* =========================
-   Base Styles
-========================= */
-.aboutBody {
-    background-color: #f3f3f3;
-    color: #ffffff;
-    font-family: 'Arial', sans-serif;
-    padding: 40px 20px;
+
+/* =====================================================
+   ABOUT US PAGE
+   SMCM NAVY, GOLD, AND WHITE THEME
+   ===================================================== */
+
+.about-page {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0 0 35px;
+    background-color: #FFFFFF;
+    color: #00205C;
+    font-family: 'Baskerville', serif;
+}
+
+.about-page *,
+.about-page *::before,
+.about-page *::after {
+    box-sizing: border-box;
+    font-family: 'Baskerville', serif;
+}
+
+/* =====================================================
+   TOP BANNER - PRESERVED
+   ===================================================== */
+
+.about-banner {
+    width: 100%;
+    max-height: 360px;
+    overflow: hidden;
+    background-color: #00205C;
+}
+
+.about-banner-image {
+    display: block;
+    width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* =====================================================
+   PAGE INTRODUCTION
+   ===================================================== */
+
+.about-intro {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 55px 30px 45px;
+    text-align: center;
+}
+
+.about-kicker {
+    display: block;
+    margin-bottom: 12px;
+    color: #00205C;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.about-intro h1 {
+    margin: 0;
+    color: #00205C;
+    font-size: 38px;
+    font-weight: bold;
+    line-height: 1.25;
+}
+
+.about-accent,
+.about-section-accent {
+    width: 75px;
+    height: 5px;
+    margin: 18px auto;
+    border-radius: 5px;
+    background-color: #F3C10D;
+}
+
+.about-intro p {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #00205C;
+    font-size: 20px;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   MAIN CONTENT
+   ===================================================== */
+
+.about-content {
     display: flex;
     flex-direction: column;
+    gap: 35px;
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+/* =====================================================
+   TEAM SECTIONS
+   ===================================================== */
+
+.about-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-}
-
-/* =========================
-   Main Containers
-========================= */
-.container,
-.containerL,
-.containerR {
-    background: linear-gradient(135deg, #003366, #001f3f);
-    width: 40%;
-    padding: 2%;
-    border-radius: 15px;
-    margin: 30px auto;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    position: relative;
-    border: 2px solid transparent;
-}
-
-.container:hover,
-.containerL:hover,
-.containerR:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    border-color: #ffd700;
-}
-
-.containerL { margin-left: 5%; }
-.containerR { margin-left: 50%; }
-
-/* =========================
-   Headings
-========================= */
-h4 {
-    font-size: 30px;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #ffd700;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-    font-family: 'Arial Black', sans-serif;
-    position: relative;
-    padding-left: 40px;
-}
-
-h4::before {
-    content: "🚀";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-}
-
-h4::after {
-    content: "";
-    display: block;
-    width: 60px;
-    height: 4px;
-    margin: 10px auto 0;
-    background: linear-gradient(90deg, #ffd700, #ff8c00);
-    border-radius: 2px;
-}
-
-/* =========================
-   Text Styles
-========================= */
-.container p,
-.containerL p,
-.containerR p {
-    font-size: 16px;
-    line-height: 1.6;
-    padding: 0 10px;
-    color: #ffffff;
-    margin-top: 10px;
-}
-
-.team-description p::before {
-    content: "🌟";
-    margin-right: 8px;
-    font-size: 1.2em;
-}
-
-/* =========================
-   Images (Legacy)
-========================= */
-#pic1,
-#pic2 {
+    gap: 40px;
     width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    margin-top: 10px;
+    padding: 30px;
+    border: 2px solid #00205C;
+    border-radius: 14px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 32, 92, 0.10);
 }
 
-/* =========================
-   Team Portrait Grid
-========================= */
-.team-portraits {
+/* Keep the second section image on the right */
+.about-section-reverse {
+    grid-template-columns: 1fr 1fr;
+}
+
+.about-section-reverse .about-image-container {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.about-section-reverse .about-section-text {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+/* =====================================================
+   TEAM IMAGES
+   ===================================================== */
+
+.about-image-container {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 30px;
-    margin: 30px 0;
-}
-
-.portrait-profile {
-    width: 260px;
-    text-align: center;
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform .2s ease;
-}
-
-.portrait-profile:hover {
-    transform: translateY(-6px);
-}
-
-.portrait-image {
     width: 100%;
-    height: 260px;
-    object-fit: cover;
+    min-width: 0;
+    min-height: 250px;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+}
+
+.about-section-image {
+    display: block;
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
+    object-position: center;
     border-radius: 10px;
 }
 
-.portrait-profile h3 {
-    margin-top: 12px;
-    font-size: 1.2rem;
-    font-weight: 600;
+/* =====================================================
+   TEAM TEXT
+   ===================================================== */
+
+.about-section-text {
+    width: 100%;
+    min-width: 0;
 }
 
-.portrait-profile p {
-    font-size: 0.95rem;
-    color: #444;
-    margin-top: 6px;
+.about-section-text h2 {
+    margin: 0;
+    color: #00205C;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1.3;
 }
 
-/* =========================
-   Responsive
-========================= */
-@media (max-width: 768px) {
+.about-section-accent {
+    width: 60px;
+    height: 4px;
+    margin: 14px 0 20px;
+}
 
-    .container,
-    .containerL,
-    .containerR {
-        width: 85%;
-        margin: 20px auto;
+.about-section-text p {
+    margin: 0;
+    color: #00205C;
+    font-size: 17px;
+    line-height: 1.8;
+    text-align: left;
+}
+
+/* =====================================================
+   SMCM FOOTER
+   ===================================================== */
+
+.about-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 45px;
+    padding: 30px 20px;
+    border-top: 4px solid #F3C10D;
+    background-color: #00205C;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.about-footer-logo {
+    display: block;
+    width: 110px;
+    max-height: 90px;
+    object-fit: contain;
+}
+
+.about-footer p {
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 14px;
+}
+
+/* =====================================================
+   TABLET
+   ===================================================== */
+
+@media (max-width: 850px) {
+    .about-intro {
+        padding: 40px 25px;
     }
 
-    .containerL,
-    .containerR {
-        margin-left: auto;
+    .about-intro h1 {
+        font-size: 32px;
     }
 
-    .portrait-profile {
-        width: 90%;
+    .about-section {
+        gap: 25px;
+        padding: 22px;
+    }
+
+    .about-section-text h2 {
+        font-size: 24px;
+    }
+
+    .about-section-text p {
+        font-size: 16px;
+    }
+
+    .about-section-image {
+        height: 260px;
+    }
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 650px) {
+    .about-banner,
+    .about-banner-image {
+        max-height: 220px;
+    }
+
+    .about-intro {
+        padding: 35px 18px;
+    }
+
+    .about-intro h1 {
+        font-size: 27px;
+    }
+
+    .about-intro p {
+        font-size: 17px;
+    }
+
+    .about-content {
+        gap: 22px;
+        padding: 0 14px;
+    }
+
+    .about-section,
+    .about-section-reverse {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        padding: 18px;
+    }
+
+    .about-image-container {
+        width: 100%;
+        min-height: 0;
+    }
+
+    .about-section-image {
+        width: 100%;
         height: auto;
+        max-height: 260px;
+        object-fit: contain;
     }
 
-    .portrait-image {
-        height: 220px;
+    .about-section-text {
+        width: 100%;
     }
 
-    h4 {
-        font-size: 26px;
-        padding-left: 30px;
+    .about-section-text h2 {
+        font-size: 23px;
     }
 
-    h4::before {
-        font-size: 20px;
+    .about-section-text p {
+        font-size: 16px;
+        line-height: 1.7;
     }
 }

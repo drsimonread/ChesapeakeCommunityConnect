@@ -1,137 +1,92 @@
+
 {% extends "base/base.html" %}
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'boiler/aboutstyle.css' %}">
-<title>Chesapeake Community Connect - About</title>
+<link rel="stylesheet" type="text/css" href="{% static 'boiler/aboutstyle.css' %}?v=7">
 {% endblock head %}
 
 {% block content %}
 
-<main class="about-container">
+<div class="about-page">
 
-    <!-- Banner Image -->
-    <section class="banner-section">
-        <img 
-            src="{% static 'base/assets/about_smcm.png' %}" 
-            alt="St. Mary's College of Maryland banner" 
-            class="banner-image"
+    <!-- About Page Banner -->
+    <div class="about-banner">
+        <img
+            src="{% static 'base/assets/about_smcm.png' %}"
+            alt="St. Mary's College of Maryland"
+            class="about-banner-image"
         >
-    </section>
+    </div>
 
-    <!-- =========================
-         SECTION 1: RESEARCH TEAM
-    ========================== -->
-    <section class="team-section" aria-labelledby="research-team-title">
-        <h2 id="research-team-title" class="section-title">Research Team</h2>
+    <!-- Page Introduction -->
+    <header class="about-intro">
+        <span class="about-kicker">Chesapeake Community Connect</span>
+        <h1>About Chesapeake Community Connect</h1>
+        <div class="about-accent"></div>
+        <p>
+            Connecting research, technology, and communities to support
+            a more resilient Chesapeake region.
+        </p>
+    </header>
 
-        <!-- Portrait Profiles -->
-        <div class="team-portraits">
+    <!-- About Sections -->
+    <main class="about-content">
 
-            <figure class="portrait-profile">
-                <img 
-                    src="{% static 'base/assets/rndpic.jpeg' %}" 
-                    alt="Portrait of Research Lead" 
-                    class="portrait-image"
+        <!-- Research Team -->
+        <section class="about-section">
+            <div class="about-image-container">
+                <img
+                    src="{% static 'base/assets/qapic.webp' %}"
+                    alt="Chesapeake Community Connect research team"
+                    class="about-section-image"
                 >
-                <figcaption>
-                    <h3>Research Lead</h3>
-                    <p>Responsible for analyzing community needs and identifying real-world problems that can be addressed through software solutions.</p>
-                </figcaption>
-            </figure>
+            </div>
 
-            <figure class="portrait-profile">
-                <img 
-                    src="{% static 'base/assets/rndpic.jpeg' %}" 
-                    alt="Portrait of Research Member" 
-                    class="portrait-image"
+            <div class="about-section-text">
+                <h2>Research Team</h2>
+                <div class="about-section-accent"></div>
+
+                <p>
+                    Our research team focuses on coastal community resilience.
+                    Through research, data analysis, and community engagement,
+                    the team works to understand environmental and societal
+                    challenges facing coastal regions and develop solutions
+                    that support sustainable and resilient communities.
+                </p>
+            </div>
+        </section>
+
+        <!-- SD, QA, and Capstone Teams -->
+        <section class="about-section about-section-reverse">
+            <div class="about-image-container">
+                <img
+                    src="{% static 'base/assets/rndpic.jpeg' %}"
+                    alt="SD, QA, and Capstone teams"
+                    class="about-section-image"
                 >
-                <figcaption>
-                    <h3>Research Member</h3>
-                    <p>Conducts background research, gathers requirements, and ensures development efforts align with user expectations.</p>
-                </figcaption>
-            </figure>
+            </div>
 
-        </div>
+            <div class="about-section-text">
+                <h2>SD, QA, and Capstone Teams</h2>
+                <div class="about-section-accent"></div>
 
-        <div class="team-description">
-            <p>
-                The Research Team is responsible for analyzing community needs and identifying real-world problems
-                that can be addressed through software solutions. They conduct background research, gather requirements,
-                and ensure that development efforts align with user expectations and project goals.
-            </p>
-            <p>
-                Their work serves as the foundation for the entire project. By studying existing systems and consulting
-                stakeholders, the research team helps define what features should be built and why they are important.
-                This ensures the final product is both useful and relevant to the community it serves.
-            </p>
-        </div>
-    </section>
+                <p>
+                    The Software Startup Simulator Capstone brings together
+                    students in Software Development (SD), Quality Assurance
+                    (QA), and project teams to collaborate on real-world
+                    software projects. The SD team focuses on designing,
+                    developing, and improving application features, while
+                    QA tests functionality and helps maintain software
+                    quality through testing and documentation. Together,
+                    these teams create solutions for real clients in a
+                    collaborative development environment.
+                </p>
+            </div>
+        </section>
 
-    <!-- =========================
-         SECTION 2: R&D / QA / CAPSTONE TEAM
-    ========================== -->
-    <section class="team-section" aria-labelledby="rd-team-title">
-        <h2 id="rd-team-title" class="section-title">R&D / QA / Capstone Team</h2>
+    </main>
 
-        <div class="team-portraits">
-
-            <figure class="portrait-profile">
-                <img 
-                    src="{% static 'base/assets/qapic.webp' %}" 
-                    alt="Portrait of R&D Lead" 
-                    class="portrait-image"
-                >
-                <figcaption>
-                    <h3>R&D Lead</h3>
-                    <p>Focuses on implementing features and improving system functionality.</p>
-                </figcaption>
-            </figure>
-
-            <figure class="portrait-profile">
-                <img 
-                    src="{% static 'base/assets/qapic.webp' %}" 
-                    alt="Portrait of QA Specialist" 
-                    class="portrait-image"
-                >
-                <figcaption>
-                    <h3>QA Specialist</h3>
-                    <p>Ensures all components are tested thoroughly, documents bugs, and verifies fixes.</p>
-                </figcaption>
-            </figure>
-
-            <figure class="portrait-profile">
-                <img 
-                    src="{% static 'base/assets/qapic.webp' %}" 
-                    alt="Portrait of Capstone Coordinator" 
-                    class="portrait-image"
-                >
-                <figcaption>
-                    <h3>Capstone Coordinator</h3>
-                    <p>Oversees integration, ensuring all parts work together smoothly.</p>
-                </figcaption>
-            </figure>
-
-        </div>
-
-        <div class="team-description">
-            <p>
-                This combined group brings together Research & Development, Quality Assurance, and Capstone collaboration
-                to design, build, and refine the final application. Each subgroup plays a key role in delivering a
-                functional and polished product.
-            </p>
-            <p>
-                The R&D team focuses on implementing features and improving system functionality. QA ensures that all
-                components are tested thoroughly, documenting bugs and verifying fixes. The Capstone coordination group
-                oversees integration, ensuring that all parts of the project work together smoothly.
-            </p>
-            <p>
-                Together, these teams follow a structured development process similar to a real software company,
-                preparing students for professional roles in software engineering and collaborative development environments.
-            </p>
-        </div>
-    </section>
-
-</main>
+</div>
 
 {% endblock content %}

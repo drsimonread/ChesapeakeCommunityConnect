@@ -7,6 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('account', '0034_alter_member_created_alter_member_ranking'),
+        ('account', '0034_alter_member_ranking'),
     ]
 
     operations = [

@@ -4,27 +4,15 @@ from . import views
 app_name = "account"
 
 urlpatterns = [
-    # Authentication
     path("", views.default, name="default"),
     path("signin/", views.signin, name="signin"),
+    path("signin-form/", views.signin_form, name="signin_form"),
     path("signup/", views.signup, name="signup"),
+    path("authG/", views.authG, name="authG"),
     path("signout/", views.signout, name="signout"),
-
-    # Account Management
-    path("manage/", views.manage, name="manage"),
-
-    # Account Viewing
-    path("view/", views.account_list, name="account_list"),
-    path("view/<want>/", views.account_view, name="account_view"),
-
-    # Forum Creation + User Forums
-    path("create/", views.make_forum, name="create_forum"),
-    path("myforums/", views.my_forums, name="my_forums"),
-
-    # AJAX Validation
-    path("ajax/username_validation/", views.username_validation, name="username_validation"),
-    path("ajax/email_validation/", views.email_validation, name="email_validation"),
-
-    # Google Sign-In
-    path("google-signin/", views.google_signin, name="google_signin"),
+    path("manage/", views.manage, name='manage'),
+    path("my-forums/", views.my_forums, name="my_forums"),
+    path("create-forum/", views.create_forum, name="create_forum"),
+    path("view/", views.account_all, name="account_list"),
+    path("view/<want>", views.account_view, name='account_view'),
 ]

@@ -21,11 +21,26 @@ class MessageForm(ModelForm):
         labels = {
             "sender": _("Name"),
             "email": _("Email"),
+            "subject": _("Subject"),
             "message": _("Message"),
         }
         widgets = {
-            'sender': TextInput(attrs={'placeholder': 'Name'}),
-            'email': EmailInput(attrs={'placeholder': 'Email address'}),
-            'subject': TextInput(attrs={'placeholder': 'Subject'}),
-            'message': Textarea(attrs={'placeholder': 'Message'}),
+            'sender': TextInput(
+                attrs={'placeholder': 'Name', 'class': 'contact-form__control', 'autocomplete': 'name'}
+            ),
+            'email': EmailInput(
+                attrs={'placeholder': 'Email address', 'class': 'contact-form__control', 'autocomplete': 'email'}
+            ),
+            'subject': TextInput(
+                attrs={'placeholder': 'Subject', 'class': 'contact-form__control', 'autocomplete': 'off'}
+            ),
+            'message': Textarea(
+                attrs={
+                    'placeholder': 'Message',
+                    'class': 'contact-form__control',
+                    'rows': 6,
+                    # Default Django cols=40 forces a wide intrinsic min-width; width is set in CSS.
+                    'cols': '1',
+                }
+            ),
         }
