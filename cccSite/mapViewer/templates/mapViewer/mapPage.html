@@ -49,6 +49,18 @@
         </form>
     </div>
 
+    <section id="upload-descriptions" aria-labelledby="upload-descriptions-heading">
+        <h2 id="upload-descriptions-heading">Upload descriptions</h2>
+        {% for post in posts %}
+            <article class="upload-description">
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.description }}</p>
+            </article>
+        {% empty %}
+            <p>No uploads match your search.</p>
+        {% endfor %}
+    </section>
+
       <!-- Tutorial Section -->
     <div id="help-section" style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 8px;">
         <li> </li>

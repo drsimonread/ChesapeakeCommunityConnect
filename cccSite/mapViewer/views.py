@@ -22,17 +22,13 @@ def viewMap(request):
         madePostSuccess = postingForm.is_valid() #if the data is valid (more info on this in mapViewer/forms.py)
         if madePostSuccess: #if the post is good to go
             userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session\
-            if len(postingForm.cleaned_data['content']) > 35: #if content overflows the preview length
-                disc = postingForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
-            else:
-                disc = postingForm.cleaned_data['content'] #otherwise just use content to describe
             vis=0
             if request.session['rank'] > 1:
                 vis=1
             postInz=MapPost.objects.create(title=postingForm.cleaned_data['title'], #actually create the post instance in the database
                                    content=postingForm.cleaned_data['content'],
                                    author=userInz,
-                                   description=disc,
+            description=postingForm.cleaned_data['description'],
                                    geoCode=postingForm.cleaned_data['geoResult'][0],
                                    visibility=vis
                                    )
@@ -53,7 +49,8 @@ def viewMap(request):
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
                                                       'postForm' : postingForm,
                                                       'searchForm' : searchForm,
-                                                      'hasPosted': madePostSuccess}) #render template
+                                                      'hasPosted': madePostSuccess,
+                                                      'posts': posts}) #render template
 
 
 

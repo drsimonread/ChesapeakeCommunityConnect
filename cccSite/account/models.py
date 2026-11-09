@@ -16,6 +16,7 @@ def user_directory_profile(instance, filename):
 # user model. self explanitory
 class Member(models.Model):
     name = models.CharField(max_length=35, )
+    email = models.EmailField()
     ranking_options = { 
         (-1,"banned"),
         (1 , "member"),
@@ -25,7 +26,6 @@ class Member(models.Model):
     }
     ranking = models.SmallIntegerField(default=1, choices=ranking_options)
     # created = models.DateTimeField(auto_now=False, auto_now_add=True)
-    # email = models.EmailField()
     pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
     

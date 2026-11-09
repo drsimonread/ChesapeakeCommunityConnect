@@ -118,6 +118,7 @@ class SearchPostsForm(forms.Form):
 
 class MakePostForm(forms.Form):
     title = forms.CharField(max_length=100, label="Title")
+    description = forms.CharField(label="Description", widget=forms.Textarea)
     location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput)
     content = forms.CharField(label="Content", widget=forms.Textarea)
     tags = forms.ModelMultipleChoiceField(queryset=MapTag.objects.all(), widget=forms.CheckboxSelectMultiple, label="Tags", required = False)
@@ -126,6 +127,7 @@ class MakePostForm(forms.Form):
 
 
     title = forms.CharField(max_length=100, label="Title", widget=forms.TextInput({"Placeholder": "Title"})) #title of forum
+    description = forms.CharField(label="Description", widget=forms.Textarea({"Placeholder": "Description"}))
     firstName = forms.CharField(max_length=100, label="First", widget=forms.TextInput({"Placeholder": "First"})) #first name of author of forum
     lastName = forms.CharField(max_length=100, label="Last", widget=forms.TextInput({"Placeholder": "Last"})) #last name of author of forum
     location = forms.CharField(max_length=200, label="Address", widget=forms.TextInput({"Placeholder": "Location"})) #location of forum as an address
@@ -169,6 +171,7 @@ class MakePostForm(forms.Form):
                 raise ValidationError(_("Invalid Address"), code="adderr")
         #print(geoResult)
         return {'title': cleaned_data['title'],
+                'description': cleaned_data['description'],
                 'firstName': cleaned_data['firstName'],
                 'lastName': cleaned_data['lastName'],
                 'location': cleaned_data['location'],
@@ -185,5 +188,4 @@ class MakePostForm(forms.Form):
         else:
             if cleaned_data is not None:
                 self.cleaned_data = cleaned_data #if successful, store in cleaned_data
-
 

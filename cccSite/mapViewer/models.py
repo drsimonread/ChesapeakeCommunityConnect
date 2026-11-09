@@ -14,7 +14,7 @@ class MapPost(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     author = models.ForeignKey(Member, on_delete=models.CASCADE)
-    description = models.TextField() #will be derived from content. whenever this stuff gets working.
+    description = models.TextField()
     geoCode = models.JSONField()
     tags = models.ManyToManyField(MapTag, related_name="posts", blank=True)
     created = models.DateTimeField(auto_now_add=True)
