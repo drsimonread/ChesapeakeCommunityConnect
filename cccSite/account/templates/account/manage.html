@@ -6,6 +6,63 @@
 {% endblock accHead %}
 
 {% block accountFunc %}
+<div class="contrib-page contrib-page--account" role="main" aria-labelledby="edit-account-page-title">
+  <header class="contrib-hero">
+    <div class="contrib-hero__inner">
+      <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-edit-alt"></i></div>
+      <div class="contrib-hero__text">
+        <span class="contrib-hero__kicker">Your account</span>
+        <h1 id="edit-account-page-title" class="contrib-hero__title">Edit account</h1>
+        <p class="contrib-hero__lede">Update your profile information and choose the image other contributors will see.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="account-profile__card" aria-labelledby="edit-profile-title">
+    <div class="account-profile__header">
+      <div class="account-profile__header-icon" aria-hidden="true"><i class="bx bx-user-circle"></i></div>
+      <div class="account-profile__header-text">
+        <h2 id="edit-profile-title" class="account-profile__card-title">Profile information</h2>
+        <p class="account-profile__header-note">Fields marked as required must be completed before saving.</p>
+      </div>
+    </div>
+
+    <form class="account-form" action="{% url 'account:manage' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+
+      <div class="account-form__field">
+        <p class="account-form__label">Current profile image</p>
+        <img class="account-form__current-image" src="{{ current_profile_image.url }}" alt="Current profile image">
+        <label for="{{ form.pic.id_for_label }}">Choose a new profile image</label>
+        {{ form.pic }}
+        {{ form.pic.errors }}
+      </div>
+      <div class="account-form__field">
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        {{ form.name.errors }}
+      </div>
+      <div class="account-form__field">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+        {{ form.email.errors }}
+      </div>
+      <div class="account-form__field">
+        {{ form.about.label_tag }}
+        {{ form.about }}
+        {{ form.about.errors }}
+      </div>
+
+      <div class="account-form__actions">
+        <button class="account-btn account-btn--primary" type="submit">
+          <i class="bx bx-save" aria-hidden="true"></i>&nbsp; Save changes
+        </button>
+        <a class="account-btn account-btn--secondary" href="{% url 'account:default' %}">Cancel</a>
+      </div>
+    </form>
+  </section>
 
 <style>
 
@@ -68,6 +125,50 @@
         text-align: center;
     }
 
+    /* change password section (issue #72) */
+    .password-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #c0c0c0;
+    }
+
+    .password-section label {
+        display: block;
+        text-align: center;
+    }
+
+    .passwordField {
+        display: block;
+        box-sizing: border-box;
+        width: 300px;
+        max-width: 100%;
+        padding: 10px;
+        margin: 5px auto 15px;
+        border: 1px solid #8a8a8a;
+        border-radius: 5px;
+    }
+
+    .password-section .submitB {
+        display: block;
+        margin: 10px auto 0;
+    }
+
+    .password-message {
+        margin: 10px;
+        padding: 10px;
+        border-radius: 3px;
+    }
+
+    .password-message--error {
+        background-color: #fde2e2;
+        color: #8a1c1c;
+    }
+
+    .password-message--success {
+        background-color: #e2f5e5;
+        color: #1c5e2a;
+    }
+
 </style>
 <!--loads the form with line breaks between entries. posts to the URL titled manage in the account app's URL config-->
 <div id="content">
@@ -81,7 +182,31 @@
             <input class="submitB" type="submit" value="Submit">
             <a class="cancelB" href="{% url 'account:default' %}">Cancel</a>
         </form>
+
+        <!--change password form; posts to the same manage view, which tells the two forms apart by the change_password button-->
+        <section class="password-section" aria-labelledby="change-password-title">
+            <h2 id="change-password-title">Change password</h2>
+            {% if password_changed %}
+            <p class="password-message password-message--success" role="status">Your password has been changed.</p>
+            {% endif %}
+            {% if password_error %}
+            <p class="password-message password-message--error" role="alert">{{ password_error }}</p>
+            {% endif %}
+            {% if has_password %}
+            <form action="{% url 'account:manage' %}" id="password-form" method="post">
+                {% csrf_token %}
+                <label for="current_password">Current password</label>
+                <input class="passwordField" type="password" id="current_password" name="current_password" autocomplete="current-password" required>
+                <label for="new_password">New password</label>
+                <input class="passwordField" type="password" id="new_password" name="new_password" autocomplete="new-password" minlength="8" required>
+                <label for="confirm_password">Confirm new password</label>
+                <input class="passwordField" type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" minlength="8" required>
+                <input class="submitB" type="submit" name="change_password" value="Change password">
+            </form>
+            {% elif not password_error %}
+            <p>You sign in with Google, so there is no password to change here. Manage your password in your Google account.</p>
+            {% endif %}
+        </section>
     </div>
-  </form>
 </div>
 {% endblock accountFunc %}

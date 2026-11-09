@@ -5,6 +5,10 @@
 <title>My forums — Chesapeake Community Connect</title>
 {% endblock accHead %}
 
+{% block account_extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'account/accordian.css' %}">
+{% endblock %}
+
 {% block accountFunc %}
 <div id="content" class="contrib-page contrib-page--my-forums my-forums-page" role="main" aria-labelledby="my-forums-title">
   <header class="contrib-hero">

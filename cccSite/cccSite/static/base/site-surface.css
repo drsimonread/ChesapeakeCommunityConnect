@@ -1,6 +1,8 @@
 /* Shared “Contributors” visual language for non-account pages (shell, hero, cards). */
 
 :root {
+    --blue: #00205c;
+    --gold: #f3c10d;
     --site-blue-mid: #0b3d7a;
     --site-slate: #64748b;
 }
@@ -387,4 +389,3 @@
 .site-forum-simple-list a:hover {
     background: rgba(0, 32, 92, 0.04);
 }
-

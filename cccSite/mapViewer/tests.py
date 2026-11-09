@@ -90,3 +90,24 @@ class PostCommentTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse(PostComment.objects.filter(content="Invalid reply").exists())
+
+    def test_comment_author_link_opens_commenter_profile(self):
+        comment = PostComment.objects.create(
+            post=self.post,
+            author=self.commenter,
+            content="A comment with a profile link",
+        )
+
+        response = self.client.get(
+            reverse("mapViewer:post_detail", args=[self.post.pk])
+        )
+
+        self.assertContains(
+            response,
+            f'href="{reverse("account:account_view", args=[self.commenter.pk])}"',
+        )
+        profile_response = self.client.get(
+            reverse("account:account_view", args=[comment.author.pk])
+        )
+        self.assertEqual(profile_response.status_code, 200)
+        self.assertContains(profile_response, self.commenter.name)

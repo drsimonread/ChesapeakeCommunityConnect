@@ -173,3 +173,79 @@ class AccountViewsTest(TestCase):
     def test_authG_view_invalid_csrf(self):
         response = self.client.post(reverse("account:authG"), {'g_csrf_token': 'invalid'})
         self.assertContains(response, "Something went wrong, no csrf cookie", status_code=200)
+
+
+# issue #72: changing your password from the edit account page
+class PasswordChangeTest(TestCase):
+    def setUp(self):
+        from .models import AccountCreation
+        self.member = Member.objects.create(name="Pat", email="pat@example.com", ranking=1)
+        self.account = AccountCreation.objects.create(
+            email="pat@example.com", username="pat", displayname="Pat",
+            password="oldpassword", confirmpassword="oldpassword", status="accepted",
+        )
+        session = self.client.session
+        session["user"] = self.member.pk
+        session["rank"] = self.member.ranking
+        session.save()
+
+    def change(self, current, new, confirm):
+        return self.client.post(reverse("account:manage"), {
+            "change_password": "Change password",
+            "current_password": current,
+            "new_password": new,
+            "confirm_password": confirm,
+        })
+
+    def test_form_shows_for_password_accounts(self):
+        response = self.client.get(reverse("account:manage"))
+        self.assertContains(response, 'id="password-form"')
+
+    def test_change_password(self):
+        response = self.change("oldpassword", "newpassword1", "newpassword1")
+        self.assertRedirects(response, reverse("account:manage") + "?password=changed")
+        self.account.refresh_from_db()
+        self.assertEqual(self.account.password, "newpassword1")
+        self.assertContains(self.client.get(response.url), "Your password has been changed.")
+
+    def test_can_sign_in_with_new_password(self):
+        self.change("oldpassword", "newpassword1", "newpassword1")
+        self.client.session.flush()
+        response = self.client.post(reverse("account:signin_form"), {"username": "pat", "password": "newpassword1"})
+        self.assertRedirects(response, reverse("account:default"), fetch_redirect_response=False)
+
+    def assert_rejected(self, response, message):
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, message)
+        self.account.refresh_from_db()
+        self.assertEqual(self.account.password, "oldpassword")
+
+    def test_wrong_current_password(self):
+        self.assert_rejected(self.change("wrong", "newpassword1", "newpassword1"), "Your current password is incorrect.")
+
+    def test_new_passwords_do_not_match(self):
+        self.assert_rejected(self.change("oldpassword", "newpassword1", "newpassword2"), "The new passwords do not match.")
+
+    def test_new_password_too_short(self):
+        self.assert_rejected(self.change("oldpassword", "short", "short"), "at least 8 characters")
+
+    def test_new_password_same_as_old(self):
+        self.assert_rejected(self.change("oldpassword", "oldpassword", "oldpassword"), "must be different")
+
+    def test_profile_form_still_works(self):
+        response = self.client.post(reverse("account:manage"), {"name": "Patricia", "email": "pat@example.com", "about": ""})
+        self.assertRedirects(response, "/account/", fetch_redirect_response=False)
+        self.member.refresh_from_db()
+        self.assertEqual(self.member.name, "Patricia")
+
+    def test_google_only_account_has_no_password_form(self):
+        self.account.delete()
+        response = self.client.get(reverse("account:manage"))
+        self.assertNotContains(response, 'id="password-form"')
+        self.assertContains(response, "You sign in with Google")
+
+    def test_signed_out_user_is_sent_to_sign_in(self):
+        self.client.session.flush()
+        self.client.cookies.clear()
+        response = self.client.post(reverse("account:manage"), {"change_password": "1"})
+        self.assertRedirects(response, "/account/signin/", fetch_redirect_response=False)

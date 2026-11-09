@@ -1654,6 +1654,26 @@
     color: var(--blue);
 }
 
+.account-form__label {
+    margin: 0 0 0.65rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--blue);
+}
+
+.account-form__current-image {
+    display: block;
+    width: 160px;
+    height: 160px;
+    margin: 0 0 1rem;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow:
+        0 0 0 4px rgba(243, 193, 13, 0.45),
+        0 4px 14px rgba(0, 32, 92, 0.12);
+}
+
 .account-form__field .helptext {
     margin: 0.35rem 0 0;
     font-size: 0.82rem;

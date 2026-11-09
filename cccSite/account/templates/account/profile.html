@@ -1,0 +1,56 @@
+{% extends "account/accountBase.html" %}
+{% load static %}
+
+{% block accHead %}
+<title>{{ profile.name }} — Chesapeake Community Connect</title>
+{% endblock accHead %}
+
+{% block accountFunc %}
+<div class="contrib-page contrib-page--account" role="main" aria-labelledby="profile-page-title">
+  <header class="contrib-hero">
+    <div class="contrib-hero__inner">
+      <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-user"></i></div>
+      <div class="contrib-hero__text">
+        <span class="contrib-hero__kicker">Community contributor</span>
+        <h1 id="profile-page-title" class="contrib-hero__title">{{ profile.name }}</h1>
+        <p class="contrib-hero__lede">Contributor profile</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="account-profile__card" aria-labelledby="profile-details-title">
+    <div class="account-profile__header">
+      <div class="account-profile__header-icon" aria-hidden="true"><i class="bx bx-id-card"></i></div>
+      <div class="account-profile__header-text">
+        <h2 id="profile-details-title" class="account-profile__card-title">Profile details</h2>
+      </div>
+    </div>
+
+    <div class="account-profile__body">
+      <div class="account-profile__avatar-wrap">
+        <div class="account-profile__avatar-ring">
+          <img class="account-profile__avatar" src="{{ profile.pic.url }}" alt="Profile image for {{ profile.name }}">
+        </div>
+      </div>
+
+      <div class="account-profile__details">
+        <dl class="account-profile__dl">
+          <div class="account-profile__dl-row">
+            <dt>Name</dt>
+            <dd>{{ profile.name }}</dd>
+          </div>
+          <div class="account-profile__dl-row">
+            <dt>Email</dt>
+            <dd>{{ profile.email }}</dd>
+          </div>
+        {% if profile.about %}
+        <h3 class="account-profile__about-title">About</h3>
+        <p class="account-profile__about-body">{{ profile.about }}</p>
+        {% else %}
+        <p class="account-profile__about-body account-profile__about--empty">No about information has been added yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock accountFunc %}

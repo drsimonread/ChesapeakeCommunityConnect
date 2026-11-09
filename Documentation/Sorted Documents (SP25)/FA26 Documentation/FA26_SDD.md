@@ -54,6 +54,8 @@
   * [4.3.8 Help & Tutorial Display	13](#438-help--tutorial-display)
 
   * [4.3.9 Admin Page	14](#439-admin-page)
+  
+  * [4.3.10 Post Page 14](#4310-post-page)
 
 [**5\. Procedural Design	15**](#5-procedural-design)
 
@@ -67,7 +69,7 @@
 | :---: | :---: | :---: | :---: |
 | October 11th, 2023 | 1.1  | Initial Draft  | Kylie Hall John Heinig Malik Hill Naheed John Yaro Kulchyckyj Isabella Stephens  Brittany Brenneman |
 | January 24th, 2024 | 1.1 | Start of revisions for 2024 | Daniel Reina Alex Ochman Gavin McDonald John Heinig Kendahl Michael Shively  |
-| October 25th, 2026 | | Start of revisions for 2026 | Claudia Woodbury |
+| October 25th, 2026 | | Start of revisions for 2026 | Claudia Woodbury Malory Silbermann |
 ---
 
 # **1\. Introduction** 
@@ -267,6 +269,15 @@ The user interfaces are what the user will see upon entering the website.
 ![Mockup of Admin Page containing Pending Submissions and User List](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Admin-Page.png)  
 ![Mockup of Admin Profile Management Page](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Admin-Profile-Management-Page.png)
 
+### **4.3.10 Post Page**
+- **Areas:**
+  - **Title:** Area where the title off the user's post is displayed
+  - **Author:** Area where the author of the post is displayed 
+  - **Post Content:** Area where the text content and file contant of the post is displayed
+  - **Tags:** Area where attached content tags are displayed.
+  - **Comment:** Dropdown that allows users to post add a comment to another users post
+  - **Report:** Dropdown that allows a user to report a another user's post and the reason for report
+  - **Comment Section:** Area where all comments made on a given post are displayed along with replays to those comments
 ---
 
 # **5\. Procedural Design** 
