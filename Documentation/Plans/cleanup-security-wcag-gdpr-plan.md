@@ -15,7 +15,7 @@ Chesapeake Community Connect (CCC) is a working capstone prototype. This plan sa
 
 Think of it like taking over a second-hand car. Before we polish the paintwork (CSS), we check the brakes (who is allowed to do what) and make sure the doors lock (passwords and secrets). That is why the work is ordered by risk, not by how interesting it is.
 
-Notice that everything here comes from reading the code on `development`. We did not run the site, the tests or any scanner while writing it. Section 9 lists the checks that will confirm or correct each finding; treat a finding as "very likely" until its test exists.
+The findings come from two sources: reading the code on `development`, and then running scanners against it and against a local copy of the site. Section 13 records what each scanner reported. Notice that the scanners confirmed some findings, corrected one (F-S1) and missed the most serious ones altogether; a clean scan report is not the same thing as a safe site.
 
 ### How to use this plan
 
@@ -41,7 +41,7 @@ One task, one branch, one pull request. Small changes are easy to review and eas
 | Hosting | Two set-ups that disagree: Google App Engine (`app.yaml`, Python 3.9) and an Azure Web App workflow (Python 3.9, deploys on every push to `main`). |
 | Personal data | Names, email addresses, usernames, passwords, profile photographs, "about" text, posts with street addresses and map coordinates, comments, contact messages, reports about posts and members. |
 | Front end | Server-rendered templates; 6,144 lines of hand-written CSS in 13 files; a little JavaScript. |
-| Tests | 38 test functions (28 in `account`, six in `boiler`, four in `mapViewer`, none in `Janitor`). Nothing runs them automatically. |
+| Tests | 38 test functions (28 in `account`, six in `boiler`, four in `mapViewer`, none in `Janitor`). 36 pass and two fail, because the pages changed and the tests did not. Nothing runs them automatically. |
 
 ## 3. Findings
 
@@ -51,20 +51,22 @@ Severity: **Critical** (fix before the site is used by the public again), **High
 
 | ID | Severity | Finding | Where |
 | --- | --- | --- | --- |
-| F-S1 | Critical | **The moderator pages have no lock on the door.** No view in `Janitor/views.py` checks who is asking. Anyone who types `/admin/messages/` can read every contact message (names and email addresses). The member form at `/admin/member/<id>` includes the `ranking` field, so a visitor could set a rank of 99 (admin). Anyone can also delete tags and clear reports. The "Admin" link is hidden from the menu for low ranks, but hiding a link is not access control. | `Janitor/views.py`, `Janitor/forms.py` |
+| F-S1 | Critical | **The moderator pages have no lock on the door.** No view in `Janitor/views.py` checks who is asking; the only check is in the template (`AdminBase.html` shows the page body when the rank is above 1). So a signed-out visitor sees an empty page, but the view still *acts* on anything they send. Confirmed on a local copy: without signing in, we added a tag, cleared the reports on a post and created a new member with rank 99 (admin) through `/admin/member/1`. The template check also lets a "trusted member" (rank 2) read every contact message, with names and email addresses, and reach "Manage Users" by typing its address. Hiding content in a template is not access control. | `Janitor/views.py`, `Janitor/forms.py` |
 | F-S2 | Critical | **Passwords are stored as plain text.** `AccountCreation.password` holds the password exactly as typed, `confirmpassword` holds a second copy, sign-in compares with `!=`, and Django's admin shows both fields to staff. Anyone who obtains the database (or a backup) has every member's password, and people reuse passwords. | `account/models.py`, `account/views.py`, `account/admin.py` |
 | F-S3 | Critical | **Secrets are in the repository.** The Django `SECRET_KEY` is in `settings.py`; a Google API key is typed into `mapViewer/forms.py` and three templates; three documentation files hold email and manager credentials. Git remembers everything, so these stay exposed even after the lines are deleted. (Status: branch `sec-00-secrets` already removes them from the code; the keys still need rotating. See SEC-00.) | `settings.py`, `forms.py`, templates, `Documentation/` |
 | F-S4 | Critical | **`DEBUG = True`** in the only settings file. On a live site, any error page then shows source code, settings and request data to the visitor. | `settings.py` |
 | F-S5 | High | **Stored cross-site scripting (XSS) on the map.** The post `title` and `description` are pasted into the map pop-up as HTML (`<h3>${title}</h3>`). A post titled `<img src=x onerror=...>` would run the attacker's script in every visitor's browser. Django's templates escape text for us; a JavaScript template string does not. | `mapViewer/static/mapViewer/map-script.js` |
 | F-S6 | High | **A banned member still counts as signed in.** Views treat `rank == 0` as "signed out", so a rank of -1 passes. The rank is also copied into the session at sign-in, so banning or demoting someone does nothing until their session ends. | `account/views.py`, `mapViewer/views.py` |
 | F-S7 | High | **Accounts are joined by email address alone.** Password sign-in runs `Member.objects.get_or_create(email=...)`, sign-up does not prove that the person owns the address, and Google sign-in does not check `email_verified`. An approved sign-up that uses someone else's email is handed that person's `Member` record. | `account/views.py` |
-| F-S8 | High | **Several moderator and API views are broken.** `member_manage` writes `form.is_valid` without brackets (always true) and builds the form without `instance=`, so it would create a new member instead of editing one. `memberList` and `pendingPostList` filter on `isVisible`, and `get_posts_and_tags` on `visiblity`; neither field exists (it is `visibility`). `reportList` trusts the `pk` it is sent and prints report data to the log. | `Janitor/views.py`, `mapViewer/views.py` |
+| F-S8 | High | **Several moderator and API views are broken** (confirmed: `/admin/member/` and `/api/get-posts-and-tags/` both answer 500). `member_manage` writes `form.is_valid` without brackets (always true) and builds the form without `instance=`, so it would create a new member instead of editing one. `memberList` and `pendingPostList` filter on `isVisible`, and `get_posts_and_tags` on `visiblity`; neither field exists (it is `visibility`). `reportList` trusts the `pk` it is sent and prints report data to the log. | `Janitor/views.py`, `mapViewer/views.py` |
+| F-S20 | High | **Known vulnerabilities in pinned packages.** `pip-audit` reports 87 advisories across seven of the 17 pinned packages: Pillow 12.1.1 (58), urllib3 2.2.3 (eight), pyasn1 0.5.0 (eight), sqlparse 0.5.3 (six), requests 2.31.0 (three), certifi 2023.7.22 (two) and idna 3.4 (two). Pillow matters most, because it opens images that strangers upload. `python-dotenv` is not pinned at all. | `requirements.txt` |
+| F-S21 | High | **A signed-out visitor can make the server call Google.** A POST to the map page runs the form's geocoding (with the hard-coded key) before anything checks who is asking, then crashes with a 500. Each call can cost money and uses up quota. The scan also showed that Google currently refuses the key ("You must enable Billing"), so creating a post through this route cannot work for anyone. | `mapViewer/views.py`, `mapViewer/forms.py` |
 | F-S9 | High | **The pinned Django cannot run on the configured Python.** `requirements.txt` pins Django 5.2, which needs Python 3.10 or later; `app.yaml` and the Azure workflow both ask for 3.9. A whole virtual environment (5,381 files, with Django 4.2.6 inside) is committed too, so it is unclear which Django anyone is really running. | `requirements.txt`, `app.yaml`, workflow, `cccSite/venv/` |
 | F-S10 | High | **Data will not survive on the planned host.** SQLite and uploaded photographs are written to the local disk. App Engine's disk is read-only apart from a temporary folder, and both hosts can replace the machine at any time. Members' data would vanish, with no backup. | `settings.py`, `app.yaml` |
 | F-S11 | Medium | **Hidden posts still accept actions.** In `post_detail`, the report and comment code runs before the visibility check, so anyone who guesses an ID can comment on or report a pending or denied post. The report form also trusts a hidden `post` field, so a report can be filed against any post ID. | `mapViewer/views.py`, `Janitor/forms.py` |
 | F-S12 | Medium | **`MakePostForm` is faulty.** It declares a model `ImageField` inside a form (it does nothing), reads `cleaned_data['media_file']` (which does not exist), leaves `geoResult` unset when the browser supplies one, overrides Django's private `_clean_form`, and prints the geocoder's answer to the log. A map POST from a signed-out visitor crashes on `request.session['user']`. Any JSON the browser sends as `geoResult` is stored as the post's location. | `mapViewer/forms.py`, `mapViewer/views.py` |
 | F-S13 | Medium | **No protection against guessing.** Sign-in, sign-up, contact and report forms have no rate limit or lock-out. Sign-up accepts any password (Django's password validators are configured but never called). | `account/views.py` |
-| F-S14 | Medium | **Browser protections are missing.** No Content-Security-Policy, no HSTS, no `Secure` or `SameSite` cookie settings, and the Google sign-in address is hard-coded as `http://localhost:8080/account/authG/`. | `settings.py`, `signin.html` |
+| F-S14 | Medium | **Browser protections are missing.** No Content-Security-Policy, no HSTS, no `Secure` flag on cookies, and the Google sign-in address is hard-coded as `http://localhost:8080/account/authG/`. `SECURE_REFERRER_POLICY` is set to `same-origin-no-downgrade`, which is not a real value; Django's deployment check reports it as an error and browsers ignore the header. The CSRF cookie lasts a year. | `settings.py`, `signin.html` |
 | F-S15 | Medium | **Uploads are lightly checked.** No size limit; the profile photograph keeps the file extension the browser sent; photographs keep their EXIF data (which can include GPS position); `file1` to `file4` on "Create Post" are accepted and then silently dropped; `MEDIA_URL` has no leading slash; uploaded files are served by a helper that only works in debug mode. | `account/models.py`, `account/forms.py`, `settings.py`, `urls.py` |
 | F-S16 | Medium | **Sessions.** The session key is not changed at sign-in (session fixation), there is no idle time-out, and the sign-in link carries a `?next=` value that nothing reads (when we do read it, it must be checked, or it becomes an open redirect). | `account/views.py` |
 | F-S17 | Medium | **The Google sign-in view is `csrf_exempt`.** The double-submit check it performs is the right idea, but it has no tests, answers failures with bare strings, and the client ID is typed into the view and the template. | `account/views.py` |
@@ -93,6 +95,7 @@ The repository already holds `CCC ADA Compliance Report Working Document.md` (in
 | F-A14 | 1.4.1 Use of Colour | The current page in the menu is marked by colour alone (an inline gold background). Post status (visible, pending, denied) must not depend on colour. |
 | F-A15 | 2.3.3, 2.2.2 Motion | 46 animation or transition rules, with only two `prefers-reduced-motion` blocks. |
 | F-A16 | 1.4.12 Text Spacing, 1.4.4 | 32 font sizes are fixed in pixels; text should scale with the reader's settings (`rem`). |
+| F-A18 | 4.1.1 Parsing, 4.1.2 Name, Role, Value, 1.3.1 | Found by axe-core: five form controls on the map page have no label (rated critical); the About page has no `<title>`; the profile page has a malformed definition list; the Reports page nests one interactive control inside another; the post page repeats the ID of a focusable control when signed in. axe could not decide colour contrast for between six and 35 elements on every page (text over gradients and translucent layers), which supports F-A8. |
 | F-A17 | 2.4.4 Link Purpose | Links such as "See More" in map pop-ups mean nothing out of context. An emoji (⚠️) is used as an icon and is read aloud. |
 
 ### 3.3 Privacy (GDPR)
@@ -103,7 +106,7 @@ GDPR applies when we handle personal data of people who are in the EU or the UK.
 | --- | --- |
 | F-G1 | **No privacy notice.** Nothing tells people who is responsible for their data, why we collect it, how long we keep it, who else receives it, or what their rights are (Articles 12 to 14). |
 | F-G2 | **No recorded lawful basis** for any of the processing (Article 6), and no record of processing activities (Article 30). |
-| F-G3 | **Visitors' data goes to third parties before they do anything.** Every page loads Boxicons from `unpkg.com`; the map, post list and sign-in pages load Google scripts. Each sends the visitor's IP address and browser details to a US company, without notice or consent. |
+| F-G3 | **Visitors' data goes to third parties before they do anything** (confirmed: loading the map page contacted `unpkg.com`, `maps.googleapis.com` and `maps.gstatic.com`, and a Google cookie, `g_state`, appeared beside our own `csrftoken`). Every page loads Boxicons from `unpkg.com`; the map, post list and sign-in pages load Google scripts. Each sends the visitor's IP address and browser details to a US company, without notice or consent. |
 | F-G4 | **We collect more than we need** (Article 5). We store the password twice. "Create Post" asks for first name, last name and a full street address, then discards the names. The whole of Google's geocoding answer is stored for each post. A post may pin someone's home on a public map. |
 | F-G5 | **People cannot exercise their rights.** No "download my data" (Articles 15 and 20; `exportData` says "Not implemented yet"). No "delete my account" (Article 17). No way to hide oneself from the public Contributors list or to object (Article 21). |
 | F-G6 | **Nothing is ever deleted.** Rejected sign-up requests (with their plain-text passwords), contact messages, reports, denied posts and old sessions are kept for ever. There is no retention schedule. |
@@ -151,7 +154,7 @@ Simon says: don't write your own sign-in or password code, even though you'll se
 | SEC-11 | **One helper decides who is signed in.** `current_member(request)` returns the live `Member`, or `None` when nobody is signed in or the member is banned. Add `member_required` beside `moderator_required`. Replace every `request.session.get('rank', 0)` test. Stop storing the rank and name in the session. | A banned or demoted member loses access on their next request (test). |
 | SEC-12 | **Stop joining accounts by email.** Create the `Member` when a sign-up is approved and link it by ID. Send a confirmation link to prove the address at sign-up. Require `email_verified` from Google. Link a Google identity to an existing member only after that member signs in with their password. Make usernames and emails unique in the database. | Signing up with a stranger's email gives no access to the stranger's account (test). |
 | SEC-13 | **Check visibility first.** In `post_detail`, return "not found" for pending or denied posts unless the visitor is the author or a moderator, before handling any POST. Take the post ID for a report from the URL, not from a hidden field. Use `get_object_or_404`. | Tests for visible, pending and denied posts as visitor, author and moderator. |
-| SEC-14 | **One way to create a post.** Remove post creation from `viewMap`; keep `create_forum`. Rewrite `MakePostForm`'s geocoding as a normal `clean()` or delete the form. Geocode on the server and store only latitude, longitude and a display label. Trusted members (rank 2 and above) are auto-approved in one place. | Posting works only when signed in; malformed location data is rejected (tests). |
+| SEC-14 | **One way to create a post.** Remove post creation from `viewMap` (this also closes F-S21; do that part in phase 0); keep `create_forum`. Rewrite `MakePostForm`'s geocoding as a normal `clean()` or delete the form. Geocode on the server and store only latitude, longitude and a display label. Trusted members (rank 2 and above) are auto-approved in one place. | Posting works only when signed in; malformed location data is rejected (tests). |
 | SEC-15 | **Repair the moderator views** listed in F-S8, add a real pending-post queue (approve or deny, with a reason), and delete the `print` calls. Fix the Django admin search fields. | Every moderator view has at least one passing test. |
 | SEC-16 | **Sessions.** Call `request.session.cycle_key()` at sign-in (Django's `login()` does this for us), set an idle time-out, honour `?next=` only after `url_has_allowed_host_and_scheme()` approves it. | Session ID changes at sign-in; `?next=https://evil.example` is ignored (tests). |
 | SEC-17 | **Slow down guessing.** Add `django-axes` (or `django-ratelimit`) to sign-in, and rate limits plus a hidden "honeypot" field to sign-up, contact, comment and report forms. | The sixth wrong password within a minute is refused (test). |
@@ -166,7 +169,7 @@ Simon says: don't write your own sign-in or password code, even though you'll se
 | SEC-22 | **Transport and cookies.** `SECURE_SSL_REDIRECT`, HSTS (start with one hour, then raise), `SESSION_COOKIE_SECURE`, `CSRF_COOKIE_SECURE`, `SameSite=Lax`, `X_FRAME_OPTIONS = "DENY"`, `SECURE_REFERRER_POLICY = "same-origin"`, a `Permissions-Policy` header. Set the Google sign-in address from settings. Remove the stray `global_settings` import. | Mozilla Observatory grade of A or better. |
 | SEC-23 | **Content-Security-Policy** with `django-csp`: our own origin plus the Google hosts we need, no inline script or style. This depends on CSS-08 (moving inline code out of templates). Run it in report-only mode first. | A full test run produces no violations; then switch to enforcing. |
 | SEC-24 | **Uploads.** Limit size (2 MB for photographs); open each image with Pillow and save a fresh copy (this validates it and strips EXIF); give files random names; either build `file1` to `file4` properly with an allow-list of types or remove them from the form. | Tests: a script renamed `.jpg`, an oversized file and a photograph with GPS data. |
-| SEC-25 | **Dependencies.** Remove `cccSite/venv/` from git (CLN-01). Pin exact versions with hashes (`pip-compile`). Update the old pins. Turn on Dependabot and add `pip-audit` to the checks. | `pip-audit` reports nothing. |
+| SEC-25 | **Dependencies.** Remove `cccSite/venv/` from git (CLN-01). Pin exact versions with hashes (`pip-compile`), including `python-dotenv`. Update the seven packages in F-S20 to at least: Pillow 13.0.0, urllib3 2.8.0, pyasn1 0.6.5, sqlparse 0.6.0, requests 2.33.0, certifi 2026.10.18, idna 3.15. Run the tests afterwards. Turn on Dependabot and add `pip-audit` to the checks. Do the Pillow update in phase 0. | `pip-audit` reports nothing. |
 | SEC-26 | **Google sign-in.** Client ID from settings; tests with a fake token verifier for: no cookie, mismatched token, invalid token, unverified email, success; errors logged and shown on a proper page. | Five passing tests. |
 | SEC-27 | **Django admin.** Limit staff accounts to named people, add two-step sign-in (`django-otp`), and document how an admin account is created. | Reviewed by the project owner. |
 | SEC-28 | **Scan and report.** `bandit`, `ruff` security rules, `manage.py check --deploy`, and an OWASP ZAP baseline scan against a staging copy. Add `/.well-known/security.txt` and a "Reporting a vulnerability" section to the README. | Reports stored under `Documentation/Security/`; no High findings open. |
@@ -260,7 +263,7 @@ Critical Thinking: should we adopt a CSS framework instead? The documents mentio
 | CLN-13 | **Fewer database queries.** `memberList` runs three queries per member and `reportList` one per item; use `annotate()` and `prefetch_related()`. Add pagination to moderator lists and to the map's post list. Add indexes for the fields we filter on. | Query counts stay constant as data grows (a test with `assertNumQueries`). |
 | CLN-14 | **Templates.** Shared pieces become includes (hero banner, form field, pager, alert, post card). Every link uses `{% url %}`. Decisions belong in views, not templates (the long `if '/about/' not in request.path and ...` test in the menu becomes a simple comparison). | No repeated markup blocks. |
 | CLN-15 | **JavaScript.** One file per feature (`map.js`, `wizard.js`, `accordion.js`), loaded with `defer`, no global variables, no inline handlers, data passed with `json_script`. ESLint in the checks. | ESLint passes. |
-| CLN-16 | **Tests.** Reach at least 80% line coverage, and 100% of permission rules: for every address, a test for signed-out, member, banned, moderator and admin. Add factories for test data. | Coverage report in the checks. |
+| CLN-16 | **Tests.** First repair the two failing tests (`test_manage_view_shows_current_profile_image` and `test_signed_out_contributor_page_has_only_menu_sign_in`): decide whether the page or the test is right. Then reach at least 80% line coverage, and 100% of permission rules: for every address, a test for signed-out, member, banned, moderator and admin. Add factories for test data. | Coverage report in the checks. |
 
 ### 7.4 Commenting standard
 
@@ -303,7 +306,7 @@ Sizes: S is under half a day, M is one or two days, L is three days or more, for
 
 | Phase | What | Tasks | Size | Move on when |
 | --- | --- | --- | --- | --- |
-| 0 | Emergency | SEC-00 to SEC-04, GDPR-11 | M | Moderator pages locked; secrets rotated; debug off; map XSS fixed; no personal files in git. |
+| 0 | Emergency | SEC-00 to SEC-04, the Pillow update from SEC-25, the `viewMap` part of SEC-14, GDPR-11 | M | Moderator pages locked; secrets rotated; debug off; map XSS fixed; no personal files in git. |
 | 1 | Foundations | CLN-01 to CLN-06, SEC-20, SEC-25 | M | One Python, one host chosen, checks run on every pull request. |
 | 2 | Accounts and permissions | SEC-10 to SEC-18, CLN-16 (permission tests) | L | Every Critical and High finding in 3.1 is closed, each with a test. |
 | 3 | Front-end base | A11Y-01, A11Y-03, A11Y-04, A11Y-15, CSS-01 to CSS-03, CSS-08 | L | New base template, tokens and file structure merged; axe runs in the checks. |
@@ -355,6 +358,59 @@ Why this order? Phases 0 to 2 stop harm. Phase 3 comes before the page-by-page w
 5. A new student can clone the repository, follow the README and have a running, tested site within an hour.
 
 That last point is the practical payoff of the whole exercise: a project that the next team can pick up without fear, and that the College can put its name to.
+
+## 13. Scanner results
+
+We ran these scanners against commit `5bd8d0c9` (the tip of `development`), and against a copy of the site running on a developer's machine with a throwaway database and made-up test data. No live site and no real personal data were touched.
+
+A scanner is like the warning lights on a dashboard: worth having, quick to read, and silent about a great many faults. Read the last column of the first table before you trust a green light.
+
+### 13.1 What was run
+
+| Scanner | What it looks for | Result | What it tells us |
+| --- | --- | --- | --- |
+| `bandit` 1.9.4 | Risky patterns in Python source | Seven findings, all Low: six are false alarms (words such as "password" in tests and messages); one is the hard-coded `SECRET_KEY`. | BEWARE: bandit reported no High or Medium issue. It did not notice plain-text passwords (F-S2) or the missing access checks (F-S1), because those are faults of design, not of syntax. |
+| `pip-audit` 2.10.1 | Known vulnerabilities in pinned packages | 87 advisories in seven of 17 packages (see F-S20). It refused to read `requirements.txt` directly, because `python-dotenv` has no version. | New finding F-S20; task SEC-25 now lists the versions to move to. |
+| `manage.py check --deploy` (Django 5.2.18) | Unsafe deployment settings | One error (invalid `SECURE_REFERRER_POLICY`) and six warnings: no HSTS, no HTTPS redirect, weak `SECRET_KEY`, session cookie not `Secure`, CSRF cookie not `Secure`, `DEBUG` on. | Confirms F-S3, F-S4 and F-S14. |
+| `manage.py makemigrations --check` | Model changes with no migration | None. | Models and migrations agree. |
+| `manage.py test` | The project's own tests | 38 run, 36 pass, two fail. | See CLN-16. |
+| `ruff` 0.17.4 | Python errors and style | 62 findings with default rules; 64 with the error, bug and security rules, of which 38 are names that arrive through star imports, ten unused imports, seven star imports, two redefinitions and two unused variables. | Confirms F-C6; 37 can be fixed automatically. |
+| `detect-secrets` 1.5.0 | Committed secrets | Nine candidates in six files, including `settings.py` and the editor cache in `.vscode/`. | BEWARE: it did **not** flag the Google API key in `forms.py` and the three templates, nor the credential documents. We found those by reading. Add `gitleaks` to the checks as a second opinion, and keep reviewing by eye. |
+| `djlint` 1.50.0 | Template problems | 214 findings in 29 templates: 129 are spacing inside template tags (T001); 17 inline styles (H021); 15 unneeded `type` attributes on scripts and styles (H024); 14 stray spaces round `=` in attributes (H012); 12 others about attribute and tag form. | Mostly formatting; `djlint --reformat` clears the bulk. Supports CSS-08. |
+| HTTP probe (`curl`) of 25 addresses, signed out | Status codes, headers, cookies | Two addresses answer 500 (F-S8). The 404 page is Django's debug page and lists every URL pattern (F-S4). Moderator pages answer 200 with an empty body. `X-Frame-Options: DENY` and `X-Content-Type-Options: nosniff` are present; Content-Security-Policy, HSTS and Permissions-Policy are absent. `/account/view/1` (a profile) answers 200 to a signed-out visitor (F-G8). `/post/2` (a pending post) redirects, as it should. | Confirms F-S4, F-S8, F-S14 and F-G8. |
+| Signed-out POST tests (`curl`) | Whether actions need permission | Add a tag: accepted. Clear a post's reports: accepted. Create a rank-99 member: accepted. Report a hidden post: accepted. POST to the map: 500 after calling Google. | Confirms and sharpens F-S1; confirms F-S11; new finding F-S21. |
+| `axe-core` 4.4.3, WCAG 2.0 and 2.1 A and AA rules, 21 page views (ten signed out, six as a member, five as an admin) | Accessibility faults a machine can detect | See 13.2. | Confirms F-A1, F-A4, F-A5; adds F-A18. |
+| Browser resource list on the map page | Third-party requests and cookies | Requests to `unpkg.com`, `maps.googleapis.com` and `maps.gstatic.com`; cookies `csrftoken` and Google's `g_state`. | Confirms F-G3. |
+
+### 13.2 axe-core results by rule
+
+| axe rule | Impact | Pages affected | Finding |
+| --- | --- | --- | --- |
+| `html-has-lang` | Serious | All 21 | F-A1 |
+| `duplicate-id` | Minor | All 21 | F-A4 |
+| `label` | Critical | Map page (five controls) | F-A18, F-A13 |
+| `document-title` | Serious | About page | F-A5 |
+| `definition-list` | Serious | Member profile page | F-A18 |
+| `nested-interactive` | Serious | Moderator Reports page | F-A18 |
+| `duplicate-id-active` | Serious | Post page when signed in | F-A18 |
+| `color-contrast` | Needs a person to check | All 21 (six to 35 elements each) | F-A8 |
+| `video-caption` | Needs a person to check | Help page | F-A7 |
+| Landmark rules (best-practice set, run on seven pages) | Advisory | Missing or duplicated `main` and `banner` landmarks; content outside any landmark | F-A4 |
+
+Obviously, a page with only two axe violations is not a page with only two accessibility problems. axe cannot tell whether a label makes sense, whether focus goes somewhere sensible, or whether the wizard can be completed by keyboard. The manual checks in section 9 still have to be done.
+
+### 13.3 What was not run, and why
+
+| Check | Why not | Where it sits in the plan |
+| --- | --- | --- |
+| Stylelint, ESLint | Node.js was not installed on the machine used. | CLN-05 |
+| OWASP ZAP (attack scan), Mozilla Observatory, SSL Labs | They need Docker or a deployed HTTPS site; neither was available. | SEC-28 |
+| Screen reader, keyboard, zoom and reflow checks | They need a person. | Section 9 |
+| Measured colour contrast | axe could not decide; needs the token work first. | A11Y-03 |
+| Map pop-up XSS in a browser | The map needs a working Google key. The fault is plain in the code (F-S5). | SEC-03 |
+| Git history secret scan (`gitleaks`) | Not installed. | SEC-00, SEC-28 |
+
+Two notes on method. The axe-core copy used (4.4.3) is an older release; the continuous-integration check (A11Y-15) should use the current one, which has more rules. And one of the POST tests caused the local server to send a single geocoding request (for the made-up address "x") to Google with the key that is committed in the code; Google refused it.
 
 ---
 
