@@ -39,10 +39,18 @@ SECURE_REFERRER_POLICY = "same-origin-no-downgrade" # this
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rak*1&oe)cu7moh&u+(bq62$&taj$7gdx9-^48-4zs)v*v#_1f'
+# The key is read from the environment (or the local .env file), never from source code.
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+if not SECRET_KEY:
+    if DEBUG:
+        # Throwaway key so a fresh clone runs locally; it signs nothing of value.
+        SECRET_KEY = "dev-only-not-a-secret"
+    else:
+        raise RuntimeError("Set the DJANGO_SECRET_KEY environment variable.")
 
 ALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']
 
@@ -85,6 +93,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cccSite.context_processors.google_maps',
             ],
         },
     },

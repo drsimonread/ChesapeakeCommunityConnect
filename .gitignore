@@ -10,3 +10,4 @@ __pycache__/
 # OS junk
 .DS_Store
 *.sqlite3
+.vscode/PythonImportHelper-v2-Completion.json
