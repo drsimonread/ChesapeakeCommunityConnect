@@ -50,7 +50,7 @@ def viewMap(request):
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
                                                       'searchForm' : searchForm,
                                                       'posts': posts,
-                                                      'GOOGLE_MAPS_API_KEY': settings.GOOGLE_API_KEY,}) #render template
+                                                      'GOOGLE_API_KEY': settings.GOOGLE_API_KEY,}) #render template
 
 
 
@@ -66,7 +66,8 @@ def post_list(request):
             posts=posts.filter(tags__pk=tag)
     posts = posts.order_by("id")
     return render(request, "mapViewer/listPosts.html", {"postList" : posts,
-                                                        "form" : form})
+                                                        "form" : form,
+                                                        "GOOGLE_API_KEY": settings.GOOGLE_API_KEY})
 
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
