@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
+from unittest.mock import patch
 from .models import Member, GLogIn
 from mapViewer.models import MapPost
 
@@ -113,6 +114,24 @@ class AccountViewsTest(TestCase):
         self.assertContains(response, "Test User")
         self.assertContains(response, "1 forum")
 
+    def test_contributor_alphabet_navigator_filters_by_first_letter(self):
+        MapPost.objects.create(
+            title="Visible forum",
+            content="A visible forum",
+            author=self.user,
+            description="A visible forum",
+            geoCode={"lat": 38.98, "lng": -76.49},
+            visibility=1,
+        )
+
+        response = self.client.get(reverse("account:account_list"), {"letter": "T"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Browse by letter")
+        self.assertContains(response, 'aria-label="Browse contributors by first letter"')
+        self.assertContains(response, "Test User")
+        self.assertContains(response, 'aria-current="true"')
+
     def test_create_forum_page_uses_existing_template(self):
         response = self.client.get(reverse("account:create_forum"))
         self.assertEqual(response.status_code, 200)
@@ -130,9 +149,34 @@ class AccountViewsTest(TestCase):
             "geoResult": '{"lat": 38.98, "lng": -76.49}',
         })
         self.assertRedirects(response, reverse("account:my_forums") + "?success=1")
-        self.assertTrue(MapPost.objects.filter(
+        post = MapPost.objects.get(
             author=self.user, title="Community forum", visibility=0,
-        ).exists())
+        )
+        self.assertEqual(post.geoCode, {"lat": 38.98, "lng": -76.49})
+
+    def test_create_forum_submission_geocodes_typed_address(self):
+        with patch("account.forms.googlemaps.Client") as client:
+            client.return_value.geocode.return_value = [{
+                "geometry": {
+                    "location": {"lat": 38.98, "lng": -76.49},
+                },
+            }]
+            response = self.client.post(reverse("account:create_forum"), {
+                "title": "Typed address forum",
+                "firstName": "Test",
+                "lastName": "User",
+                "location": "123 Main Street",
+                "content": "A forum with a typed address",
+                "associated": "yes",
+                "private_public": "public",
+            })
+
+        self.assertRedirects(response, reverse("account:my_forums") + "?success=1")
+        post = MapPost.objects.get(title="Typed address forum")
+        self.assertEqual(
+            post.geoCode,
+            {"geometry": {"location": {"lat": 38.98, "lng": -76.49}}},
+        )
 
     def test_my_forums_shows_member_posts(self):
         MapPost.objects.create(

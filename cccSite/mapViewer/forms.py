@@ -33,32 +33,17 @@ class MakePostForm(forms.Form):
     #so if an address is correct, we want to use one geocode call to get the lat/long, but we can't just pass this to the model,
     #because if the provided address doesn't result in a valid geocode, we can't try to access said geocode. this stores a valid geocode
     #in the geoResult field of the form, and  also builds in an error message to the address code if there is no geocode
-    def clean(self): 
-        gmaps = googlemaps.Client(key='AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc') #initialize maps
-        cleaned_data = super().clean() #verify that all the other forms are ok
-        if not self.cleaned_data['geoResult']: #if we don't have a geocode (first try or last try was invalid)
-            geoResult=gmaps.geocode(address=self.cleaned_data['location']) #fetch geocode for provided address (API call)
-            if not geoResult: #if still none, then the address is invalid
+    def clean(self):
+        gmaps = googlemaps.Client(key='AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc')
+        cleaned_data = super().clean()
+        geoResult = cleaned_data.get('geoResult')
+        if not geoResult:
+            geoResult = gmaps.geocode(address=cleaned_data['location'])
+            if not geoResult:
                 raise ValidationError(_("Invalid Address"), code="adderr")
-        print(geoResult)
-        return {'title': self.cleaned_data['title'],
-                'description': self.cleaned_data['description'],
-                'location': self.cleaned_data['location'],
-                'content': self.cleaned_data['content'],
-                'tags': self.cleaned_data['tags'],
-                'geoResult': geoResult,
-                'media_file': self.cleaned_data['media_file']}  # Include media file in cleaned data#return a dictionary of cleaned_data
+        cleaned_data['geoResult'] = geoResult
+        return cleaned_data
         
-    def _clean_form(self): #when we check is_valid, this occurs
-        try:
-            cleaned_data = self.clean() #try to clean the data
-        except ValidationError as e:
-            self.add_error('location', e) #if we get the error of invalid address, attach it to the location field
-        else:
-            if cleaned_data is not None:
-                self.cleaned_data = cleaned_data #if successful, store in cleaned_data
-
-
 class PostCommentForm(forms.Form):
     content = forms.CharField(
         label="",

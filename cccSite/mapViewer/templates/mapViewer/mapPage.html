@@ -49,17 +49,6 @@
             <p id="map-status" class="map-status" role="status" hidden></p>
           </div>
 
-          <section id="upload-descriptions" aria-labelledby="upload-descriptions-heading">
-            <h2 id="upload-descriptions-heading">Upload descriptions</h2>
-            {% for post in posts %}
-              <article class="upload-description">
-                <h3>{{ post.title }}</h3>
-                <p>{{ post.description }}</p>
-              </article>
-            {% empty %}
-              <p>No uploads match your search.</p>
-            {% endfor %}
-          </section>
 
           <!-- FILTER -->
           <aside class="map-search-panel" id="search">
@@ -118,6 +107,18 @@
             </form>
           </aside>
 
+          
+          <section id="upload-descriptions" aria-labelledby="upload-descriptions-heading">
+            <h2 id="upload-descriptions-heading">Upload descriptions</h2>
+            {% for post in posts %}
+              <article class="upload-description">
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.description }}</p>
+              </article>
+            {% empty %}
+              <p>No uploads match your search.</p>
+            {% endfor %}
+          </section>
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -132,37 +133,44 @@
               </p>
             </div>
 
-            <div id="post-form">
+            <form id="post-form"
+                  action="{% url 'mapViewer:default' %}"
+                  method="post">
+              {% csrf_token %}
 
               <div class="map-search-block">
                 <label class="map-search-label">Title</label>
-                <input type="text" id="title">
+                <input type="text" id="title" name="title" required>
               </div>
 
               <div class="map-search-block">
                 <label class="map-search-label">Description</label>
-                <textarea id="description" class="map-search-input"></textarea>
+                <textarea id="description" name="description"
+                          class="map-search-input" required></textarea>
               </div>
 
               <div class="map-search-block">
                 <label class="map-search-label">Address</label>
-                <input type="text" id="address">
+                <input type="text" id="address" name="location" required>
               </div>
 
               <div class="map-search-block">
                 <label class="map-search-label">City</label>
-                <input type="text" id="city">
+                <input type="text" id="city" required>
               </div>
 
               <div class="map-search-block">
                 <label class="map-search-label">State</label>
-                <input type="text" id="state">
+                <input type="text" id="state" required>
               </div>
 
               <div class="map-search-block">
                 <label class="map-search-label">Zipcode</label>
-                <input type="text" id="zipcode">
+                <input type="text" id="zipcode" required>
               </div>
+
+              <input type="hidden" id="content" name="content">
+              <input type="hidden" id="geoResult" name="geoResult">
 
               <button type="button"
                       onclick="createPost()"
@@ -172,7 +180,7 @@
                 </span>
               </button>
 
-            </div>
+            </form>
 
           </div>
 

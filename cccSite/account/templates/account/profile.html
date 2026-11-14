@@ -52,5 +52,30 @@
       </div>
     </div>
   </section>
+
+  <section class="account-posts" aria-labelledby="profile-posts-title">
+    <div class="account-posts__header">
+      <div>
+        <span class="account-posts__kicker">Community activity</span>
+        <h2 id="profile-posts-title" class="account-posts__title">Visible forums</h2>
+      </div>
+    </div>
+    {% if visible_posts %}
+    <ul class="account-posts__list">
+      {% for post in visible_posts %}
+      <li class="account-posts__item">
+        <div class="account-posts__body">
+          <h3 class="account-posts__post-title">{{ post.title }}</h3>
+          <p class="account-posts__description">{{ post.description }}</p>
+          <small class="account-posts__date">Posted {{ post.created|date:"F j, Y" }}</small>
+        </div>
+        <a class="account-posts__open" href="{{ post.get_absolute_url }}">Open forum <i class="bx bx-right-arrow-alt" aria-hidden="true"></i></a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="account-posts__empty">This contributor has no visible forums yet.</p>
+    {% endif %}
+  </section>
 </div>
 {% endblock accountFunc %}
