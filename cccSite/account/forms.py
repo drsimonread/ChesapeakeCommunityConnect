@@ -1,8 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from .models import Member  # make sure this import is here
 from mapViewer.models import MapTag
+import googlemaps
+
 
 
 class CreateForumForm(forms.Form):
@@ -32,6 +36,30 @@ class CreateForumForm(forms.Form):
     file3 = forms.FileField(required=False, label="File 3")
     file4 = forms.FileField(required=False, label="File 4")
     geoResult = forms.JSONField(widget=forms.HiddenInput, required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not cleaned_data.get("location"):
+            return cleaned_data
+
+        geo_result = cleaned_data.get("geoResult")
+        if not geo_result:
+            api_key = getattr(settings, "GOOGLE_API_KEY", "")
+            if not api_key:
+                raise ValidationError(
+                    "The address could not be located. Please select an address suggestion."
+                )
+            results = googlemaps.Client(key=api_key).geocode(
+                address=cleaned_data["location"]
+            )
+            if not results:
+                raise ValidationError(
+                    "The address could not be located. Please check the address and try again."
+                )
+            geo_result = results[0]
+
+        cleaned_data["geoResult"] = geo_result
+        return cleaned_data
 
 class SearchAccountForm(forms.Form):
     CHOICES = (

@@ -26,11 +26,14 @@ def viewMap(request):
             vis=0
             if request.session['rank'] > 1:
                 vis=1
+            geo_result = postingForm.cleaned_data['geoResult']
+            if isinstance(geo_result, list):
+                geo_result = geo_result[0]
             postInz=MapPost.objects.create(title=postingForm.cleaned_data['title'], #actually create the post instance in the database
                                    content=postingForm.cleaned_data['content'],
                                    author=userInz,
                                    description=postingForm.cleaned_data['description'],
-                                   geoCode=postingForm.cleaned_data['geoResult'][0],
+                                   geoCode=geo_result,
                                    visibility=vis
                                    )
             if postingForm.cleaned_data['tags']:

@@ -48,6 +48,36 @@
   .contributors-signin-link {
     display: none !important;
   }
+
+  .dir-search__alphabet {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1rem;
+    padding: 1rem 1.15rem;
+    border: 2px solid #f3c10d;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #00205c 0%, #0b3d7a 100%);
+    box-shadow: 0 6px 20px rgba(0, 32, 92, 0.28);
+  }
+
+  .dir-search__alphabet-label {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .dir-search__alphabet-link {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .dir-search__alphabet-link:hover,
+  .dir-search__alphabet-link.is-active {
+    color: #00205c;
+    background: #f3c10d;
+  }
 </style>
 {% endblock accHead %}
 {% block accountFunc %}
@@ -98,6 +128,16 @@
   </header>
 
   <div class="dir-search__shell">
+    <nav class="dir-search__alphabet" aria-label="Browse contributors by first letter">
+      <span class="dir-search__alphabet-label">Browse by letter</span>
+      <div class="dir-search__alphabet-links">
+        <a href="{% url 'account:account_list' %}{{ qs_reset }}" class="dir-search__alphabet-link{% if not selected_letter %} is-active{% endif %}">All</a>
+        {% for item in letter_links %}
+        <a href="{% url 'account:account_list' %}{{ item.url }}" class="dir-search__alphabet-link{% if selected_letter == item.letter %} is-active{% endif %}"{% if selected_letter == item.letter %} aria-current="true"{% endif %}>{{ item.letter }}</a>
+        {% endfor %}
+      </div>
+    </nav>
+
     {% if search_query %}
     <div class="dir-search__filter-note" role="status">
       <span class="dir-search__filter-icon" aria-hidden="true"><i class="bx bx-filter-alt"></i></span>
@@ -120,6 +160,7 @@
             <i class="bx bx-search dir-search__field-icon" aria-hidden="true"></i>
             {{ search.q }}
             <input type="hidden" name="s" value="{{ sort_value }}">
+            <input type="hidden" name="letter" value="{{ selected_letter }}">
             <input type="hidden" name="page" value="1">
           </div>
           {% if search.q.errors %}

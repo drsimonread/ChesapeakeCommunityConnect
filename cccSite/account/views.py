@@ -13,6 +13,7 @@ from PIL import Image
 from mapViewer.models import MapPost
 from .forms import CreateForumForm, SearchAccountForm
 from urllib.parse import urlencode
+from string import ascii_uppercase
 
 # if user not signed in, sends them to log in 
 def signin(request):
@@ -85,16 +86,23 @@ def default(request):
         return redirect(reverse("account:signin"))
     else:
         userInz=Member.objects.get(pk=request.session['user']) #get user from session
+        visible_posts = MapPost.objects.filter(
+            author=userInz, visibility=1
+        ).order_by("-created")
         return render(request, 'account/myaccount.html', {
             'name': userInz.name,
             'email' : userInz.email,
             'image' : userInz.pic,
             'about' : userInz.about,
+            'visible_posts': visible_posts,
         })
     
 def account_all(request):
     search = SearchAccountForm(request.GET)
     query = request.GET.get("q", "").strip()
+    letter = request.GET.get("letter", "").strip().upper()
+    if letter not in ascii_uppercase:
+        letter = ""
     sort = request.GET.get("s", "0")
     page_number = request.GET.get("page", "1")
 
@@ -106,6 +114,8 @@ def account_all(request):
     ).filter(num_forums__gt=0)
     if query:
         members = members.filter(name__icontains=query)
+    if letter:
+        members = members.filter(name__istartswith=letter)
 
     sort_fields = {
         "0": ("name",),
@@ -118,7 +128,7 @@ def account_all(request):
     page_obj = Paginator(members, 20).get_page(page_number)
 
     def query_string(**updates):
-        values = {"q": query, "s": sort, "page": page_obj.number}
+        values = {"q": query, "letter": letter, "s": sort, "page": page_obj.number}
         values.update(updates)
         return "?" + urlencode({key: value for key, value in values.items() if value not in ("", None)}
                                )
@@ -127,10 +137,15 @@ def account_all(request):
         "is_signed_in": request.session.get("rank", 0) > 0,
         "search": search,
         "search_query": query,
+        "selected_letter": letter,
+        "letter_links": [
+            {"letter": alphabet_letter, "url": query_string(letter=alphabet_letter, page=1)}
+            for alphabet_letter in ascii_uppercase
+        ],
         "sort_value": sort,
         "page_obj": page_obj,
         "qs_clear_search": query_string(q="", page=1),
-        "qs_reset": query_string(q="", s="0", page=1),
+        "qs_reset": query_string(q="", letter="", s="0", page=1),
         "qs_sort_az": query_string(s="0", page=1),
         "qs_sort_za": query_string(s="1", page=1),
         "qs_sort_forums_hi": query_string(s="2", page=1),
@@ -143,6 +158,9 @@ def account_view(request, want):
     view_inz = get_object_or_404(Member, pk=want)
     return render(request, "account/profile.html", {
         "profile": view_inz,
+        "visible_posts": MapPost.objects.filter(
+            author=view_inz, visibility=1
+        ).order_by("-created"),
     })
     
 
