@@ -1,4 +1,4 @@
-![Image of Map Pin Logo](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Map-Pin-Icon.png)
+![Image of Map Pin Logo](../../Assorted%20Resources/SDD%20Images/Map-Pin-Icon.png)
 
 |Chesapeake Community Connection Website - Software Design Description Version 1.1 - January 24th, 2024 - St. Mary’s College of Maryland Capstone |
 |:---:|
@@ -137,7 +137,7 @@ This section outlines all data structures to be implemented and how they should 
 ## **2.2 Data Flow Diagram** 
 
 The Data flow diagram describes the relationship between hardware and software devices, and the information each will communicate between each other.  
-![Diagram detailing relations between keyboard, mouse/touchscreen, server, and display](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Data-Flow-Diagram.png)
+![Diagram detailing relations between keyboard, mouse/touchscreen, server, and display](../../Assorted%20Resources/SDD%20Images/Data-Flow-Diagram.png)
 
 ---
 
@@ -147,7 +147,7 @@ The architecture design outlines the hierarchy of the program, as well as indica
 
 ## **3.1 Program Structure** 
 
-![Diagram of pages on the website)](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Diagram-of-Pages-on-Site.png)
+![Diagram of pages on the website)](../../Assorted%20Resources/SDD%20Images/Diagram-of-Pages-on-Site.png)
 
 ---
 
@@ -171,7 +171,7 @@ The user interfaces are what the user will see upon entering the website.
   - **Filter**: Area where the user can filter content to appear on the map.  
   - **Bottom**: Area with news/current uploads displayed. Area where selected content information appears, including the audiovisual file, area, and description. 
 
-![Mockup of Home Screen display](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Map-Page.png)
+![Mockup of Home Screen display](../../Assorted%20Resources/SDD%20Images/Mockup-of-Map-Page.png)
 
 ### **4.3.2 Contributor Page** 
 
@@ -190,9 +190,9 @@ The user interfaces are what the user will see upon entering the website.
   - **Alphabetical Display**: There is a navigator at the top of the page that lets the user sort by alphabetical order.  
   - **Contributor**: Each contributor has their name and their mission statement displayed.
 
-![Mockup of Contributor Page Before Log-in](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Contributor-Page-Before-Login.png)  
-![Mockup of Contributor Page While Logged In](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Contributor-Logged-In-Page.png)  
-![Mockup of Contributor Search](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Contributor-Search-Page.png)
+![Mockup of Contributor Page Before Log-in](../../Assorted%20Resources/SDD%20Images/Mockup-of-Contributor-Page-Before-Login.png)  
+![Mockup of Contributor Page While Logged In](../../Assorted%20Resources/SDD%20Images/Mockup-of-Contributor-Logged-In-Page.png)  
+![Mockup of Contributor Search](../../Assorted%20Resources/SDD%20Images/Mockup-of-Contributor-Search-Page.png)
 
 ### **4.3.3 Login Display** 
 
@@ -204,7 +204,7 @@ The user interfaces are what the user will see upon entering the website.
   - **Forgot Password**: Gives the option of resetting the user's password (if an individual) or getting in contact with an administrator (if an individual or organization).  
   - **Help & Tutorial Page Link**
 
-![Mockup of Login page with username/password, Google sign-in, forgot password, Sign Up, and Help options](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Contributor-Login-Page.png)
+![Mockup of Login page with username/password, Google sign-in, forgot password, Sign Up, and Help options](../../Assorted%20Resources/SDD%20Images/Mockup-of-Contributor-Login-Page.png)
 
 ### **4.3.4 Sign Up Display**  
 
@@ -215,7 +215,7 @@ The user interfaces are what the user will see upon entering the website.
   - Email Address  
   - "What does it mean to be a Contributor?" Blurb
 
-![Mockup of Account Creation Screen](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Account-Creation-Page.png)
+![Mockup of Account Creation Screen](../../Assorted%20Resources/SDD%20Images/Mockup-of-Account-Creation-Page.png)
 
 ### **4.3.5 Upload Submission Display** 
 
@@ -227,7 +227,7 @@ The user interfaces are what the user will see upon entering the website.
   - **Upload Files**: the area to upload files from a local device to be uploaded as the main body of the content. The user should be able to upload from file types .mp3/.mp4/.png/.jpg/.pdf.  
   - **Choose Categories**: a dropdown menu showing the available tags to assign to the content.
 
-![Mockup of Upload Screen](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Submit-Page.png)
+![Mockup of Upload Screen](../../Assorted%20Resources/SDD%20Images/Mockup-of-Submit-Page.png)
 
 ### **4.3.6 Profile Management Display** 
 
@@ -239,7 +239,7 @@ The user interfaces are what the user will see upon entering the website.
   - **Change Contact Information**: Allows the user to change their email address or phone number.   
   - **List of Submissions**: List of the user’s submissions.
 
-![Mockup of Profile Management Page](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Account-Management-Page.png)
+![Mockup of Profile Management Page](../../Assorted%20Resources/SDD%20Images/Mockup-of-Account-Management-Page.png)
 
 ### **4.3.7 About Display** 
 
@@ -247,7 +247,7 @@ The user interfaces are what the user will see upon entering the website.
   - **About the Website**: Talks about its creation, purpose, etc.  
   - **About the Contributors**: Talks about the contributors (has a link to the contributor page at the bottom).
 
-![Mockup of About Us Display](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-About-Us-Page.png)
+![Mockup of About Us Display](../../Assorted%20Resources/SDD%20Images/Mockup-of-About-Us-Page.png)
 
 ### **4.3.8 Help & Tutorial Display** 
 
@@ -257,7 +257,7 @@ The user interfaces are what the user will see upon entering the website.
   - **Website Tutorial**: Tutorial about the basic features of the website.  
   - **Contact Information**
 
-![Mockup of Help page containing FAQ, Map Tutorial, Website Tutorial, and Contact Information](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-FAQ-Page.png)
+![Mockup of Help page containing FAQ, Map Tutorial, Website Tutorial, and Contact Information](../../Assorted%20Resources/SDD%20Images/Mockup-of-FAQ-Page.png)
 
 ### **4.3.9 Admin Page** 
 
@@ -266,8 +266,8 @@ The user interfaces are what the user will see upon entering the website.
   - **Account Search**: Lists current users. The admin can search for a specific user either by email or username. Clicking on a user leads to a page similar to the user’s profile management display, but with the options to   
     - **Account Editing**: Admins are able to create, edit, and delete accounts of other users. 
 
-![Mockup of Admin Page containing Pending Submissions and User List](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Admin-Page.png)  
-![Mockup of Admin Profile Management Page](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Mockup-of-Admin-Profile-Management-Page.png)
+![Mockup of Admin Page containing Pending Submissions and User List](../../Assorted%20Resources/SDD%20Images/Mockup-of-Admin-Page.png)  
+![Mockup of Admin Profile Management Page](../../Assorted%20Resources/SDD%20Images/Mockup-of-Admin-Profile-Management-Page.png)
 
 ### **4.3.10 Post Page**
 - **Areas:**
@@ -284,7 +284,7 @@ The user interfaces are what the user will see upon entering the website.
 
 ## **5.1 Flowchart Reference Key** 
 
-![Diagram of Pages and Interactions on Site](/Documentation/Sorted%20Documents%20(SP25)/SDD%20Images/Diagram-of-Pages-and-Interactions.png)
+![Diagram of Pages and Interactions on Site](../../Assorted%20Resources/SDD%20Images/Diagram-of-Pages-and-Interactions.png)
 
 
 # **6\. Miscellaneous** 
