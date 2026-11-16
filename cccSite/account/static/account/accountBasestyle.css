@@ -2429,3 +2429,114 @@
         justify-content: center;
     }
 }
+
+/* =========================================================
+   Issue #93: Signed-out Contributors page
+   ========================================================= */
+
+.contributors-guest-page {
+    width: min(1100px, 92%);
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    color: #00205C;
+    font-family: Baskerville, Georgia, serif;
+}
+
+.contributors-guest-card,
+.contributors-info-card {
+    width: 100%;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 32, 92, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(0, 32, 92, 0.08);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.contributors-guest-card {
+    border-top: 6px solid #F3C10D;
+}
+
+.contributors-guest-kicker {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: #00205C;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.contributors-guest-title,
+.contributors-info-title {
+    margin: 0 0 1rem;
+    color: #00205C;
+    font-family: Baskerville, Georgia, serif;
+    font-weight: 700;
+}
+
+.contributors-guest-title {
+    font-size: clamp(2rem, 5vw, 2.8rem);
+}
+
+.contributors-info-title {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.contributors-guest-message,
+.contributors-info-text {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #00205C;
+    font-family: Baskerville, Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.8;
+}
+
+.contributors-guest-button {
+    display: inline-block;
+    margin-top: 1.75rem;
+    padding: 0.8rem 2rem;
+    border: 2px solid #F3C10D;
+    border-radius: 8px;
+    background: #F3C10D;
+    color: #00205C;
+    font-family: Baskerville, Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.contributors-guest-button:hover,
+.contributors-guest-button:focus-visible {
+    background: #00205C;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.contributors-guest-button:focus-visible {
+    outline: 3px solid #F3C10D;
+    outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+    .contributors-guest-page {
+        width: 94%;
+        margin: 1.5rem auto;
+        gap: 1.25rem;
+    }
+
+    .contributors-guest-card,
+    .contributors-info-card {
+        padding: 1.5rem 1.1rem;
+    }
+
+    .contributors-guest-message,
+    .contributors-info-text {
+        font-size: 1.05rem;
+    }
+}
