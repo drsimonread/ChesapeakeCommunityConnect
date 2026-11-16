@@ -3,6 +3,7 @@
 
 {% block accHead %}
 <title>Search contributors — Chesapeake Community Connect</title>
+<<<<<<< HEAD
 <link rel="stylesheet" type="text/css" href="{% static 'base/signinStyling.css' %}">
 <style>
   .contributors-signin-prompt {
@@ -79,43 +80,61 @@
     background: #f3c10d;
   }
 </style>
+=======
+>>>>>>> 3b30927a (Update Contributors page styling and test sign-in functionality)
 {% endblock accHead %}
+
 {% block accountFunc %}
+
 {% if not is_signed_in %}
-  <div class="dir-search__shell">
-    <section class="dir-search__results" aria-labelledby="contributors-signin-heading">
-       <div class="containerS1 contributors-signin-prompt">
-          <div class="wrapperS1">
-          
-          <h1 class="heading">
-            <span aria-hidden="true">⚠️</span> Sign in to view contributors <span aria-hidden="true">⚠️</span>
-          </h1>
-          <p class="contributors-signin-message">You need to sign in to view the contributors page.</p>
-          <a class="button" id="Signin" href="{% url 'account:signin' %}">Sign In</a>
-        </div>
-      </div>
+
+<div class="contributors-guest-page">
+
+    <section class="contributors-guest-card" aria-labelledby="contributors-signin-heading">
+
+        <span class="contributors-guest-kicker">Chesapeake Community Connect</span>
+
+        <h1 id="contributors-signin-heading" class="contributors-guest-title">
+            Contributors
+        </h1>
+
+        <p class="contributors-guest-message">
+            Sign in to view the contributors directory and explore the people
+            sharing projects, stories, and updates across the Chesapeake region.
+        </p>
+
+        <a class="contributors-guest-button" href="{% url 'account:signin' %}">
+            Sign In
+        </a>
+
     </section>
 
-    <section class="dir-search__results" aria-labelledby="contributor-info-heading">
-      <div class="containerS2">
-          <div class="wrapperS1">
-               <h1 class="heading">What it means to be a Contributor</h1>
-<p>
-    Contributors are essential to the Chesapeake Community Connect mission. By creating an account, contributors can
-    share stories, projects, and updates that help build resilience across the Chesapeake region. They can create
-    forums and posts, comment on other contributors' work, and help neighbors learn from one another. Every
-    contribution strengthens community knowledge, supports local action, and brings people together around
-    environmental solutions and shared opportunities for change.
-</p>
-          </div>
-         
-     </div>
+    <section class="contributors-info-card" aria-labelledby="contributor-info-heading">
+
+        <span class="contributors-guest-kicker">Get involved</span>
+
+        <h2 id="contributor-info-heading" class="contributors-info-title">
+            What it means to be a Contributor
+        </h2>
+
+        <p class="contributors-info-text">
+            Contributors are essential to the Chesapeake Community Connect mission.
+            By creating an account, contributors can share stories, projects, and
+            updates that help build resilience across the Chesapeake region. They
+            can create forums and posts, comment on other contributors' work, and
+            help neighbors learn from one another. Every contribution strengthens
+            community knowledge, supports local action, and brings people together
+            around environmental solutions and shared opportunities for change.
+        </p>
+
     </section>
-  </div>
+
 </div>
+
 {% else %}
 
 <div class="contrib-page contrib-page--search dir-search" role="main">
+
   <header class="contrib-hero">
     <div class="contrib-hero__inner">
       <div class="contrib-hero__mark" aria-hidden="true"><i class="bx bx-group"></i></div>
@@ -256,5 +275,7 @@
     </section>
   </div>
 </div>
+
 {% endif %}
+
 {% endblock accountFunc %}
