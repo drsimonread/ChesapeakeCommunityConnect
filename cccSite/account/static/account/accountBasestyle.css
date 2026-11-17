@@ -2430,16 +2430,17 @@
     }
 }
 
+
 /* =========================================================
    Issue #93: Signed-out Contributors page
    ========================================================= */
 
 .contributors-guest-page {
     width: min(1100px, 92%);
-    margin: 3rem auto;
+    margin: 2.5rem auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.75rem;
     color: #00205C;
     font-family: Baskerville, Georgia, serif;
 }
@@ -2448,23 +2449,30 @@
 .contributors-info-card {
     width: 100%;
     padding: clamp(1.5rem, 4vw, 3rem);
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 32, 92, 0.15);
     border-radius: 16px;
-    box-shadow: 0 5px 18px rgba(0, 32, 92, 0.08);
-    text-align: center;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .contributors-guest-card {
-    border-top: 6px solid #F3C10D;
+    background: linear-gradient(135deg, #00205C 0%, #0b3d7a 55%, #00163F 100%);
+    border: 1px solid rgba(0, 32, 92, 0.15);
+    border-bottom: 5px solid #F3C10D;
+    box-shadow: 0 8px 28px rgba(0, 32, 92, 0.18);
+}
+
+.contributors-info-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 32, 92, 0.15);
+    border-top: 5px solid #F3C10D;
+    box-shadow: 0 5px 18px rgba(0, 32, 92, 0.08);
 }
 
 .contributors-guest-kicker {
     display: block;
     margin-bottom: 0.75rem;
-    color: #00205C;
-    font-size: 0.85rem;
+    color: #F3C10D;
+    font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -2473,16 +2481,17 @@
 .contributors-guest-title,
 .contributors-info-title {
     margin: 0 0 1rem;
-    color: #00205C;
     font-family: Baskerville, Georgia, serif;
     font-weight: 700;
 }
 
 .contributors-guest-title {
+    color: #FFFFFF;
     font-size: clamp(2rem, 5vw, 2.8rem);
 }
 
 .contributors-info-title {
+    color: #00205C;
     font-size: clamp(1.6rem, 4vw, 2.2rem);
 }
 
@@ -2490,10 +2499,17 @@
 .contributors-info-text {
     max-width: 800px;
     margin: 0 auto;
-    color: #00205C;
     font-family: Baskerville, Georgia, serif;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     line-height: 1.8;
+}
+
+.contributors-guest-message {
+    color: #FFFFFF;
+}
+
+.contributors-info-text {
+    color: #00205C;
 }
 
 .contributors-guest-button {
@@ -2501,7 +2517,7 @@
     margin-top: 1.75rem;
     padding: 0.8rem 2rem;
     border: 2px solid #F3C10D;
-    border-radius: 8px;
+    border-radius: 7px;
     background: #F3C10D;
     color: #00205C;
     font-family: Baskerville, Georgia, serif;
@@ -2513,8 +2529,8 @@
 
 .contributors-guest-button:hover,
 .contributors-guest-button:focus-visible {
-    background: #00205C;
-    color: #FFFFFF;
+    background: #FFFFFF;
+    color: #00205C;
     text-decoration: none;
 }
 
@@ -2537,6 +2553,6 @@
 
     .contributors-guest-message,
     .contributors-info-text {
-        font-size: 1.05rem;
+        font-size: 1rem;
     }
 }
