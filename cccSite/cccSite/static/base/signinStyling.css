@@ -1,83 +1,253 @@
-.heading {
-    text-align: center;
-    align-items: center;
-    background-color: #f3c10d;
-    color: #00205c;
-    border-radius: 10px;
-}
+/* =====================================================
+   SIGN-IN AND ACCOUNT CREATION
+   SMCM NAVY, GOLD, AND WHITE THEME
+   ===================================================== */
 
-.g_id_signin {
-    width: 70%;
-    margin: auto;
-    padding: 10px;
-    
-    /*rounded edges for container*/
-    border-radius: 20px;
-}
-
-.create_an_account{
-    width: 70%;
-    margin: auto;
-    padding: 10px;
-    
-    /*rounded edges for container*/
-    border-radius: 20px;
-}
-.containerS1 {
-    margin: 0px 0% 0px 4%;
-    padding-bottom: 20px;
-    width: 100%;
-    align-items: center;
-}
-
-.containerS2 {
-    /*centers div*/
-    margin: 0px 0% 0px 3.5%;
-
-    padding: 10px;
-    width: 100%;
-
-    /*rounded edges for container*/
-    border-radius: 5px;
-}
-
-.wrapperS1,.wrapperS2 {
-    padding: 10px;
-    width: 90%;
-    border-radius: 5px;
-}
-
-#create-an-account{
-    width: 70%;
-    margin: auto;
-    padding: 10px;
-    
-    /*rounded edges for container*/
-    border-radius: 20px;
-}
-
-#create-an-account,
-#Signin {
-    display: block;
+.account-form-page,
+.account-form-page * {
     box-sizing: border-box;
-    width: 70%;
-    margin: 1rem auto;
-    padding: 10px 20px;
-    border: 0;
+}
+
+.account-form-page {
+    width: 90%;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #FFFFFF;
+    border: 2px solid #00205C;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 32, 92, 0.12);
+    color: #00205C;
+    font-family: 'Baskerville', serif;
+}
+
+.account-form-heading {
+    margin: 0 0 25px;
+    padding: 15px;
+    background-color: #F3C10D;
     border-radius: 8px;
-    background-color: #f3c10d;
-    color: #00205c;
-    font-weight: 700;
+    color: #00205C;
+    font-family: 'Baskerville', serif;
+    font-size: 30px;
+    text-align: center;
+}
+
+.account-form {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.form-field {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #00205C;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.account-form-input {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #00205C;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    color: #00205C;
+    font-family: 'Baskerville', serif;
+    font-size: 16px;
+}
+
+.account-form-input:focus {
+    outline: 2px solid #F3C10D;
+    outline-offset: 2px;
+}
+
+.account-form-error {
+    margin: 0 0 20px;
+    padding: 12px;
+    border: 1px solid #B42318;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    color: #B42318;
+    text-align: center;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 25px auto 5px;
+}
+
+.form-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 170px;
+    min-height: 44px;
+    padding: 10px 18px;
+    border: 2px solid #F3C10D;
+    border-radius: 6px;
+    background-color: #F3C10D;
+    color: #00205C;
+    font-family: 'Baskerville', serif;
+    font-size: 17px;
+    font-weight: bold;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-#create-an-account:hover,
-#Signin:hover {
-    background-color: #e67e22;
-    color: #00205c;
+.form-button:hover {
+    background-color: #00205C;
+    border-color: #00205C;
+    color: #FFFFFF;
     text-decoration: none;
 }
 
+.form-button--secondary {
+    background-color: #FFFFFF;
+    border-color: #00205C;
+    color: #00205C;
+}
+
+.form-button--secondary:hover {
+    background-color: #00205C;
+    border-color: #00205C;
+    color: #FFFFFF;
+}
+
+
+/* =====================================================
+   ORIGINAL SIGN-IN LANDING PAGE
+   ===================================================== */
+
+.containerS1,
+.containerS2 {
+    width: 100%;
+    margin: 25px auto;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapperS1,
+.wrapperS2 {
+    width: 90%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    color: #00205C;
+    font-family: 'Baskerville', serif;
+}
+
+.heading {
+    margin: 0 0 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #F3C10D;
+    color: #00205C;
+    font-family: 'Baskerville', serif;
+    text-align: center;
+}
+
+.google-signin-widget,
+.g_id_signin {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin: 15px auto !important;
+}
+
+.signin-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 100%;
+    margin: 20px auto;
+}
+
+#Signin,
+#create-an-account {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 190px;
+    min-height: 44px;
+    padding: 10px 18px;
+    border: 2px solid #F3C10D;
+    border-radius: 6px;
+    background-color: #F3C10D;
+    color: #00205C;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#Signin:hover,
+#create-an-account:hover {
+    background-color: #00205C;
+    border-color: #00205C;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.containerS2 p {
+    color: #00205C;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   RESPONSIVE LAYOUT
+   ===================================================== */
+
+@media (max-width: 600px) {
+    .account-form-page {
+        width: 94%;
+        margin: 20px auto;
+        padding: 20px 15px;
+    }
+
+    .account-form-heading {
+        font-size: 25px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-button {
+        width: 100%;
+    }
+
+    .wrapperS1,
+    .wrapperS2 {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .containerS1,
+    .containerS2 {
+        padding: 5px;
+    }
+
+    #Signin,
+    #create-an-account {
+        width: 100%;
+    }
+}
