@@ -1,5 +1,6 @@
 from google.oauth2 import id_token
 from google.auth.transport import requests
+from django.conf import settings
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
@@ -243,7 +244,10 @@ def create_forum(request):
         ).tags.set(form.cleaned_data["tags"])
         return redirect(f"{reverse('account:my_forums')}?success=1")
 
-    return render(request, "account/create_forum.html", {"form": form})
+    return render(request, "account/create_forum.html", {
+        "form": form,
+        "GOOGLE_API_KEY": settings.GOOGLE_API_KEY,
+    })
 
 # a lot of this code is from google btw
 @csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post

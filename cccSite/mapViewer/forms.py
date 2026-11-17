@@ -1,5 +1,6 @@
 #https://medium.com/swlh/django-forms-for-many-to-many-fields-d977dec4b024
 from django import forms
+from django.conf import settings
 from .models import MapTag
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -34,7 +35,7 @@ class MakePostForm(forms.Form):
     #because if the provided address doesn't result in a valid geocode, we can't try to access said geocode. this stores a valid geocode
     #in the geoResult field of the form, and  also builds in an error message to the address code if there is no geocode
     def clean(self): 
-        gmaps = googlemaps.Client(key='AIzaSyAH_5F4XRcZh8_OZib8cUD-DoE7ust60lc') #initialize maps
+        gmaps = googlemaps.Client(key=settings.GOOGLE_API_KEY) #initialize maps
         cleaned_data = super().clean() #verify that all the other forms are ok
         if not self.cleaned_data['geoResult']: #if we don't have a geocode (first try or last try was invalid)
             geoResult=gmaps.geocode(address=self.cleaned_data['location']) #fetch geocode for provided address (API call)

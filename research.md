@@ -1,6 +1,9 @@
 ﻿# Research & Development Notes
 
-
+## Safetly sharing keys
+I have been working on changing keys that have been shared in the repo and finding a safe way to refer to them instead on just hard coding it. The API key should be good as all user will have a unique key and the API key used prior also didn't do anything to the code. I changed the Django Key and Simon said to make a Secrets in Github which I've done. This is some notes I have made when trying to figure out how to share this secret now. 
+- GitHub Secrets allows sensitive values to be accessed by GitHub Actions workflows without hardcoding them into the repository but there is no command to then give this key out.
+- we agreed to then have every user make their own django key and I added instruction on cccsetupinstructions.md
 
 ## SETTING UP API's FOR MAP PAGE
 - Go to your google cloud, and click the 3 lines on the upper left corner

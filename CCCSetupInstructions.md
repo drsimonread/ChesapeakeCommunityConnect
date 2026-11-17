@@ -76,7 +76,8 @@ The manual setup steps follow for reference.
 		-	If you’re using Visual Studio Code, this should give you a prompt that says “Your application running on port 8080 is available”. Click on “Open in Browser”
 		-	Alternatively, enter “http://127.0.0.1:8080/” in your browser
 	-	Press **Ctrl+C** to stop the server. Run `deactivate` when you are finished using the virtual environment.
--	**Setup for MapPage**
+## Setup for Keys
+- API KEY
 	- Go to your Google Cloud, and click the 3 lines on the upper left corner
 	- Click APIs & Services, and click enable APIs & Services
 	- Search for and enable
@@ -88,3 +89,62 @@ The manual setup steps follow for reference.
 	- Open .env.example and copy the line where we initalize the Google API key
 	- Paste it into your own .env and for the place holder put your API key from earlier
 	- This file should automatically be ignored when commiting as it is in the .gitignore file, keeping your key safe
+- DJANGO KEY
+	- Make sure you are in the cccSite directory (the same directory where manage.py is located).
+	- Run the following command to generate your own Django secret key:
+		```bash
+		python3 -c "import secrets; print(secrets.token_urlsafe(50))"
+		```
+	- Copy the generated key and keep it private.
+	- If you have not already created a .env file, create one inside the cccSite directory.
+	- Open .env.example and copy the line where the Django secret key is initialized.
+	- Paste it into your .env file and replace the placeholder with your generated key. It should look like this:
+		```bash
+		DJANGO_SECRET_KEY=your_generated_key_here
+		```
+
+## Create a Django admin account
+
+Complete the automated or manual installation before creating the account.
+If the development server is running in your terminal, press **Ctrl+C** to stop it.
+
+1. From the repository root, enter the Django project directory:
+
+	```bash
+	cd cccSite
+	```
+
+2. Activate the virtual environment:
+
+	```bash
+	source .venv/bin/activate
+	```
+
+3. Apply any pending database migrations:
+
+	```bash
+	python manage.py migrate
+	```
+
+4. Create the administrator account:
+
+	```bash
+	python manage.py createsuperuser
+	```
+
+5. Enter a username, an email address, and a password when prompted. Enter the
+	password again to confirm it. Password characters do not appear as you type.
+	When the command succeeds, Django prints `Superuser created successfully.`
+
+6. Start the development server:
+
+	```bash
+	python manage.py runserver 8080
+	```
+
+7. Open [the Django admin page](http://127.0.0.1:8080/DJadmin/) in your browser.
+	If you use a forwarded development URL, add `/DJadmin/` to that URL instead.
+	Sign in with the username and password you just created.
+
+This account uses Django's admin login at `/DJadmin/`. The website's regular
+login and custom admin area at `/admin/` use separate accounts.
