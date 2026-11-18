@@ -2,13 +2,14 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from unittest.mock import patch
 from .models import Member, GLogIn
+from .google_id_utils import hash_google_id
 from mapViewer.models import MapPost
 
 class AccountViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = Member.objects.create(name="Test User", email="test@example.com", ranking=1)
-        self.glogin = GLogIn.objects.create(googleID="1234567890", referTo=self.user)
+        self.glogin = GLogIn.objects.create(googleID=hash_google_id("1234567890"), referTo=self.user)
         self.session = self.client.session
         self.session['user'] = self.user.pk
         self.session['rank'] = self.user.ranking
@@ -269,7 +270,11 @@ class AccountViewsTest(TestCase):
         self.assertRedirects(response, reverse("account:default"), fetch_redirect_response=False)
         member = Member.objects.get(email="google@example.com")
         self.assertEqual(member.name, "Google User")
-        self.assertEqual(GLogIn.objects.get(googleID="google-user-123").referTo, member)
+        stored_google_id = GLogIn.objects.get(
+            googleID=hash_google_id("google-user-123")
+        )
+        self.assertEqual(stored_google_id.referTo, member)
+        self.assertNotEqual(stored_google_id.googleID, "google-user-123")
         session = self.client.session
         self.assertEqual(session["user"], member.pk)
         self.assertEqual(session["rank"], member.ranking)

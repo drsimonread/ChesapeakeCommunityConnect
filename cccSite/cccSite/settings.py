@@ -41,8 +41,11 @@ SECURE_REFERRER_POLICY = "same-origin-no-downgrade" # this
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") or "django-insecure-development-only-key"
 
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID") or "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
+# Key used to hash Google user IDs before database storage.
+GOOGLE_ID_HASH_KEY = os.getenv("GOOGLE_ID_HASH_KEY", "")
+
 # SECURITY WARNING: don't run with debug turned on in production!
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID") or "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
 DEBUG = True
 
 ALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']

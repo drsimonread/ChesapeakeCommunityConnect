@@ -1,3 +1,4 @@
+from .google_id_utils import hash_google_id
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.shortcuts import render, redirect, get_object_or_404
@@ -40,13 +41,14 @@ def google_signin(request):
             )
 
             google_id = idinfo["sub"]  # Google's unique user ID
+            hashed_google_id = hash_google_id(google_id)
             email = idinfo.get("email", "")
             first_name = idinfo.get("given_name", "")
             last_name = idinfo.get("family_name", "")
 
             # 2. Check if this Google ID already exists
             try:
-                glog = GLogIn.objects.get(googleID=google_id)
+                glog = GLogIn.objects.get(googleID=hashed_google_id)
                 member = glog.referTo
             except GLogIn.DoesNotExist:
                 member = Member.objects.filter(email__iexact=email).first()
@@ -58,7 +60,7 @@ def google_signin(request):
                         ranking=1,
                     )
                 GLogIn.objects.create(
-                    googleID=google_id,
+                    googleID=hashed_google_id,
                     referTo=member
                 )
 
