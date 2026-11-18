@@ -87,6 +87,7 @@
 {% block accountFunc %}
 
 {% if not is_signed_in %}
+<<<<<<< HEAD
 
 <div class="contributors-guest-page">
 
@@ -107,6 +108,20 @@
             Sign In
         </a>
 
+=======
+  <div class="dir-search__shell">
+    <section class="dir-search__results" aria-labelledby="contributors-signin-heading">
+       <div class="containerS1 contributors-signin-prompt">
+          <div class="wrapperS1">
+          
+          <h1 class="heading">
+            <span aria-hidden="true">⚠️</span> Sign in to view contributors <span aria-hidden="true">⚠️</span>
+          </h1>
+          <p class="contributors-signin-message">You need to sign in to view the contributors page.</p>
+          <a class="button contributors-signin-link" href="{% url 'account:signin' %}">Sign In</a>
+        </div>
+      </div>
+>>>>>>> 72ac693c (fixed contributor search and filtering)
     </section>
 
     <section class="contributors-info-card" aria-labelledby="contributor-info-heading">
@@ -146,6 +161,7 @@
     </div>
   </header>
 
+ 
   <div class="dir-search__shell">
     <nav class="dir-search__alphabet" aria-label="Browse contributors by first letter">
       <span class="dir-search__alphabet-label">Browse by letter</span>
@@ -178,12 +194,20 @@
           <div class="dir-search__field">
             <i class="bx bx-search dir-search__field-icon" aria-hidden="true"></i>
             {{ search.q }}
-            <input type="hidden" name="s" value="{{ sort_value }}">
             <input type="hidden" name="letter" value="{{ selected_letter }}">
             <input type="hidden" name="page" value="1">
           </div>
           {% if search.q.errors %}
           <div class="dir-search__field-errors">{{ search.q.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="dir-search__field-block dir-search__sort-field">
+          <label class="dir-search__label" for="id_s">Sort by</label>
+          <div class="dir-search__field">
+            {{ search.s }}
+          </div>
+          {% if search.s.errors %}
+          <div class="dir-search__field-errors">{{ search.s.errors }}</div>
           {% endif %}
         </div>
         <div class="dir-search__submit-wrap">
@@ -194,6 +218,7 @@
         </div>
       </form>
 
+<<<<<<< HEAD
       <div class="dir-search__panel-divider" aria-hidden="true"></div>
 
       <nav class="dir-search__sort" aria-label="Sort order">
@@ -256,6 +281,24 @@
           <span class="dir-search__pager-link is-disabled">Next <i class="bx bx-chevron-right" aria-hidden="true"></i></span>
           {% endif %}
         </nav>
+=======
+    <!-- Users List -->
+    <section aria-labelledby="users-list-heading" class="users-section">
+        <h2 id="users-list-heading" class="visually-hidden">User List</h2>
+        {% if users %}
+            <ul role="list" class="user-list">
+                {% for item in users %}
+                <li role="listitem" class="user-item">
+                    <a href="{{ item.get_absolute_url }}" class="user-link" aria-label="View profile of {{ item.name }}">
+                        {{ item.name }}
+                    </a>
+                    <span class="forum-count">{{ item.num_forums }} forum{{ item.num_forums|pluralize }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No users found.</p>
+>>>>>>> 72ac693c (fixed contributor search and filtering)
         {% endif %}
 
         {% else %}
@@ -277,5 +320,152 @@
 </div>
 
 {% endif %}
+<<<<<<< HEAD
+=======
+
+<!-- Optional: Add styles for better appearance -->
+<style>
+/* ============================
+   ACCESSIBILITY HELPERS
+============================ */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================
+   SEARCH FORM
+============================ */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--gray-border);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Style Django form fields */
+.search-form input,
+.search-form select {
+    padding: 0.7em;
+    border-radius: 8px;
+    border: 1px solid var(--gray-border);
+    width: 100%;
+    font-size: 15px;
+}
+
+/* Search button */
+#search-btn {
+    background-color: var(--gold);
+    color: var(--blue);
+    padding: 0.7em 1.2em;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.25s ease,
+                transform 0.15s ease,
+                box-shadow 0.2s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+#search-btn:hover {
+    background-color: var(--gold-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ============================
+   USER LIST
+============================ */
+.user-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-item {
+    padding: 15px 12px;
+    border-bottom: 1px solid var(--gray-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    transition: background-color 0.25s ease;
+}
+
+.user-item:hover {
+    background-color: var(--gray-light);
+}
+
+/* Username link */
+.user-link {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--blue);
+    transition: color 0.25s ease;
+}
+
+.user-link:hover {
+    color: var(--gold-hover);
+}
+
+/* Forum count badge */
+.forum-count {
+    font-size: 14px;
+    color: #555;
+    background: var(--gray-light);
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-border);
+}
+
+.dir-search__sort-field {
+    flex: 0 1 16rem;
+}
+
+.dir-search__sort-field select {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.65rem 0.85rem;
+    border: 0;
+    border-radius: var(--dir-radius-sm, 8px);
+    background: transparent;
+    color: #0f172a;
+    font-size: 0.9375rem;
+}
+
+.dir-search__sort-field select:focus {
+    outline: none;
+}
+
+/* ============================
+   RESPONSIVE DESIGN
+============================ */
+@media(max-width: 600px) {
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .user-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}
+</style>
+>>>>>>> 72ac693c (fixed contributor search and filtering)
 
 {% endblock accountFunc %}

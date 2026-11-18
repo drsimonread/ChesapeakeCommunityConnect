@@ -86,7 +86,10 @@ class SearchAccountForm(forms.Form):
         label='Sort by',
         choices=CHOICES,
         required=False,
-        widget=forms.Select(attrs={"class": "contrib-search-select cc-field-input cc-field-input--select"}),
+        widget=forms.Select(attrs={
+            "class": "contrib-search-select cc-field-input cc-field-input--select",
+            "onchange": "this.form.submit()",
+        }),
     )
 
 class CreateAccountForm(UserCreationForm):

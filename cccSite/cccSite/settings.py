@@ -39,7 +39,9 @@ SECURE_REFERRER_POLICY = "same-origin-no-downgrade" # this
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") or "django-insecure-development-only-key"
+
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID") or "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

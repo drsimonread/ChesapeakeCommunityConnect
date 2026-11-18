@@ -132,6 +132,36 @@ class AccountViewsTest(TestCase):
         self.assertContains(response, "Test User")
         self.assertContains(response, 'aria-current="true"')
 
+    def test_contributor_sort_option_orders_visible_users(self):
+        alpha_user = Member.objects.create(name="Alpha User", email="alpha@example.com", ranking=1)
+        MapPost.objects.create(
+            title="Alpha forum",
+            content="A visible forum",
+            author=alpha_user,
+            description="A visible forum",
+            geoCode={"lat": 38.98, "lng": -76.49},
+            visibility=1,
+        )
+        MapPost.objects.create(
+            title="Test forum",
+            content="A visible forum",
+            author=self.user,
+            description="A visible forum",
+            geoCode={"lat": 38.98, "lng": -76.49},
+            visibility=1,
+        )
+
+        response = self.client.get(reverse("account:account_list"), {"s": "1"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'name="s"', count=1)
+        self.assertContains(response, 'onchange="this.form.submit()"', html=False)
+        self.assertContains(response, 'option value="1" selected', html=False)
+        self.assertEqual(
+            [member.name for member in response.context["users"]],
+            ["Test User", "Alpha User"],
+        )
+
     def test_create_forum_page_uses_existing_template(self):
         response = self.client.get(reverse("account:create_forum"))
         self.assertEqual(response.status_code, 200)
@@ -217,6 +247,32 @@ class AccountViewsTest(TestCase):
     def test_authG_view_invalid_csrf(self):
         response = self.client.post(reverse("account:authG"), {'g_csrf_token': 'invalid'})
         self.assertContains(response, "Something went wrong, no csrf cookie", status_code=200)
+
+    @patch("account.views.id_token.verify_oauth2_token")
+    def test_google_signin_creates_member_and_starts_session(self, verify_token):
+        verify_token.return_value = {
+            "sub": "google-user-123",
+            "email": "google@example.com",
+            "given_name": "Google",
+            "family_name": "User",
+        }
+        self.client.cookies["g_csrf_token"] = "valid-token"
+
+        response = self.client.post(
+            reverse("account:authG"),
+            {
+                "g_csrf_token": "valid-token",
+                "credential": "valid-google-credential",
+            },
+        )
+
+        self.assertRedirects(response, reverse("account:default"), fetch_redirect_response=False)
+        member = Member.objects.get(email="google@example.com")
+        self.assertEqual(member.name, "Google User")
+        self.assertEqual(GLogIn.objects.get(googleID="google-user-123").referTo, member)
+        session = self.client.session
+        self.assertEqual(session["user"], member.pk)
+        self.assertEqual(session["rank"], member.ranking)
 
 
 # issue #72: changing your password from the edit account page
