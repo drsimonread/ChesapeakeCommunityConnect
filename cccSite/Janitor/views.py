@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.urls import reverse
 from boiler.models import Message
 from account.models import Member
 from .models import PostReport, UserReport
@@ -40,8 +41,33 @@ def member_manage(request, want):
                                                           })
 
 def pendingPostList(request):
-    pending_posts= MapPost.objects.filter(isVisible=False)
-    return HttpResponse("hey")
+    if request.session.get("rank", 0) <= 1:
+        return redirect(reverse("mapViewer:default"))
+
+    if request.method == "POST":
+        post = get_object_or_404(
+            MapPost,
+            pk=request.POST.get("pk"),
+            visibility=0,
+        )
+        action = request.POST.get("action")
+        if action not in {"approve", "reject"}:
+            return HttpResponseBadRequest("Choose whether to approve or reject the post.")
+
+        post.visibility = 1 if action == "approve" else -1
+        post.save(update_fields=["visibility"])
+        return redirect(f"{reverse('Janitor:pending_posts')}?updated={action}")
+
+    status_messages = {
+        "approve": "Post approved and published.",
+        "reject": "Post rejected.",
+    }
+    return render(request, "Janitor/pendingPostList.html", {
+        "pending_posts": MapPost.objects.filter(
+            visibility=0
+        ).select_related("author").order_by("created"),
+        "status_message": status_messages.get(request.GET.get("updated")),
+    })
 
 def tagList(request):
     msg = ""

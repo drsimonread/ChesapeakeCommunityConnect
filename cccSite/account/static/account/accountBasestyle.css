@@ -1626,6 +1626,115 @@
     color: var(--blue);
 }
 
+.account-posts {
+    margin-top: 1.25rem;
+    padding: 1.5rem 1.35rem 1.35rem;
+    border-top: 4px solid var(--gold);
+    border-radius: 12px;
+    background: #f5f7fa;
+    box-shadow: 0 3px 14px rgba(0, 32, 92, 0.08);
+}
+
+.account-posts__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+}
+
+.account-posts__kicker {
+    color: var(--slate);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.account-posts__title {
+    margin: 0.2rem 0 0;
+    color: var(--blue);
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.account-posts__list {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.account-posts__item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1.1rem 1.05rem;
+    border-left: 4px solid var(--blue);
+    border-radius: 0 10px 10px 0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 32, 92, 0.06);
+}
+
+.account-posts__body {
+    min-width: 0;
+}
+
+.account-posts__post-title {
+    margin: 0;
+    color: var(--blue);
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.account-posts__description {
+    margin: 0.35rem 0 0;
+    color: #334155;
+    line-height: 1.5;
+}
+
+.account-posts__date {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--slate);
+    font-size: 0.78rem;
+}
+
+.account-posts__open {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    flex-shrink: 0;
+    min-height: 2.3rem;
+    padding: 0 0.8rem;
+    border: 1px solid var(--blue);
+    border-radius: 7px;
+    background: var(--blue);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.account-posts__open:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--blue);
+}
+
+.account-posts__open i {
+    font-size: 1.1rem;
+}
+
+.account-posts__empty {
+    margin: 0;
+    color: var(--slate);
+    font-style: italic;
+}
+
 .account-btn--secondary {
     background: #fff;
     color: var(--blue);
@@ -1714,6 +1823,15 @@
 }
 
 @media (max-width: 768px) {
+    .account-posts__item {
+        flex-direction: column;
+        gap: 0.65rem;
+    }
+
+    .account-posts__open {
+        align-self: flex-start;
+    }
+
     .account-shell {
         padding: 1.25rem 0 2.5rem;
     }
@@ -2427,5 +2545,132 @@
     .dir-search__pager {
         flex-direction: column;
         justify-content: center;
+    }
+}
+
+
+/* =========================================================
+   Issue #93: Signed-out Contributors page
+   ========================================================= */
+
+.contributors-guest-page {
+    width: min(1100px, 92%);
+    margin: 2.5rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    color: #00205C;
+    font-family: Baskerville, Georgia, serif;
+}
+
+.contributors-guest-card,
+.contributors-info-card {
+    width: 100%;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: 16px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.contributors-guest-card {
+    background: linear-gradient(135deg, #00205C 0%, #0b3d7a 55%, #00163F 100%);
+    border: 1px solid rgba(0, 32, 92, 0.15);
+    border-bottom: 5px solid #F3C10D;
+    box-shadow: 0 8px 28px rgba(0, 32, 92, 0.18);
+}
+
+.contributors-info-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 32, 92, 0.15);
+    border-top: 5px solid #F3C10D;
+    box-shadow: 0 5px 18px rgba(0, 32, 92, 0.08);
+}
+
+.contributors-guest-kicker {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: #F3C10D;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.contributors-guest-title,
+.contributors-info-title {
+    margin: 0 0 1rem;
+    font-family: Baskerville, Georgia, serif;
+    font-weight: 700;
+}
+
+.contributors-guest-title {
+    color: #FFFFFF;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+}
+
+.contributors-info-title {
+    color: #00205C;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.contributors-guest-message,
+.contributors-info-text {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Baskerville, Georgia, serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.contributors-guest-message {
+    color: #FFFFFF;
+}
+
+.contributors-info-text {
+    color: #00205C;
+}
+
+.contributors-guest-button {
+    display: inline-block;
+    margin-top: 1.75rem;
+    padding: 0.8rem 2rem;
+    border: 2px solid #F3C10D;
+    border-radius: 7px;
+    background: #F3C10D;
+    color: #00205C;
+    font-family: Baskerville, Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.contributors-guest-button:hover,
+.contributors-guest-button:focus-visible {
+    background: #FFFFFF;
+    color: #00205C;
+    text-decoration: none;
+}
+
+.contributors-guest-button:focus-visible {
+    outline: 3px solid #F3C10D;
+    outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+    .contributors-guest-page {
+        width: 94%;
+        margin: 1.5rem auto;
+        gap: 1.25rem;
+    }
+
+    .contributors-guest-card,
+    .contributors-info-card {
+        padding: 1.5rem 1.1rem;
+    }
+
+    .contributors-guest-message,
+    .contributors-info-text {
+        font-size: 1rem;
     }
 }

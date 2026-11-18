@@ -9,16 +9,70 @@ from account.models import Member
 from .forms import *
 from django.db.models import Q
 import googlemaps
+from googlemaps.exceptions import ApiError, Timeout, TransportError
 from datetime import datetime
 from Janitor.forms import PostRepForm
 from .models import MapPost, MapTag, PostComment
+import logging
 
 
+logger = logging.getLogger(__name__)
 
 def viewMap(request):
     posts = MapPost.objects.filter(visibility=1) #begin by fetching visible posts from database
     madePostSuccess = False #assume the user did not just post
-    if(request.method=="POST"): #if the request was a post, it is an attempt to create a post
+    guest_post_form = GuestPostForm()
+    guest_post_open = request.GET.get("guest_post") == "open"
+    guest_post_submitted = request.GET.get("guest_post") == "submitted"
+    if request.method == "POST" and request.POST.get("action") == "guest_post":
+        guest_post_open = True
+        guest_post_form = GuestPostForm(request.POST)
+        if guest_post_form.is_valid():
+            if not settings.GOOGLE_API_KEY:
+                logger.error("Google Maps API key is not configured for guest post geocoding.")
+                guest_post_form.add_error(
+                    "address",
+                    "Guest submissions are temporarily unavailable because address lookup is not configured.",
+                )
+            else:
+                cleaned_data = guest_post_form.cleaned_data
+                address_parts = (
+                    cleaned_data["address"],
+                    cleaned_data["city"],
+                    cleaned_data["state"],
+                    cleaned_data["zipcode"],
+                )
+                full_address = ", ".join(part for part in address_parts if part)
+                try:
+                    geocode_results = googlemaps.Client(
+                        key=settings.GOOGLE_API_KEY
+                    ).geocode(full_address)
+                except (ApiError, Timeout, TransportError):
+                    logger.exception("Could not geocode guest map post address.")
+                    guest_post_form.add_error(
+                        "address",
+                        "We couldn't verify the address right now. Please try again.",
+                    )
+                else:
+                    if not geocode_results:
+                        guest_post_form.add_error(
+                            "address",
+                            "We couldn't find that address. Please check it and try again.",
+                        )
+                    else:
+                        MapPost.objects.create(
+                            title=cleaned_data["title"],
+                            content=cleaned_data["description"],
+                            author=None,
+                            guest_email=cleaned_data["email"],
+                            description=cleaned_data["description"],
+                            geoCode=geocode_results[0],
+                            visibility=0,
+                        )
+                        return redirect(
+                            f"{reverse('mapViewer:default')}?guest_post=submitted#post-form"
+                        )
+    elif request.method == "POST": #a post from the existing contributor form
         postingForm= MakePostForm(request.POST) #create the posting form instance and populate it with the data in the POST request
         madePostSuccess = postingForm.is_valid() #if the data is valid (more info on this in mapViewer/forms.py)
         if madePostSuccess: #if the post is good to go
@@ -26,11 +80,14 @@ def viewMap(request):
             vis=0
             if request.session['rank'] > 1:
                 vis=1
+            geo_result = postingForm.cleaned_data['geoResult']
+            if isinstance(geo_result, list):
+                geo_result = geo_result[0]
             postInz=MapPost.objects.create(title=postingForm.cleaned_data['title'], #actually create the post instance in the database
                                    content=postingForm.cleaned_data['content'],
                                    author=userInz,
                                    description=postingForm.cleaned_data['description'],
-                                   geoCode=postingForm.cleaned_data['geoResult'][0],
+                                   geoCode=geo_result,
                                    visibility=vis
                                    )
             if postingForm.cleaned_data['tags']:
@@ -45,12 +102,19 @@ def viewMap(request):
     if tagQuery:
         for tag in tagQuery:
             posts=posts.filter(tags__pk=tag)
-    widgets = serializers.serialize('json', posts) #serialize posts as JSON for google maps
+    widgets = serializers.serialize(
+        "json",
+        posts,
+        fields=("title", "description", "geoCode"),
+    )
     #print(widgets)  # Temporary print statement to check the output
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
                                                       'searchForm' : searchForm,
                                                       'posts': posts,
-                                                      'GOOGLE_MAPS_API_KEY': settings.GOOGLE_API_KEY,}) #render template
+                                                      'GOOGLE_API_KEY': settings.GOOGLE_API_KEY,
+                                                      'guest_post_form': guest_post_form,
+                                                      'guest_post_open': guest_post_open,
+                                                      'guest_post_submitted': guest_post_submitted,}) #render template
 
 
 
@@ -66,7 +130,8 @@ def post_list(request):
             posts=posts.filter(tags__pk=tag)
     posts = posts.order_by("id")
     return render(request, "mapViewer/listPosts.html", {"postList" : posts,
-                                                        "form" : form})
+                                                        "form" : form,
+                                                        "GOOGLE_API_KEY": settings.GOOGLE_API_KEY})
 
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
@@ -104,7 +169,8 @@ def post_detail(request, want):
                     return redirect(
                         f"{reverse('mapViewer:post_detail', args=[want])}#comments"
                     )
-        if lookAt.visibility>0 or request.session.get('rank',0)>1 or lookAt.author.pk==request.session.get('user',-1):
+        is_author = lookAt.author_id == request.session.get("user", -1)
+        if lookAt.visibility > 0 or request.session.get('rank', 0) > 1 or is_author:
             comments = list(
                 PostComment.objects.filter(post=lookAt).select_related("author")
             )

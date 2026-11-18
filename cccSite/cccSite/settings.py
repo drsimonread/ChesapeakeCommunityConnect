@@ -39,8 +39,9 @@ SECURE_REFERRER_POLICY = "same-origin-no-downgrade" # this
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rak*1&oe)cu7moh&u+(bq62$&taj$7gdx9-^48-4zs)v*v#_1f'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") or "django-insecure-development-only-key"
 
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID") or "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -50,13 +51,13 @@ ALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'account.apps.AccountConfig',
     'mapViewer.apps.MapviewerConfig',
     'boiler.apps.BoilerConfig', 
     'Janitor.apps.JanitorConfig',
@@ -91,6 +92,18 @@ TEMPLATES = [
 ]
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
+
+# email, used for password reset links (issue #71).
+# by default emails are printed in the runserver terminal instead of being sent, so this works with no setup.
+# to really send email (e.g. on the live site), set these in .env; see .env.example
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
+EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "true").lower() == "true"
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "Chesapeake Community Connect <noreply@localhost>")
+PASSWORD_RESET_TIMEOUT = 60 * 60  # password reset links expire after 1 hour
 
 
 WSGI_APPLICATION = 'cccSite.wsgi.application'

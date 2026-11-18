@@ -1,5 +1,4 @@
 let map;
-let geocoder;
 const mapData = JSON.parse(document.getElementById("map-data").textContent);
 const forums = typeof mapData === "string" ? JSON.parse(mapData) : mapData;
 const infoWindowList = [];
@@ -19,14 +18,25 @@ async function initMap() {
             zoom: 8,
             mapId: '946a9c10600de2ba'
         });
-        geocoder = new google.maps.Geocoder();
-
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
         for (let item of forums) {
+            const geoCode = item.fields.geoCode;
+            const geocodeResult = Array.isArray(geoCode) ? geoCode[0] : geoCode;
+            const position = geocodeResult?.geometry?.location ?? geocodeResult;
+            if (!Number.isFinite(position?.lat) || !Number.isFinite(position?.lng)) continue;
+
             const title = item.fields.title;
             const description = item.fields.description;
             const forumURL = `${window.location.origin}${window.location.pathname}post/${item.pk}`;
-            const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng };
+            const infoContent = document.createElement("div");
+            const heading = document.createElement("h3");
+            const summary = document.createElement("p");
+            const link = document.createElement("a");
+            heading.textContent = title;
+            summary.textContent = description;
+            link.href = forumURL;
+            link.textContent = "See More";
+            infoContent.append(heading, summary, link);
 
             const marker = new AdvancedMarkerElement({
                 position,
@@ -34,11 +44,7 @@ async function initMap() {
                 title: title,
             });
             const infowindow = new google.maps.InfoWindow({
-                content: `
-                    <h3>${title}</h3>
-                    <p>${description}</p>
-                    <a href="${forumURL}">See More</a>
-                `
+                content: infoContent
             });
 
             marker.addListener('click', function() {
@@ -94,56 +100,27 @@ window.gm_authFailure = function() {
 };
 
 
-function createPost() {
-
-    const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
-    const address = document.getElementById("address").value;
-    const city = document.getElementById("city").value;
-    const state = document.getElementById("state").value;
-    const zipcode = document.getElementById("zipcode").value;
-
-    const fullAddress = `${address}, ${city}, ${state} ${zipcode}`;
-
-    if (!address) {
-        alert("Please enter an address");
-        return;
-    }
-
-    geocoder.geocode({ address: fullAddress }, function(results, status) {
-
-        if (status === "OK") {
-
-            const location = results[0].geometry.location;
-
-            const marker = new google.maps.Marker({
-                map: map,
-                position: location,
-                title: title
-            });
-
-            const infoWindow = new google.maps.InfoWindow({
-                content: `
-                    <h4>${title}</h4>
-                    <p>${description}</p>
-                    <p>${fullAddress}</p>
-                `
-            });
-
-            marker.addListener("click", () => {
-                infoWindow.open(map, marker);
-            });
-
-            map.setCenter(location);
-            map.setZoom(14);
-
-        } else {
-            alert("Address not found: " + status);
-        }
-
-    });
-}
 document.addEventListener("DOMContentLoaded", function () {
-    window.createPost = createPost;
+    const choice = document.getElementById("post-access-choice");
+    const guestForm = document.getElementById("post-form");
+    const guestChoiceForm = document.getElementById("guest-choice-form");
+    const changeMethod = document.getElementById("back-to-post-choice");
 
+    guestChoiceForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        choice.hidden = true;
+        guestForm.hidden = false;
+        document.getElementById("email").focus();
+    });
+
+    changeMethod?.addEventListener("click", (event) => {
+        event.preventDefault();
+        guestForm.hidden = true;
+        choice.hidden = false;
+        document.getElementById("continue-as-guest").focus();
+    });
+
+    if (!guestForm.hidden) {
+        document.getElementById("email").focus();
+    }
 });
