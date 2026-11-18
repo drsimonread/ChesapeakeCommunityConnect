@@ -11,7 +11,11 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.core import signing
 from django.conf import settings
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.http import (
+    url_has_allowed_host_and_scheme,
+    urlsafe_base64_encode,
+    urlsafe_base64_decode,
+)
 from django.utils.encoding import force_bytes, force_str
 from django.core.paginator import Paginator
 import logging
@@ -81,16 +85,36 @@ from .forms import CreateForumForm, SearchAccountForm
 from urllib.parse import urlencode
 from string import ascii_uppercase
 
-# if user not signed in, sends them to log in 
+
+def safe_next_url(request, candidate):
+    if candidate and url_has_allowed_host_and_scheme(
+        candidate,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        return candidate
+    return reverse("account:default")
+
+
 def signin(request):
-    if request.session.get('rank', 0)==0:
-        return render(request, 'account/signin.html', {"google_client_id": GOOGLE_CLIENT_ID})
-    else:
-        return redirect("/account/")
+    next_url = safe_next_url(request, request.GET.get("next"))
+    if request.session.get("rank", 0) != 0:
+        return redirect(next_url)
+
+    return render(request, "account/signin.html", {
+        "next_url": next_url,
+        "google_auth_url": request.build_absolute_uri(reverse("account:authG")),
+        "google_client_id": GOOGLE_CLIENT_ID,
+    })
+
 
 def signin_form(request):
+    next_url = safe_next_url(
+        request,
+        request.POST.get("next") or request.GET.get("next"),
+    )
     if request.session.get("rank", 0) != 0:
-        return redirect(reverse("account:default"))
+        return redirect(next_url)
 
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
@@ -111,14 +135,15 @@ def signin_form(request):
             request.session["rank"] = member.ranking
             request.session["user"] = member.pk
             request.session["name"] = member.name
-            next_url = request.GET.get("next")
-            return redirect(next_url or reverse("account:default"))
+            return redirect(next_url)
 
         return render(request, "account/signin_form.html", {
             "error": "The username or password is incorrect.",
+            "next_url": next_url,
         })
 
     return render(request, "account/signin_form.html", {
+        "next_url": next_url,
         "reset_done": request.GET.get("reset") == "done",
     })
 
@@ -199,7 +224,7 @@ def authG(request):
     if getattr(result, "status_code", 200) == 200:
         payload = json.loads(result.content)
         if payload.get("success"):
-            return redirect(reverse("account:default"))
+            return redirect(safe_next_url(request, request.POST.get("state")))
     return render(request, "account/signedout.html", {
         "auth_error": "Google sign-in could not be verified.",
         "google_client_id": GOOGLE_CLIENT_ID,

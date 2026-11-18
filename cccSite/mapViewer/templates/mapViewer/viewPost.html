@@ -13,7 +13,7 @@
 <div id="content" class="body">
     <h1>{{post.title}}</h1>
     <br>
-    By {{post.author}}
+    By {% if post.author %}{{ post.author }}{% else %}Guest contributor{% endif %}
     <br>
     {{post.content}}
     <br>

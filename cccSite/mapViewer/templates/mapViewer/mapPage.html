@@ -15,6 +15,7 @@
 {% endblock head %}
 
 {% block content %}
+{% url 'account:create_forum' as contributor_create_url %}
 <div class="site-shell site-font">
   <div class="site-shell__aurora"></div>
   <div class="site-shell__pattern"></div>
@@ -107,7 +108,6 @@
             </form>
           </aside>
 
-          
           <section id="upload-descriptions" aria-labelledby="upload-descriptions-heading">
             <h2 id="upload-descriptions-heading">Upload descriptions</h2>
             {% for post in posts %}
@@ -124,8 +124,7 @@
         <!-- RIGHT COLUMN -->
         <div class="map-right-column">
 
-          <div class="map-search-panel">
-
+          <div class="map-search-panel post-creation-panel">
             <div class="map-search-panel__head">
               <h2 class="map-search-panel__title">Create a Post</h2>
               <p class="map-search-panel__intro">
@@ -133,54 +132,88 @@
               </p>
             </div>
 
-            <form id="post-form"
-                  action="{% url 'mapViewer:default' %}"
-                  method="post">
-              {% csrf_token %}
+            {% if guest_post_submitted %}
+              <p class="guest-post-status" role="status">
+                Thanks! Your post was submitted for review. We will use your email to contact you about the submission; it will not be shown publicly.
+              </p>
+            {% endif %}
 
-              <div class="map-search-block">
-                <label class="map-search-label">Title</label>
-                <input type="text" id="title" name="title" required>
-              </div>
+            <section id="post-access-choice" aria-label="Choose how to create a post"{% if guest_post_open %} hidden{% endif %}>
+              <p class="post-access-copy">Log in as a contributor, or continue as a guest.</p>
+              <form id="guest-choice-form"
+                    class="post-access-actions post-access-choice-actions"
+                    action="{% url 'mapViewer:default' %}#post-form"
+                    method="get">
+                <input type="hidden" name="guest_post" value="open">
+                <a class="map-filter-btn" href="{% url 'account:signin' %}?next={{ contributor_create_url|urlencode }}">
+                  <span class="map-filter-btn__text">Log in</span>
+                </a>
+                <button type="submit" class="map-filter-btn" id="continue-as-guest">
+                  <span class="map-filter-btn__text">Continue as guest</span>
+                </button>
+              </form>
+            </section>
 
-              <div class="map-search-block">
-                <label class="map-search-label">Description</label>
-                <textarea id="description" name="description"
-                          class="map-search-input" required></textarea>
-              </div>
+            <div id="post-form"{% if not guest_post_open %} hidden{% endif %}>
+              <form id="guest-post-form" action="{% url 'mapViewer:default' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="guest_post">
 
-              <div class="map-search-block">
-                <label class="map-search-label">Address</label>
-                <input type="text" id="address" name="location" required>
-              </div>
+                {% if guest_post_form.non_field_errors %}
+                  <div class="guest-post-errors" role="alert">{{ guest_post_form.non_field_errors }}</div>
+                {% endif %}
 
-              <div class="map-search-block">
-                <label class="map-search-label">City</label>
-                <input type="text" id="city" required>
-              </div>
+                <div class="map-search-block">
+                  <label class="map-search-label" for="{{ guest_post_form.email.id_for_label }}">Email</label>
+                  <p class="guest-email-note">We will use this to contact you about your post. It will not be shown publicly.</p>
+                  {{ guest_post_form.email }}
+                  {{ guest_post_form.email.errors }}
+                </div>
 
-              <div class="map-search-block">
-                <label class="map-search-label">State</label>
-                <input type="text" id="state" required>
-              </div>
+                <div class="map-search-block">
+                  <label class="map-search-label" for="{{ guest_post_form.title.id_for_label }}">Title</label>
+                  {{ guest_post_form.title }}
+                  {{ guest_post_form.title.errors }}
+                </div>
 
-              <div class="map-search-block">
-                <label class="map-search-label">Zipcode</label>
-                <input type="text" id="zipcode" required>
-              </div>
+                <div class="map-search-block">
+                  <label class="map-search-label" for="{{ guest_post_form.description.id_for_label }}">Description</label>
+                  {{ guest_post_form.description }}
+                  {{ guest_post_form.description.errors }}
+                </div>
 
-              <input type="hidden" id="content" name="content">
-              <input type="hidden" id="geoResult" name="geoResult">
+                <div class="map-search-block">
+                  <label class="map-search-label" for="{{ guest_post_form.address.id_for_label }}">Address</label>
+                  {{ guest_post_form.address }}
+                  {{ guest_post_form.address.errors }}
+                </div>
 
-              <button type="button"
-                      onclick="createPost()"
-                      class="map-filter-btn">
-                <span class="map-filter-btn__text">
-                  Submit Post
-                </span>
-              </button>
+                <div class="map-search-block">
+                  <label class="map-search-label" for="{{ guest_post_form.city.id_for_label }}">City</label>
+                  {{ guest_post_form.city }}
+                  {{ guest_post_form.city.errors }}
+                </div>
 
-            </form>
+                <div class="map-search-block">
+                  <label class="map-search-label" for="{{ guest_post_form.state.id_for_label }}">State</label>
+                  {{ guest_post_form.state }}
+                  {{ guest_post_form.state.errors }}
+                </div>
+
+                <div class="map-search-block">
+                  <label class="map-search-label" for="{{ guest_post_form.zipcode.id_for_label }}">Zipcode</label>
+                  {{ guest_post_form.zipcode }}
+                  {{ guest_post_form.zipcode.errors }}
+                </div>
+
+                <div class="post-access-actions">
+                  <button type="submit" class="map-filter-btn">
+                    <span class="map-filter-btn__text">Submit Post</span>
+                  </button>
+                  <a class="post-access-back" id="back-to-post-choice" href="{% url 'mapViewer:default' %}#post-access-choice">Choose another option</a>
+                </div>
+              </form>
+            </div>
 
           </div>
 

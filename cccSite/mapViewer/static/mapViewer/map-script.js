@@ -1,5 +1,4 @@
 let map;
-let geocoder;
 const mapData = JSON.parse(document.getElementById("map-data").textContent);
 const forums = typeof mapData === "string" ? JSON.parse(mapData) : mapData;
 const infoWindowList = [];
@@ -173,8 +172,6 @@ async function initMap() {
             zoom: 8,
             mapId: '946a9c10600de2ba'
         });
-        geocoder = new google.maps.Geocoder();
-
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
         AdvancedMarkerElementClass = AdvancedMarkerElement;
         locationGroups = new Map();
@@ -236,56 +233,27 @@ window.gm_authFailure = function() {
 };
 
 
-function createPost() {
-
-    const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
-    const address = document.getElementById("address").value;
-    const city = document.getElementById("city").value;
-    const state = document.getElementById("state").value;
-    const zipcode = document.getElementById("zipcode").value;
-
-    const fullAddress = `${address}, ${city}, ${state} ${zipcode}`;
-
-    if (!address) {
-        alert("Please enter an address");
-        return;
-    }
-
-    geocoder.geocode({ address: fullAddress }, function(results, status) {
-
-        if (status === "OK") {
-
-            const location = results[0].geometry.location;
-
-            const marker = new google.maps.Marker({
-                map: map,
-                position: location,
-                title: title
-            });
-
-            const infoWindow = new google.maps.InfoWindow({
-                content: `
-                    <h4>${title}</h4>
-                    <p>${description}</p>
-                    <p>${fullAddress}</p>
-                `
-            });
-
-            marker.addListener("click", () => {
-                infoWindow.open(map, marker);
-            });
-
-            map.setCenter(location);
-            map.setZoom(14);
-
-        } else {
-            alert("Address not found: " + status);
-        }
-
-    });
-}
 document.addEventListener("DOMContentLoaded", function () {
-    window.createPost = createPost;
+    const choice = document.getElementById("post-access-choice");
+    const guestForm = document.getElementById("post-form");
+    const guestChoiceForm = document.getElementById("guest-choice-form");
+    const changeMethod = document.getElementById("back-to-post-choice");
 
+    guestChoiceForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        choice.hidden = true;
+        guestForm.hidden = false;
+        document.getElementById("email").focus();
+    });
+
+    changeMethod?.addEventListener("click", (event) => {
+        event.preventDefault();
+        guestForm.hidden = true;
+        choice.hidden = false;
+        document.getElementById("continue-as-guest").focus();
+    });
+
+    if (!guestForm.hidden) {
+        document.getElementById("email").focus();
+    }
 });

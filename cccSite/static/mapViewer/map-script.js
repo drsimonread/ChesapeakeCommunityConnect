@@ -1,7 +1,7 @@
 let map;
-let markerLayer;
 const mapData = JSON.parse(document.getElementById("map-data").textContent);
 const forums = typeof mapData === "string" ? JSON.parse(mapData) : mapData;
+const infoWindowList = [];
 
 function showMapError(message) {
     const status = document.getElementById("map-status");
@@ -11,80 +11,105 @@ function showMapError(message) {
     }
 }
 
-function getPosition(item) {
-    const location = item.fields.geoCode?.geometry?.location || item.fields.geoCode;
-    if (!location || typeof location.lat !== "number" || typeof location.lng !== "number") {
-        return null;
-    }
-    return [location.lat, location.lng];
-}
+async function initMap() {
+    try {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 38.9, lng: -77.0 },
+            zoom: 8,
+            mapId: "946a9c10600de2ba",
+        });
 
-function renderMarkers() {
-    markerLayer.clearLayers();
-    for (const item of forums) {
-        const position = getPosition(item);
-        if (!position) continue;
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+        for (const item of forums) {
+            const geoCode = item.fields.geoCode;
+            const geocodeResult = Array.isArray(geoCode) ? geoCode[0] : geoCode;
+            const position = geocodeResult?.geometry?.location ?? geocodeResult;
+            if (!Number.isFinite(position?.lat) || !Number.isFinite(position?.lng)) continue;
 
-        const title = item.fields.title;
-        const description = item.fields.description;
-        const forumURL = `${window.location.origin}${window.location.pathname}post/${item.pk}`;
-        L.marker(position)
-            .bindPopup(`<h3>${title}</h3><p>${description}</p><a href="${forumURL}">See More</a>`)
-            .addTo(markerLayer);
-    }
-}
+            const title = item.fields.title;
+            const description = item.fields.description;
+            const forumURL = `${window.location.origin}${window.location.pathname}post/${item.pk}`;
+            const infoContent = document.createElement("div");
+            const heading = document.createElement("h3");
+            const summary = document.createElement("p");
+            const link = document.createElement("a");
+            heading.textContent = title;
+            summary.textContent = description;
+            link.href = forumURL;
+            link.textContent = "See More";
+            infoContent.append(heading, summary, link);
+            const marker = new AdvancedMarkerElement({
+                position,
+                map,
+                title,
+            });
+            const infoWindow = new google.maps.InfoWindow({
+                content: infoContent,
+            });
 
-function initMap() {
-    if (!window.L) {
-        showMapError("The map library could not be loaded. Please check your internet connection.");
-        return;
-    }
-
-    map = L.map("map").setView([38.9, -77.0], 8);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; OpenStreetMap contributors',
-        maxZoom: 19
-    }).addTo(map);
-    markerLayer = L.layerGroup().addTo(map);
-    renderMarkers();
-}
-
-async function createPost() {
-    const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
-    const address = document.getElementById("address").value;
-    const city = document.getElementById("city").value;
-    const state = document.getElementById("state").value;
-    const zipcode = document.getElementById("zipcode").value;
-
-    if (!address) {
-        alert("Please enter an address");
-        return;
-    }
-
-    const query = encodeURIComponent(`${address}, ${city}, ${state} ${zipcode}`);
-    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${query}`, {
-        headers: { Accept: "application/json" }
-    });
-    const results = await response.json();
-    if (!results.length) {
-        alert("Address not found");
-        return;
-    }
-
-    document.getElementById("content").value = description;
-    document.getElementById("geoResult").value = JSON.stringify({
-        geometry: {
-            location: {
-                lat: Number(results[0].lat),
-                lng: Number(results[0].lon)
-            }
+            marker.addListener("click", () => {
+                for (const openInfoWindow of infoWindowList) {
+                    openInfoWindow.close();
+                }
+                infoWindow.open(map, marker);
+            });
+            infoWindowList.push(infoWindow);
         }
-    });
-    document.getElementById("post-form").submit();
+
+        const addressInput = document.getElementById("address");
+        if (addressInput) {
+            const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+                types: ["address"],
+                componentRestrictions: { country: "us" },
+            });
+            autocomplete.addListener("place_changed", () => {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) return;
+
+                for (const component of place.address_components || []) {
+                    if (component.types.includes("locality")) {
+                        document.getElementById("city").value = component.long_name;
+                    }
+                    if (component.types.includes("administrative_area_level_1")) {
+                        document.getElementById("state").value = component.short_name;
+                    }
+                    if (component.types.includes("postal_code")) {
+                        document.getElementById("zipcode").value = component.long_name;
+                    }
+                }
+            });
+        }
+    } catch (error) {
+        console.error("Unable to initialize Google Maps.", error);
+        showMapError("The map could not be loaded. Please verify the Google Maps API key and website restrictions.");
+    }
 }
+
+window.gm_authFailure = function() {
+    showMapError("The map could not be loaded because this website is not authorized to use the Google Maps API key.");
+};
 
 document.addEventListener("DOMContentLoaded", () => {
-    window.createPost = createPost;
-    initMap();
+    const choice = document.getElementById("post-access-choice");
+    const guestForm = document.getElementById("post-form");
+    const guestChoiceForm = document.getElementById("guest-choice-form");
+    const changeMethod = document.getElementById("back-to-post-choice");
+
+    guestChoiceForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        choice.hidden = true;
+        guestForm.hidden = false;
+        document.getElementById("email").focus();
+    });
+
+    changeMethod?.addEventListener("click", (event) => {
+        event.preventDefault();
+        guestForm.hidden = true;
+        choice.hidden = false;
+        document.getElementById("continue-as-guest").focus();
+    });
+
+    if (!guestForm.hidden) {
+        document.getElementById("email").focus();
+    }
 });

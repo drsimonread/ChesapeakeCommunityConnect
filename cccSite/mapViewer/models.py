@@ -13,7 +13,8 @@ class MapTag(models.Model):
 class MapPost(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    author = models.ForeignKey(Member, on_delete=models.CASCADE)
+    author = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
+    guest_email = models.EmailField(blank=True, null=True)
     description = models.TextField()
     geoCode = models.JSONField()
     tags = models.ManyToManyField(MapTag, related_name="posts", blank=True)
@@ -26,7 +27,8 @@ class MapPost(models.Model):
     visibility = models.SmallIntegerField(default=0, choices=visible_options)
     comments_enabled = models.BooleanField(default=True)
     def __str__(self):
-        return self.title + " by " + str(self.author)
+        author = self.author or "Guest contributor"
+        return f"{self.title} by {author}"
     @property
     def get_absolute_url(self):
         return reverse("mapViewer:post_detail", args=[str(self.pk)])

@@ -24,6 +24,7 @@
           autocomplete="off">
 
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next_url }}">
 
         <div class="form-field">
             <label for="signin-username">Username:</label>

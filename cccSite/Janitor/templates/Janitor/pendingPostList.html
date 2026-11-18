@@ -1,0 +1,34 @@
+{% extends "Janitor/AdminBase.html" %}
+
+{% block adminFunc %}
+<h1>Posts awaiting review</h1>
+{% if status_message %}
+  <p role="status">{{ status_message }}</p>
+{% endif %}
+
+{% for post in pending_posts %}
+  <article class="pending-post">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.description }}</p>
+    <p>
+      Submitted by:
+      {% if post.author %}
+        {{ post.author }}
+      {% else %}
+        Guest
+      {% endif %}
+    </p>
+    {% if post.guest_email %}
+      <p>Guest email: <a href="mailto:{{ post.guest_email }}">{{ post.guest_email }}</a></p>
+    {% endif %}
+    <form action="{% url 'Janitor:pending_posts' %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="pk" value="{{ post.pk }}">
+      <button type="submit" name="action" value="approve">Approve</button>
+      <button type="submit" name="action" value="reject">Reject</button>
+    </form>
+  </article>
+{% empty %}
+  <p>No posts are waiting for review.</p>
+{% endfor %}
+{% endblock adminFunc %}

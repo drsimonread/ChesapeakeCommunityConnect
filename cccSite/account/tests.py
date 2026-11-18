@@ -1,7 +1,11 @@
-from django.test import TestCase, Client
-from django.urls import reverse
+import re
 from unittest.mock import patch
-from .models import Member, GLogIn
+
+from django.core import mail
+from django.test import TestCase, Client, override_settings
+from django.urls import reverse
+
+from .models import AccountCreation, Member, GLogIn
 from mapViewer.models import MapPost
 
 class AccountViewsTest(TestCase):
@@ -368,16 +372,87 @@ class PasswordChangeTest(TestCase):
         self.assertRedirects(response, "/account/signin/", fetch_redirect_response=False)
 
 
+class LoginNextRedirectTests(TestCase):
+    def setUp(self):
+        self.account = AccountCreation.objects.create(
+            email="next@example.com",
+            username="next-user",
+            displayname="Next User",
+            password="password123",
+            confirmpassword="password123",
+            status="accepted",
+        )
+        self.create_post_url = reverse("account:create_forum")
+
+    def test_password_signin_redirects_to_requested_create_post_page(self):
+        response = self.client.post(reverse("account:signin_form"), {
+            "username": self.account.username,
+            "password": self.account.password,
+            "next": self.create_post_url,
+        })
+
+        self.assertRedirects(
+            response,
+            self.create_post_url,
+            fetch_redirect_response=False,
+        )
+
+    def test_password_signin_rejects_external_next_url(self):
+        response = self.client.post(reverse("account:signin_form"), {
+            "username": self.account.username,
+            "password": self.account.password,
+            "next": "https://example.invalid/account/create-forum/",
+        })
+
+        self.assertRedirects(
+            response,
+            reverse("account:default"),
+            fetch_redirect_response=False,
+        )
+
+    def test_google_signin_redirects_to_requested_create_post_page(self):
+        self.client.cookies["g_csrf_token"] = "valid-csrf"
+        with patch(
+            "account.views.id_token.verify_oauth2_token",
+            return_value={
+                "sub": "google-next-user",
+                "given_name": "Google User",
+                "email": "google-next@example.com",
+            },
+        ):
+            response = self.client.post(
+                reverse("account:authG"),
+                {
+                    "g_csrf_token": "valid-csrf",
+                    "credential": "test-token",
+                    "state": self.create_post_url,
+                },
+            )
+
+        self.assertRedirects(
+            response,
+            self.create_post_url,
+            fetch_redirect_response=False,
+        )
+
+    def test_signin_page_passes_next_to_google_and_password_login(self):
+        response = self.client.get(
+            reverse("account:signin"),
+            {"next": self.create_post_url},
+        )
+
+        self.assertContains(
+            response,
+            f'data-login_uri="http://testserver{reverse("account:authG")}"',
+        )
+        self.assertContains(response, f'data-state="{self.create_post_url}"')
+        self.assertContains(response, "signin-form/?next=/account/create-forum/")
+
+
 # issue #71: resetting a forgotten password with an emailed link
-import re
-from django.core import mail
-from django.test import override_settings
-
-
 @override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
 class PasswordResetTest(TestCase):
     def setUp(self):
-        from .models import AccountCreation
         self.account = AccountCreation.objects.create(
             email="sam@example.com", username="sam", displayname="Sam",
             password="oldpassword", confirmpassword="oldpassword", status="accepted",
