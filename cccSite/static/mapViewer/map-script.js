@@ -72,12 +72,16 @@ async function createPost() {
         return;
     }
 
-    const location = [Number(results[0].lat), Number(results[0].lon)];
-    const marker = L.marker(location)
-        .bindPopup(`<h4>${title}</h4><p>${description}</p><p>${address}, ${city}, ${state} ${zipcode}</p>`)
-        .addTo(markerLayer);
-    marker.openPopup();
-    map.setView(location, 14);
+    document.getElementById("content").value = description;
+    document.getElementById("geoResult").value = JSON.stringify({
+        geometry: {
+            location: {
+                lat: Number(results[0].lat),
+                lng: Number(results[0].lon)
+            }
+        }
+    });
+    document.getElementById("post-form").submit();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

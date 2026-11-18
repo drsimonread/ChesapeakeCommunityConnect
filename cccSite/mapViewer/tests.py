@@ -5,6 +5,39 @@ from account.models import Member
 from .models import MapPost, PostComment
 
 
+class MapPostCreationTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.author = Member.objects.create(
+            name="Post Author", email="author@example.com", ranking=1
+        )
+        session = self.client.session
+        session["user"] = self.author.pk
+        session["rank"] = self.author.ranking
+        session.save()
+
+    def test_map_post_submission_saves_geo_result(self):
+        response = self.client.post(
+            reverse("mapViewer:default"),
+            {
+                "title": "Community location",
+                "description": "A useful community location",
+                "location": "123 Main Street",
+                "content": "A useful community location",
+                "geoResult": (
+                    '{"geometry": {"location": {"lat": 38.98, "lng": -76.49}}}'
+                ),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        post = MapPost.objects.get(title="Community location")
+        self.assertEqual(
+            post.geoCode,
+            {"geometry": {"location": {"lat": 38.98, "lng": -76.49}}},
+        )
+
+
 class PostCommentTests(TestCase):
     def setUp(self):
         self.client = Client()

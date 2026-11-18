@@ -26,11 +26,14 @@ def viewMap(request):
             vis=0
             if request.session['rank'] > 1:
                 vis=1
+            geo_result = postingForm.cleaned_data['geoResult']
+            if isinstance(geo_result, list):
+                geo_result = geo_result[0]
             postInz=MapPost.objects.create(title=postingForm.cleaned_data['title'], #actually create the post instance in the database
                                    content=postingForm.cleaned_data['content'],
                                    author=userInz,
                                    description=postingForm.cleaned_data['description'],
-                                   geoCode=postingForm.cleaned_data['geoResult'][0],
+                                   geoCode=geo_result,
                                    visibility=vis
                                    )
             if postingForm.cleaned_data['tags']:
@@ -50,7 +53,7 @@ def viewMap(request):
     return render(request, 'mapViewer/mapPage.html', {'widgets': widgets,
                                                       'searchForm' : searchForm,
                                                       'posts': posts,
-                                                      'GOOGLE_MAPS_API_KEY': settings.GOOGLE_API_KEY,}) #render template
+                                                      'GOOGLE_API_KEY': settings.GOOGLE_API_KEY,}) #render template
 
 
 
@@ -66,7 +69,8 @@ def post_list(request):
             posts=posts.filter(tags__pk=tag)
     posts = posts.order_by("id")
     return render(request, "mapViewer/listPosts.html", {"postList" : posts,
-                                                        "form" : form})
+                                                        "form" : form,
+                                                        "GOOGLE_API_KEY": settings.GOOGLE_API_KEY})
 
 
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
