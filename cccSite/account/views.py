@@ -14,6 +14,14 @@ from PIL import Image
 from mapViewer.models import MapPost
 from .forms import CreateForumForm, SearchAccountForm
 from urllib.parse import urlencode
+import logging
+from django.conf import settings
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.mail import send_mail
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+
+logger = logging.getLogger(__name__)
 
 # if user not signed in, sends them to log in 
 def signin(request):
@@ -24,7 +32,9 @@ def signin(request):
 
 def signin_form(request):
     if request.method == "GET":
-        return render(request, "account/signin_form.html")
+        return render(request, "account/signin_form.html", {
+            "reset_done": request.GET.get("reset") == "done",
+        })
 
     username = request.POST.get("username", "").strip()
     password = request.POST.get("password", "")
@@ -152,15 +162,12 @@ def account_view(request, want):
 def password_account_for(member):
     return AccountCreation.objects.filter(email__iexact=member.email, status="accepted").first()
 
-# checks the change password form and returns an error message, or None if the new password can be saved
-def password_change_error(account, current, new, confirm):
-    if not (current and new and confirm):
-        return "Fill in all three password fields."
-    if account.password != current:
-        return "Your current password is incorrect."
+# checks a new password and its confirmation, and returns an error message, or None if the password can be saved.
+# used by both the change password form (#72) and the password reset page (#71)
+def new_password_error(new, confirm, current=None):
     if new != confirm:
         return "The new passwords do not match."
-    if new == current:
+    if current is not None and new == current:
         return "Your new password must be different from your current password."
     if len(new) < 8:
         return "Your new password must be at least 8 characters long."
@@ -168,6 +175,14 @@ def password_change_error(account, current, new, confirm):
     if len(new) > max_length:
         return f"Your new password must be at most {max_length} characters long."
     return None
+
+# checks the change password form and returns an error message, or None if the new password can be saved
+def password_change_error(account, current, new, confirm):
+    if not (current and new and confirm):
+        return "Fill in all three password fields."
+    if account.password != current:
+        return "Your current password is incorrect."
+    return new_password_error(new, confirm, current)
 
 # lets members edit their info. if user not signed in, sends them to log in
 # the page has two forms: the profile form, and a change password form for members who sign in with a password (issue #72)
@@ -288,3 +303,78 @@ def authG(request):
             return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
             pass
         return redirect(reverse("account:default"))
+
+
+# ---- password reset (issue #71) ----
+# a user who signs in with a username and password and forgot it enters their email, and gets a one-time link
+# to choose a new password. the link stops working once it is used (the token includes the current password)
+# or after settings.PASSWORD_RESET_TIMEOUT seconds.
+
+class AccountResetTokenGenerator(PasswordResetTokenGenerator):
+    # Django's token generator expects a Django User; this builds the token from an AccountCreation instead
+    def _make_hash_value(self, account, timestamp):
+        return f"{account.pk}{account.password}{timestamp}{account.email}"
+
+reset_token = AccountResetTokenGenerator()
+
+def send_password_reset_email(request, account):
+    link = request.build_absolute_uri(reverse("account:reset_password", args=[
+        urlsafe_base64_encode(force_bytes(account.pk)),
+        reset_token.make_token(account),
+    ]))
+    minutes = settings.PASSWORD_RESET_TIMEOUT // 60
+    send_mail(
+        "Reset your Chesapeake Community Connect password",
+        f"Hi {account.displayname},\n\n"
+        f"Someone asked to reset the password for the account \"{account.username}\". "
+        f"To choose a new password, open this link within {minutes} minutes:\n\n"
+        f"{link}\n\n"
+        "If you didn't ask for this, you can ignore this email. Your password won't change.\n",
+        None,
+        [account.email],
+    )
+
+# the "forgot your password?" page. it shows the same message whether or not an account uses that email,
+# so the page can't be used to find out who has an account
+def forgot_password(request):
+    if request.method == "GET":
+        return render(request, "account/forgot_password.html")
+
+    email = request.POST.get("email", "").strip()
+    if not email:
+        return render(request, "account/forgot_password.html", {"error": "Enter your email address."})
+
+    for account in AccountCreation.objects.filter(email__iexact=email, status="accepted"):
+        try:
+            send_password_reset_email(request, account)
+        except Exception:
+            # e.g. email settings missing on the server; logged for SysOps, not shown to the user
+            logger.exception("Could not send a password reset email to account %s", account.pk)
+    return render(request, "account/forgot_password.html", {"sent": True, "email": email})
+
+# the account a reset link belongs to, or None if the link is broken, used, or expired
+def account_from_reset_link(uidb64, token):
+    try:
+        pk = int(force_str(urlsafe_base64_decode(uidb64)))
+        account = AccountCreation.objects.get(pk=pk, status="accepted")
+    except (TypeError, ValueError, OverflowError, AccountCreation.DoesNotExist):
+        return None
+    return account if reset_token.check_token(account, token) else None
+
+# the page the emailed link opens, where the user chooses a new password
+def reset_password(request, uidb64, token):
+    account = account_from_reset_link(uidb64, token)
+    if account is None:
+        return render(request, "account/reset_password.html", {"invalid": True})
+
+    error = None
+    if request.method == "POST":
+        new = request.POST.get("new_password", "")
+        error = new_password_error(new, request.POST.get("confirm_password", ""))
+        if error is None:
+            account.password = new
+            account.confirmpassword = new
+            account.save(update_fields=["password", "confirmpassword"])
+            return redirect(reverse("account:signin_form") + "?reset=done")
+
+    return render(request, "account/reset_password.html", {"username": account.username, "error": error})
