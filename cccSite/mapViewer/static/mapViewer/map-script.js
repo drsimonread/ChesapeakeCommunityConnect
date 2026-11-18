@@ -27,6 +27,11 @@ async function initMap() {
             const description = item.fields.description;
             const forumURL = `${window.location.origin}${window.location.pathname}post/${item.pk}`;
             const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng };
+            const tagColor = item.fields.tags.length > 0 ? item.fields.tags[0].color : "#000000"; // Default color if no tags
+            
+            const pin = new google.maps.marker.PinElement({
+                background: tagColor,
+            });
 
             const marker = new AdvancedMarkerElement({
                 position,

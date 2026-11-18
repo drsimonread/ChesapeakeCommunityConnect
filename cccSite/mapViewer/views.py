@@ -139,9 +139,9 @@ def get_posts_and_tags(request):
                 "title": post.title,
                 "description": post.description,
                 "geoCode": post.geoCode,
-                "tags": [tag.name for tag in post.tags.all()]
+                "tags": [{ "name": tag.name, "color": tag.color} for tag in post.tags.all()]
             })
     
-    tag_data = [tag.name for tag in tags]
+    tag_data = [{ "name": tag.name, "color": tag.color} for tag in tags]
 
     return JsonResponse({"posts": post_data, "tags": tag_data})
