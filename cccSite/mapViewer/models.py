@@ -5,8 +5,8 @@ from django.urls import reverse
 
 
 class MapTag(models.Model):
-    name = models.CharField(max_length=25, unique=True)
-    color = models.CharField(max_length=7, default="#000000")  # Hex color code
+    name = models.CharField(max_length=40, unique=True)
+    color = models.CharField(max_length=7, default="#000000", unique=True)  # Hex color code
     def __str__(self):
         return self.name
 

@@ -19,10 +19,10 @@ tag_colors = {
     "Economic Diversity & Local Innovation": "#2196F3",
     "Cultural Heritage & Expression": "#9C27B0",
     "Sustainable Food Systems": "#FFEB3B",
-    "Community Education & Workshops": "#00BCD4",
+    "Community Education & Workshops": "#7C00D4",
     "Youth-Led Initiatives": "#E91E63",
     "Social Action & Impact": "#F44336",
-    "Racial Healing": "#795548",
+    "Racial Healing": "#5E5ED1",
 }
 
 for name in new_tags:
