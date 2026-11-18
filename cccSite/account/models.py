@@ -51,7 +51,7 @@ class GLogIn(models.Model):
     googleID = models.CharField(max_length=255, unique=True)
     referTo = models.ForeignKey(Member, on_delete = models.CASCADE)
     def __str__(self):
-        return self.googleID + "|" + str(self.referTo)
+        return "Google login | " + str(self.referTo)
 
 class ManageForm(ModelForm):
     class Meta:

@@ -37,6 +37,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-rak*1&oe)cu7moh&u+(bq62$&taj$7gdx9-^48-4zs)v*v#_1f'
 
+#line added to allow for hashing of google IDs
+GOOGLE_ID_HASH_KEY = os.environ.get('GOOGLE_ID_HASH_KEY', SECRET_KEY)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

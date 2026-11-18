@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+#added to allow for hashing of google IDs
+from .hashing import hash_google_id
 from PIL import Image
 
 # if user not signed in, sends them to log in 
@@ -88,14 +90,15 @@ def authG(request):
         try:
             # logs user in via their google ID, or makes an entry in member if they do not have an account yet.
             idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
-            if not(GLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
+            google_id = hash_google_id(idinfo['sub'])  # hash the Google ID so it's never stored as plain text
+            if not(GLogIn.objects.filter(googleID=google_id).exists()): #checks if there is a stored google log in yet with this user's google ID
                 #when we implement other sign in methods, we will need to ask the user if they already have an account
                 #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
                 
                 userInz = Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
-                gLogInz = GLogIn.objects.create(googleID=idinfo['sub'], referTo=userInz) # stores the google ID and the member it is associated with
+                gLogInz = GLogIn.objects.create(googleID=google_id, referTo=userInz) # stores the hashed google ID and the member it is associated with
             else: #if the user has logged in with google before
-                gLogInz=GLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
+                gLogInz=GLogIn.objects.get(googleID=google_id) #get the object in the google log in table identified by the hashed google ID
                 userInz=gLogInz.referTo #get the object that the google ID is associated with
 
             #store information about the user in the session

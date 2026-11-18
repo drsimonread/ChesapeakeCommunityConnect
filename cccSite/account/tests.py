@@ -1,12 +1,14 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from .models import Member, GLogIn
+#added import for hash_google_id
+from .hashing import hash_google_id
 
 class AccountViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = Member.objects.create(name="Test User", email="test@example.com", ranking=1)
-        self.glogin = GLogIn.objects.create(googleID="1234567890", referTo=self.user)
+        self.glogin = GLogIn.objects.create(googleID=hash_google_id("1234567890"), referTo=self.user)
         self.session = self.client.session
         self.session['user'] = self.user.pk
         self.session['rank'] = self.user.ranking
