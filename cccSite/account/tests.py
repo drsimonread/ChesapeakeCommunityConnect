@@ -1,6 +1,7 @@
 import re
 from unittest.mock import patch
 
+from django.contrib.auth.hashers import identify_hasher, make_password
 from django.core import mail
 from django.test import TestCase, Client, override_settings
 from django.urls import reverse
@@ -296,14 +297,36 @@ class AccountViewsTest(TestCase):
         self.assertEqual(session["rank"], member.ranking)
 
 
+class SignupPasswordTest(TestCase):
+    def test_signup_stores_bcrypt_hashes_with_unique_salts(self):
+        password = "é" * 40
+        salts = []
+        for username in ("pat", "sam"):
+            response = self.client.post(reverse("account:signup"), {
+                "email": f"{username}@example.com",
+                "username": username,
+                "displayname": username,
+                "password": password,
+                "confirmpassword": password,
+            })
+            self.assertContains(response, "submitted for review")
+            account = AccountCreation.objects.get(username=username)
+            hasher = identify_hasher(account.password)
+            self.assertEqual(hasher.algorithm, "bcrypt_sha256")
+            self.assertTrue(account.check_password(password))
+            self.assertFalse(account.check_password(password[:-1] + "x"))
+            salts.append(hasher.decode(account.password)["salt"])
+
+        self.assertNotEqual(*salts)
+
+
 # issue #72: changing your password from the edit account page
 class PasswordChangeTest(TestCase):
     def setUp(self):
-        from .models import AccountCreation
         self.member = Member.objects.create(name="Pat", email="pat@example.com", ranking=1)
         self.account = AccountCreation.objects.create(
             email="pat@example.com", username="pat", displayname="Pat",
-            password="oldpassword", confirmpassword="oldpassword", status="accepted",
+            password=make_password("oldpassword", hasher="bcrypt_sha256"), status="accepted",
         )
         session = self.client.session
         session["user"] = self.member.pk
@@ -326,7 +349,8 @@ class PasswordChangeTest(TestCase):
         response = self.change("oldpassword", "newpassword1", "newpassword1")
         self.assertRedirects(response, reverse("account:manage") + "?password=changed")
         self.account.refresh_from_db()
-        self.assertEqual(self.account.password, "newpassword1")
+        self.assertEqual(identify_hasher(self.account.password).algorithm, "bcrypt_sha256")
+        self.assertTrue(self.account.check_password("newpassword1"))
         self.assertContains(self.client.get(response.url), "Your password has been changed.")
 
     def test_can_sign_in_with_new_password(self):
@@ -338,8 +362,9 @@ class PasswordChangeTest(TestCase):
     def assert_rejected(self, response, message):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, message)
+        original_hash = self.account.password
         self.account.refresh_from_db()
-        self.assertEqual(self.account.password, "oldpassword")
+        self.assertEqual(self.account.password, original_hash)
 
     def test_wrong_current_password(self):
         self.assert_rejected(self.change("wrong", "newpassword1", "newpassword1"), "Your current password is incorrect.")
@@ -378,8 +403,7 @@ class LoginNextRedirectTests(TestCase):
             email="next@example.com",
             username="next-user",
             displayname="Next User",
-            password="password123",
-            confirmpassword="password123",
+            password=make_password("password123", hasher="bcrypt_sha256"),
             status="accepted",
         )
         self.create_post_url = reverse("account:create_forum")
@@ -387,7 +411,7 @@ class LoginNextRedirectTests(TestCase):
     def test_password_signin_redirects_to_requested_create_post_page(self):
         response = self.client.post(reverse("account:signin_form"), {
             "username": self.account.username,
-            "password": self.account.password,
+            "password": "password123",
             "next": self.create_post_url,
         })
 
@@ -400,7 +424,7 @@ class LoginNextRedirectTests(TestCase):
     def test_password_signin_rejects_external_next_url(self):
         response = self.client.post(reverse("account:signin_form"), {
             "username": self.account.username,
-            "password": self.account.password,
+            "password": "password123",
             "next": "https://example.invalid/account/create-forum/",
         })
 
@@ -455,7 +479,7 @@ class PasswordResetTest(TestCase):
     def setUp(self):
         self.account = AccountCreation.objects.create(
             email="sam@example.com", username="sam", displayname="Sam",
-            password="oldpassword", confirmpassword="oldpassword", status="accepted",
+            password=make_password("oldpassword", hasher="bcrypt_sha256"), status="accepted",
         )
 
     def request_link(self, email="sam@example.com"):
@@ -496,17 +520,20 @@ class PasswordResetTest(TestCase):
         self.assertRedirects(response, reverse("account:signin_form") + "?reset=done")
         self.assertContains(self.client.get(response.url), "Your password has been reset.")
         self.account.refresh_from_db()
-        self.assertEqual(self.account.password, "brandnewpass")
+        self.assertEqual(identify_hasher(self.account.password).algorithm, "bcrypt_sha256")
+        self.assertTrue(self.account.check_password("brandnewpass"))
         signin = self.client.post(reverse("account:signin_form"), {"username": "sam", "password": "brandnewpass"})
         self.assertRedirects(signin, reverse("account:default"), fetch_redirect_response=False)
 
     def test_link_only_works_once(self):
         link = self.emailed_link()
         self.reset(link, "brandnewpass")
+        self.account.refresh_from_db()
+        updated_hash = self.account.password
         self.assertContains(self.client.get(link), "invalid or has expired")
         self.reset(link, "anotherpass1")
         self.account.refresh_from_db()
-        self.assertEqual(self.account.password, "brandnewpass")
+        self.assertEqual(self.account.password, updated_hash)
 
     def test_link_expires(self):
         link = self.emailed_link()
@@ -520,10 +547,11 @@ class PasswordResetTest(TestCase):
 
     def test_new_password_rules(self):
         link = self.emailed_link()
+        original_hash = self.account.password
         self.assertContains(self.reset(link, "brandnewpass", "different123"), "do not match")
         self.assertContains(self.reset(link, "short"), "at least 8 characters")
         self.account.refresh_from_db()
-        self.assertEqual(self.account.password, "oldpassword")
+        self.assertEqual(self.account.password, original_hash)
 
     @override_settings(EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend", EMAIL_HOST="invalid.invalid", EMAIL_PORT=1)
     def test_email_failure_still_shows_message(self):

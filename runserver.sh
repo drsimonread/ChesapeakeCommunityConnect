@@ -16,5 +16,7 @@ if [[ ! -x "$VENV_PYTHON" ]]; then
 fi
 
 cd -- "$SITE_DIR"
+printf 'Applying database migrations.\n'
+"$VENV_PYTHON" manage.py migrate --noinput
 printf 'Starting the development server on port 8080. Press Ctrl+C to stop.\n'
 exec "$VENV_PYTHON" manage.py runserver 8080
