@@ -89,7 +89,11 @@ def post_detail(request, want):
             if not request.session.get("user"):
                 return redirect(f"{reverse('account:signin')}?next={request.path}")
             comment_form = PostCommentForm(request.POST)
-            if comment_form.is_valid():
+            if lookAt.visibility != 1 or not lookAt.comments_enabled:
+                comment_form.add_error(
+                    None, "Comments are disabled for this post."
+                )
+            elif comment_form.is_valid():
                 parent_id = request.POST.get("parent")
                 parent = None
                 if parent_id:
@@ -121,6 +125,10 @@ def post_detail(request, want):
                                                                "form" : reporter,
                                                                "hasReported" : hasReported,
                                                                "comment_form": comment_form,
+                                                               "can_comment": (
+                                                                   lookAt.visibility == 1
+                                                                   and lookAt.comments_enabled
+                                                               ),
                                                                "comments": comments_by_parent.get(None, []),
                                                                "comment_count": len(comments)})
     return redirect(reverse("mapViewer:default"))

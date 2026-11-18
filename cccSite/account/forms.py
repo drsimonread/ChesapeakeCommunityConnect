@@ -31,6 +31,11 @@ class CreateForumForm(forms.Form):
         widget=forms.RadioSelect,
         label="Visibility",
     )
+    disable_comments = forms.BooleanField(
+        required=False,
+        label="Disable comments",
+        help_text="Check this if you do not want visitors to comment on this post.",
+    )
     file1 = forms.FileField(required=False, label="File 1")
     file2 = forms.FileField(required=False, label="File 2")
     file3 = forms.FileField(required=False, label="File 3")

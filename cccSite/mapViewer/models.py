@@ -24,6 +24,7 @@ class MapPost(models.Model):
         (1 , "visible"),
     )
     visibility = models.SmallIntegerField(default=0, choices=visible_options)
+    comments_enabled = models.BooleanField(default=True)
     def __str__(self):
         return self.title + " by " + str(self.author)
     @property

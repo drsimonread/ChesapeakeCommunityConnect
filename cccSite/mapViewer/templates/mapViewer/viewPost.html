@@ -25,7 +25,7 @@
     {%endfor%}
 
     <div class="post-actions">
-        {% if request.session.user %}
+        {% if request.session.user and can_comment %}
         <details class="comment-composer">
             <summary id="comment-button" class="post-action-button">Comment</summary>
             <form class="comment-form" action="{{ request.path }}#comments" method="post">
@@ -56,6 +56,10 @@
 
 <section id="comments" class="comments-section" aria-labelledby="comments-title">
     <h2 id="comments-title">Comments ({{ comment_count }})</h2>
+
+    {% if not can_comment %}
+    <p class="comments-disabled">Comments are disabled for this post.</p>
+    {% endif %}
 
     {% if not request.session.user %}
     <p class="comments-signin">

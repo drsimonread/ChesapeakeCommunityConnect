@@ -7,7 +7,7 @@
 <link href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css" rel="stylesheet">
 <title>Chesapeake Community Connect - Map</title>
 
-<script src="{% static 'mapViewer/map-script.js' %}" defer></script>
+<script src="{% static 'mapViewer/map-script.js' %}?v=20261118c" defer></script>
 {{ widgets|json_script:"map-data" }}
 <script
     src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_API_KEY }}&libraries=places&callback=initMap"

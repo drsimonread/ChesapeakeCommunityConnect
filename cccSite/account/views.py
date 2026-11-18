@@ -383,6 +383,7 @@ def make_forum(request):
                 description=description,
                 geoCode=geo_code,
                 visibility=visibility,
+                comments_enabled=not content_form.cleaned_data["disable_comments"],
             )
             if content_form.cleaned_data.get("tags"):
                 forum.tags.set(content_form.cleaned_data["tags"])

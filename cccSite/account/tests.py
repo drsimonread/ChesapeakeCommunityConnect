@@ -208,6 +208,23 @@ class AccountViewsTest(TestCase):
             {"geometry": {"location": {"lat": 38.98, "lng": -76.49}}},
         )
 
+    def test_create_forum_submission_can_disable_comments(self):
+        response = self.client.post(reverse("account:create_forum"), {
+            "title": "No comments forum",
+            "firstName": "Test",
+            "lastName": "User",
+            "location": "123 Main Street",
+            "content": "A forum without comments",
+            "associated": "yes",
+            "private_public": "public",
+            "disable_comments": "on",
+            "geoResult": '{"lat": 38.98, "lng": -76.49}',
+        })
+
+        self.assertRedirects(response, reverse("account:my_forums") + "?success=1")
+        post = MapPost.objects.get(title="No comments forum")
+        self.assertFalse(post.comments_enabled)
+
     def test_my_forums_shows_member_posts(self):
         MapPost.objects.create(
             title="Pending forum",

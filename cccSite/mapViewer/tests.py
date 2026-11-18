@@ -144,3 +144,53 @@ class PostCommentTests(TestCase):
         )
         self.assertEqual(profile_response.status_code, 200)
         self.assertContains(profile_response, self.commenter.name)
+
+    def test_comments_are_disabled_for_pending_and_denied_posts(self):
+        self.sign_in_as_commenter()
+
+        for visibility in (0, -1):
+            with self.subTest(visibility=visibility):
+                self.post.visibility = visibility
+                self.post.save(update_fields=("visibility",))
+                post_url = reverse("mapViewer:post_detail", args=[self.post.pk])
+
+                response = self.client.get(post_url)
+                self.assertEqual(response.status_code, 200)
+                self.assertNotContains(response, 'id="comment-button"')
+                self.assertNotContains(response, "Reply")
+
+                response = self.client.post(post_url, {
+                    "action": "comment",
+                    "content": "This comment must not be created.",
+                })
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, "Comments are disabled for this post.")
+                self.assertFalse(
+                    PostComment.objects.filter(
+                        content="This comment must not be created."
+                    ).exists()
+                )
+
+    def test_comments_can_be_disabled_on_a_visible_post(self):
+        self.post.comments_enabled = False
+        self.post.save(update_fields=("comments_enabled",))
+        self.sign_in_as_commenter()
+        post_url = reverse("mapViewer:post_detail", args=[self.post.pk])
+
+        response = self.client.get(post_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'id="comment-button"')
+        self.assertContains(response, "Comments are disabled for this post.")
+
+        response = self.client.post(post_url, {
+            "action": "comment",
+            "content": "This comment must not be created.",
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(
+            PostComment.objects.filter(
+                content="This comment must not be created."
+            ).exists()
+        )

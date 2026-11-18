@@ -188,6 +188,12 @@
           {{ form.private_public }}
           {{ form.private_public.errors }}
         </div>
+        <div class="cf-field cf-gf-q">
+          {{ form.disable_comments }}
+          {{ form.disable_comments.label_tag }}
+          {% if form.disable_comments.help_text %}<p class="cf-field__help">{{ form.disable_comments.help_text }}</p>{% endif %}
+          {{ form.disable_comments.errors }}
+        </div>
         </div>
         </fieldset>
       </div>
@@ -368,6 +374,7 @@
       content: val("id_content"),
       associated: radioVal("associated"),
       private_public: radioVal("private_public"),
+      disable_comments: !!(form && form.querySelector('input[name="disable_comments"]:checked')),
       tags: tags,
       geoResult: geoEl ? geoEl.value : "",
       step: current,
@@ -402,6 +409,8 @@
       var rp = form.querySelector('input[name="private_public"][value="' + escSel(d.private_public) + '"]');
       if (rp) rp.checked = true;
     }
+    var disableComments = form.querySelector('input[name="disable_comments"]');
+    if (disableComments) disableComments.checked = !!d.disable_comments;
     if (d.tags && d.tags.length) {
       form.querySelectorAll('input[name="tags"]').forEach(function (cb) {
         cb.checked = d.tags.indexOf(cb.value) !== -1;

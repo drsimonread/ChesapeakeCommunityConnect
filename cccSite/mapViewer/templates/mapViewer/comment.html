@@ -5,7 +5,7 @@
     </div>
     <p class="comment__content">{{ comment.content }}</p>
 
-    {% if request.session.user %}
+    {% if request.session.user and can_comment %}
     <details class="comment__reply">
         <summary>Reply</summary>
         <form class="comment-form comment-form--reply" action="{{ request.path }}#comment-{{ comment.pk }}" method="post">
