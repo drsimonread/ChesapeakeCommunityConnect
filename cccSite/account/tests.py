@@ -293,3 +293,92 @@ class PasswordChangeTest(TestCase):
         self.client.cookies.clear()
         response = self.client.post(reverse("account:manage"), {"change_password": "1"})
         self.assertRedirects(response, "/account/signin/", fetch_redirect_response=False)
+
+
+# issue #71: resetting a forgotten password with an emailed link
+import re
+from django.core import mail
+from django.test import override_settings
+
+
+@override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+class PasswordResetTest(TestCase):
+    def setUp(self):
+        from .models import AccountCreation
+        self.account = AccountCreation.objects.create(
+            email="sam@example.com", username="sam", displayname="Sam",
+            password="oldpassword", confirmpassword="oldpassword", status="accepted",
+        )
+
+    def request_link(self, email="sam@example.com"):
+        return self.client.post(reverse("account:forgot_password"), {"email": email})
+
+    def emailed_link(self):
+        self.request_link()
+        self.assertEqual(len(mail.outbox), 1)
+        return re.search(r"http://testserver(/account/reset-password/\S+/)", mail.outbox[0].body).group(1)
+
+    def reset(self, link, new, confirm=None):
+        return self.client.post(link, {"new_password": new, "confirm_password": new if confirm is None else confirm})
+
+    def test_sign_in_page_links_to_forgot_password(self):
+        self.assertContains(self.client.get(reverse("account:signin_form")), reverse("account:forgot_password"))
+
+    def test_email_sent_to_the_account(self):
+        response = self.request_link("SAM@example.com")
+        self.assertContains(response, "we've sent it a link")
+        self.assertEqual(mail.outbox[0].to, ["sam@example.com"])
+        self.assertIn('"sam"', mail.outbox[0].body)
+
+    def test_unknown_email_gets_same_message_and_no_email(self):
+        response = self.request_link("nobody@example.com")
+        self.assertContains(response, "we've sent it a link")
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_pending_account_gets_no_email(self):
+        self.account.status = "pending"
+        self.account.save()
+        self.request_link()
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_reset_with_link_then_sign_in(self):
+        link = self.emailed_link()
+        self.assertContains(self.client.get(link), "Choose a new password for")
+        response = self.reset(link, "brandnewpass")
+        self.assertRedirects(response, reverse("account:signin_form") + "?reset=done")
+        self.assertContains(self.client.get(response.url), "Your password has been reset.")
+        self.account.refresh_from_db()
+        self.assertEqual(self.account.password, "brandnewpass")
+        signin = self.client.post(reverse("account:signin_form"), {"username": "sam", "password": "brandnewpass"})
+        self.assertRedirects(signin, reverse("account:default"), fetch_redirect_response=False)
+
+    def test_link_only_works_once(self):
+        link = self.emailed_link()
+        self.reset(link, "brandnewpass")
+        self.assertContains(self.client.get(link), "invalid or has expired")
+        self.reset(link, "anotherpass1")
+        self.account.refresh_from_db()
+        self.assertEqual(self.account.password, "brandnewpass")
+
+    def test_link_expires(self):
+        link = self.emailed_link()
+        with override_settings(PASSWORD_RESET_TIMEOUT=-1):
+            self.assertContains(self.client.get(link), "invalid or has expired")
+
+    def test_tampered_link_rejected(self):
+        link = self.emailed_link()
+        self.assertContains(self.client.get(link[:-3] + "xx/"), "invalid or has expired")
+        self.assertContains(self.client.get("/account/reset-password/notanid/abc-def/"), "invalid or has expired")
+
+    def test_new_password_rules(self):
+        link = self.emailed_link()
+        self.assertContains(self.reset(link, "brandnewpass", "different123"), "do not match")
+        self.assertContains(self.reset(link, "short"), "at least 8 characters")
+        self.account.refresh_from_db()
+        self.assertEqual(self.account.password, "oldpassword")
+
+    @override_settings(EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend", EMAIL_HOST="invalid.invalid", EMAIL_PORT=1)
+    def test_email_failure_still_shows_message(self):
+        with self.assertLogs("account.views", level="ERROR"):
+            response = self.request_link()
+        self.assertContains(response, "we've sent it a link")

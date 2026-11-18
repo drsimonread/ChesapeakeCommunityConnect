@@ -3,6 +3,7 @@
 {% load static %}
 <title>Chesapeake Community Connect - Sign In</title>
 <link rel="stylesheet" type="text/css" href="{% static 'base/signinStyling.css' %}?v=2">
+{% include "account/_reset_styles.html" %}
 {% endblock accHead %}
 
 {% block accountFunc %}
@@ -10,6 +11,9 @@
 
     <h1 class="account-form-heading">Sign In</h1>
 
+    {% if reset_done %}
+        <p class="account-form-success" role="status">Your password has been reset. Sign in with your new password.</p>
+    {% endif %}
     {% if error %}
         <p class="account-form-error">{{ error }}</p>
     {% endif %}
@@ -48,5 +52,8 @@
         </div>
 
     </form>
+
+    <!--password reset (issue #71)-->
+    <a class="account-form-link" href="{% url 'account:forgot_password' %}">Forgot your password?</a>
 </section>
 {% endblock accountFunc %}

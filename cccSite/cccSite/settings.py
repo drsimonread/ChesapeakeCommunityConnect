@@ -91,6 +91,18 @@ TEMPLATES = [
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
+# email, used for password reset links (issue #71).
+# by default emails are printed in the runserver terminal instead of being sent, so this works with no setup.
+# to really send email (e.g. on the live site), set these in .env; see .env.example
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
+EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "true").lower() == "true"
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "Chesapeake Community Connect <noreply@localhost>")
+PASSWORD_RESET_TIMEOUT = 60 * 60  # password reset links expire after 1 hour
+
 
 WSGI_APPLICATION = 'cccSite.wsgi.application'
 
