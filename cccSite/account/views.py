@@ -124,7 +124,10 @@ def signin_form(request):
             status="accepted",
         ).first()
 
-        if account is not None and account.password == password:
+        if account is None:
+            # Spend comparable time checking credentials for unknown users.
+            AccountCreation().set_password(password)
+        elif account.check_password(password):
             member = Member.objects.filter(email__iexact=account.email).first()
             if member is None:
                 member = Member.objects.create(
@@ -161,21 +164,21 @@ def signup(request):
             error = "The passwords do not match."
         elif len(password) < 8:
             error = "Your password must be at least 8 characters long."
-        elif len(password) > AccountCreation._meta.get_field("password").max_length:
+        elif len(password) > AccountCreation.MAX_PASSWORD_LENGTH:
             error = "Your password is too long."
         elif AccountCreation.objects.filter(email__iexact=email).exists():
             error = "An account with that email already exists."
         elif AccountCreation.objects.filter(username__iexact=username).exists():
             error = "That username is already in use."
         else:
-            AccountCreation.objects.create(
+            account = AccountCreation(
                 email=email,
                 username=username,
                 displayname=displayname,
-                password=password,
-                confirmpassword=confirm,
                 status="pending",
             )
+            account.set_password(password)
+            account.save()
             return render(request, "account/signup.html", {
                 "error": "Your account request was submitted for review.",
             })
@@ -327,7 +330,7 @@ def password_account_for(member):
 def password_change_error(account, current, new, confirm):
     if not (current and new and confirm):
         return "Fill in all three password fields."
-    if account.password != current:
+    if not account.check_password(current):
         return "Your current password is incorrect."
     if new != confirm:
         return "The new passwords do not match."
@@ -335,7 +338,7 @@ def password_change_error(account, current, new, confirm):
         return "Your new password must be different from your current password."
     if len(new) < 8:
         return "Your new password must be at least 8 characters long."
-    max_length = AccountCreation._meta.get_field("password").max_length
+    max_length = AccountCreation.MAX_PASSWORD_LENGTH
     if len(new) > max_length:
         return f"Your new password must be at most {max_length} characters long."
     return None
@@ -358,9 +361,8 @@ def manage(request):
                     request.POST.get("confirm_password", ""),
                 )
                 if password_error is None:
-                    account.password = request.POST["new_password"]
-                    account.confirmpassword = request.POST["new_password"]
-                    account.save(update_fields=["password", "confirmpassword"])
+                    account.set_password(request.POST["new_password"])
+                    account.save(update_fields=["password"])
                     return redirect(reverse("account:manage") + "?password=changed")
             form = ManageForm(instance=userInz)
             return render(request, "account/manage.html", {
@@ -494,12 +496,11 @@ def reset_password(request, uidb64, token):
             error = "The passwords do not match."
         elif len(new_password) < 8:
             error = "Your password must be at least 8 characters long."
-        elif len(new_password) > AccountCreation._meta.get_field("password").max_length:
+        elif len(new_password) > AccountCreation.MAX_PASSWORD_LENGTH:
             error = "Your password is too long."
         else:
-            account.password = new_password
-            account.confirmpassword = new_password
-            account.save(update_fields=["password", "confirmpassword"])
+            account.set_password(new_password)
+            account.save(update_fields=["password"])
             used_tokens.append(token)
             request.session["used_password_reset_tokens"] = used_tokens
             return redirect(reverse("account:signin_form") + "?reset=done")
