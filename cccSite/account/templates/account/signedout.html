@@ -8,13 +8,17 @@
 
 {% block accountFunc %}
 
+{% if auth_error %}
+<p class="auth-error" role="alert">{{ auth_error }}</p>
+{% endif %}
+
 {% if user.is_authenticated %}
 
 {% comment %}
 <!-- Google API block (disabled) -->
 <div class="body">
      <div id="g_id_onload"
-          data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
+          data-client_id="{{ google_client_id }}"
           data-context="signin"
           data-ux_mode="popup"
           data-login_uri="{% url 'account:authG' %}"

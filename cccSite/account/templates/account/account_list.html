@@ -84,12 +84,6 @@
 <div id="content" class="body" role="main" aria-labelledby="page-title">
     <h1 id="page-title">Chesapeake Community Connect</h1>
 
-    <!-- Search Form -->
-    <form action="{% url 'account:account_list' %}" method="GET" role="search" aria-label="User search form" class="search-form">
-        <label for="search-input" class="visually-hidden">Search Users</label>
-        {{ search.as_p }}
-        <button type="submit" id="search-btn" class="button_CCC" aria-label="Submit search">Search</button>
-    </form>
 {% if not is_signed_in %}
   <div class="dir-search__shell">
     <section class="dir-search__results" aria-labelledby="contributors-signin-heading">
@@ -100,7 +94,7 @@
             <span aria-hidden="true">⚠️</span> Sign in to view contributors <span aria-hidden="true">⚠️</span>
           </h1>
           <p class="contributors-signin-message">You need to sign in to view the contributors page.</p>
-          <a class="button" id="Signin" href="{% url 'account:signin' %}">Sign In</a>
+          <a class="button contributors-signin-link" href="{% url 'account:signin' %}">Sign In</a>
         </div>
       </div>
     </section>
@@ -136,6 +130,7 @@
     </div>
   </header>
 
+ 
   <div class="dir-search__shell">
     <nav class="dir-search__alphabet" aria-label="Browse contributors by first letter">
       <span class="dir-search__alphabet-label">Browse by letter</span>
@@ -168,12 +163,20 @@
           <div class="dir-search__field">
             <i class="bx bx-search dir-search__field-icon" aria-hidden="true"></i>
             {{ search.q }}
-            <input type="hidden" name="s" value="{{ sort_value }}">
             <input type="hidden" name="letter" value="{{ selected_letter }}">
             <input type="hidden" name="page" value="1">
           </div>
           {% if search.q.errors %}
           <div class="dir-search__field-errors">{{ search.q.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="dir-search__field-block dir-search__sort-field">
+          <label class="dir-search__label" for="id_s">Sort by</label>
+          <div class="dir-search__field">
+            {{ search.s }}
+          </div>
+          {% if search.s.errors %}
+          <div class="dir-search__field-errors">{{ search.s.errors }}</div>
           {% endif %}
         </div>
         <div class="dir-search__submit-wrap">
@@ -191,10 +194,10 @@
             <ul role="list" class="user-list">
                 {% for item in users %}
                 <li role="listitem" class="user-item">
-                    <a href="{{ item.get_absolute_url }}" class="user-link" aria-label="View profile of {{ item.user.username }}">
-                        {{ item.user.username }}
+                    <a href="{{ item.get_absolute_url }}" class="user-link" aria-label="View profile of {{ item.name }}">
+                        {{ item.name }}
                     </a>
-                    <span class="forum-count">{{ item.num_forums }} Forums</span>
+                    <span class="forum-count">{{ item.num_forums }} forum{{ item.num_forums|pluralize }}</span>
                 </li>
                 {% endfor %}
             </ul>
@@ -203,6 +206,8 @@
         {% endif %}
     </section>
 </div>
+
+{% endif %}
 
 <!-- Optional: Add styles for better appearance -->
 <style>
@@ -310,6 +315,25 @@
     padding: 4px 10px;
     border-radius: 8px;
     border: 1px solid var(--gray-border);
+}
+
+.dir-search__sort-field {
+    flex: 0 1 16rem;
+}
+
+.dir-search__sort-field select {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.65rem 0.85rem;
+    border: 0;
+    border-radius: var(--dir-radius-sm, 8px);
+    background: transparent;
+    color: #0f172a;
+    font-size: 0.9375rem;
+}
+
+.dir-search__sort-field select:focus {
+    outline: none;
 }
 
 /* ============================
