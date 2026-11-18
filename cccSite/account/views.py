@@ -2,14 +2,83 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.core.paginator import Paginator
-from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from .forms import CreateAccountForm, SearchAccountForm
+from django.db.models import Count
+from django.db.models import Q
+import json
+from django.http import JsonResponse
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 from PIL import Image
+from .models import Member, GLogIn
+
+# YOUR SPECIFIC CLIENT ID
+GOOGLE_CLIENT_ID = "909497695712-h9smcju9klvlqk70celohtne9o438htn.apps.googleusercontent.com"
+
+def google_signin(request):
+    if request.method == "POST":
+        token = request.POST.get("credential", "")
+
+        try:
+            # 1. Verify the Google token
+            idinfo = id_token.verify_oauth2_token(
+                token,
+                requests.Request(),
+                GOOGLE_CLIENT_ID
+            )
+
+            google_id = idinfo["sub"]  # Google's unique user ID
+            email = idinfo.get("email", "")
+            first_name = idinfo.get("given_name", "")
+            last_name = idinfo.get("family_name", "")
+
+            # 2. Check if this GoogleID already exists
+            try:
+                glog = GLogIn.objects.get(googleID=google_id)
+                member = glog.referTo
+                user = member.user
+
+            except GLogIn.DoesNotExist:
+                # 3. Create or get Django User based on email
+                user, created = User.objects.get_or_create(
+                    username=email,
+                    defaults={
+                        "email": email,
+                        "first_name": first_name,
+                        "last_name": last_name,
+                    }
+                )
+
+                # 4. Create Member if not exists
+                member, created_member = Member.objects.get_or_create(
+                    user=user,
+                    defaults={"ranking": 1}
+                )
+
+                # 5. Store mapping GoogleID → Member
+                GLogIn.objects.create(
+                    googleID=google_id,
+                    referTo=member
+                )
+
+            # 6. Log them in using Django
+            login(request, user)
+
+            # 7. Set your custom session keys
+            request.session["rank"] = member.ranking
+            request.session["user"] = member.pk
+            request.session["name"] = user.username
+
+            return JsonResponse({"success": True})
+
+        except ValueError:
+            return JsonResponse({"success": False, "message": "Invalid token"}, status=400)
+
+    return JsonResponse({"success": False}, status=405)
 from mapViewer.models import MapPost
 from .forms import CreateForumForm, SearchAccountForm
 from urllib.parse import urlencode
@@ -20,58 +89,7 @@ def signin(request):
     if request.session.get('rank', 0)==0:
         return render(request, 'account/signin.html')
     else:
-        return redirect(reverse("account:default"))
-
-def signin_form(request):
-    if request.method == "GET":
-        return render(request, "account/signin_form.html")
-
-    username = request.POST.get("username", "").strip()
-    password = request.POST.get("password", "")
-    account = AccountCreation.objects.filter(
-        username__iexact=username, status="accepted"
-    ).first()
-    if account is None or account.password != password:
-        return render(request, "account/signin_form.html", {
-            "error": "The username or password is incorrect.",
-        })
-
-    member, _ = Member.objects.get_or_create(
-        email=account.email,
-        defaults={"name": account.displayname},
-    )
-    request.session["rank"] = member.ranking
-    request.session["user"] = member.pk
-    request.session["name"] = member.name
-    return redirect(reverse("account:default"))
-
-def signup(request):
-    if request.method == "GET":
-        return render(request, "account/signup.html")
-
-    values = {
-        field: request.POST.get(field, "").strip()
-        for field in ("email", "username", "displayname", "password", "confirmpassword")
-    }
-    if not all(values.values()):
-        return render(request, "account/signup.html", {
-            "error": "All fields are required.",
-        })
-    if values["password"] != values["confirmpassword"]:
-        return render(request, "account/signup.html", {
-            "error": "The passwords do not match.",
-        })
-    if AccountCreation.objects.filter(
-        email__iexact=values["email"], status="pending"
-    ).exists() or AccountCreation.objects.filter(
-        username__iexact=values["username"], status="pending"
-    ).exists():
-        return render(request, "account/signup.html", {
-            "error": "An account request with that email or username is already pending.",
-        })
-
-    AccountCreation.objects.create(**values)
-    return redirect(reverse("account:signin"))
+        return redirect("/account/")
 
 # if a user tries to sign out by URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to confirmation
 def signout(request):
@@ -98,6 +116,7 @@ def default(request):
         })
     
 def account_all(request):
+    return HttpResponse("insert account view list here")
     search = SearchAccountForm(request.GET)
     query = request.GET.get("q", "").strip()
     letter = request.GET.get("letter", "").strip().upper()
@@ -155,6 +174,16 @@ def account_all(request):
     })
     
 def account_view(request, want):
+    if not want:
+        return HttpResponse("Insert list view here")
+    if not Member.objects.get(pk=want):
+        return redirect(reverse("account:default"))
+    viewInz=Member.objects.get(pk=want)
+    if request.session.get('rank',0) != 0:
+        userInz=Member.objects.get(request.session['user'])
+    else:
+        userInz= Member.objects.none()
+    
     view_inz = get_object_or_404(Member, pk=want)
     return render(request, "account/profile.html", {
         "profile": view_inz,
@@ -186,119 +215,61 @@ def password_change_error(account, current, new, confirm):
         return f"Your new password must be at most {max_length} characters long."
     return None
 
-# lets members edit their info. if user not signed in, sends them to log in
-# the page has two forms: the profile form, and a change password form for members who sign in with a password (issue #72)
+# lets members edit their info
 def manage(request):
     if request.session.get('rank',0)==0:
         return redirect('/account/signin/')
-    userInz=Member.objects.get(pk=request.session['user'])
-    account = password_account_for(userInz)
-    form = ManageForm(instance=userInz)
-    password_error = None
-    password_changed = request.GET.get("password") == "changed"
-
-    if request.method == "POST" and "change_password" in request.POST:
-        if account is None:
-            password_error = "Your account signs in with Google, so it has no password to change."
-        else:
-            new = request.POST.get("new_password", "")
-            password_error = password_change_error(
-                account,
-                request.POST.get("current_password", ""),
-                new,
-                request.POST.get("confirm_password", ""),
-            )
-            if password_error is None:
-                account.password = new
-                account.confirmpassword = new
-                account.save(update_fields=["password", "confirmpassword"])
-                # redirect so refreshing the page does not submit the passwords again
-                return redirect(reverse("account:manage") + "?password=changed")
-    elif request.method == "POST":
+    if request.method == "POST":
+        userInz=Member.objects.get(pk=request.session['user']) 
         form = ManageForm(request.POST, request.FILES, instance=userInz)
         if form.is_valid():
             form.save()
             request.session['name']=userInz.name
             return redirect("/account/")
+    else:
+        userInz=Member.objects.get(pk=request.session['user'])
+        form = ManageForm(instance=userInz)
+    return render(request, "account/manage.html", {'form' : form})
 
-    return render(request, "account/manage.html", {
-        'form': form,
-        'current_profile_image': userInz.pic,
-        'has_password': account is not None,
-        'password_error': password_error,
-        'password_changed': password_changed,
-    })
-
-
-def my_forums(request):
-    if request.session.get("rank", 0) == 0:
+# a lot of this code is from google btw. this view verifies google one touch log in credentials
+#view for creating forums
+def make_forum(request):
+    if(request.session.get('rank',0) == 0): #if user is not signed in, require sign in
         return redirect(reverse("account:signin"))
-
-    posts = MapPost.objects.filter(
-        author_id=request.session["user"],
-    ).order_by("-created")
-    return render(request, "account/myForums.html", {
-        "vis": posts.filter(visibility=1),
-        "pend": posts.filter(visibility=0),
-        "den": posts.filter(visibility=-1),
-    })
-
-
-def create_forum(request):
-    if request.session.get("rank", 0) == 0:
-        return redirect(reverse("account:signin"))
-
-    form = CreateForumForm(request.POST or None, request.FILES or None)
-    if request.method == "POST" and form.is_valid():
-        content = form.cleaned_data["content"]
-        MapPost.objects.create(
-            title=form.cleaned_data["title"],
-            content=content,
-            author_id=request.session["user"],
-            description=content[:35] + ("..." if len(content) > 35 else ""),
-            geoCode=form.cleaned_data["geoResult"] or {},
-            visibility=0,
-        ).tags.set(form.cleaned_data["tags"])
-        return redirect(f"{reverse('account:my_forums')}?success=1")
-
-    return render(request, "account/create_forum.html", {"form": form})
-
-# a lot of this code is from google btw
-@csrf_exempt #the csrf is from google, not django, and is verified. can't get django's csrf to work tho due to origin of post
-def authG(request):
-    if request.method == "GET":
-       return redirect(reverse("account:account_list"))
-    elif request.method == "POST":
-
-        csrf_tok_cookie = request.COOKIES.get('g_csrf_token')
-        # check valid csrf token
-        if not csrf_tok_cookie:
-            return HttpResponse("Something went wrong, no csrf cookie")
-        csrf_tok_body = request.POST.get('g_csrf_token')
-        if not csrf_tok_body:
-            return HttpResponse("Something went wrong, no csrf cookie from google")
-        if csrf_tok_cookie != csrf_tok_body:
-            return HttpResponse("Could not verify csrf")
-        #get token from google
-        tok = request.POST.get("credential")  
-        try:
-            # logs user in via their google ID, or makes an entry in member if they do not have an account yet.
-            idinfo = id_token.verify_oauth2_token(tok, requests.Request(), "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com")
-            if not(GLogIn.objects.filter(googleID=idinfo['sub']).exists()): #checks if there is a stored google log in yet with this user's google ID
-                #when we implement other sign in methods, we will need to ask the user if they already have an account
-                #if so, have user sign in via user/pass or other method and then get that member entry so gLogInz points to it 
-                
-                userInz = Member.objects.create(name=idinfo['given_name'], email = idinfo['email']) #stores the user's info, scraped from google, in the member model
-                gLogInz = GLogIn.objects.create(googleID=idinfo['sub'], referTo=userInz) # stores the google ID and the member it is associated with
-            else: #if the user has logged in with google before
-                gLogInz=GLogIn.objects.get(googleID=idinfo['sub']) #get the object in the google log in table identified by the google ID
-                userInz=gLogInz.referTo #get the object that the google ID is associated with
-
-            #store information about the user in the session
-            request.session['rank']=userInz.ranking
-            request.session['user']=userInz.pk 
-            request.session['name']=userInz.name
-        except ValueError:
-            return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
-            pass
-        return redirect(reverse("account:default"))
+    if(request.method=="POST"): #if the request was a post, it is an attempt to create a forum
+        contentForm= MakeForumForm(request.POST, request.FILES) #create the posting form instance and populate it with the data in the POST request
+        if contentForm.is_valid(): #if the forum is good to go, calls the clean method and validators from MakeForumForm in mapViewer/forms.py
+            # MEMBER_DELETE
+            userInz=Member.objects.get(pk=request.session['user']) #get user's member instance from session
+            if len(contentForm.cleaned_data['content']) > 35: #if content overflows the preview length
+                disc = contentForm.cleaned_data['content'][slice(0,35)] + "..." #create description to act as a preview
+            else:
+                disc = contentForm.cleaned_data['content'] #otherwise just use content to describe #? Why does description exist at all?
+            vis=0 #default visibility set to pending
+            if request.session['rank'] > 1: #if user is trusted, set visibility to visible
+                vis=1
+            forumInz=Forum.objects.create(title=contentForm.cleaned_data['title'], #actually create the forum instance in the database
+                                   content=contentForm.cleaned_data['content'],
+                                   firstName=contentForm.cleaned_data['firstName'],
+                                   lastName=contentForm.cleaned_data['lastName'],
+                                   author=userInz,
+                                   description=disc,
+                                   geoCode=contentForm.cleaned_data['geoResult'][0],
+                                   visibility=vis,
+                                   associated=contentForm.cleaned_data['associated'],
+                                   private_public=contentForm.cleaned_data['private_public']
+                                   )
+            if contentForm.cleaned_data['tags']: #if there are any tags
+                forumInz.tags.set(contentForm.cleaned_data['tags']) #set the forum's tags according to selected tags
+            
+            if contentForm.cleaned_data['files']: #if there are files uploaded
+                for item in contentForm.cleaned_data['files']: #iterates through file upload fields
+                    if item != None: #if item is none, then nothing was uploaded
+                        fileInz = Media.objects.create(forum=forumInz, file=item) #create a forumfile instance
+                        fileInz.format = fileInz.get_format() #get the format and set the format
+                        fileInz.save() #save the updated format
+            return redirect(reverse('mapViewer:forum_detail', args=[forumInz.pk])) #redirect to the forum view of the just posted forum
+            
+    else:
+        contentForm = MakeForumForm()
+    return render(request, 'account/create_forum.html', {'form': contentForm,})
