@@ -20,10 +20,14 @@ async function initMap() {
         });
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
         for (let item of forums) {
+            const geoCode = item.fields.geoCode;
+            const geocodeResult = Array.isArray(geoCode) ? geoCode[0] : geoCode;
+            const position = geocodeResult?.geometry?.location ?? geocodeResult;
+            if (!Number.isFinite(position?.lat) || !Number.isFinite(position?.lng)) continue;
+
             const title = item.fields.title;
             const description = item.fields.description;
             const forumURL = `${window.location.origin}${window.location.pathname}post/${item.pk}`;
-            const position = { lat: item.fields.geoCode.geometry.location.lat, lng: item.fields.geoCode.geometry.location.lng };
             const infoContent = document.createElement("div");
             const heading = document.createElement("h3");
             const summary = document.createElement("p");

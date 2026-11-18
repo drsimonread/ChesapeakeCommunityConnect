@@ -1,6 +1,9 @@
-from django.test import TestCase, Client
-from django.urls import reverse
+import re
 from unittest.mock import patch
+
+from django.core import mail
+from django.test import TestCase, Client, override_settings
+from django.urls import reverse
 
 from .models import AccountCreation, Member, GLogIn
 from mapViewer.models import MapPost
@@ -115,6 +118,54 @@ class AccountViewsTest(TestCase):
         self.assertContains(response, "Test User")
         self.assertContains(response, "1 forum")
 
+    def test_contributor_alphabet_navigator_filters_by_first_letter(self):
+        MapPost.objects.create(
+            title="Visible forum",
+            content="A visible forum",
+            author=self.user,
+            description="A visible forum",
+            geoCode={"lat": 38.98, "lng": -76.49},
+            visibility=1,
+        )
+
+        response = self.client.get(reverse("account:account_list"), {"letter": "T"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Browse by letter")
+        self.assertContains(response, 'aria-label="Browse contributors by first letter"')
+        self.assertContains(response, "Test User")
+        self.assertContains(response, 'aria-current="true"')
+
+    def test_contributor_sort_option_orders_visible_users(self):
+        alpha_user = Member.objects.create(name="Alpha User", email="alpha@example.com", ranking=1)
+        MapPost.objects.create(
+            title="Alpha forum",
+            content="A visible forum",
+            author=alpha_user,
+            description="A visible forum",
+            geoCode={"lat": 38.98, "lng": -76.49},
+            visibility=1,
+        )
+        MapPost.objects.create(
+            title="Test forum",
+            content="A visible forum",
+            author=self.user,
+            description="A visible forum",
+            geoCode={"lat": 38.98, "lng": -76.49},
+            visibility=1,
+        )
+
+        response = self.client.get(reverse("account:account_list"), {"s": "1"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'name="s"', count=1)
+        self.assertContains(response, 'onchange="this.form.submit()"', html=False)
+        self.assertContains(response, 'option value="1" selected', html=False)
+        self.assertEqual(
+            [member.name for member in response.context["users"]],
+            ["Test User", "Alpha User"],
+        )
+
     def test_create_forum_page_uses_existing_template(self):
         response = self.client.get(reverse("account:create_forum"))
         self.assertEqual(response.status_code, 200)
@@ -132,9 +183,34 @@ class AccountViewsTest(TestCase):
             "geoResult": '{"lat": 38.98, "lng": -76.49}',
         })
         self.assertRedirects(response, reverse("account:my_forums") + "?success=1")
-        self.assertTrue(MapPost.objects.filter(
+        post = MapPost.objects.get(
             author=self.user, title="Community forum", visibility=0,
-        ).exists())
+        )
+        self.assertEqual(post.geoCode, {"lat": 38.98, "lng": -76.49})
+
+    def test_create_forum_submission_geocodes_typed_address(self):
+        with patch("account.forms.googlemaps.Client") as client:
+            client.return_value.geocode.return_value = [{
+                "geometry": {
+                    "location": {"lat": 38.98, "lng": -76.49},
+                },
+            }]
+            response = self.client.post(reverse("account:create_forum"), {
+                "title": "Typed address forum",
+                "firstName": "Test",
+                "lastName": "User",
+                "location": "123 Main Street",
+                "content": "A forum with a typed address",
+                "associated": "yes",
+                "private_public": "public",
+            })
+
+        self.assertRedirects(response, reverse("account:my_forums") + "?success=1")
+        post = MapPost.objects.get(title="Typed address forum")
+        self.assertEqual(
+            post.geoCode,
+            {"geometry": {"location": {"lat": 38.98, "lng": -76.49}}},
+        )
 
     def test_my_forums_shows_member_posts(self):
         MapPost.objects.create(
@@ -175,6 +251,32 @@ class AccountViewsTest(TestCase):
     def test_authG_view_invalid_csrf(self):
         response = self.client.post(reverse("account:authG"), {'g_csrf_token': 'invalid'})
         self.assertContains(response, "Something went wrong, no csrf cookie", status_code=200)
+
+    @patch("account.views.id_token.verify_oauth2_token")
+    def test_google_signin_creates_member_and_starts_session(self, verify_token):
+        verify_token.return_value = {
+            "sub": "google-user-123",
+            "email": "google@example.com",
+            "given_name": "Google",
+            "family_name": "User",
+        }
+        self.client.cookies["g_csrf_token"] = "valid-token"
+
+        response = self.client.post(
+            reverse("account:authG"),
+            {
+                "g_csrf_token": "valid-token",
+                "credential": "valid-google-credential",
+            },
+        )
+
+        self.assertRedirects(response, reverse("account:default"), fetch_redirect_response=False)
+        member = Member.objects.get(email="google@example.com")
+        self.assertEqual(member.name, "Google User")
+        self.assertEqual(GLogIn.objects.get(googleID="google-user-123").referTo, member)
+        session = self.client.session
+        self.assertEqual(session["user"], member.pk)
+        self.assertEqual(session["rank"], member.ranking)
 
 
 # issue #72: changing your password from the edit account page
@@ -302,10 +404,11 @@ class LoginNextRedirectTests(TestCase):
             },
         ):
             response = self.client.post(
-                f"{reverse('account:authG')}?next={self.create_post_url}",
+                reverse("account:authG"),
                 {
                     "g_csrf_token": "valid-csrf",
                     "credential": "test-token",
+                    "state": self.create_post_url,
                 },
             )
 
@@ -323,6 +426,90 @@ class LoginNextRedirectTests(TestCase):
 
         self.assertContains(
             response,
-            "account/authG/?next=%2Faccount%2Fcreate-forum%2F",
+            f'data-login_uri="http://testserver{reverse("account:authG")}"',
         )
+        self.assertContains(response, f'data-state="{self.create_post_url}"')
         self.assertContains(response, "signin-form/?next=/account/create-forum/")
+
+
+# issue #71: resetting a forgotten password with an emailed link
+@override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+class PasswordResetTest(TestCase):
+    def setUp(self):
+        self.account = AccountCreation.objects.create(
+            email="sam@example.com", username="sam", displayname="Sam",
+            password="oldpassword", confirmpassword="oldpassword", status="accepted",
+        )
+
+    def request_link(self, email="sam@example.com"):
+        return self.client.post(reverse("account:forgot_password"), {"email": email})
+
+    def emailed_link(self):
+        self.request_link()
+        self.assertEqual(len(mail.outbox), 1)
+        return re.search(r"http://testserver(/account/reset-password/\S+/)", mail.outbox[0].body).group(1)
+
+    def reset(self, link, new, confirm=None):
+        return self.client.post(link, {"new_password": new, "confirm_password": new if confirm is None else confirm})
+
+    def test_sign_in_page_links_to_forgot_password(self):
+        self.assertContains(self.client.get(reverse("account:signin_form")), reverse("account:forgot_password"))
+
+    def test_email_sent_to_the_account(self):
+        response = self.request_link("SAM@example.com")
+        self.assertContains(response, "we've sent it a link")
+        self.assertEqual(mail.outbox[0].to, ["sam@example.com"])
+        self.assertIn('"sam"', mail.outbox[0].body)
+
+    def test_unknown_email_gets_same_message_and_no_email(self):
+        response = self.request_link("nobody@example.com")
+        self.assertContains(response, "we've sent it a link")
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_pending_account_gets_no_email(self):
+        self.account.status = "pending"
+        self.account.save()
+        self.request_link()
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_reset_with_link_then_sign_in(self):
+        link = self.emailed_link()
+        self.assertContains(self.client.get(link), "Choose a new password for")
+        response = self.reset(link, "brandnewpass")
+        self.assertRedirects(response, reverse("account:signin_form") + "?reset=done")
+        self.assertContains(self.client.get(response.url), "Your password has been reset.")
+        self.account.refresh_from_db()
+        self.assertEqual(self.account.password, "brandnewpass")
+        signin = self.client.post(reverse("account:signin_form"), {"username": "sam", "password": "brandnewpass"})
+        self.assertRedirects(signin, reverse("account:default"), fetch_redirect_response=False)
+
+    def test_link_only_works_once(self):
+        link = self.emailed_link()
+        self.reset(link, "brandnewpass")
+        self.assertContains(self.client.get(link), "invalid or has expired")
+        self.reset(link, "anotherpass1")
+        self.account.refresh_from_db()
+        self.assertEqual(self.account.password, "brandnewpass")
+
+    def test_link_expires(self):
+        link = self.emailed_link()
+        with override_settings(PASSWORD_RESET_TIMEOUT=-1):
+            self.assertContains(self.client.get(link), "invalid or has expired")
+
+    def test_tampered_link_rejected(self):
+        link = self.emailed_link()
+        self.assertContains(self.client.get(link[:-3] + "xx/"), "invalid or has expired")
+        self.assertContains(self.client.get("/account/reset-password/notanid/abc-def/"), "invalid or has expired")
+
+    def test_new_password_rules(self):
+        link = self.emailed_link()
+        self.assertContains(self.reset(link, "brandnewpass", "different123"), "do not match")
+        self.assertContains(self.reset(link, "short"), "at least 8 characters")
+        self.account.refresh_from_db()
+        self.assertEqual(self.account.password, "oldpassword")
+
+    @override_settings(EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend", EMAIL_HOST="invalid.invalid", EMAIL_PORT=1)
+    def test_email_failure_still_shows_message(self):
+        with self.assertLogs("account.views", level="ERROR"):
+            response = self.request_link()
+        self.assertContains(response, "we've sent it a link")

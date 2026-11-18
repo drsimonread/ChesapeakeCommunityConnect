@@ -33,7 +33,7 @@
       {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
 
       <div class="account-form__field">
-        <p class="account-form__label">Current profile image</p>
+        <p class="account-form__label">Current profile image:</p>
         <img class="account-form__current-image" src="{{ current_profile_image.url }}" alt="Current profile image">
         <label for="{{ form.pic.id_for_label }}">Choose a new profile image</label>
         {{ form.pic }}

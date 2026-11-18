@@ -265,6 +265,25 @@
     autocomplete = new google.maps.places.Autocomplete(el, {
       fields: ["address_components", "geometry", "formatted_address"],
     });
+    autocomplete.addListener("place_changed", function () {
+      var place = autocomplete.getPlace();
+      var geoEl = document.getElementById("id_geoResult");
+      if (!geoEl || !place.geometry || !place.geometry.location) return;
+
+      geoEl.value = JSON.stringify({
+        geometry: {
+          location: {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+          }
+        },
+        formatted_address: place.formatted_address || ""
+      });
+    });
+    el.addEventListener("input", function () {
+      var geoEl = document.getElementById("id_geoResult");
+      if (geoEl) geoEl.value = "";
+    });
   }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_API_KEY }}&libraries=places&callback=initAutocomplete" defer></script>
