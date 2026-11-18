@@ -65,7 +65,7 @@
     <header class="site-page-header" aria-labelledby="forum-view-title">
       <h1 id="forum-view-title" class="site-page-header__title">{{ forum.title }}</h1>
       <p class="site-page-header__subtitle">
-        By <a href="{{ forum.author.get_absolute_url }}">{{ forum.author }}</a>
+        By {% if forum.author %}<a href="{{ forum.author.get_absolute_url }}">{{ forum.author }}</a>{% else %}Guest contributor{% endif %}
       </p>
     </header>
 

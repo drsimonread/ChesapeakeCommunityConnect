@@ -6,15 +6,15 @@ admin.site.register(MapTag)
 
 @admin.register(MapPost)
 class MapPostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'visibility', 'get_created_date', 'get_tags')
+    list_display = ('title', 'author', 'guest_email', 'visibility', 'get_created_date', 'get_tags')
     list_filter = ('visibility', 'tags', 'created')
-    search_fields = ('title', 'content', 'description', 'author__username', 'author__displayname')
+    search_fields = ('title', 'content', 'description', 'guest_email', 'author__name', 'author__email')
     ordering = ('created',)  # Oldest to newest
     readonly_fields = ('created',)
     
     fieldsets = (
         ('Post Information', {
-            'fields': ('title', 'content', 'description', 'author')
+            'fields': ('title', 'content', 'description', 'author', 'guest_email')
         }),
         ('Location', {
             'fields': ('geoCode',)

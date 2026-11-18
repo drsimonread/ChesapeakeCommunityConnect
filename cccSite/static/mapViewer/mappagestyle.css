@@ -38,6 +38,22 @@
     padding: 0 1.25rem;
 }
 
+#upload-descriptions {
+    margin-top: 24px;
+}
+
+.upload-description {
+    margin-bottom: 1.5em;
+}
+
+.upload-description h3 {
+    margin-bottom: 0.25em;
+}
+
+.upload-description p {
+    margin-top: 0;
+}
+
 /* -------------------------
    HERO HEADER
    ------------------------- */
@@ -410,6 +426,27 @@
     height: auto;
 }
 
+.post-creation-panel {
+    padding: 2rem;
+    border-width: 3px;
+    border-radius: 15px;
+}
+
+.post-creation-panel .map-search-panel__head {
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom-width: 3px;
+}
+
+.post-creation-panel .map-search-panel__title {
+    margin-bottom: 12px;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+}
+
+.post-creation-panel .map-search-panel__intro {
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+}
+
 #post-form .map-filter-btn {
     margin-top: 5px;
 }
@@ -418,7 +455,7 @@
    RESPONSIVE TABLET LAYOUT
    ------------------------- */
 
-@media (max-width: 850px) {
+@media (max-width: 700px) {
     .site-shell__inner {
         padding: 22px;
     }
@@ -494,5 +531,90 @@
 
     .map-filter-clear {
         text-align: center;
+    }
+}
+
+#post-access-choice[hidden],
+#post-form[hidden] {
+    display: none;
+}
+
+.post-access-copy {
+    margin: 0 0 24px;
+    color: #00205C;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    line-height: 1.4;
+}
+
+.guest-email-note {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.78rem;
+    line-height: 1.35;
+}
+
+.post-access-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.post-access-choice-actions {
+    gap: 0.35rem;
+}
+
+.post-access-choice-actions .map-filter-btn {
+    min-height: 80px;
+    border-width: 3px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.post-access-choice-actions a.map-filter-btn {
+    text-decoration: underline;
+}
+
+.post-access-actions .map-filter-btn {
+    text-decoration: none;
+}
+
+.post-access-back {
+    display: inline-block;
+    padding: 0.5rem;
+    border: 0;
+    background: transparent;
+    color: #00205c;
+    cursor: pointer;
+    font: inherit;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.post-access-back:hover {
+    color: #8A6900;
+}
+
+.guest-post-status {
+    margin: 0 0 1rem;
+    padding: 0.85rem;
+    border: 1px solid rgba(0, 100, 0, 0.2);
+    border-radius: 8px;
+    background: #f0fdf4;
+    color: #166534;
+}
+
+.guest-post-errors,
+#post-form .errorlist {
+    color: #b91c1c;
+}
+
+@media (max-width: 550px) {
+    .post-creation-panel {
+        padding: 20px;
+    }
+
+    .post-access-choice-actions .map-filter-btn {
+        min-height: 64px;
+        font-size: 18px;
     }
 }

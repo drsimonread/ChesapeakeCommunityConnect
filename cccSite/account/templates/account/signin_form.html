@@ -95,6 +95,7 @@
         {% endif %}
         <form action="{% url 'account:signin_form' %}" method="post" autocomplete="off">
             {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next_url }}">
             <label for="signin-username">Username:</label>
             <input class="input" type="text" id="signin-username" name="username"
                    autocomplete="off" required>

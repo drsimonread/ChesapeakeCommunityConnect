@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.http import HttpResponse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from PIL import Image
@@ -15,17 +16,39 @@ from mapViewer.models import MapPost
 from .forms import CreateForumForm, SearchAccountForm
 from urllib.parse import urlencode
 
+
+def safe_next_url(request, candidate):
+    if candidate and url_has_allowed_host_and_scheme(
+        candidate,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        return candidate
+    return reverse("account:default")
+
+
 # if user not signed in, sends them to log in 
 def signin(request):
+    next_url = safe_next_url(request, request.GET.get("next"))
     if request.session.get('rank', 0)==0:
-        return render(request, 'account/signin.html')
+        google_auth_url = request.build_absolute_uri(reverse("account:authG"))
+        google_auth_url += "?" + urlencode({"next": next_url})
+        return render(request, 'account/signin.html', {
+            "next_url": next_url,
+            "google_auth_url": google_auth_url,
+        })
     else:
-        return redirect(reverse("account:default"))
+        return redirect(next_url)
 
 def signin_form(request):
     if request.method == "GET":
-        return render(request, "account/signin_form.html")
+        next_url = safe_next_url(request, request.GET.get("next"))
+        return render(request, "account/signin_form.html", {"next_url": next_url})
 
+    next_url = safe_next_url(
+        request,
+        request.POST.get("next") or request.GET.get("next"),
+    )
     username = request.POST.get("username", "").strip()
     password = request.POST.get("password", "")
     account = AccountCreation.objects.filter(
@@ -34,6 +57,7 @@ def signin_form(request):
     if account is None or account.password != password:
         return render(request, "account/signin_form.html", {
             "error": "The username or password is incorrect.",
+            "next_url": next_url,
         })
 
     member, _ = Member.objects.get_or_create(
@@ -43,7 +67,7 @@ def signin_form(request):
     request.session["rank"] = member.ranking
     request.session["user"] = member.pk
     request.session["name"] = member.name
-    return redirect(reverse("account:default"))
+    return redirect(next_url)
 
 def signup(request):
     if request.method == "GET":
@@ -287,4 +311,4 @@ def authG(request):
         except ValueError:
             return HttpResponse("Something went wrong, invalid credentials from Google (somehow)")
             pass
-        return redirect(reverse("account:default"))
+        return redirect(safe_next_url(request, request.GET.get("next")))

@@ -19,6 +19,27 @@ class SearchPostsForm(forms.Form):
             }
 
 
+class GuestPostForm(forms.Form):
+    email = forms.EmailField(
+            max_length=254,
+            label="Email",
+            widget=forms.EmailInput(attrs={
+                "id": "email",
+                "autocomplete": "email",
+            }),
+    )
+    title = forms.CharField(max_length=100, label="Title")
+    description = forms.CharField(label="Description", widget=forms.Textarea)
+    address = forms.CharField(max_length=200, label="Address")
+    city = forms.CharField(max_length=100, required=False, label="City")
+    state = forms.CharField(max_length=100, required=False, label="State")
+    zipcode = forms.CharField(max_length=20, required=False, label="Zipcode")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in ("title", "description", "address", "city", "state", "zipcode"):
+            self.fields[field_name].widget.attrs["id"] = field_name
+
 
 class MakePostForm(forms.Form):
     title = forms.CharField(max_length=100, label="Title")

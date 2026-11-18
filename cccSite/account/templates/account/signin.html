@@ -48,10 +48,9 @@
 <title>Chesapeake Community Connect - Sign In</title>
 {%endblock accHead%}
 {% block accountFunc %}
-<!--initializes (?) the google API. will need to change the data-login_uri for live site-->
 <div class="body">
      <div id="g_id_onload" data-client_id="316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
-          data-context="signin" data-ux_mode="popup" data-login_uri="http://localhost:8080/account/authG/"
+          data-context="signin" data-ux_mode="popup" data-login_uri="{{ google_auth_url }}"
           data-auto_prompt="false">
      </div>
      <div class="containerS1">
@@ -64,7 +63,7 @@
                     data-text="signin" data-size="large" data-logo_alignment="left">
                </div>
                <div class="signin-actions">
-                    <a class="button" id="Signin" href="{% url 'account:signin_form' %}">Sign In</a>
+                    <a class="button" id="Signin" href="{% url 'account:signin_form' %}?next={{ next_url|urlencode }}">Sign In</a>
                     <a class="button" id="create-an-account" href="{% url 'account:signup' %}">Create an Account</a>
                     
                </div>
