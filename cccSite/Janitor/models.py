@@ -1,10 +1,14 @@
 from django.db import models
-from mapViewer.models import MapPost
+from mapViewer.models import MapPost, PostComment
 from account.models import Member
 
 # Create your models here.
 class PostReport(models.Model):
     post = models.ForeignKey(MapPost, on_delete=models.CASCADE)
+    reason = models.TextField()
+
+class CommentReport(models.Model):
+    comment = models.ForeignKey(PostComment, on_delete=models.CASCADE)
     reason = models.TextField()
 
 class UserReport(models.Model):

@@ -1,28 +1,45 @@
 <article class="comment" id="comment-{{ comment.pk }}">
     <div class="comment__meta">
         <a href="{{ comment.author.get_absolute_url }}">{{ comment.author }}</a>
-        <time datetime="{{ comment.created|date:'c' }}">{{ comment.created|timesince }} ago</time>
+        <time class="comment__date" datetime="{{ comment.created|date:'c' }}">Posted {{ comment.created|date:"F j, Y" }}</time>
     </div>
     <p class="comment__content">{{ comment.content }}</p>
 
-    {% if request.session.user and can_comment %}
-    <details class="comment__reply">
-        <summary>Reply</summary>
-        <form class="comment-form comment-form--reply" action="{{ request.path }}#comment-{{ comment.pk }}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="comment">
-            <input type="hidden" name="parent" value="{{ comment.pk }}">
-            {{ comment_form.as_p }}
-            <button type="submit" class="post-action-button">Post reply</button>
-        </form>
-    </details>
-    {% endif %}
+    <div class="comment-actions">
+        {% if request.session.user and can_comment %}
+        <details class="comment__reply">
+            <summary class="post-action-button">Reply</summary>
+            <form class="comment-form comment-form--reply" action="{{ request.path }}#comment-{{ comment.pk }}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="comment">
+                <input type="hidden" name="parent" value="{{ comment.pk }}">
+                {{ comment_form.as_p }}
+                <button type="submit" class="post-action-button">Post reply</button>
+            </form>
+        </details>
+        {% endif %}
 
-    {% if comment.thread_replies %}
-    <div class="comment__replies">
-        {% for reply in comment.thread_replies %}
-            {% include "mapViewer/comment.html" with comment=reply %}
-        {% endfor %}
+        {% if comment.reported %}
+        <p class="report-success" role="status">Your report has been received.</p>
+        {% else %}
+        <details class="comment-report-panel"{% if comment.report_form.errors %} open{% endif %}>
+            <summary class="post-action-button comment-report-button">Report</summary>
+            <form action="{{ request.path }}#comment-{{ comment.pk }}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="report_comment">
+                {{ comment.report_form.as_p }}
+                <button type="submit" class="post-action-button">Send report</button>
+            </form>
+        </details>
+        {% endif %}
     </div>
-    {% endif %}
+
 </article>
+
+{% if comment.thread_replies %}
+<div class="comment__replies">
+    {% for reply in comment.thread_replies %}
+        {% include "mapViewer/comment.html" with comment=reply %}
+    {% endfor %}
+</div>
+{% endif %}

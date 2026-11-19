@@ -11,7 +11,7 @@ from django.db.models import Q
 import googlemaps
 from googlemaps.exceptions import ApiError, Timeout, TransportError
 from datetime import datetime
-from Janitor.forms import PostRepForm
+from Janitor.forms import CommentRepForm, PostRepForm
 from .models import MapPost, MapTag, PostComment
 import logging
 
@@ -137,6 +137,9 @@ def post_list(request):
 #this is practice of using url args and absolute URLs of a model. see models.py and urls.py to see how its working
 def post_detail(request, want):
     hasReported=False
+    reported_comment_id = None
+    comment_report_form = None
+    comment_report_comment_id = None
     if MapPost.objects.filter(pk=want).exists():
         lookAt= MapPost.objects.get(pk=want)
         reporter = PostRepForm(initial={'post':lookAt})
@@ -146,6 +149,20 @@ def post_detail(request, want):
             hasReported = reporter.is_valid()
             if hasReported:
                 reporter.save()
+        elif request.method == 'POST' and request.POST.get("action") == "report_comment":
+            comment_report_comment_id = request.POST.get("comment")
+            comment_report_form = CommentRepForm(request.POST)
+            reported_comment = PostComment.objects.filter(
+                pk=comment_report_comment_id, post=lookAt
+            ).first()
+            if reported_comment is None:
+                comment_report_form.add_error(
+                    "comment", "That comment is no longer available."
+                )
+            elif comment_report_form.is_valid():
+                comment_report_form.save()
+                reported_comment_id = reported_comment.pk
+                comment_report_form = None
         elif request.method == "POST" and request.POST.get("action") == "comment":
             if not request.session.get("user"):
                 return redirect(f"{reverse('account:signin')}?next={request.path}")
@@ -183,6 +200,19 @@ def post_detail(request, want):
                 comments_by_parent.setdefault(comment.parent_id, []).append(comment)
             for comment in comments:
                 comment.thread_replies = comments_by_parent.get(comment.pk, [])
+                if comment.pk == reported_comment_id:
+                    comment.reported = True
+                else:
+                    comment.reported = False
+                if (
+                    str(comment.pk) == str(comment_report_comment_id)
+                    and comment_report_form
+                ):
+                    comment.report_form = comment_report_form
+                else:
+                    comment.report_form = CommentRepForm(
+                        initial={"comment": comment}
+                    )
             return render(request, "mapViewer/viewPost.html", {"post" : lookAt,
                                                                "form" : reporter,
                                                                "hasReported" : hasReported,

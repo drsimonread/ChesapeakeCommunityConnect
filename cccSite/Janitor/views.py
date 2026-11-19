@@ -106,18 +106,28 @@ def reportList(request):
             userInz = Member.objects.get(pk=request.POST.get('pk'))
             msg=userInz.name + "'s reports have been cleared."
             UserReport.objects.filter(account=userInz).delete()
+        elif request.POST.get('type') == 'comment':
+            commentInz = PostComment.objects.get(pk=request.POST.get('pk'))
+            msg="Comment reports have been cleared."
+            CommentReport.objects.filter(comment=commentInz).delete()
         else:
             postInz = MapPost.objects.get(pk=request.POST.get('pk'))
             msg=postInz.title + "'s reports have been cleared."
             PostReport.objects.filter(post=postInz).delete()
     pwReports = MapPost.objects.filter(postreport__id__gt=0).distinct().annotate(num_reports=Count("postreport")).order_by('-num_reports')
+    cwReports = PostComment.objects.filter(commentreport__id__gt=0).distinct().annotate(num_reports=Count("commentreport")).order_by('-num_reports')
     uwReports = Member.objects.filter(userreport__id__gt=0).distinct().annotate(num_reports=Count("userreport")).order_by('-num_reports')
     pList = []
+    cList = []
     uList = []
     for item in pwReports:
         reports = PostReport.objects.filter(post=item)
         tempList = [item,reports]
         pList.append(tempList)
+    for item in cwReports:
+        reports = CommentReport.objects.filter(comment=item)
+        tempList = [item,reports]
+        cList.append(tempList)
     for item in uwReports:
         reports = UserReport.objects.filter(account=item)
         tempList = [item,reports]
@@ -126,6 +136,7 @@ def reportList(request):
     return render(request, 'Janitor/reportList.html', {
         'msg' : msg,
         'pList' : pList,
+        'cList' : cList,
         'uList' : uList,
     })
 
