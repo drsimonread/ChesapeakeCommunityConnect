@@ -23,7 +23,8 @@
 
 #create-forum-page .cf-field.cf-field--invalid .cc-field-input,
 #create-forum-page .cf-field.cf-field--invalid textarea,
-#create-forum-page .cf-field.cf-field--invalid .cf-control {
+#create-forum-page .cf-field.cf-field--invalid .cf-control,
+#create-forum-page .cf-field.cf-field--invalid gmp-place-autocomplete {
   border-color: var(--cf-invalid) !important;
   box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2);
 }
@@ -881,6 +882,20 @@
   font-size: 0.875rem;
   color: #5f6368;
   padding: 0.35rem 0;
+}
+
+#create-forum-page .cf-field gmp-place-autocomplete {
+  width: 100%;
+  box-sizing: border-box;
+  color-scheme: light;
+  background-color: #fff;
+  border: 2px solid var(--cf-border-strong, #4a5d72);
+  border-radius: 10px;
+  font: inherit;
+}
+
+#create-forum-page .cf-field gmp-place-autocomplete::part(input) {
+  min-height: 3rem;
 }
 
 #create-forum-page .cf-field .errorlist {
