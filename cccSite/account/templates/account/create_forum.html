@@ -6,7 +6,7 @@
 {% endblock accHead %}
 
 {% block account_extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'account/create_forumstyle.css' %}?v=2">
+<link rel="stylesheet" type="text/css" href="{% static 'account/create_forumstyle.css' %}?v=3">
 {% endblock %}
 
 {% block accountFunc %}
@@ -264,35 +264,62 @@
 {% block account_extra_js %}
 <script>
   window.CF_EDIT_FORUM_ID = "{% if editing_forum %}{{ editing_forum.pk }}{% endif %}";
-  let autocomplete;
+</script>
+{% if GOOGLE_API_KEY %}
+<script>
   async function initAutocomplete() {
-    const el = document.getElementById("id_location");
-    if (!el || !(window.google && google.maps && google.maps.places)) return;
-    autocomplete = new google.maps.places.Autocomplete(el, {
-      fields: ["address_components", "geometry", "formatted_address"],
-    });
-    autocomplete.addListener("place_changed", function () {
-      var place = autocomplete.getPlace();
-      var geoEl = document.getElementById("id_geoResult");
-      if (!geoEl || !place.geometry || !place.geometry.location) return;
-
-      geoEl.value = JSON.stringify({
-        geometry: {
-          location: {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng()
-          }
-        },
-        formatted_address: place.formatted_address || ""
+    try {
+      const { PlaceAutocompleteElement } = await google.maps.importLibrary("places");
+      const address = document.getElementById("id_location");
+      const geoResult = document.getElementById("id_geoResult");
+      const autocomplete = new PlaceAutocompleteElement({
+        name: address.name,
+        maxlength: address.maxLength,
+        value: address.value,
+        placeholder: address.labels[0].textContent.replace(/:\s*$/, ""),
+        noInputIcon: true,
       });
-    });
-    el.addEventListener("input", function () {
-      var geoEl = document.getElementById("id_geoResult");
-      if (geoEl) geoEl.value = "";
-    });
+      autocomplete.id = address.id;
+
+      let selectedPlace;
+      autocomplete.addEventListener("input", () => {
+        selectedPlace = undefined;
+      });
+      autocomplete.addEventListener("gmp-select", async ({ placePrediction }) => {
+        autocomplete.value = placePrediction.text.toString();
+        autocomplete.dispatchEvent(new Event("input", { bubbles: true }));
+        const place = placePrediction.toPlace();
+        selectedPlace = place;
+        try {
+          await place.fetchFields({ fields: ["location", "formattedAddress"] });
+        } catch (error) {
+          console.warn("Could not look up the selected address.", error);
+          return;
+        }
+        if (selectedPlace !== place || !place.location) return;
+        geoResult.value = JSON.stringify({
+          geometry: { location: place.location.toJSON() },
+          formatted_address: place.formattedAddress || "",
+        });
+        autocomplete.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+
+      autocomplete.addEventListener("gmp-error", () => {
+        selectedPlace = undefined;
+        address.value = autocomplete.value;
+        autocomplete.replaceWith(address);
+        address.focus();
+      }, { once: true });
+
+      const hadFocus = document.activeElement === address;
+      address.replaceWith(autocomplete);
+      if (hadFocus) autocomplete.focus();
+    } catch (error) {
+      console.warn("Address suggestions could not be loaded.", error);
+    }
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_API_KEY }}&libraries=places&callback=initAutocomplete" defer></script>
+{% endif %}
 <script>
 (function () {
   var isEditing = !!window.CF_EDIT_FORUM_ID;
@@ -460,6 +487,7 @@
 
   if (form) {
     form.addEventListener("input", function (e) {
+      if (e.target.id === "id_location") getGeoInput().value = "";
       scheduleSave();
       var inv = e.target && e.target.closest && e.target.closest(".cf-field--invalid");
       if (inv) inv.classList.remove("cf-field--invalid");
@@ -656,16 +684,6 @@
     });
   }
 
-  if (isEditing) {
-    var locEl = document.getElementById("id_location");
-    if (locEl) {
-      locEl.addEventListener("input", function () {
-        var g = document.getElementById("id_geoResult");
-        if (g) g.value = "";
-      });
-    }
-  }
-
   var errList = document.querySelector("#create-forum-page .errorlist");
   if (errList) {
     var stepEl = errList.closest(".cf-wizard__slide");
@@ -700,4 +718,7 @@
   }
 })();
 </script>
+{% if GOOGLE_API_KEY %}
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_API_KEY|urlencode }}&amp;loading=async&amp;callback=initAutocomplete" async></script>
+{% endif %}
 {% endblock %}

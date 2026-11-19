@@ -417,7 +417,10 @@ def make_forum(request):
             return redirect(reverse("account:my_forums") + "?success=1")
     else:
         content_form = CreateForumForm()
-    return render(request, "account/create_forum.html", {"form": content_form})
+    return render(request, "account/create_forum.html", {
+        "form": content_form,
+        "GOOGLE_API_KEY": settings.GOOGLE_API_KEY,
+    })
 
 def create_forum(request):
     return make_forum(request)
