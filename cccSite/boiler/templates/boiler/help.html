@@ -2,10 +2,9 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'boiler/helpstyle.css' %}?v=4">
+<link rel="stylesheet" href="{% static 'boiler/helpstyle.css' %}?v=8">
 <title>Chesapeake Community Connect - Help/FAQs</title>
 {% endblock head %}
-
 
 {% block content %}
 <div id="content">
@@ -15,7 +14,6 @@
         <h2 class="center-title">Frequently Asked Questions (FAQ)</h2>
 
         <div class="faq-card">
-
             <button class="accordion">
                 What is this website?
                 <span class="icon">+</span>
@@ -56,7 +54,6 @@
             <div class="panel">
                 <p>If you have a question, need help using the website, or want to share feedback, use the Contact Us form on this page to reach the team.</p>
             </div>
-
         </div>
     </div>
 
@@ -80,40 +77,100 @@
             <h2>Need Help?</h2>
             <p class="subtitle">Have questions or want to contribute?</p>
 
-            <button type="button" class="button" id="show-contact-form-button" aria-controls="contact-form-container" aria-expanded="{% if form.is_bound %}true{% else %}false{% endif %}" onclick="showContactForm()">
+            <button
+                type="button"
+                class="button"
+                id="show-contact-form-button"
+                aria-controls="contact-modal"
+                aria-expanded="{% if form.is_bound %}true{% else %}false{% endif %}"
+            >
                 Contact Us
             </button>
-
-            <div id="contact-form-container" {% if not form.is_bound %}hidden{% endif %}>
-                {% include 'boiler/contact_form.html' %}
-            </div>
         </div>
-
     </div>
-
 </div>
 
+<!-- CONTACT FORM MODAL -->
+<div id="contact-modal" class="contact-modal" {% if not form.is_bound %}hidden{% endif %}>
+    <div class="contact-modal__backdrop" data-close-contact></div>
+    <section
+        class="contact-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Contact Us form"
+        tabindex="-1"
+    >
+        <button
+            type="button"
+            class="contact-modal__close"
+            aria-label="Close contact form"
+            data-close-contact
+        >&times;</button>
+
+        {% include 'boiler/contact_form.html' %}
+    </section>
+</div>
 
 <script>
-function showContactForm() {
-    document.getElementById("contact-form-container").hidden = false;
-    document.getElementById("show-contact-form-button").setAttribute("aria-expanded", "true");
-    document.querySelector("#contact-form input:not([type=hidden])").focus();
-}
+(function () {
+    const modal = document.getElementById("contact-modal");
+    const openButton = document.getElementById("show-contact-form-button");
+    const closeButtons = modal.querySelectorAll("[data-close-contact]");
 
-// FAQ accordion: only one section is open at a time (issue #36)
-var acc = document.getElementsByClassName("accordion");
+    function openContactModal() {
+        modal.hidden = false;
+        openButton.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
 
-// closes one accordion section, and pauses and rewinds any video or audio inside it
+        const firstField = modal.querySelector(
+            "input:not([type=hidden]), textarea, select"
+        );
+
+        if (firstField) {
+            firstField.focus();
+        } else {
+            modal.querySelector(".contact-modal__panel").focus();
+        }
+    }
+
+    function closeContactModal() {
+        modal.hidden = true;
+        openButton.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+        openButton.focus();
+    }
+
+    openButton.addEventListener("click", openContactModal);
+
+    closeButtons.forEach(function (button) {
+        button.addEventListener("click", closeContactModal);
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !modal.hidden) {
+            closeContactModal();
+        }
+    });
+
+    // Keep a validation-error response open and restore the page scroll.
+    if (!modal.hidden) {
+        document.body.style.overflow = "hidden";
+    }
+})();
+
+// FAQ accordion: only one section is open at a time.
+const accordions = document.getElementsByClassName("accordion");
+
 function closeSection(button) {
     button.classList.remove("active");
     button.setAttribute("aria-expanded", "false");
 
-    let icon = button.querySelector(".icon");
+    const icon = button.querySelector(".icon");
     if (icon) icon.textContent = "+";
 
-    let panel = button.nextElementSibling;
+    const panel = button.nextElementSibling;
     panel.style.maxHeight = null;
+
     panel.querySelectorAll("video, audio").forEach(function (media) {
         media.pause();
         media.currentTime = 0;
@@ -124,27 +181,29 @@ function openSection(button) {
     button.classList.add("active");
     button.setAttribute("aria-expanded", "true");
 
-    let icon = button.querySelector(".icon");
+    const icon = button.querySelector(".icon");
     if (icon) icon.textContent = "−";
 
-    let panel = button.nextElementSibling;
+    const panel = button.nextElementSibling;
     panel.style.maxHeight = panel.scrollHeight + "px";
 }
 
-for (let i = 0; i < acc.length; i++) {
-    acc[i].setAttribute("aria-expanded", "false");
-    acc[i].addEventListener("click", function () {
-        let wasOpen = this.classList.contains("active");
+for (let i = 0; i < accordions.length; i++) {
+    accordions[i].setAttribute("aria-expanded", "false");
 
-        // close every open section first, so opening a new one closes the previous one
-        for (let j = 0; j < acc.length; j++) {
-            if (acc[j].classList.contains("active")) closeSection(acc[j]);
+    accordions[i].addEventListener("click", function () {
+        const wasOpen = this.classList.contains("active");
+
+        for (let j = 0; j < accordions.length; j++) {
+            if (accordions[j].classList.contains("active")) {
+                closeSection(accordions[j]);
+            }
         }
 
-        // clicking the open section just closes it; clicking a closed one opens it
-        if (!wasOpen) openSection(this);
+        if (!wasOpen) {
+            openSection(this);
+        }
     });
 }
 </script>
-
 {% endblock content %}
