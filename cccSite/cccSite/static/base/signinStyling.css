@@ -161,12 +161,13 @@
     text-align: center;
 }
 
+/*fix this*/
 .google-signin-widget,
 .g_id_signin {
-    display: flex !important;
-    justify-content: center !important;
-    width: 100% !important;
-    margin: 15px auto !important;
+    display: flex ;
+    justify-content: center ;
+    width: 100% ;
+    margin: 15px auto;
 }
 
 .signin-actions {

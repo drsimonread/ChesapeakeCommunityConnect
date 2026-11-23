@@ -175,6 +175,8 @@
   align-items: flex-start;
   display: flex;
   gap: 8px;
+  justify-content: center;
+  width: 100%;
 }
 
 .comment-composer {
@@ -231,14 +233,44 @@
 }
 
 .comment__meta {
+  align-items: center;
   color: #00205c;
+  display: flex;
   font-size: 1.05rem;
   font-weight: 700;
 }
 
-.comment__meta a {
+.comment__avatar {
+  border: 1px solid #cbd5e1;
+  border-radius: 50%;
+  height: 36px;
+  margin-right: 10px;
+  object-fit: cover;
+  width: 36px;
+}
+
+.comment__author-link {
+  align-items: center;
   color: #00205c;
+  display: inline-flex;
   font-weight: 700;
+  text-decoration: none;
+}
+
+.comment__author-link {
+  border-radius: 999px;
+  padding: 4px 8px 4px 4px;
+  transition: background-color 0.15s ease;
+}
+
+.comment__author-link:hover,
+.comment__author-link:focus-visible {
+  background-color: rgba(0, 32, 92, 0.12);
+  text-decoration: none;
+}
+
+.comment__author {
+  color: #00205c;
 }
 
 .comment__content {
@@ -287,44 +319,58 @@
   position: relative;
 }
 
-.comment__replies::before {
-  background: #00205c;
-  bottom: 0;
-  content: "";
-  left: 0;
-  position: absolute;
-  top: -18px;
-  width: 4px;
-}
-
 .comment__replies > .comment {
   border-left: 4px solid #00205c;
   margin-left: 18px;
   position: relative;
 }
 
+/* short stub connecting the replies group to the parent card's left edge */
+.comment__replies::before {
+  background: #00205c;
+  content: "";
+  left: 0;
+  position: absolute;
+  top: -30px;
+  height: 100px;
+  width: 4px;
+}
+
+/* elbow for each reply: now reaches UP through the gap to the previous element */
 .comment__replies > .comment::before {
   border-bottom: 4px solid #00205c;
   border-bottom-left-radius: 14px;
   border-left: 4px solid #00205c;
   content: "";
-  height: 18px;
+  height: 70px;
   left: -40px;
   position: absolute;
-  top: 22px;
+  top: -30px;
   width: 36px;
 }
 
-.comment__replies > .comment:last-of-type::after {
-  background: #fff;
-  bottom: -20px;
+/* line continuing down from the elbow, only if another reply follows */
+.comment__replies > .comment:not(:last-of-type)::after {
+  background: #00205c;
+  bottom: -18px;
   content: "";
   left: -40px;
   position: absolute;
-  top: 40px;
+  top: 20px;
   width: 4px;
 }
 
+/* keeps that same line running alongside a nested reply group,
+   only if another reply follows the nested group */
+.comment__replies > .comment__replies:not(:last-child)::after {
+  background: #00205c;
+  bottom: 0;
+  content: "";
+  left: -36px;
+  position: absolute;
+  top: 0;
+  width: 4px;
+}
 .comments-empty,
 .comments-signin {
   color: #5f6573;

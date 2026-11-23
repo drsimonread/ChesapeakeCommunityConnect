@@ -1,6 +1,9 @@
 <article class="comment" id="comment-{{ comment.pk }}">
     <div class="comment__meta">
-        <a href="{{ comment.author.get_absolute_url }}">{{ comment.author }}</a>
+        <a class="comment__author-link" href="{{ comment.author.get_absolute_url }}">
+            <img class="comment__avatar" src="{{ comment.author.pic.url }}" alt="Profile image for {{ comment.author }}">
+            <span class="comment__author">{{ comment.author }}</span>
+        </a>
         <time class="comment__date" datetime="{{ comment.created|date:'c' }}">Posted {{ comment.created|date:"F j, Y" }}</time>
     </div>
     <p class="comment__content">{{ comment.content }}</p>
