@@ -28,6 +28,14 @@ class PostRepForm(ModelForm):
             'post' : forms.HiddenInput,
         }
 
+class CommentRepForm(ModelForm):
+    class Meta:
+        model = CommentReport
+        fields = ['reason', 'comment']
+        widgets = {
+            'comment' : forms.HiddenInput,
+        }
+
 class MemberManager(ModelForm):
     class Meta:
         model = Member

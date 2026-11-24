@@ -9,6 +9,7 @@ from django.test import Client, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 
 from account.models import Member
+from Janitor.models import CommentReport
 from .models import MapPost, MapTag, PostComment
 
 
@@ -266,6 +267,46 @@ class PostCommentTests(TestCase):
                 content="This comment must not be created."
             ).exists()
         )
+
+    def test_user_can_report_a_comment(self):
+        comment = PostComment.objects.create(
+            post=self.post,
+            author=self.commenter,
+            content="A comment to report",
+        )
+
+        response = self.client.post(
+            reverse("mapViewer:post_detail", args=[self.post.pk]),
+            {
+                "action": "report_comment",
+                "comment": comment.pk,
+                "reason": "This comment is inappropriate.",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        report = CommentReport.objects.get()
+        self.assertEqual(report.comment, comment)
+        self.assertContains(response, "Your report has been received.")
+
+    def test_comment_report_must_belong_to_current_post(self):
+        other_comment = PostComment.objects.create(
+            post=self.other_post,
+            author=self.commenter,
+            content="Unrelated comment",
+        )
+
+        response = self.client.post(
+            reverse("mapViewer:post_detail", args=[self.post.pk]),
+            {
+                "action": "report_comment",
+                "comment": other_comment.pk,
+                "reason": "Invalid report.",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(CommentReport.objects.exists())
 
 
 class GuestPostTests(TestCase):

@@ -175,6 +175,8 @@
   align-items: flex-start;
   display: flex;
   gap: 8px;
+  justify-content: center;
+  width: 100%;
 }
 
 .comment-composer {
@@ -221,34 +223,90 @@
 }
 
 .comment {
-  border-left: 3px solid #d5dbea;
-  margin: 18px 0;
-  padding-left: 14px;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid #00205c;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 32, 92, 0.14);
+  margin: 18px 0 18px 18px;
+  padding: 24px;
 }
 
 .comment__meta {
-  color: #5f6573;
-  font-size: 0.9rem;
-}
-
-.comment__meta a {
+  align-items: center;
   color: #00205c;
+  display: flex;
+  font-size: 1.05rem;
   font-weight: 700;
 }
 
-.comment__meta time {
-  margin-left: 8px;
+.comment__avatar {
+  border: 1px solid #cbd5e1;
+  border-radius: 50%;
+  height: 36px;
+  margin-right: 10px;
+  object-fit: cover;
+  width: 36px;
+}
+
+.comment__author-link {
+  align-items: center;
+  color: #00205c;
+  display: inline-flex;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.comment__author-link {
+  border-radius: 999px;
+  padding: 4px 8px 4px 4px;
+  transition: background-color 0.15s ease;
+}
+
+.comment__author-link:hover,
+.comment__author-link:focus-visible {
+  background-color: rgba(0, 32, 92, 0.12);
+  text-decoration: none;
+}
+
+.comment__author {
+  color: #00205c;
 }
 
 .comment__content {
+  color: #334155;
+  margin: 14px 0 8px;
   white-space: pre-wrap;
 }
 
-.comment__reply summary {
-  color: #00205c;
+.comment__date {
+  color: #5f6573;
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-left: 8px;
+}
+
+.comment-actions summary.post-action-button {
+  color: #f3c10d;
   cursor: pointer;
+  display: inline-block;
   font-size: 0.9rem;
   font-weight: 700;
+  list-style: none;
+}
+
+.comment-actions summary.post-action-button::-webkit-details-marker {
+  display: none;
+}
+
+.comment-actions summary.post-action-button::marker {
+  display: none;
+}
+
+.comment-actions {
+  align-items: flex-start;
+  display: flex;
+  gap: 8px;
 }
 
 .comment-form--reply {
@@ -256,9 +314,63 @@
 }
 
 .comment__replies {
-  margin-left: 18px;
+  margin: -18px 0 0 18px;
+  padding: 18px 0 1px 18px;
+  position: relative;
 }
 
+.comment__replies > .comment {
+  border-left: 4px solid #00205c;
+  margin-left: 18px;
+  position: relative;
+}
+
+/* short stub connecting the replies group to the parent card's left edge */
+.comment__replies::before {
+  background: #00205c;
+  content: "";
+  left: 0;
+  position: absolute;
+  top: -30px;
+  height: 100px;
+  width: 4px;
+}
+
+/* elbow for each reply: now reaches UP through the gap to the previous element */
+.comment__replies > .comment::before {
+  border-bottom: 4px solid #00205c;
+  border-bottom-left-radius: 14px;
+  border-left: 4px solid #00205c;
+  content: "";
+  height: 70px;
+  left: -40px;
+  position: absolute;
+  top: -30px;
+  width: 36px;
+}
+
+/* line continuing down from the elbow, only if another reply follows */
+.comment__replies > .comment:not(:last-of-type)::after {
+  background: #00205c;
+  bottom: -18px;
+  content: "";
+  left: -40px;
+  position: absolute;
+  top: 20px;
+  width: 4px;
+}
+
+/* keeps that same line running alongside a nested reply group,
+   only if another reply follows the nested group */
+.comment__replies > .comment__replies:not(:last-child)::after {
+  background: #00205c;
+  bottom: 0;
+  content: "";
+  left: -36px;
+  position: absolute;
+  top: 0;
+  width: 4px;
+}
 .comments-empty,
 .comments-signin {
   color: #5f6573;

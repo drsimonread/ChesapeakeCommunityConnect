@@ -20,6 +20,25 @@ Post Reports <br>
 {%else%}
 No reports!
 {%endif%}
+<br>Comment Reports <br>
+{%if cList%}
+{%for entry in cList %}
+<button class="accordion">{{entry.0.author}} - {{entry.0.num_reports}} Reports <form action="{%url 'Janitor:reportList' %}" method="post">{%csrf_token%}
+    <input type="hidden" name= "type" value="comment">
+    <input type="hidden" name= "pk" value="{{entry.0.pk}}">
+    <input type="submit" value="Clear Reports">
+</form></button>
+<div class="panel">
+    <p>{{entry.0.content}}</p>
+    {%for item in entry.1%}
+    <p>{{item.reason}}</p>
+    {%endfor%}
+    <button>Manage Comment</button>
+</div>
+{%endfor%}
+{%else%}
+No reports!
+{%endif%}
 <br>User Reports <br>
 {%if uList%}
 {%for entry in uList %}
