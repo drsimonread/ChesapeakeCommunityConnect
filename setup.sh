@@ -4,7 +4,7 @@ set -euo pipefail
 
 usage() {
     cat <<'EOF'
-Usage: bash setup.sh [--skip-system-packages] [--install-mariadb] [--runserver]
+Usage: bash setup.sh [--skip-system-packages] [--install-mariadb]
 
 Install required system packages, create/reuse cccSite/.venv, install Python
 requirements, and apply the existing Django migrations to the SQLite database.
@@ -12,7 +12,6 @@ Create cccSite/.env from .env.example if it does not already exist.
 
   --skip-system-packages  Skip apt (prerequisites must already be installed).
   --install-mariadb       Provision a local MariaDB database and application user.
-  --runserver             Start the server on port 8080 with the configured database.
   -h, --help              Show this help without changing anything.
 
 Run from an existing clone as your normal user. MariaDB administration and
@@ -21,12 +20,10 @@ EOF
 }
 
 SKIP_SYSTEM_PACKAGES=false
-RUNSERVER=false
 INSTALL_MARIADB=false
 for arg in "$@"; do
     case "$arg" in
         --skip-system-packages) SKIP_SYSTEM_PACKAGES=true ;;
-        --runserver) RUNSERVER=true ;;
         --install-mariadb) INSTALL_MARIADB=true ;;
         -h|--help) usage; exit 0 ;;
         *) printf 'Unknown option: %s\n' "$arg" >&2; usage >&2; exit 2 ;;
@@ -63,12 +60,62 @@ fi
 MARIADB_WAS_ENABLED=false
 MARIADB_WAS_ACTIVE=false
 if [[ "$INSTALL_MARIADB" == true ]]; then
+    mariadb_is_starting_or_running() {
+        local state
+        state=$(systemctl show --property=ActiveState --value mariadb 2>/dev/null) || return 1
+        [[ "$state" == active || "$state" == activating || "$state" == reloading ]]
+    }
+
     if systemctl is-enabled --quiet mariadb 2>/dev/null; then
         MARIADB_WAS_ENABLED=true
     fi
-    if systemctl is-active --quiet mariadb; then
+    if mariadb_is_starting_or_running; then
         MARIADB_WAS_ACTIVE=true
     fi
+
+    restore_mariadb_state() {
+        local failed=false
+        if [[ "$MARIADB_WAS_ENABLED" == true ]]; then
+            if ! systemctl is-enabled --quiet mariadb 2>/dev/null && ! "${SUDO[@]}" systemctl enable --quiet mariadb; then
+                printf 'Failed to restore MariaDB boot enablement.\n' >&2
+                failed=true
+            fi
+        elif systemctl is-enabled --quiet mariadb 2>/dev/null && ! "${SUDO[@]}" systemctl disable --quiet mariadb; then
+            printf 'Failed to restore MariaDB boot enablement.\n' >&2
+            failed=true
+        fi
+
+        if [[ "$MARIADB_WAS_ACTIVE" == true ]]; then
+            if ! mariadb_is_starting_or_running && ! "${SUDO[@]}" systemctl start mariadb; then
+                printf 'Failed to restore MariaDB service state.\n' >&2
+                failed=true
+            fi
+        elif mariadb_is_starting_or_running; then
+            printf 'Stopping MariaDB...\n'
+            if ! "${SUDO[@]}" systemctl stop mariadb; then
+                printf 'Failed to restore MariaDB service state.\n' >&2
+                failed=true
+            fi
+        fi
+        [[ "$failed" == false ]]
+    }
+
+    MARIADB_CLEANUP_PENDING=true
+    cleanup_mariadb() {
+        local status=$?
+        trap - EXIT
+        trap '' INT TERM HUP
+        if [[ "$MARIADB_CLEANUP_PENDING" == true ]] && ! restore_mariadb_state; then
+            if (( status == 0 )); then
+                status=1
+            fi
+        fi
+        exit "$status"
+    }
+    trap cleanup_mariadb EXIT
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
+    trap 'exit 129' HUP
 fi
 
 if [[ "$SKIP_SYSTEM_PACKAGES" == false ]]; then
@@ -115,18 +162,11 @@ if [[ "$INSTALL_MARIADB" == true ]]; then
     printf '\nStarting MariaDB...\n'
     "${SUDO[@]}" systemctl start mariadb
     "$VENV_PYTHON" "$ROOT_DIR/provision_mariadb.py" "$SITE_DIR/.env"
-    # Leave the service as it was so runserver.sh --production can start and stop it.
-    if [[ "$MARIADB_WAS_ENABLED" == false ]]; then
-        "${SUDO[@]}" systemctl disable --quiet mariadb
+    # Restore the original state before continuing with setup.
+    if ! restore_mariadb_state; then
+        exit 1
     fi
-    if [[ "$MARIADB_WAS_ACTIVE" == false ]]; then
-        printf 'Stopping MariaDB...\n'
-        "${SUDO[@]}" systemctl stop mariadb
-    fi
-fi
-
-if [[ "$RUNSERVER" == true ]]; then
-    exec bash "$ROOT_DIR/runserver.sh"
+    MARIADB_CLEANUP_PENDING=false
 fi
 
 printf '\nApplying database migrations...\n'
