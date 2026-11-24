@@ -198,7 +198,7 @@ def post_detail(request, want):
 
 
 def get_posts_and_tags(request):
-    posts = MapPost.objects.filter(visiblity=1)
+    posts = MapPost.objects.filter(visibility=1)
     tags = MapTag.objects.all()
 
     post_data = []

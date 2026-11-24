@@ -20,7 +20,7 @@ def memberList(request):
     members = Member.objects.exclude(pk=request.session.get('user',-1))
     memberStats = []
     for user in members:
-        visibleposts = MapPost.objects.filter(author=user, isVisible=True).count()
+        visibleposts = MapPost.objects.filter(author=user, visibility=1).count()
         reports = PostReport.objects.filter(post__author=user).count()+UserReport.objects.filter(account=user).count()
         memberStats.append({'user' : user, 'goodposts': visibleposts, 'reports':reports})
     
@@ -32,8 +32,8 @@ def member_manage(request, want):
     else:
         return redirect(memberList)
     if request.method == 'POST':
-        form = MemberManager(request.POST)
-        if form.is_valid:
+        form = MemberManager(request.POST, request.FILES, instance=userInz)
+        if form.is_valid():
             form.save()
     else:
         form = MemberManager(instance=userInz)

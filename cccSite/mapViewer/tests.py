@@ -1,10 +1,45 @@
-from django.test import TestCase, Client
-from django.urls import reverse
-from django.test import override_settings
+from pathlib import Path
+from runpy import run_path
+
 from unittest.mock import patch
 
+from django.conf import settings
+from django.contrib.staticfiles import finders
+from django.test import Client, SimpleTestCase, TestCase, override_settings
+from django.urls import reverse
+
 from account.models import Member
-from .models import MapPost, PostComment
+from .models import MapPost, MapTag, PostComment
+
+
+@override_settings(DEBUG=False)
+class ProductionFileServingTests(SimpleTestCase):
+    def test_homepage_assets_are_served_with_debug_disabled(self):
+        assets = {
+            "base/basestyle.css": "text/css",
+            "base/site-surface.css": "text/css",
+            "mapViewer/mappagestyle.css": "text/css",
+            "mapViewer/map-script.js": "text/javascript",
+            "base/assets/smcm-seal.png": "image/png",
+        }
+        for path, content_type in assets.items():
+            with self.subTest(path=path):
+                response = self.client.get(f"/static/{path}")
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response["Content-Type"].split(";")[0], content_type)
+                self.assertEqual(
+                    b"".join(response.streaming_content), Path(finders.find(path)).read_bytes()
+                )
+
+    def test_uploaded_media_is_served_with_debug_disabled(self):
+        response = self.client.get("/media/default/blankprof.png")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "image/png")
+        self.assertEqual(
+            b"".join(response.streaming_content),
+            (Path(settings.MEDIA_ROOT) / "default" / "blankprof.png").read_bytes(),
+        )
 
 
 class MapPostCreationTests(TestCase):
@@ -38,6 +73,39 @@ class MapPostCreationTests(TestCase):
             post.geoCode,
             {"geometry": {"location": {"lat": 38.98, "lng": -76.49}}},
         )
+
+
+class MapPostTagsTests(TestCase):
+    def test_map_api_returns_visible_geocoded_posts_and_tags(self):
+        geocode = {"geometry": {"location": {"lat": 38.98, "lng": -76.49}}}
+        tag = MapTag.objects.create(name="Wetlands")
+        visible = MapPost.objects.create(
+            title="Visible post", geoCode=geocode, visibility=1
+        )
+        visible.tags.add(tag)
+        MapPost.objects.create(title="Pending post", geoCode=geocode, visibility=0)
+        MapPost.objects.create(title="Post without coordinates", geoCode={}, visibility=1)
+
+        response = self.client.get(reverse("mapViewer:get_posts_and_tags"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {
+            "posts": [{
+                "id": visible.pk,
+                "title": visible.title,
+                "description": visible.description,
+                "geoCode": geocode,
+                "tags": [tag.name],
+            }],
+            "tags": [tag.name],
+        })
+
+    def test_shipped_map_tags_can_be_seeded_twice(self):
+        script = Path(__file__).resolve().parents[1] / "update_maptags.py"
+        names = run_path(str(script))["new_tags"]
+        run_path(str(script))
+
+        self.assertCountEqual(MapTag.objects.values_list("name", flat=True), names)
 
 
 class PostCommentTests(TestCase):
@@ -147,6 +215,58 @@ class PostCommentTests(TestCase):
         self.assertEqual(profile_response.status_code, 200)
         self.assertContains(profile_response, self.commenter.name)
 
+    def test_comments_are_disabled_for_pending_and_denied_posts(self):
+        self.post.author = self.commenter
+        self.post.save(update_fields=["author"])
+        self.sign_in_as_commenter()
+
+        for visibility in (0, -1):
+            with self.subTest(visibility=visibility):
+                self.post.visibility = visibility
+                self.post.save(update_fields=("visibility",))
+                post_url = reverse("mapViewer:post_detail", args=[self.post.pk])
+
+                response = self.client.get(post_url)
+                self.assertEqual(response.status_code, 200)
+                self.assertNotContains(response, 'id="comment-button"')
+                self.assertNotContains(response, "Reply")
+
+                response = self.client.post(post_url, {
+                    "action": "comment",
+                    "content": "This comment must not be created.",
+                })
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, "Comments are disabled for this post.")
+                self.assertFalse(
+                    PostComment.objects.filter(
+                        content="This comment must not be created."
+                    ).exists()
+                )
+
+    def test_comments_can_be_disabled_on_a_visible_post(self):
+        self.post.comments_enabled = False
+        self.post.save(update_fields=("comments_enabled",))
+        self.sign_in_as_commenter()
+        post_url = reverse("mapViewer:post_detail", args=[self.post.pk])
+
+        response = self.client.get(post_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'id="comment-button"')
+        self.assertContains(response, "Comments are disabled for this post.")
+
+        response = self.client.post(post_url, {
+            "action": "comment",
+            "content": "This comment must not be created.",
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(
+            PostComment.objects.filter(
+                content="This comment must not be created."
+            ).exists()
+        )
+
 
 class GuestPostTests(TestCase):
     def setUp(self):
@@ -245,53 +365,3 @@ class GuestPostTests(TestCase):
         self.assertTrue(response.context["guest_post_open"])
         self.assertContains(response, "We couldn&#x27;t find that address.")
         self.assertFalse(MapPost.objects.exists())
-
-    def test_comments_are_disabled_for_pending_and_denied_posts(self):
-        self.sign_in_as_commenter()
-
-        for visibility in (0, -1):
-            with self.subTest(visibility=visibility):
-                self.post.visibility = visibility
-                self.post.save(update_fields=("visibility",))
-                post_url = reverse("mapViewer:post_detail", args=[self.post.pk])
-
-                response = self.client.get(post_url)
-                self.assertEqual(response.status_code, 200)
-                self.assertNotContains(response, 'id="comment-button"')
-                self.assertNotContains(response, "Reply")
-
-                response = self.client.post(post_url, {
-                    "action": "comment",
-                    "content": "This comment must not be created.",
-                })
-                self.assertEqual(response.status_code, 200)
-                self.assertContains(response, "Comments are disabled for this post.")
-                self.assertFalse(
-                    PostComment.objects.filter(
-                        content="This comment must not be created."
-                    ).exists()
-                )
-
-    def test_comments_can_be_disabled_on_a_visible_post(self):
-        self.post.comments_enabled = False
-        self.post.save(update_fields=("comments_enabled",))
-        self.sign_in_as_commenter()
-        post_url = reverse("mapViewer:post_detail", args=[self.post.pk])
-
-        response = self.client.get(post_url)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, 'id="comment-button"')
-        self.assertContains(response, "Comments are disabled for this post.")
-
-        response = self.client.post(post_url, {
-            "action": "comment",
-            "content": "This comment must not be created.",
-        })
-
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(
-            PostComment.objects.filter(
-                content="This comment must not be created."
-            ).exists()
-        )
