@@ -1,17 +1,19 @@
 from django.db import migrations
-from django.db import models
 
 
 def add_guest_email_if_missing(apps, schema_editor):
-    table = "mapViewer_mappost"
+    MapPost = apps.get_model("mapViewer", "MapPost")
+    field = MapPost._meta.get_field("guest_email")
+    table = MapPost._meta.db_table
     with schema_editor.connection.cursor() as cursor:
-        cursor.execute('PRAGMA table_info("mapViewer_mappost")')
-        columns = {row[1] for row in cursor.fetchall()}
+        columns = {
+            column.name
+            for column in schema_editor.connection.introspection.get_table_description(
+                cursor, table
+            )
+        }
 
-    if "guest_email" not in columns:
-        MapPost = apps.get_model("mapViewer", "MapPost")
-        field = models.EmailField(blank=True, null=True, max_length=254)
-        field.set_attributes_from_name("guest_email")
+    if field.column not in columns:
         schema_editor.add_field(MapPost, field)
 
 
@@ -21,5 +23,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_guest_email_if_missing, migrations.RunPython.noop),
+        migrations.RunPython(
+            add_guest_email_if_missing, migrations.RunPython.noop, atomic=False
+        ),
     ]

@@ -20,5 +20,6 @@ class Migration(migrations.Migration):
         migrations.RunPython(
             create_postcomment_table_if_missing,
             migrations.RunPython.noop,
+            atomic=False,
         ),
     ]

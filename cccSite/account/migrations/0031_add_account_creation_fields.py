@@ -1,6 +1,7 @@
 # Generated manually
 
 from django.db import migrations, models
+from ._account_status import AddAccountStatus
 
 
 class Migration(migrations.Migration):
@@ -10,9 +11,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='accountcreation',
-            name='status',
+        AddAccountStatus(
+            other_migration='0032_auto_20251022_2002',
             field=models.CharField(choices=[('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')], default='pending', max_length=10),
         ),
         migrations.AddField(
