@@ -4,27 +4,30 @@ set -euo pipefail
 
 usage() {
     cat <<'EOF'
-Usage: bash setup.sh [--skip-system-packages] [--runserver]
+Usage: bash setup.sh [--skip-system-packages] [--install-mariadb] [--runserver]
 
 Install required system packages, create/reuse cccSite/.venv, install Python
 requirements, and apply the existing Django migrations to the SQLite database.
 Create cccSite/.env from .env.example if it does not already exist.
 
   --skip-system-packages  Skip apt (prerequisites must already be installed).
-  --runserver             Start the development server on port 8080 after setup.
+  --install-mariadb       Provision a local MariaDB database and application user.
+  --runserver             Start the server on port 8080 with the configured database.
   -h, --help              Show this help without changing anything.
 
-Run from an existing clone as your normal user. Only apt commands use sudo.
-Optional MariaDB/PostgreSQL setup is not included.
+Run from an existing clone as your normal user. MariaDB administration and
+service management also use sudo when needed.
 EOF
 }
 
 SKIP_SYSTEM_PACKAGES=false
 RUNSERVER=false
+INSTALL_MARIADB=false
 for arg in "$@"; do
     case "$arg" in
         --skip-system-packages) SKIP_SYSTEM_PACKAGES=true ;;
         --runserver) RUNSERVER=true ;;
+        --install-mariadb) INSTALL_MARIADB=true ;;
         -h|--help) usage; exit 0 ;;
         *) printf 'Unknown option: %s\n' "$arg" >&2; usage >&2; exit 2 ;;
     esac
@@ -44,7 +47,28 @@ fi
 
 if [[ ! -e "$SITE_DIR/.env" && ! -L "$SITE_DIR/.env" ]]; then
     printf 'Creating %s from .env.example...\n' "$SITE_DIR/.env"
-    cp -- "$SITE_DIR/.env.example" "$SITE_DIR/.env"
+    (umask 077; cp -- "$SITE_DIR/.env.example" "$SITE_DIR/.env")
+fi
+
+SUDO=()
+if (( EUID != 0 )) && { [[ "$SKIP_SYSTEM_PACKAGES" == false ]] || [[ "$INSTALL_MARIADB" == true ]]; }; then
+    if ! command -v sudo >/dev/null 2>&1; then
+        printf 'sudo is required for system package installation or MariaDB administration.\n' >&2
+        exit 1
+    fi
+    SUDO=(sudo)
+fi
+
+# Checked before apt-get, which enables and starts a newly installed mariadb-server.
+MARIADB_WAS_ENABLED=false
+MARIADB_WAS_ACTIVE=false
+if [[ "$INSTALL_MARIADB" == true ]]; then
+    if systemctl is-enabled --quiet mariadb 2>/dev/null; then
+        MARIADB_WAS_ENABLED=true
+    fi
+    if systemctl is-active --quiet mariadb; then
+        MARIADB_WAS_ACTIVE=true
+    fi
 fi
 
 if [[ "$SKIP_SYSTEM_PACKAGES" == false ]]; then
@@ -53,18 +77,16 @@ if [[ "$SKIP_SYSTEM_PACKAGES" == false ]]; then
         exit 1
     fi
 
-    SUDO=()
-    if (( EUID != 0 )); then
-        if ! command -v sudo >/dev/null 2>&1; then
-            printf 'sudo is required to install system packages. Ask your administrator to install the prerequisites, then use --skip-system-packages.\n' >&2
-            exit 1
-        fi
-        SUDO=(sudo)
-    fi
-
     printf '\nInstalling system packages...\n'
     "${SUDO[@]}" apt-get update
-    "${SUDO[@]}" apt-get install -y git python3 python3-venv python3-pip libmagic1 libapache2-mod-wsgi-py3
+    PACKAGES=(
+        git python3 python3-venv python3-pip libmagic1 libapache2-mod-wsgi-py3
+        build-essential python3-dev default-libmysqlclient-dev pkg-config
+    )
+    if [[ "$INSTALL_MARIADB" == true ]]; then
+        PACKAGES+=(mariadb-server mariadb-client)
+    fi
+    "${SUDO[@]}" apt-get install -y "${PACKAGES[@]}"
 fi
 
 if ! command -v python3 >/dev/null 2>&1; then
@@ -89,15 +111,32 @@ printf '\nInstalling Python requirements...\n'
 "$VENV_PYTHON" -m pip install --upgrade pip
 "$VENV_PYTHON" -m pip install -r "$SITE_DIR/requirements.txt"
 
-printf '\nApplying database migrations...\n'
-cd -- "$SITE_DIR"
-"$VENV_PYTHON" manage.py migrate --noinput
-
-printf '\nSetup complete. To start the site in a new terminal:\n'
-printf '  cd %q\n  source .venv/bin/activate\n  python manage.py runserver 8080\n' "$SITE_DIR"
-printf '\nOpen http://127.0.0.1:8080/ after starting the server.\n'
+if [[ "$INSTALL_MARIADB" == true ]]; then
+    printf '\nStarting MariaDB...\n'
+    "${SUDO[@]}" systemctl start mariadb
+    "$VENV_PYTHON" "$ROOT_DIR/provision_mariadb.py" "$SITE_DIR/.env"
+    # Leave the service as it was so runserver.sh --production can start and stop it.
+    if [[ "$MARIADB_WAS_ENABLED" == false ]]; then
+        "${SUDO[@]}" systemctl disable --quiet mariadb
+    fi
+    if [[ "$MARIADB_WAS_ACTIVE" == false ]]; then
+        printf 'Stopping MariaDB...\n'
+        "${SUDO[@]}" systemctl stop mariadb
+    fi
+fi
 
 if [[ "$RUNSERVER" == true ]]; then
-    printf '\nStarting the development server. Press Ctrl+C to stop.\n'
-    exec "$VENV_PYTHON" manage.py runserver 8080
+    exec bash "$ROOT_DIR/runserver.sh"
 fi
+
+printf '\nApplying database migrations...\n'
+cd -- "$SITE_DIR"
+CCCSITE_MODE=development "$VENV_PYTHON" manage.py migrate --noinput
+
+printf '\nSetup complete. Run bash runserver.sh from the repository root to start the site.\n'
+
+if [[ "$INSTALL_MARIADB" == true ]]; then
+    printf 'Set CCCSITE_MODE=production in cccSite/.env to use MariaDB.\n'
+fi
+
+printf 'Open http://127.0.0.1:8080/ after starting the server.\n'

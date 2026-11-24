@@ -13,20 +13,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
 from django.conf.global_settings import SECURE_CROSS_ORIGIN_OPENER_POLICY, SECURE_REFERRER_POLICY
 
 BASE_DIR =  Path(__file__).resolve().parent.parent
 
 # Load private environment variables from the local .env file
 load_dotenv(BASE_DIR / ".env")
-
-# Add or modify the STATIC_URL setting to specify the URL for static files
-STATIC_URL = '/static/'
-STATIC_ROOT = 'static'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+CCCSITE_MODE = os.getenv('CCCSITE_MODE', 'development')
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups" 
 SECURE_REFERRER_POLICY = "same-origin-no-downgrade" # this
@@ -42,8 +36,7 @@ SECURE_REFERRER_POLICY = "same-origin-no-downgrade" # this
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") or "django-insecure-development-only-key"
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID") or "316865720473-94ccs1oka6ev4kmlv5ii261dirvjkja0.apps.googleusercontent.com"
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = CCCSITE_MODE == 'development'
 
 ALLOWED_HOSTS = ['smcm-map-project.ue.r.appspot.com','localhost','127.0.0.1']
 
@@ -65,6 +58,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -112,12 +106,42 @@ WSGI_APPLICATION = 'cccSite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if CCCSITE_MODE == 'development':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.getenv('CCCSITE_SQLITE_DB') or BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+elif CCCSITE_MODE == 'production':
+    required_db_vars = ('MARIADB_HOST', 'MARIADB_NAME', 'MARIADB_USER', 'MARIADB_PASSWORD')
+    missing_db_vars = [name for name in required_db_vars if not os.getenv(name, '').strip()]
+    if missing_db_vars:
+        raise ImproperlyConfigured('Missing or empty MariaDB settings: ' + ', '.join(missing_db_vars))
+    if any(char.isspace() for char in os.environ['MARIADB_HOST']):
+        raise ImproperlyConfigured('MARIADB_HOST must not contain whitespace')
+
+    db_port = os.getenv('MARIADB_PORT', '3306')
+    if not db_port.isascii() or not db_port.isdecimal() or len(db_port) > 5 or not 1 <= int(db_port) <= 65535:
+        raise ImproperlyConfigured('MARIADB_PORT must be an integer between 1 and 65535')
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': os.environ['MARIADB_HOST'],
+            'PORT': int(db_port),
+            'NAME': os.environ['MARIADB_NAME'],
+            'USER': os.environ['MARIADB_USER'],
+            'PASSWORD': os.environ['MARIADB_PASSWORD'],
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+                'connect_timeout': 5,
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
+else:
+    raise ImproperlyConfigured('CCCSITE_MODE must be development or production')
 
 
 # Password validation
@@ -155,9 +179,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATICFILES_DIRS = [BASE_DIR/'cccSite'/'static']
-
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [BASE_DIR / 'cccSite' / 'static']
+# Serve the current source assets without requiring a separate collection step.
+WHITENOISE_USE_FINDERS = True
 
 # media files (user uploaded images and files)
 

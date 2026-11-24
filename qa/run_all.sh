@@ -89,11 +89,11 @@ pip install -r "${QA_DIR}/requirements.txt" >/dev/null
 echo "[4/6] Running Django migrations..."
 cd "${SITE_DIR}"
 rm -f "${QA_DB_FILE}"
-CCCSITE_SQLITE_DB="${QA_DB_FILE}" python manage.py migrate >/dev/null
+CCCSITE_MODE=development CCCSITE_SQLITE_DB="${QA_DB_FILE}" python manage.py migrate >/dev/null
 
 echo "[5/6] Starting Django server..."
 : > "${LOG_FILE}"
-CCCSITE_SQLITE_DB="${QA_DB_FILE}" python manage.py runserver "${PORT}" > "${LOG_FILE}" 2>&1 &
+CCCSITE_MODE=development CCCSITE_SQLITE_DB="${QA_DB_FILE}" python manage.py runserver "${PORT}" > "${LOG_FILE}" 2>&1 &
 SERVER_PID=$!
 
 echo "Waiting for server to respond..."

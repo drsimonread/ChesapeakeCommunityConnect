@@ -23,10 +23,40 @@ If the system packages are already installed, use `bash setup.sh --skip-system-p
 The script prints commands for activating the environment and starting the server
 in future terminals; it cannot activate the environment in your current shell.
 
-Optional MariaDB/PostgreSQL installation is skipped. Git identity configuration
-and system-wide upgrades remain manual. The script does not generate migrations
-or configure Apache hosting; the Apache WSGI package is installed as listed below.
-The manual setup steps follow for reference.
+## Run CCC with MariaDB
+
+To install MariaDB on the same VM, run these commands from the repository root.
+
+```bash
+bash setup.sh --install-mariadb
+bash runserver.sh --production
+```
+
+The first command installs the server and driver, starts the service, and creates
+the `chesapeakeconnect` database and the local `cccapp` user by default. The
+installer saves the connection settings in `cccSite/.env` and reuses the database
+and credentials on subsequent runs. If the system packages are already installed,
+add `--skip-system-packages` to the setup command.
+
+To use an existing MariaDB server, complete the regular setup and install the
+driver's build prerequisites and production requirements.
+
+```bash
+sudo apt-get install build-essential python3-dev default-libmysqlclient-dev pkg-config
+cccSite/.venv/bin/python -m pip install -r cccSite/requirements-production.txt
+```
+
+Set `MARIADB_HOST`, `MARIADB_NAME`, `MARIADB_USER`, and `MARIADB_PASSWORD` in
+`cccSite/.env` or the process environment. Set `MARIADB_PORT` if the server
+uses a port other than `3306`. Create the database with the `utf8mb4` character
+set and grant the application user access to that database. Then run
+`bash runserver.sh --production` to apply migrations and start the development
+server with MariaDB.
+
+Use `bash runserver.sh` to start the development server with SQLite. For direct
+Django commands or WSGI and ASGI deployments, set `CCCSITE_MODE=production` to
+select MariaDB. Before deploying to a live host, configure the production web
+server and run Django's deployment checks.
 
 ## CCC Installation
 -	**Configuring your Virtual Machine for git, python, and other dependencies**W
@@ -42,19 +72,7 @@ The manual setup steps follow for reference.
 	-	sudo apt install python3 python3-venv python3-pip libmagic1
 	-	sudo apt install libapache2-mod-wsgi-py3
 		-	Y to Continue
-	-	**Optional database setup:** The project's current Django settings use SQLite, so MariaDB and PostgreSQL are not required to run the development server. Follow the MariaDB steps only if you need a separate MariaDB installation; these steps do not switch Django to MariaDB.
-	-	sudo apt install mariadb-server
-		-	Y to Continue
-	-	sudo mariadb-secure-installation
-		-	This is the current MariaDB command; the older `mysql_secure_installation` name may not be installed.
-		-	For the current database root password, press **Enter** on a fresh installation if no password has been set. Do not type `No`. If you previously set a database root password, enter it.
-		-	Y to switch to unix_socket authentication, if prompted. This allows local database root access through `sudo mariadb`.
-		-	N to change the root password when using unix_socket authentication. If you choose to enable password authentication instead, use your own strong password.
-		- Y to remove anonymous users
-		- Y to disallow remote root login
-		- Y to remove test database
-		- Y to reload data table privileges
-	- Only install PostgreSQL if your intended database configuration requires it: `sudo apt install -y postgresql`.
+	-	For MariaDB, follow [Run CCC with MariaDB](#run-ccc-with-mariadb).
 
 -	**Creating and activating your Python virtual environment**
 	-	cd cccSite
