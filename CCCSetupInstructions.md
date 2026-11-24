@@ -11,52 +11,22 @@ The script targets Ubuntu/Debian VMs. It installs the required system packages
 (using `sudo`, which may prompt for your password), creates `cccSite/.venv`, installs
 the Python requirements, and applies the existing migrations to SQLite. Python 3.10+
 is required. It reuses the virtual environment and preserves existing database data
-on subsequent runs. Internet access is needed to download packages.
-
-To also start the development server on port 8080:
-
-```bash
-bash setup.sh --runserver
-```
+on subsequent runs. If `cccSite/.env` is missing, setup creates it from the
+template. Internet access is needed to download packages.
 
 If the system packages are already installed, use `bash setup.sh --skip-system-packages`.
-The script prints commands for activating the environment and starting the server
-in future terminals; it cannot activate the environment in your current shell.
+The script still installs the Python requirements. The packages needed to build
+`mysqlclient` must already be available when you use this flag.
 
-## Run CCC with MariaDB
-
-To install MariaDB on the same VM, run these commands from the repository root.
+After setup, start the server from the repository root.
 
 ```bash
-bash setup.sh --install-mariadb
-bash runserver.sh --production
+bash runserver.sh
 ```
 
-The first command installs the server and driver, starts the service, and creates
-the `chesapeakeconnect` database and the local `cccapp` user by default. The
-installer saves the connection settings in `cccSite/.env` and reuses the database
-and credentials on subsequent runs. If the system packages are already installed,
-add `--skip-system-packages` to the setup command.
-
-To use an existing MariaDB server, complete the regular setup and install the
-driver's build prerequisites and production requirements.
-
-```bash
-sudo apt-get install build-essential python3-dev default-libmysqlclient-dev pkg-config
-cccSite/.venv/bin/python -m pip install -r cccSite/requirements-production.txt
-```
-
-Set `MARIADB_HOST`, `MARIADB_NAME`, `MARIADB_USER`, and `MARIADB_PASSWORD` in
-`cccSite/.env` or the process environment. Set `MARIADB_PORT` if the server
-uses a port other than `3306`. Create the database with the `utf8mb4` character
-set and grant the application user access to that database. Then run
-`bash runserver.sh --production` to apply migrations and start the development
-server with MariaDB.
-
-Use `bash runserver.sh` to start the development server with SQLite. For direct
-Django commands or WSGI and ASGI deployments, set `CCCSITE_MODE=production` to
-select MariaDB. Before deploying to a live host, configure the production web
-server and run Django's deployment checks.
+Open [CCC on port 8080](http://127.0.0.1:8080/). The launcher uses
+`CCCSITE_MODE` from `cccSite/.env` when you omit `--production`. The default,
+`development`, uses SQLite with Django debug mode enabled.
 
 ## CCC Installation
 -	**Configuring your Virtual Machine for git, python, and other dependencies**W
@@ -70,9 +40,10 @@ server and run Django's deployment checks.
 	-	git init
 	-	git clone https://github.com/drsimonread/ChesapeakeCommunityConnect 
 	-	sudo apt install python3 python3-venv python3-pip libmagic1
+	-	sudo apt install build-essential python3-dev default-libmysqlclient-dev pkg-config
 	-	sudo apt install libapache2-mod-wsgi-py3
 		-	Y to Continue
-	-	For MariaDB, follow [Run CCC with MariaDB](#run-ccc-with-mariadb).
+	-	For MariaDB, follow [Running the production server](#running-the-production-server).
 
 -	**Creating and activating your Python virtual environment**
 	-	cd cccSite
@@ -87,10 +58,8 @@ server and run Django's deployment checks.
 	-	Make sure your virtual environment is active before running these commands. Do not use `sudo` with pip.
 	-	python -m pip install -r requirements.txt
 -	**Running the CCC Website**
-	-	In the cccSite directory.
-	-	python manage.py migrate
-	-	If you have changed Django models and need new migrations, run `python manage.py makemigrations`, then run `python manage.py migrate` again.
-	-	python manage.py runserver 8080
+	-	If you have changed Django models and need new migrations, run `python manage.py makemigrations` from `cccSite` before starting the server.
+	-	From the repository root, run `bash runserver.sh`. The launcher applies pending migrations before starting Django.
 		-	If you’re using Visual Studio Code, this should give you a prompt that says “Your application running on port 8080 is available”. Click on “Open in Browser”
 		-	Alternatively, enter “http://127.0.0.1:8080/” in your browser
 	-	Press **Ctrl+C** to stop the server. Run `deactivate` when you are finished using the virtual environment.
@@ -103,10 +72,9 @@ server and run Django's deployment checks.
 		- Places API	
 		- Geocoding API
 	- Save the key for API (should all have the same key)
-	- Double click the cccSite and create a new file called .env 
-	- Open .env.example and copy the line where we initalize the Google API key
-	- Paste it into your own .env and for the place holder put your API key from earlier
-	- This file should automatically be ignored when commiting as it is in the .gitignore file, keeping your key safe
+	- Open `cccSite/.env`. For a manual installation, copy `cccSite/.env.example` to that path if the file is missing.
+	- Set `GOOGLE_API_KEY` to your Maps API key.
+	- Keep the gitignored `cccSite/.env` file private.
 - DJANGO KEY
 	- Make sure you are in the cccSite directory (the same directory where manage.py is located).
 	- Run the following command to generate your own Django secret key:
@@ -123,46 +91,102 @@ server and run Django's deployment checks.
 
 ## Create a Django admin account
 
-Complete the automated or manual installation before creating the account.
-If the development server is running in your terminal, press **Ctrl+C** to stop it.
+Start the site with the launcher for the database you want to administer. The
+launcher applies migrations before starting Django. If the launcher started
+MariaDB, keep that terminal open during the next step.
 
-1. From the repository root, enter the Django project directory:
+In a second terminal, run the command for your database from the repository root.
 
-	```bash
-	cd cccSite
-	```
-
-2. Activate the virtual environment:
+- SQLite
 
 	```bash
-	source .venv/bin/activate
+	CCCSITE_MODE=development cccSite/.venv/bin/python cccSite/manage.py createsuperuser
 	```
 
-3. Apply any pending database migrations:
+- MariaDB
 
 	```bash
-	python manage.py migrate
+	CCCSITE_MODE=production cccSite/.venv/bin/python cccSite/manage.py createsuperuser
 	```
 
-4. Create the administrator account:
-
-	```bash
-	python manage.py createsuperuser
-	```
-
-5. Enter a username, an email address, and a password when prompted. Enter the
-	password again to confirm it. Password characters do not appear as you type.
-	When the command succeeds, Django prints `Superuser created successfully.`
-
-6. Start the development server:
-
-	```bash
-	python manage.py runserver 8080
-	```
-
-7. Open [the Django admin page](http://127.0.0.1:8080/DJadmin/) in your browser.
-	If you use a forwarded development URL, add `/DJadmin/` to that URL instead.
-	Sign in with the username and password you just created.
+Enter a username, email address, and password when prompted. Then open the
+[Django admin page](http://127.0.0.1:8080/DJadmin/) and sign in. If you use a
+forwarded development URL, append `/DJadmin/` to that URL.
 
 This account uses Django's admin login at `/DJadmin/`. The website's regular
 login and custom admin area at `/admin/` use separate accounts.
+
+## Running the production server
+
+### Install and provision MariaDB
+
+To install MariaDB on the same VM, run this command from the repository root.
+
+```bash
+bash setup.sh --install-mariadb
+```
+
+Setup provisions the `chesapeakeconnect` database and the local `cccapp` user by
+default. It saves the connection settings in `cccSite/.env` and reuses the
+database and credentials on subsequent runs. Setup restores the service's
+previous running and boot settings after provisioning. If MariaDB and the
+system prerequisites are already installed, run
+`bash setup.sh --skip-system-packages --install-mariadb`.
+
+For an existing MariaDB server, run regular `bash setup.sh`. It installs the
+driver from `cccSite/requirements.txt`. Create a database with the `utf8mb4`
+character set and give the application user permission to run Django migrations
+and read and write data in that database. Use that server's connection details
+in the next step.
+
+### Configure `cccSite/.env`
+
+Open `cccSite/.env` and set the mode and connection settings. For a local
+installation, keep the MariaDB values that setup wrote, including the generated
+password. The example shows the default local host, database, and user.
+
+```dotenv
+CCCSITE_MODE=production
+MARIADB_HOST=127.0.0.1
+MARIADB_PORT=3306
+MARIADB_NAME=chesapeakeconnect
+MARIADB_USER=cccapp
+MARIADB_PASSWORD=your_database_password
+DJANGO_SECRET_KEY=your_generated_secret_key
+GOOGLE_API_KEY=your_google_maps_api_key
+```
+
+`production` selects MariaDB and disables Django debug mode. `MARIADB_PORT`
+defaults to `3306`. Django gives process environment variables precedence over
+`cccSite/.env`. Set the secret key and Maps key as described under
+[Setup for Keys](#setup-for-keys), and keep `cccSite/.env` private.
+
+### Start the server with `runserver.sh`
+
+Run this command from the repository root.
+
+```bash
+bash runserver.sh --production
+```
+
+`--production` selects production mode for this launch. The launcher starts
+the local MariaDB service if needed, applies Django migrations to MariaDB, and
+starts Django's development server on port 8080. Open
+[CCC on port 8080](http://127.0.0.1:8080/) or use your forwarded port.
+Starting or stopping the service may prompt for `sudo`. Press **Ctrl+C** to
+stop the site. MariaDB stops if the launcher started it, and an already-running
+service stays up.
+
+For a remote MariaDB host, the same command uses the configured connection.
+If `CCCSITE_MODE=production` is already set, you can run `bash runserver.sh`
+while MariaDB is running. Automatic local service startup requires the flag.
+
+For a public deployment, use a production WSGI or ASGI server with
+`CCCSITE_MODE=production` and manage MariaDB separately. Add the public hostname
+to Django's `ALLOWED_HOSTS`. From the repository root, apply migrations and run
+the deployment checks. [Django deployment checklist](https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/)
+
+```bash
+CCCSITE_MODE=production cccSite/.venv/bin/python cccSite/manage.py migrate --noinput
+CCCSITE_MODE=production cccSite/.venv/bin/python cccSite/manage.py check --deploy
+```
