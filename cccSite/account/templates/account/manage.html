@@ -199,4 +199,27 @@
         </section>
     </div>
 </div>
+
+{% if google_linked %}
+<p class="password-message password-message--success" role="status">Your Google account is linked.</p>
+{% elif can_link_google %}
+<section class="password-section" aria-labelledby="link-google-title">
+    <h2 id="link-google-title">Link Google sign-in</h2>
+    <p>To link a Google identity, first sign in here with your password. This confirmation is available for five minutes.</p>
+    <div id="g_id_onload"
+         data-client_id="{{ google_client_id }}"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-login_uri="{{ google_auth_url }}"
+         data-auto_prompt="false"
+         data-state="{{ google_link_return }}">
+    </div>
+    <div class="g_id_signin" data-type="standard" data-shape="rectangular"
+         data-theme="outline" data-text="continue_with" data-size="large"
+         data-state="{{ google_link_return }}"></div>
+</section>
+<script src="https://accounts.google.com/gsi/client" async></script>
+{% elif has_password and not has_google_login %}
+<p>Sign in with your password again to link a Google account.</p>
+{% endif %}
 {% endblock accountFunc %}

@@ -8,6 +8,7 @@ urlpatterns = [
     path("signin/", views.signin, name="signin"),
     path("signin-form/", views.signin_form, name="signin_form"),
     path("signup/", views.signup, name="signup"),
+    path("verify-email/<str:token>/", views.verify_email, name="verify_email"),
     path("forgot-password/", views.forgot_password, name="forgot_password"),
     path("reset-password/<uidb64>/<token>/", views.reset_password, name="reset_password"),
     path("authG/", views.authG, name="authG"),

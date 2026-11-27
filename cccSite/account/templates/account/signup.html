@@ -10,8 +10,11 @@
 
     <h1 class="account-form-heading">Create an Account</h1>
 
+    {% if message %}
+        <p class="account-form-success" role="status">{{ message }}</p>
+    {% endif %}
     {% if error %}
-        <p class="account-form-error">{{ error }}</p>
+        <p class="account-form-error" role="alert">{{ error }}</p>
     {% endif %}
 
     <form class="account-form signup-form"

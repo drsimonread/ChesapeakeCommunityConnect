@@ -1,5 +1,7 @@
 ﻿# Research & Development Notes
 
+## Notes on issue 111
+I got it to after you try to make an account it tells you it sent you an email. and you can't just sign in until approval is done, need to find a way to send the email, as info would be too new to place into env. did make an error when users try to sign up with an already existing email, need to talk to/ work with the person who made forgot password to see if they actually sent it to user's email or only if that information is in their .env, im a bit confused with the process.
 ## Safetly sharing keys
 I have been working on changing keys that have been shared in the repo and finding a safe way to refer to them instead on just hard coding it. The API key should be good as all user will have a unique key and the API key used prior also didn't do anything to the code. I changed the Django Key and Simon said to make a Secrets in Github which I've done. This is some notes I have made when trying to figure out how to share this secret now. 
 - GitHub Secrets allows sensitive values to be accessed by GitHub Actions workflows without hardcoding them into the repository but there is no command to then give this key out.

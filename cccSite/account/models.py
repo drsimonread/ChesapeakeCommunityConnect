@@ -15,7 +15,7 @@ def user_directory_profile(instance, filename):
 
 # user model. self explanitory
 class Member(models.Model):
-    name = models.CharField(max_length=35, )
+    name = models.CharField(max_length=75)
     ranking_options = (
         (2, "trusted member"),
         (98, "moderator"),
@@ -25,13 +25,20 @@ class Member(models.Model):
     )
     ranking = models.SmallIntegerField(default=1, choices=ranking_options)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     pic = models.ImageField(upload_to=user_directory_profile, storage = OverwriteStorage(), default='default/blankprof.png')
     about = models.TextField(blank=True, default="")
     
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
+
+    def save(self, *args, **kwargs):
+        self.email = (self.email or "").strip().lower()
+        update_fields = kwargs.get("update_fields")
+        if update_fields is not None:
+            kwargs["update_fields"] = set(update_fields) | {"email"}
+        super().save(*args, **kwargs)
 
    #location
     def __str__(self):
@@ -68,11 +75,19 @@ class ManageForm(ModelForm):
 class AccountCreation(models.Model):    
     MAX_PASSWORD_LENGTH = 50
 
-    email = models.EmailField()
-    username = models.CharField(max_length=75)
+    member = models.ForeignKey(
+        Member,
+        on_delete=models.CASCADE,
+        related_name="password_accounts",
+        null=True,
+        blank=True,
+    )
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=75, unique=True)
     displayname = models.CharField(max_length=75)
     password = models.CharField(max_length=128, editable=False)
     created = models.DateTimeField(auto_now_add=True)
+    email_verified = models.BooleanField(default=False)
     
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -80,9 +95,17 @@ class AccountCreation(models.Model):
         ('rejected', 'Rejected'),
     ]
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
-    
+
     def __str__(self):
         return self.email + " | " + self.username + " | " + self.displayname
+
+    def save(self, *args, **kwargs):
+        self.email = (self.email or "").strip().lower()
+        self.username = (self.username or "").strip().lower()
+        update_fields = kwargs.get("update_fields")
+        if update_fields is not None:
+            kwargs["update_fields"] = set(update_fields) | {"email", "username"}
+        super().save(*args, **kwargs)
 
     def set_password(self, raw_password):
         self.password = make_password(raw_password, hasher="bcrypt_sha256")

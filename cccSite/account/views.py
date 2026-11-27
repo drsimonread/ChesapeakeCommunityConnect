@@ -20,6 +20,9 @@ from django.utils.encoding import force_bytes, force_str
 from django.core.paginator import Paginator
 import logging
 import json
+import smtplib
+import time
+from django.db import IntegrityError, transaction
 from django.http import JsonResponse
 from django.contrib.auth import login
 from django.contrib.auth.models import User
@@ -32,54 +35,126 @@ logger = logging.getLogger(__name__)
 GOOGLE_CLIENT_ID = getattr(settings, "GOOGLE_CLIENT_ID", "")
 
 def google_signin(request):
-    if request.method == "POST":
-        token = request.POST.get("credential", "")
+    if request.method != "POST":
+        return JsonResponse({"success": False}, status=405)
 
+    token = request.POST.get("credential", "")
+    try:
+        claims = id_token.verify_oauth2_token(
+            token,
+            requests.Request(),
+            GOOGLE_CLIENT_ID,
+        )
+    except ValueError:
+        return JsonResponse(
+            {"success": False, "message": "Google sign-in could not be verified."},
+            status=400,
+        )
+
+    google_id = claims.get("sub")
+    email_claim = claims.get("email")
+    email = email_claim.strip().lower() if isinstance(email_claim, str) else ""
+    if not google_id or not email or claims.get("email_verified") is not True:
+        return JsonResponse(
+            {"success": False, "message": "Google must confirm this email address."},
+            status=400,
+        )
+
+    session_member_id = request.session.get("user") if request.session.get("rank", 0) > 0 else None
+    session_member = Member.objects.filter(pk=session_member_id).first()
+    google_login = GLogIn.objects.filter(googleID=google_id).select_related("referTo").first()
+
+    if session_member_id and session_member is None:
+        return JsonResponse(
+            {"success": False, "message": "Sign in again before linking Google."},
+            status=401,
+        )
+
+    if google_login is not None:
+        if session_member and google_login.referTo_id != session_member.pk:
+            return JsonResponse(
+                {"success": False, "message": "This Google account is linked to another member."},
+                status=409,
+            )
+        member = google_login.referTo
+    elif session_member is not None:
+        authenticated_at = request.session.get("password_authenticated_at")
         try:
-            # 1. Verify the Google token
-            idinfo = id_token.verify_oauth2_token(
-                token,
-                requests.Request(),
-                GOOGLE_CLIENT_ID
+            recent_password_signin = 0 <= time.time() - float(authenticated_at) <= 300
+        except (TypeError, ValueError):
+            recent_password_signin = False
+
+        if (
+            not recent_password_signin
+            or session_member.email.casefold() != email.casefold()
+            or not AccountCreation.objects.filter(
+                member=session_member,
+                status="accepted",
+                email_verified=True,
+            ).exists()
+        ):
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Sign in with your password before linking this Google account.",
+                },
+                status=403,
             )
 
-            google_id = idinfo["sub"]  # Google's unique user ID
-            email = idinfo.get("email", "")
-            first_name = idinfo.get("given_name", "")
-            last_name = idinfo.get("family_name", "")
-
-            # 2. Check if this Google ID already exists
-            try:
-                glog = GLogIn.objects.get(googleID=google_id)
-                member = glog.referTo
-            except GLogIn.DoesNotExist:
-                member = Member.objects.filter(email__iexact=email).first()
-                if member is None:
-                    name = " ".join(part for part in (first_name, last_name) if part).strip()
-                    member = Member.objects.create(
-                        name=name or email,
-                        email=email,
-                        ranking=1,
-                    )
-                GLogIn.objects.create(
-                    googleID=google_id,
-                    referTo=member
+        try:
+            GLogIn.objects.create(googleID=google_id, referTo=session_member)
+        except IntegrityError:
+            google_login = GLogIn.objects.filter(
+                googleID=google_id
+            ).select_related("referTo").first()
+            if google_login is None or google_login.referTo_id != session_member.pk:
+                return JsonResponse(
+                    {"success": False, "message": "This Google account is already linked."},
+                    status=409,
                 )
+        member = session_member
+    else:
+        if Member.objects.filter(email__iexact=email).exists():
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Sign in with your password before linking Google to an existing account.",
+                },
+                status=409,
+            )
 
-            # Set the custom session keys used throughout the site.
-            request.session["rank"] = member.ranking
-            request.session["user"] = member.pk
-            request.session["name"] = member.name
+        name = " ".join(
+            part for part in (claims.get("given_name", ""), claims.get("family_name", ""))
+            if part
+        ).strip()
+        try:
+            with transaction.atomic():
+                member = Member.objects.create(
+                    name=name or email,
+                    email=email,
+                    ranking=1,
+                )
+                GLogIn.objects.create(googleID=google_id, referTo=member)
+        except IntegrityError:
+            google_login = GLogIn.objects.filter(
+                googleID=google_id
+            ).select_related("referTo").first()
+            if google_login is None:
+                return JsonResponse(
+                    {
+                        "success": False,
+                        "message": "An account with this email already exists. Sign in with your password.",
+                    },
+                    status=409,
+                )
+            member = google_login.referTo
 
-            return JsonResponse({"success": True})
-
-        except ValueError:
-            return JsonResponse({"success": False, "message": "Invalid token"}, status=400)
-        except Exception:
-            logger.exception("Google sign-in token verification failed")
-            return JsonResponse({"success": False, "message": "Could not verify Google token"}, status=400)
-
-    return JsonResponse({"success": False}, status=405)
+    request.session["rank"] = member.ranking
+    request.session["user"] = member.pk
+    request.session["name"] = member.name
+    if session_member is None:
+        request.session.pop("password_authenticated_at", None)
+    return JsonResponse({"success": True})
 from mapViewer.models import MapPost
 from .forms import CreateForumForm, SearchAccountForm
 from urllib.parse import urlencode
@@ -122,22 +197,23 @@ def signin_form(request):
         account = AccountCreation.objects.filter(
             username__iexact=username,
             status="accepted",
+            email_verified=True,
         ).first()
 
         if account is None:
             # Spend comparable time checking credentials for unknown users.
             AccountCreation().set_password(password)
         elif account.check_password(password):
-            member = Member.objects.filter(email__iexact=account.email).first()
-            if member is None:
-                member = Member.objects.create(
-                    name=account.displayname,
-                    email=account.email,
-                    ranking=1,
-                )
+            member = account.member
+            if member is None or not account.email_verified:
+                return render(request, "account/signin_form.html", {
+                    "error": "This account is not ready to sign in. Contact an administrator for help.",
+                    "next_url": next_url,
+                })
             request.session["rank"] = member.ranking
             request.session["user"] = member.pk
             request.session["name"] = member.name
+            request.session["password_authenticated_at"] = time.time()
             return redirect(next_url)
 
         return render(request, "account/signin_form.html", {
@@ -152,7 +228,7 @@ def signin_form(request):
 
 def signup(request):
     if request.method == "POST":
-        email = request.POST.get("email", "").strip()
+        email = request.POST.get("email", "").strip().lower()
         username = request.POST.get("username", "").strip()
         displayname = request.POST.get("displayname", "").strip()
         password = request.POST.get("password", "")
@@ -166,26 +242,112 @@ def signup(request):
             error = "Your password must be at least 8 characters long."
         elif len(password) > AccountCreation.MAX_PASSWORD_LENGTH:
             error = "Your password is too long."
-        elif AccountCreation.objects.filter(email__iexact=email).exists():
-            error = "An account with that email already exists."
-        elif AccountCreation.objects.filter(username__iexact=username).exists():
-            error = "That username is already in use."
         else:
-            account = AccountCreation(
-                email=email,
-                username=username,
-                displayname=displayname,
-                status="pending",
-            )
-            account.set_password(password)
-            account.save()
-            return render(request, "account/signup.html", {
-                "error": "Your account request was submitted for review.",
-            })
+            existing_email_account = AccountCreation.objects.filter(
+                email__iexact=email
+            ).first()
+            if existing_email_account is not None:
+                can_resend = (
+                    existing_email_account.status in {"pending", "accepted"}
+                    and not existing_email_account.email_verified
+                    and existing_email_account.member_id is None
+                    and existing_email_account.username.casefold() == username.casefold()
+                    and existing_email_account.check_password(password)
+                )
+                if can_resend and _send_verification_email(request, existing_email_account):
+                    return render(request, "account/signup.html", {
+                        "message": "Check your email for a new confirmation link.",
+                    })
+                error = (
+                    "We could not send a confirmation email. Please try again later."
+                    if can_resend
+                    else "An account with that email already exists."
+                )
+            elif AccountCreation.objects.filter(username__iexact=username).exists():
+                error = "That username is already in use."
+            elif Member.objects.filter(email__iexact=email).exists():
+                error = "An account with that email already exists."
+            else:
+                account = AccountCreation(
+                    email=email,
+                    username=username,
+                    displayname=displayname,
+                    status="pending",
+                )
+                account.set_password(password)
+                try:
+                    account.save()
+                except IntegrityError:
+                    return render(request, "account/signup.html", {
+                        "error": "That username or email is already in use.",
+                    })
+                if _send_verification_email(request, account):
+                    return render(request, "account/signup.html", {
+                        "message": "Check your email to confirm the address before your account request can be reviewed.",
+                    })
+                account.delete()
+                error = "We could not send a confirmation email. Please try again later."
 
         return render(request, "account/signup.html", {"error": error})
 
     return render(request, "account/signup.html")
+
+
+def _send_verification_email(request, account):
+    token = signing.dumps(
+        {"account_id": account.pk, "email": account.email},
+        salt="account.email_verification",
+    )
+    confirmation_url = request.build_absolute_uri(
+        reverse("account:verify_email", kwargs={"token": token})
+    )
+    try:
+        sent = send_mail(
+            "Confirm your Chesapeake Community Connect email",
+            f"Confirm your email address by opening this link:\n\n{confirmation_url}\n\n"
+            "This link expires in 24 hours.",
+            getattr(settings, "DEFAULT_FROM_EMAIL", "webmaster@localhost"),
+            [account.email],
+            fail_silently=False,
+        )
+    except (OSError, smtplib.SMTPException):
+        logger.exception("Account email-verification message could not be sent")
+        return False
+    return sent == 1
+
+
+def verify_email(request, token):
+    try:
+        payload = signing.loads(
+            token,
+            salt="account.email_verification",
+            max_age=24 * 60 * 60,
+        )
+    except (signing.BadSignature, signing.SignatureExpired):
+        return render(request, "account/signup.html", {
+            "error": "This confirmation link is invalid or has expired. Submit your sign-up again for a new link.",
+        })
+
+    account = AccountCreation.objects.filter(
+        pk=payload.get("account_id"),
+        email=payload.get("email"),
+        status__in=("pending", "accepted"),
+    ).first()
+    if account is None:
+        return render(request, "account/signup.html", {
+            "error": "This confirmation link is invalid or has expired.",
+        })
+    if not account.email_verified:
+        account.email_verified = True
+        update_fields = ["email_verified"]
+        if account.status == "accepted" and account.member_id is None:
+            account.status = "pending"
+            update_fields.append("status")
+        account.save(update_fields=update_fields)
+
+    return render(request, "account/signup.html", {
+        "message": "Your email is confirmed. Your account request can now be reviewed by a moderator.",
+    })
 
 # if a user tries to sign out by URL, redirects to account. if there is a POST request to this url, flushes the session and sends them to confirmation
 def signout(request):
@@ -228,8 +390,11 @@ def authG(request):
         payload = json.loads(result.content)
         if payload.get("success"):
             return redirect(safe_next_url(request, request.POST.get("state")))
+        auth_error = payload.get("message", "Google sign-in could not be verified.")
+    else:
+        auth_error = "Google sign-in could not be verified."
     return render(request, "account/signedout.html", {
-        "auth_error": "Google sign-in could not be verified.",
+        "auth_error": auth_error,
         "google_client_id": GOOGLE_CLIENT_ID,
     })
 
@@ -324,7 +489,11 @@ def account_view(request, want):
 # the username/password account that belongs to a signed-in member, or None if they only sign in with Google.
 # members and their password accounts are linked by email, the same way signin_form links them
 def password_account_for(member):
-    return AccountCreation.objects.filter(email__iexact=member.email, status="accepted").first()
+    return AccountCreation.objects.filter(
+        member=member,
+        status="accepted",
+        email_verified=True,
+    ).first()
 
 # checks the change password form and returns an error message, or None if the new password can be saved
 def password_change_error(account, current, new, confirm):
@@ -381,10 +550,25 @@ def manage(request):
     else:
         userInz=Member.objects.get(pk=request.session['user'])
         form = ManageForm(instance=userInz)
+    password_authenticated_at = request.session.get("password_authenticated_at")
+    try:
+        recent_password_signin = 0 <= time.time() - float(password_authenticated_at) <= 300
+    except (TypeError, ValueError):
+        recent_password_signin = False
     return render(request, "account/manage.html", {
         "form": form,
         "current_profile_image": userInz.pic,
         "has_password": password_account_for(userInz) is not None,
+        "has_google_login": GLogIn.objects.filter(referTo=userInz).exists(),
+        "can_link_google": (
+            password_account_for(userInz) is not None
+            and recent_password_signin
+            and not GLogIn.objects.filter(referTo=userInz).exists()
+        ),
+        "google_client_id": GOOGLE_CLIENT_ID,
+        "google_auth_url": request.build_absolute_uri(reverse("account:authG")),
+        "google_link_return": request.build_absolute_uri(reverse("account:manage") + "?google=linked"),
+        "google_linked": request.GET.get("google") == "linked",
         "password_changed": request.GET.get("password") == "changed",
     })
 

@@ -1,12 +1,15 @@
 import re
 from unittest.mock import patch
+from urllib.parse import urlsplit
 
 from django.contrib.auth.hashers import identify_hasher, make_password
 from django.core import mail
+from django.db import IntegrityError, transaction
 from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 
 from .models import AccountCreation, Member, GLogIn
+from .services import approve_signup
 from mapViewer.models import MapPost
 
 class AccountViewsTest(TestCase):
@@ -272,9 +275,11 @@ class AccountViewsTest(TestCase):
 
     @patch("account.views.id_token.verify_oauth2_token")
     def test_google_signin_creates_member_and_starts_session(self, verify_token):
+        self.client.session.flush()
         verify_token.return_value = {
             "sub": "google-user-123",
             "email": "google@example.com",
+            "email_verified": True,
             "given_name": "Google",
             "family_name": "User",
         }
@@ -297,6 +302,82 @@ class AccountViewsTest(TestCase):
         self.assertEqual(session["rank"], member.ranking)
 
 
+class GoogleIdentityLinkTests(TestCase):
+    def setUp(self):
+        self.member = Member.objects.create(
+            name="Password Member",
+            email="password-member@example.com",
+            ranking=1,
+        )
+        self.account = AccountCreation.objects.create(
+            member=self.member,
+            email=self.member.email,
+            username="password-member",
+            displayname=self.member.name,
+            password=make_password("member-password", hasher="bcrypt_sha256"),
+            email_verified=True,
+            status="accepted",
+        )
+
+    def post_google_token(self, claims):
+        self.client.cookies["g_csrf_token"] = "valid-csrf"
+        with patch("account.views.id_token.verify_oauth2_token", return_value=claims):
+            return self.client.post(reverse("account:authG"), {
+                "g_csrf_token": "valid-csrf",
+                "credential": "google-token",
+            })
+
+    def test_existing_member_is_not_linked_by_google_email_alone(self):
+        response = self.post_google_token({
+            "sub": "unlinked-google",
+            "email": self.member.email,
+            "email_verified": True,
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(GLogIn.objects.filter(googleID="unlinked-google").exists())
+        self.assertFalse(self.client.session.get("user"))
+
+    def test_password_signin_then_google_confirmation_links_identity(self):
+        signin = self.client.post(reverse("account:signin_form"), {
+            "username": self.account.username,
+            "password": "member-password",
+        })
+        self.assertRedirects(
+            signin,
+            reverse("account:default"),
+            fetch_redirect_response=False,
+        )
+
+        response = self.post_google_token({
+            "sub": "password-confirmed-google",
+            "email": self.member.email,
+            "email_verified": True,
+        })
+
+        self.assertRedirects(
+            response,
+            reverse("account:default"),
+            fetch_redirect_response=False,
+        )
+        self.assertEqual(
+            GLogIn.objects.get(googleID="password-confirmed-google").referTo,
+            self.member,
+        )
+
+    def test_google_signin_rejects_unverified_email_claim(self):
+        response = self.post_google_token({
+            "sub": "unverified-google",
+            "email": "new-google@example.com",
+            "email_verified": False,
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Member.objects.filter(email="new-google@example.com").exists())
+        self.assertFalse(GLogIn.objects.filter(googleID="unverified-google").exists())
+
+
+@override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
 class SignupPasswordTest(TestCase):
     def test_signup_stores_bcrypt_hashes_with_unique_salts(self):
         password = "é" * 40
@@ -309,15 +390,130 @@ class SignupPasswordTest(TestCase):
                 "password": password,
                 "confirmpassword": password,
             })
-            self.assertContains(response, "submitted for review")
+            self.assertContains(response, "confirm the address")
             account = AccountCreation.objects.get(username=username)
             hasher = identify_hasher(account.password)
             self.assertEqual(hasher.algorithm, "bcrypt_sha256")
             self.assertTrue(account.check_password(password))
+            self.assertFalse(account.email_verified)
+            self.assertIsNone(account.member)
             self.assertFalse(account.check_password(password[:-1] + "x"))
             salts.append(hasher.decode(account.password)["salt"])
 
         self.assertNotEqual(*salts)
+
+    def test_strangers_email_cannot_be_used_to_access_an_existing_member(self):
+        stranger = Member.objects.create(
+            name="Stranger",
+            email="stranger@example.com",
+            ranking=1,
+        )
+        GLogIn.objects.create(googleID="stranger-google-id", referTo=stranger)
+
+        response = self.client.post(reverse("account:signup"), {
+            "email": "stranger@example.com",
+            "username": "attacker",
+            "displayname": "Attacker",
+            "password": "attacker-password",
+            "confirmpassword": "attacker-password",
+        })
+
+        self.assertContains(response, "already exists")
+        self.assertFalse(AccountCreation.objects.filter(username="attacker").exists())
+
+        response = self.client.post(reverse("account:signin_form"), {
+            "username": "attacker",
+            "password": "attacker-password",
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(self.client.session.get("user"))
+        self.assertEqual(GLogIn.objects.get(googleID="stranger-google-id").referTo, stranger)
+
+        legacy_claim = AccountCreation.objects.create(
+            email=stranger.email,
+            username="legacy-claim",
+            displayname="Legacy Claim",
+            password=make_password("attacker-password", hasher="bcrypt_sha256"),
+            email_verified=True,
+            status="pending",
+        )
+        self.assertFalse(approve_signup(legacy_claim))
+        legacy_claim.status = "accepted"
+        legacy_claim.save(update_fields=("status",))
+        response = self.client.post(reverse("account:signin_form"), {
+            "username": legacy_claim.username,
+            "password": "attacker-password",
+        })
+
+        self.assertContains(response, "not ready to sign in")
+        self.assertFalse(self.client.session.get("user"))
+        self.assertIsNone(AccountCreation.objects.get(pk=legacy_claim.pk).member_id)
+
+    def test_signup_requires_email_confirmation_and_approval_before_linked_signin(self):
+        response = self.client.post(reverse("account:signup"), {
+            "email": "verified@example.com",
+            "username": "verified-user",
+            "displayname": "Verified User",
+            "password": "verified-password",
+            "confirmpassword": "verified-password",
+        })
+
+        self.assertContains(response, "Check your email")
+        account = AccountCreation.objects.get(username="verified-user")
+        self.assertFalse(account.email_verified)
+        self.assertIsNone(account.member)
+        self.assertFalse(approve_signup(account))
+
+        signin_response = self.client.post(reverse("account:signin_form"), {
+            "username": account.username,
+            "password": "verified-password",
+        })
+        self.assertEqual(signin_response.status_code, 200)
+        self.assertFalse(self.client.session.get("user"))
+
+        verification_url = mail.outbox[0].body.splitlines()[2]
+        response = self.client.get(urlsplit(verification_url).path)
+        self.assertContains(response, "Your email is confirmed")
+        account.refresh_from_db()
+        self.assertTrue(account.email_verified)
+        self.assertTrue(approve_signup(account))
+        account.refresh_from_db()
+        self.assertEqual(account.status, "accepted")
+        self.assertIsNotNone(account.member_id)
+
+        response = self.client.post(reverse("account:signin_form"), {
+            "username": account.username,
+            "password": "verified-password",
+        })
+
+        self.assertRedirects(
+            response,
+            reverse("account:default"),
+            fetch_redirect_response=False,
+        )
+        self.assertEqual(self.client.session["user"], account.member_id)
+
+    def test_database_enforces_case_insensitive_account_identity_uniqueness(self):
+        Member.objects.create(name="Member", email="member@example.com")
+        with self.assertRaises(IntegrityError):
+            with transaction.atomic():
+                Member.objects.create(name="Duplicate", email="MEMBER@example.com")
+
+        AccountCreation.objects.create(
+            email="account@example.com",
+            username="unique-user",
+            displayname="Unique",
+            password=make_password("password123", hasher="bcrypt_sha256"),
+        )
+        with self.assertRaises(IntegrityError):
+            with transaction.atomic():
+                AccountCreation.objects.create(
+                    email="other@example.com",
+                    username="UNIQUE-USER",
+                    displayname="Duplicate",
+                    password=make_password("password123", hasher="bcrypt_sha256"),
+                )
 
 
 # issue #72: changing your password from the edit account page
@@ -327,6 +523,7 @@ class PasswordChangeTest(TestCase):
         self.account = AccountCreation.objects.create(
             email="pat@example.com", username="pat", displayname="Pat",
             password=make_password("oldpassword", hasher="bcrypt_sha256"), status="accepted",
+            member=self.member, email_verified=True,
         )
         session = self.client.session
         session["user"] = self.member.pk
@@ -405,6 +602,12 @@ class LoginNextRedirectTests(TestCase):
             displayname="Next User",
             password=make_password("password123", hasher="bcrypt_sha256"),
             status="accepted",
+            member=Member.objects.create(
+                name="Next User",
+                email="next@example.com",
+                ranking=1,
+            ),
+            email_verified=True,
         )
         self.create_post_url = reverse("account:create_forum")
 
@@ -442,6 +645,7 @@ class LoginNextRedirectTests(TestCase):
                 "sub": "google-next-user",
                 "given_name": "Google User",
                 "email": "google-next@example.com",
+                "email_verified": True,
             },
         ):
             response = self.client.post(
@@ -477,9 +681,15 @@ class LoginNextRedirectTests(TestCase):
 @override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
 class PasswordResetTest(TestCase):
     def setUp(self):
+        self.member = Member.objects.create(
+            name="Sam",
+            email="sam@example.com",
+            ranking=1,
+        )
         self.account = AccountCreation.objects.create(
             email="sam@example.com", username="sam", displayname="Sam",
             password=make_password("oldpassword", hasher="bcrypt_sha256"), status="accepted",
+            member=self.member, email_verified=True,
         )
 
     def request_link(self, email="sam@example.com"):

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib import messages
 from . import models
+from .services import approve_signup
 
 
 # Register your models here.
@@ -35,11 +36,11 @@ class AccountCreationAdminForm(forms.ModelForm):
 @admin.register(models.AccountCreation)
 class AccountCreationAdmin(admin.ModelAdmin):
     form = AccountCreationAdminForm
-    list_display = ('email', 'username', 'displayname', 'status', 'created')
+    list_display = ('email', 'username', 'displayname', 'email_verified', 'status', 'created')
     list_filter = ('status', 'created')
     search_fields = ('email', 'username', 'displayname')
     ordering = ('created',)  # Oldest to newest
-    readonly_fields = ('created',)
+    readonly_fields = ('created', 'email_verified', 'member', 'status')
     actions = ['accept_requests', 'reject_requests']
 
     fieldsets = (
@@ -50,7 +51,7 @@ class AccountCreationAdmin(admin.ModelAdmin):
             'fields': ('new_password', 'confirm_password')
         }),
         ('Request Status', {
-            'fields': ('status',)
+            'fields': ('email_verified', 'status', 'member')
         }),
         ('Request Information', {
             'fields': ('created',),
@@ -74,12 +75,19 @@ class AccountCreationAdmin(admin.ModelAdmin):
             super().save_model(request, obj, form, change)
 
     def accept_requests(self, request, queryset):
-        """Accept selected account requests"""
-        updated = queryset.filter(status='pending').update(status='accepted')
-        if updated:
-            self.message_user(request, f'{updated} account request(s) were accepted.', messages.SUCCESS)
-        else:
-            self.message_user(request, 'No pending requests were selected.', messages.WARNING)
+        pending = list(queryset.filter(status="pending"))
+        accepted = sum(approve_signup(account) for account in pending)
+        skipped = len(pending) - accepted
+        if accepted:
+            self.message_user(request, f'{accepted} verified account request(s) were approved.', messages.SUCCESS)
+        if skipped:
+            self.message_user(
+                request,
+                f'{skipped} request(s) were not approved because the email is unverified or already belongs to a member.',
+                messages.WARNING,
+            )
+        if not accepted and not skipped:
+            self.message_user(request, 'No pending account requests were selected.', messages.WARNING)
     accept_requests.short_description = "Accept selected account requests"
 
     def reject_requests(self, request, queryset):
